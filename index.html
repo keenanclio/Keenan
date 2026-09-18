@@ -5,45 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Profil & Portofolio Pribadi | Keenan Clio Adiwinata</title>
   
-  <!-- Fonts: Space Grotesk & Plus Jakarta Sans -->
+  <!-- Fonts: Urbanist (Luwes & Ramah), Plus Jakarta Sans, dan Noto Sans SC untuk Aksara Mandarin -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Urbanist:ital,wght@0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
     /* =========================================================
-       THEME: DEEP PASTEL BLUE & MIDNIGHT NAVY
+       VARIABEL WARNA: DARK PASTEL BLUE & AURORA NEON
     ========================================================= */
     :root {
-      --bg-color: #0d1527;
-      --card-bg: rgba(19, 31, 56, 0.78);
-      --card-hover-bg: rgba(26, 42, 74, 0.88);
-      --card-border: rgba(110, 168, 240, 0.16);
-      --card-border-hover: rgba(147, 197, 253, 0.4);
+      --bg-color: #0a1120;
+      --card-bg: rgba(16, 26, 48, 0.72);
+      --card-hover-bg: rgba(23, 38, 68, 0.85);
+      --card-border: rgba(125, 182, 248, 0.18);
+      --card-border-hover: rgba(147, 197, 253, 0.45);
 
       --text-main: #f1f6fd;
-      --text-body: #a9c2e2;
-      --text-muted: #728fb5;
+      --text-body: #a0bede;
+      --text-muted: #6f8fae;
 
       --pastel-blue: #7bb5e8;
       --pastel-blue-soft: rgba(123, 181, 232, 0.14);
       --pastel-blue-bright: #60a5fa;
       --pastel-orange: #fb923c;
       --pastel-cyan: #38bdf8;
+      --pastel-purple: #c084fc;
+      --pastel-pink: #f472b6;
 
-      --shadow-card: 0 12px 32px -8px rgba(3, 8, 20, 0.6);
-      --shadow-hover: 0 18px 36px -6px rgba(96, 165, 250, 0.2);
+      --shadow-card: 0 14px 34px -8px rgba(2, 6, 17, 0.65);
+      --shadow-hover: 0 20px 40px -6px rgba(96, 165, 250, 0.25);
     }
 
     body.light-mode {
-      --bg-color: #eaf1fa;
+      --bg-color: #eef5fc;
       --card-bg: rgba(255, 255, 255, 0.88);
       --card-hover-bg: rgba(255, 255, 255, 0.98);
-      --card-border: rgba(147, 197, 253, 0.4);
-      --card-border-hover: rgba(59, 130, 246, 0.5);
+      --card-border: rgba(147, 197, 253, 0.45);
+      --card-border-hover: rgba(59, 130, 246, 0.6);
 
       --text-main: #0f172a;
       --text-body: #334155;
@@ -62,58 +64,104 @@
       padding: 0;
       box-sizing: border-box;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
     }
 
     body {
       background-color: var(--bg-color);
       color: var(--text-body);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
+      width: 100%;
       position: relative;
       overflow-x: hidden;
-      padding: 30px 16px;
+      cursor: default;
     }
 
-    /* Ambient Glows */
+    /* Kursor Lucu Kustom */
+    .custom-cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      background: var(--pastel-blue-bright);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 12px var(--pastel-blue-bright);
+      transition: transform 0.08s ease-out, background-color 0.2s ease;
+    }
+
+    .custom-cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 32px;
+      height: 32px;
+      border: 2px dashed var(--pastel-cyan);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s cubic-bezier(0.18, 0.89, 0.32, 1.28), width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+      animation: spinRing 9s linear infinite;
+    }
+
+    @keyframes spinRing {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .cursor-active .custom-cursor-ring {
+      width: 48px;
+      height: 48px;
+      border: 2px solid var(--pastel-pink);
+      background: rgba(244, 114, 182, 0.12);
+    }
+
+    .sparkle-trail {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9997;
+      font-size: 14px;
+      animation: floatFade 0.85s forwards ease-out;
+    }
+
+    @keyframes floatFade {
+      0% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(45deg); }
+    }
+
+    /* Ambient Background Glows */
     .glow-orb {
       position: fixed;
       border-radius: 50%;
-      filter: blur(140px);
+      filter: blur(150px);
       z-index: 0;
       pointer-events: none;
     }
-    .glow-top {
-      width: 420px;
-      height: 420px;
-      background: rgba(74, 126, 194, 0.18);
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .glow-bottom {
-      width: 360px;
-      height: 360px;
-      background: rgba(96, 165, 250, 0.12);
-      bottom: -80px;
-      right: -50px;
-    }
 
-    .hub-container {
-      width: 100%;
-      max-width: 580px;
+    /* Layout Fullscreen */
+    .app-screen-wrapper {
+      position: relative;
       z-index: 1;
+      width: 100%;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      padding: 24px 32px 36px;
+      max-width: 1440px;
+      margin: 0 auto;
+      box-sizing: border-box;
     }
 
-    /* Top Bar */
-    .top-bar {
+    /* Top Control Bar */
+    .top-control-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 24px;
     }
 
     .badge-status {
@@ -122,9 +170,9 @@
       gap: 9px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      padding: 7px 16px;
+      padding: 8px 18px;
       border-radius: 99px;
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: var(--text-main);
       backdrop-filter: blur(14px);
@@ -143,9 +191,9 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: var(--text-main);
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -153,25 +201,111 @@
       backdrop-filter: blur(14px);
     }
     .mode-btn:hover {
-      border-color: var(--pastel-blue);
-      color: var(--pastel-blue);
+      border-color: var(--pastel-blue-bright);
+      color: var(--pastel-blue-bright);
+      transform: scale(1.06);
     }
 
-    /* Profile Hero */
-    .profile-hero {
+    /* =========================================================
+       HEADER NAMA: FONT URBANIST (LUWES, ENAK DILIHAT, ESTETIK)
+    ========================================================= */
+    .hero-name-banner {
+      text-align: center;
+      padding: 20px 16px 36px;
+    }
+
+    .aurora-title {
+      font-family: 'Urbanist', sans-serif;
+      font-size: clamp(2.2rem, 5.5vw, 4.4rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      text-transform: none;
+      
+      /* Gradien Halus Bergerak */
+      background: linear-gradient(
+        120deg,
+        #ffffff 0%,
+        #93c5fd 25%,
+        #f472b6 50%,
+        #67e8f9 75%,
+        #ffffff 100%
+      );
+      background-size: 260% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: auroraFlow 7s ease-in-out infinite alternate;
+
+      /* Efek Cahaya Halus, Tidak Silau */
+      filter: drop-shadow(0 2px 14px rgba(147, 197, 253, 0.45));
+    }
+
+    .mandarin-char {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-weight: 700;
+      font-size: 0.85em;
+      letter-spacing: 2px;
+      margin-left: 8px;
+    }
+
+    @keyframes auroraFlow {
+      0% {
+        background-position: 0% 50%;
+        filter: drop-shadow(0 2px 14px rgba(96, 165, 250, 0.35));
+      }
+      50% {
+        background-position: 100% 50%;
+        filter: drop-shadow(0 2px 22px rgba(244, 114, 182, 0.45));
+      }
+      100% {
+        background-position: 0% 50%;
+        filter: drop-shadow(0 2px 18px rgba(103, 232, 249, 0.4));
+      }
+    }
+
+    .hero-subtitle {
+      font-family: 'Urbanist', sans-serif;
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-weight: 600;
+      color: var(--pastel-blue);
+      margin-top: 10px;
+      letter-spacing: 0.3px;
+    }
+
+    /* Grid Layout Fullscreen */
+    .main-grid-layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .app-screen-wrapper {
+        padding: 16px;
+      }
+      .main-grid-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Kolom Kiri: Profil Hero */
+    .profile-sidebar {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 26px;
+      border-radius: 28px;
       padding: 32px 24px;
       text-align: center;
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(18px);
       box-shadow: var(--shadow-card);
+      position: sticky;
+      top: 24px;
     }
 
     .avatar-container {
-      width: 104px;
-      height: 104px;
-      margin: 0 auto 16px;
+      width: 124px;
+      height: 124px;
+      margin: 0 auto 18px;
       position: relative;
     }
 
@@ -180,55 +314,37 @@
       height: 100%;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid var(--pastel-blue);
-      box-shadow: 0 6px 20px rgba(96, 165, 250, 0.25);
-    }
-
-    .profile-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.55rem;
-      font-weight: 700;
-      color: var(--text-main);
-      letter-spacing: -0.3px;
-    }
-
-    .profile-title {
-      margin-top: 5px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--pastel-blue);
+      border: 3px solid var(--pastel-blue-bright);
+      box-shadow: 0 8px 26px rgba(96, 165, 250, 0.3);
     }
 
     .profile-summary {
-      margin: 14px auto 18px;
-      font-size: 0.88rem;
-      line-height: 1.55;
+      font-size: 0.92rem;
+      line-height: 1.6;
       color: var(--text-body);
-      max-width: 470px;
+      margin: 16px 0 20px;
     }
 
-    /* 3 Pillars */
     .metrics-strip {
       display: flex;
       justify-content: space-around;
       align-items: center;
       background: var(--pastel-blue-soft);
       border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 10px 12px;
-      margin: 18px auto;
-      max-width: 440px;
+      border-radius: 16px;
+      padding: 12px 10px;
+      margin: 20px 0;
     }
 
     .metric-cell {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
     }
 
     .metric-num {
-      font-size: 1.05rem;
+      font-size: 1.15rem;
       color: var(--pastel-blue-bright);
     }
 
@@ -240,11 +356,10 @@
 
     .metric-split {
       width: 1px;
-      height: 24px;
+      height: 26px;
       background-color: var(--card-border);
     }
 
-    /* Socials */
     .social-row {
       display: flex;
       justify-content: center;
@@ -256,30 +371,37 @@
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
       color: var(--text-main);
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       text-decoration: none;
-      font-size: 1.05rem;
+      font-size: 1.15rem;
     }
     .social-link:hover {
       background: var(--pastel-blue-bright);
       color: #fff;
-      transform: translateY(-2px);
+      transform: translateY(-3px);
       border-color: var(--pastel-blue-bright);
+      box-shadow: 0 8px 20px rgba(96, 165, 250, 0.3);
     }
 
-    /* Nav Tabs */
+    /* Kolom Kanan: Navigasi & Konten */
+    .content-workspace {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
     .tab-navigation {
       display: flex;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 6px;
-      gap: 6px;
+      gap: 8px;
       backdrop-filter: blur(14px);
       box-shadow: var(--shadow-card);
     }
@@ -289,15 +411,15 @@
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 10px 6px;
-      font-size: 0.8rem;
+      padding: 12px 10px;
+      font-size: 0.88rem;
       font-weight: 600;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
     }
     .nav-tab:hover {
       color: var(--text-main);
@@ -305,7 +427,7 @@
     .nav-tab.active {
       background: var(--pastel-blue-bright);
       color: #ffffff;
-      box-shadow: 0 4px 14px rgba(96, 165, 250, 0.35);
+      box-shadow: 0 4px 16px rgba(96, 165, 250, 0.4);
     }
 
     .tab-panel {
@@ -313,57 +435,51 @@
     }
     .tab-panel.active {
       display: block;
-      animation: tabFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: tabFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes tabFadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Links / Cards */
+    /* Card List */
     .cards-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .portfolio-card {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      padding: 16px 18px;
-      border-radius: 18px;
+      padding: 18px 22px;
+      border-radius: 20px;
       text-decoration: none;
       color: var(--text-main);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
       box-shadow: var(--shadow-card);
     }
-
     .portfolio-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
       background: var(--card-hover-bg);
       border-color: var(--card-border-hover);
       box-shadow: var(--shadow-hover);
     }
 
-    .portfolio-card.featured {
-      background: linear-gradient(135deg, rgba(30, 58, 102, 0.6), rgba(20, 34, 61, 0.85));
-      border-color: rgba(96, 165, 250, 0.35);
-    }
-
     .card-lead-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       background: var(--pastel-blue-soft);
       color: var(--pastel-blue-bright);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       flex-shrink: 0;
     }
 
@@ -371,103 +487,92 @@
       flex: 1;
     }
 
-    .tag-pill {
-      display: inline-block;
-      font-size: 0.65rem;
+    .card-details h3 {
+      font-size: 1.02rem;
       font-weight: 700;
-      text-transform: uppercase;
-      background: var(--pastel-blue-bright);
-      color: #fff;
-      padding: 2px 7px;
-      border-radius: 6px;
+      color: var(--text-main);
       margin-bottom: 4px;
     }
 
-    .card-details h3 {
-      font-size: 0.94rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 3px;
-    }
-
     .card-details p {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-body);
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .card-jump {
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.95rem;
     }
 
-    /* About Section */
+    /* Glass Container */
     .glass-container {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 22px;
-      padding: 24px;
-      backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
       box-shadow: var(--shadow-card);
     }
 
     .block-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.15rem;
+      font-family: 'Urbanist', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
       color: var(--text-main);
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .desc-text {
-      font-size: 0.88rem;
-      line-height: 1.6;
+      font-size: 0.94rem;
+      line-height: 1.68;
       color: var(--text-body);
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .sub-title {
-      font-size: 0.88rem;
+      font-size: 0.92rem;
       font-weight: 700;
       color: var(--text-main);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .chips-group {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
     }
 
     .chip {
       background: var(--pastel-blue-soft);
       border: 1px solid var(--card-border);
       color: var(--text-main);
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       font-weight: 500;
-      padding: 6px 14px;
-      border-radius: 20px;
+      padding: 8px 16px;
+      border-radius: 22px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
-    /* Achievements Timeline & Filter */
+    /* Timeline & Filters */
     .filter-wrapper {
       display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
+      gap: 10px;
+      margin-bottom: 16px;
     }
 
     .filter-chip {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: var(--text-muted);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.76rem;
+      padding: 8px 18px;
+      border-radius: 22px;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
     }
@@ -480,85 +585,58 @@
     .timeline-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .timeline-entry {
       display: flex;
       align-items: flex-start;
-      gap: 14px;
+      gap: 16px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 16px;
+      border-radius: 20px;
+      padding: 18px;
       box-shadow: var(--shadow-card);
     }
 
     .timeline-badge {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 1.1rem;
       flex-shrink: 0;
-    }
-    .icon-math {
-      background: rgba(96, 165, 250, 0.15);
-      color: var(--pastel-blue-bright);
-    }
-    .icon-sport {
-      background: rgba(251, 146, 60, 0.15);
-      color: var(--pastel-orange);
-    }
-    .icon-project {
-      background: rgba(56, 189, 248, 0.15);
-      color: var(--pastel-cyan);
     }
 
     .timeline-body h4 {
-      font-size: 0.92rem;
+      font-size: 0.98rem;
       color: var(--text-main);
       margin-bottom: 4px;
     }
 
     .timeline-body p {
-      font-size: 0.8rem;
+      font-size: 0.84rem;
       color: var(--text-body);
-      line-height: 1.4;
-    }
-
-    .category-tag {
-      font-size: 0.65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--pastel-blue-bright);
-      display: inline-block;
-      margin-bottom: 3px;
-    }
-    .category-tag.tag-orange {
-      color: var(--pastel-orange);
-    }
-    .category-tag.tag-cyan {
-      color: var(--pastel-cyan);
+      line-height: 1.45;
     }
 
     /* Contact */
     .quick-copy {
       display: flex;
-      gap: 8px;
-      margin: 14px 0 6px;
+      gap: 10px;
+      margin: 16px 0 6px;
     }
 
     .quick-copy input {
       flex: 1;
       background: rgba(0, 0, 0, 0.25);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 10px 14px;
+      border-radius: 14px;
+      padding: 12px 16px;
       color: var(--text-main);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       outline: none;
     }
 
@@ -566,37 +644,19 @@
       background: var(--pastel-blue-bright);
       color: #fff;
       border: none;
-      padding: 10px 16px;
-      border-radius: 12px;
+      padding: 12px 20px;
+      border-radius: 14px;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
     }
     .primary-btn:hover {
       opacity: 0.92;
-      transform: translateY(-1px);
-    }
-
-    .submit-btn {
-      width: 100%;
-      margin-top: 10px;
-      background: #25d366;
-    }
-
-    .copy-feedback {
-      display: block;
-      font-size: 0.75rem;
-      color: #34d399;
-      min-height: 18px;
-      font-weight: 600;
-    }
-
-    .inquiry-form {
-      margin-top: 8px;
+      transform: translateY(-2px);
     }
 
     .inquiry-form input,
@@ -604,230 +664,255 @@
       width: 100%;
       background: rgba(0, 0, 0, 0.25);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 10px 14px;
+      border-radius: 14px;
+      padding: 12px 16px;
       color: var(--text-main);
-      font-size: 0.85rem;
-      margin-top: 8px;
+      font-size: 0.9rem;
+      margin-top: 10px;
       outline: none;
       resize: vertical;
     }
 
-    .hub-footer {
+    .screen-footer {
       text-align: center;
-      padding: 10px 0 16px;
-      font-size: 0.74rem;
+      padding: 32px 0 10px;
+      font-size: 0.8rem;
       color: var(--text-muted);
     }
   </style>
 </head>
 <body>
 
-  <!-- Ambient Dark Pastel Glows -->
-  <div class="glow-orb glow-top"></div>
-  <div class="glow-orb glow-bottom"></div>
+  <!-- Kursor Lucu Elemen DOM -->
+  <div class="custom-cursor-dot" id="cursorDot"></div>
+  <div class="custom-cursor-ring" id="cursorRing"></div>
 
-  <div class="hub-container">
+  <!-- Ambient Glows -->
+  <div class="glow-orb" style="width: 520px; height: 520px; background: rgba(74, 126, 194, 0.16); top: -120px; left: 50%; transform: translateX(-50%);"></div>
+  <div class="glow-orb" style="width: 440px; height: 440px; background: rgba(192, 132, 252, 0.12); bottom: -100px; right: -80px;"></div>
 
-    <!-- Top Status Bar -->
-    <header class="top-bar">
+  <div class="app-screen-wrapper">
+
+    <!-- Top Control Bar -->
+    <header class="top-control-bar">
       <div class="badge-status">
         <span class="status-indicator"></span>
         <span>Terbuka untuk Diskusi & Kolaborasi</span>
       </div>
-      <button id="themeToggle" class="mode-btn" title="Ganti Mode Tampilan">
+      <button id="themeToggle" class="mode-btn interactive-target" title="Ganti Mode Tampilan">
         <i class="fa-solid fa-moon"></i>
       </button>
     </header>
 
-    <!-- Main Profile Hero Card -->
-<section class="profile-hero">
-  <div class="avatar-container">
-    <img src="profile.jpeg" alt="Keenan Clio Adiwinata" class="avatar-photo">
-  </div>
-  
-      <h1 class="profile-name">Keenan Clio Adiwinata (黄錫豪)</h1>
-      <p class="profile-title">Student • Math & Logic Enthusiast • Basketball Player</p>
-      
-      <p class="profile-summary">
-        Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
+    <!-- HEADER UTAMA DENGAN FONT URBANIST MODERN -->
+    <section class="hero-name-banner">
+      <h1 class="aurora-title">
+        Keenan Clio Adiwinata <span class="mandarin-char">(黄錫豪)</span>
+      </h1>
+      <p class="hero-subtitle">
+        Student • Math & Logic Enthusiast • Basketball Player
       </p>
-
-      <!-- Key Pillars -->
-      <div class="metrics-strip">
-        <div class="metric-cell">
-          <span class="metric-num"><i class="fa-solid fa-square-root-variable"></i></span>
-          <span class="metric-label">Matematika & Logika</span>
-        </div>
-        <div class="metric-split"></div>
-        <div class="metric-cell">
-          <span class="metric-num"><i class="fa-solid fa-graduation-cap"></i></span>
-          <span class="metric-label">Target Global</span>
-        </div>
-        <div class="metric-split"></div>
-        <div class="metric-cell">
-          <span class="metric-num"><i class="fa-solid fa-basketball"></i></span>
-          <span class="metric-label">Olahraga & Tim</span>
-        </div>
-      </div>
-
-      <!-- Social Links -->
-      <div class="social-row">
-        <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="mailto:keenanclio12@gmail.com" class="social-link" title="Email"><i class="fa-solid fa-envelope"></i></a>
-        <a href="https://wa.me/qr/QIJEMS2SE3AJB1" target="_blank" class="social-link" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-      </div>
     </section>
 
-    <!-- Navigation Tabs -->
-    <nav class="tab-navigation">
-      <button class="nav-tab active" data-tab="links">
-        <i class="fa-solid fa-link"></i> Portofolio
-      </button>
-      <button class="nav-tab" data-tab="about">
-        <i class="fa-solid fa-user-tie"></i> Profil
-      </button>
-      <button class="nav-tab" data-tab="achievements">
-        <i class="fa-solid fa-award"></i> Rekam Jejak
-      </button>
-      <button class="nav-tab" data-tab="contact">
-        <i class="fa-solid fa-envelope-open-text"></i> Kontak
-      </button>
-    </nav>
+    <!-- MAIN FULLSCREEN GRID -->
+    <div class="main-grid-layout">
 
-    <!-- TAB 1: Links / Portofolio -->
-    <main class="tab-panel active" id="tab-links">
-      <div class="cards-list">
+      <!-- Kolom Kiri: Profil & Stat Ringkas -->
+      <aside class="profile-sidebar">
+        <div class="avatar-container">
+          <img src="profile.jpeg" alt="Keenan Clio Adiwinata" class="avatar-photo" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
+        </div>
 
-        <a href="#" class="portfolio-card featured">
-          <div class="card-lead-icon"><i class="fa-solid fa-chart-pie"></i></div>
-          <div class="card-details">
-            <span class="tag-pill">Pilihan Utama</span>
-            <h3>Portofolio & Resume Akademik</h3>
-            <p>Ringkasan kompetensi, proyek sekolah, dan pengalaman organisasi.</p>
-          </div>
-          <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
-        </a>
-
-        <a href="#" class="portfolio-card">
-          <div class="card-lead-icon"><i class="fa-solid fa-square-root-variable"></i></div>
-          <div class="card-details">
-            <h3>Catatan Logika & Pemecahan Soal</h3>
-            <p>Kumpulan materi persiapan olimpiade matematika dan studi mandiri.</p>
-          </div>
-          <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
-        </a>
-
-        <a href="#" class="portfolio-card">
-          <div class="card-lead-icon"><i class="fa-solid fa-book-open"></i></div>
-          <div class="card-details">
-            <h3>Esai & Tulisan Refleksi</h3>
-            <p>Karya tulis bertema pendidikan, kepemimpinan, dan isu sosial.</p>
-          </div>
-          <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
-        </a>
-
-        <a href="#" class="portfolio-card">
-          <div class="card-lead-icon"><i class="fa-solid fa-basketball"></i></div>
-          <div class="card-details">
-            <h3>Aktivitas Olahraga & Komunitas</h3>
-            <p>Dokumentasi latihan intensif, kompetisi basket, dan kerja sama tim.</p>
-          </div>
-          <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
-        </a>
-
-      </div>
-    </main>
-
-    <!-- TAB 2: Profil & Tentang Saya -->
-    <section class="tab-panel" id="tab-about">
-      <div class="glass-container">
-        <h3 class="block-title"><i class="fa-solid fa-compass"></i> Tentang Saya</h3>
-        <p class="desc-text">
-          Saya adalah seorang pelajar yang senang memadukan ketajaman analisis matematis dengan disiplin fisik di lapangan. Memiliki orientasi jangka panjang untuk menempuh studi lanjut ke universitas global serta aktif mengeksplorasi ilmu bisnis, manajemen, dan komunikasi bahasa asing.
+        <p class="profile-summary">
+          Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
         </p>
 
-        <h4 class="sub-title">Bidang Minat Utama</h4>
-        <div class="chips-group">
-          <span class="chip"><i class="fa-solid fa-calculator"></i> Matematika Terapan</span>
-          <span class="chip"><i class="fa-solid fa-language"></i> Bahasa Asing (Inggris & Mandarin)</span>
-          <span class="chip"><i class="fa-solid fa-briefcase"></i> Bisnis & Manajemen</span>
-          <span class="chip"><i class="fa-solid fa-users"></i> Kepemimpinan & Organisasi</span>
-          <span class="chip"><i class="fa-solid fa-basketball"></i> Bola Basket</span>
-        </div>
-
-        <h4 class="sub-title" style="margin-top: 20px;">Visi & Prinsip</h4>
-        <p class="desc-text">
-          <em>“Konsistensi dalam hal-hal mendasar adalah kunci keberhasilan, baik saat menyelesaikan persamaan rumit maupun saat mengeksekusi strategi tim di bawah tekanan waktu.”</em>
-        </p>
-      </div>
-    </section>
-
-    <!-- TAB 3: Rekam Jejak / Pencapaian -->
-    <section class="tab-panel" id="tab-achievements">
-      <div class="filter-wrapper">
-        <button class="filter-chip active" data-filter="all">Semua</button>
-        <button class="filter-chip" data-filter="akademik">Akademik</button>
-        <button class="filter-chip" data-filter="olahraga">Olahraga</button>
-        <button class="filter-chip" data-filter="proyek">Proyek</button>
-      </div>
-
-      <div class="timeline-list">
-        <div class="timeline-entry" data-category="akademik">
-          <div class="timeline-badge icon-math"><i class="fa-solid fa-square-root-variable"></i></div>
-          <div class="timeline-body">
-            <span class="category-tag">Akademik</span>
-            <h4>Kompetisi Matematika & Sains</h4>
-            <p>Berlatih dan berpartisipasi dalam pemecahan masalah analitis serta logika tingkat sekolah menengah.</p>
+        <!-- 3 Pilar Metrik -->
+        <div class="metrics-strip">
+          <div class="metric-cell">
+            <span class="metric-num"><i class="fa-solid fa-square-root-variable"></i></span>
+            <span class="metric-label">Logika</span>
+          </div>
+          <div class="metric-split"></div>
+          <div class="metric-cell">
+            <span class="metric-num"><i class="fa-solid fa-graduation-cap"></i></span>
+            <span class="metric-label">Target Global</span>
+          </div>
+          <div class="metric-split"></div>
+          <div class="metric-cell">
+            <span class="metric-num"><i class="fa-solid fa-basketball"></i></span>
+            <span class="metric-label">Sportivitas</span>
           </div>
         </div>
 
-        <div class="timeline-entry" data-category="olahraga">
-          <div class="timeline-badge icon-sport"><i class="fa-solid fa-basketball"></i></div>
-          <div class="timeline-body">
-            <span class="category-tag tag-orange">Olahraga</span>
-            <h4>Turnamen Bola Basket Antar Pelajar</h4>
-            <p>Menjadi bagian dari tim sekolah, melatih kedisiplinan taktik permainan, dan menjaga kebugaran fisik rutin.</p>
-          </div>
+        <!-- Social Icons -->
+        <div class="social-row">
+          <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="social-link interactive-target" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="mailto:keenanclio12@gmail.com" class="social-link interactive-target" title="Email"><i class="fa-solid fa-envelope"></i></a>
+          <a href="https://wa.me/qr/QIJEMS2SE3AJB1" target="_blank" class="social-link interactive-target" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
+      </aside>
 
-        <div class="timeline-entry" data-category="proyek">
-          <div class="timeline-badge icon-project"><i class="fa-solid fa-flask"></i></div>
-          <div class="timeline-body">
-            <span class="category-tag tag-cyan">Proyek Riset</span>
-            <h4>Eksperimen Sains & Penulisan Esai</h4>
-            <p>Menyelesaikan proyek eksperimen ilmiah terapan serta penulisan gagasan kritis seputar pemberdayaan masyarakat.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+      <!-- Kolom Kanan: Tab Navigasi & Konten Interaktif -->
+      <main class="content-workspace">
 
-    <!-- TAB 4: Kontak -->
-    <section class="tab-panel" id="tab-contact">
-      <div class="glass-container">
-        <h3 class="block-title"><i class="fa-solid fa-paper-plane"></i> Hubungi Saya</h3>
-        <p class="desc-text">Terbuka untuk diskusi proyek bersama, kolaborasi tim, atau pertukaran wawasan seputar akademik.</p>
-
-        <div class="quick-copy">
-          <input type="text" id="userEmail" value="keenanclio12@gmail.com" readonly>
-          <button id="copyEmailBtn" class="primary-btn">
-            <i class="fa-regular fa-copy"></i> Salin Email
+        <!-- Navigation Tabs -->
+        <nav class="tab-navigation">
+          <button class="nav-tab active interactive-target" data-tab="links">
+            <i class="fa-solid fa-link"></i> Portofolio
           </button>
-        </div>
-        <span id="copyFeedback" class="copy-feedback"></span>
-
-        <!-- Direct WhatsApp CTA Form -->
-        <form id="contactForm" class="inquiry-form">
-          <input type="text" id="contactName" placeholder="Nama Anda" required>
-          <textarea id="contactMsg" rows="3" placeholder="Pesan atau maksud diskusi..." required></textarea>
-          <button type="submit" class="primary-btn submit-btn">
-            <i class="fa-brands fa-whatsapp"></i> Lanjutkan ke WhatsApp
+          <button class="nav-tab interactive-target" data-tab="about">
+            <i class="fa-solid fa-user-tie"></i> Profil
           </button>
-        </form>
-      </div>
-    </section>
+          <button class="nav-tab interactive-target" data-tab="achievements">
+            <i class="fa-solid fa-award"></i> Rekam Jejak
+          </button>
+          <button class="nav-tab interactive-target" data-tab="contact">
+            <i class="fa-solid fa-envelope-open-text"></i> Kontak
+          </button>
+        </nav>
 
-    <footer class="hub-footer">
+        <!-- TAB 1: Portofolio -->
+        <div class="tab-panel active" id="tab-links">
+          <div class="cards-list">
+
+            <a href="#" class="portfolio-card interactive-target" style="background: linear-gradient(135deg, rgba(30, 58, 102, 0.6), rgba(20, 34, 61, 0.85)); border-color: rgba(96, 165, 250, 0.35);">
+              <div class="card-lead-icon"><i class="fa-solid fa-chart-pie"></i></div>
+              <div class="card-details">
+                <span style="display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; background: #60a5fa; color: #ffffff; padding: 2px 8px; border-radius: 6px; margin-bottom: 5px;">Pilihan Utama</span>
+                <h3>Portofolio & Resume Akademik</h3>
+                <p>Ringkasan kompetensi, proyek sekolah, dan pengalaman organisasi.</p>
+              </div>
+              <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
+            </a>
+
+            <a href="#" class="portfolio-card interactive-target">
+              <div class="card-lead-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+              <div class="card-details">
+                <h3>Catatan Logika & Pemecahan Soal</h3>
+                <p>Kumpulan materi persiapan olimpiade matematika dan studi mandiri.</p>
+              </div>
+              <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
+            </a>
+
+            <a href="#" class="portfolio-card interactive-target">
+              <div class="card-lead-icon"><i class="fa-solid fa-book-open"></i></div>
+              <div class="card-details">
+                <h3>Esai & Tulisan Refleksi</h3>
+                <p>Karya tulis bertema pendidikan, kepemimpinan, dan isu sosial.</p>
+              </div>
+              <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
+            </a>
+
+            <a href="#" class="portfolio-card interactive-target">
+              <div class="card-lead-icon"><i class="fa-solid fa-basketball"></i></div>
+              <div class="card-details">
+                <h3>Aktivitas Olahraga & Komunitas</h3>
+                <p>Dokumentasi latihan intensif, kompetisi basket, dan kerja sama tim.</p>
+              </div>
+              <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- TAB 2: Profil & Tentang Saya -->
+        <div class="tab-panel" id="tab-about">
+          <div class="glass-container">
+            <h3 class="block-title"><i class="fa-solid fa-compass" style="color: #60a5fa;"></i> Tentang Saya</h3>
+            <p class="desc-text">
+              Saya adalah seorang pelajar yang senang memadukan ketajaman analisis matematis dengan disiplin fisik di lapangan. Memiliki orientasi jangka panjang untuk menempuh studi lanjut ke universitas global serta aktif mengeksplorasi ilmu bisnis, manajemen, dan komunikasi bahasa asing.
+            </p>
+
+            <h4 class="sub-title">Bidang Minat Utama</h4>
+            <div class="chips-group">
+              <span class="chip"><i class="fa-solid fa-calculator"></i> Matematika Terapan</span>
+              <span class="chip"><i class="fa-solid fa-language"></i> Bahasa Asing (Inggris & Mandarin)</span>
+              <span class="chip"><i class="fa-solid fa-briefcase"></i> Bisnis & Manajemen</span>
+              <span class="chip"><i class="fa-solid fa-users"></i> Kepemimpinan & Organisasi</span>
+              <span class="chip"><i class="fa-solid fa-basketball"></i> Bola Basket</span>
+            </div>
+
+            <h4 class="sub-title" style="margin-top: 24px;">Visi & Prinsip</h4>
+            <p class="desc-text">
+              <em>“Konsistensi dalam hal-hal mendasar adalah kunci keberhasilan, baik saat menyelesaikan persamaan rumit maupun saat mengeksekusi strategi tim di bawah tekanan waktu.”</em>
+            </p>
+          </div>
+        </div>
+
+        <!-- TAB 3: Rekam Jejak / Pencapaian -->
+        <div class="tab-panel" id="tab-achievements">
+          <div class="filter-wrapper">
+            <button class="filter-chip active interactive-target" data-filter="all">Semua</button>
+            <button class="filter-chip interactive-target" data-filter="akademik">Akademik</button>
+            <button class="filter-chip interactive-target" data-filter="olahraga">Olahraga</button>
+            <button class="filter-chip interactive-target" data-filter="proyek">Proyek</button>
+          </div>
+
+          <div class="timeline-list">
+            <div class="timeline-entry" data-category="akademik">
+              <div class="timeline-badge" style="background: rgba(96, 165, 250, 0.15); color: #60a5fa;">
+                <i class="fa-solid fa-square-root-variable"></i>
+              </div>
+              <div class="timeline-body">
+                <span style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #60a5fa; display: inline-block; margin-bottom: 3px;">Akademik</span>
+                <h4>Kompetisi Matematika & Sains</h4>
+                <p>Berlatih dan berpartisipasi dalam pemecahan masalah analitis serta logika tingkat sekolah menengah.</p>
+              </div>
+            </div>
+
+            <div class="timeline-entry" data-category="olahraga">
+              <div class="timeline-badge" style="background: rgba(251, 146, 60, 0.15); color: #fb923c;">
+                <i class="fa-solid fa-basketball"></i>
+              </div>
+              <div class="timeline-body">
+                <span style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #fb923c; display: inline-block; margin-bottom: 3px;">Olahraga</span>
+                <h4>Turnamen Bola Basket Antar Pelajar</h4>
+                <p>Menjadi bagian dari tim sekolah, melatih kedisiplinan taktik permainan, dan menjaga kebugaran fisik rutin.</p>
+              </div>
+            </div>
+
+            <div class="timeline-entry" data-category="proyek">
+              <div class="timeline-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+                <i class="fa-solid fa-flask"></i>
+              </div>
+              <div class="timeline-body">
+                <span style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; display: inline-block; margin-bottom: 3px;">Proyek Riset</span>
+                <h4>Eksperimen Sains & Penulisan Esai</h4>
+                <p>Menyelesaikan proyek eksperimen ilmiah terapan serta penulisan gagasan kritis seputar pemberdayaan masyarakat.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: Kontak -->
+        <div class="tab-panel" id="tab-contact">
+          <div class="glass-container">
+            <h3 class="block-title"><i class="fa-solid fa-paper-plane" style="color: #60a5fa;"></i> Hubungi Saya</h3>
+            <p class="desc-text">Terbuka untuk diskusi proyek bersama, kolaborasi tim, atau pertukaran wawasan seputar akademik.</p>
+
+            <div class="quick-copy">
+              <input type="text" id="userEmail" value="keenanclio12@gmail.com" readonly>
+              <button id="copyEmailBtn" class="primary-btn interactive-target">
+                <i class="fa-regular fa-copy"></i> Salin Email
+              </button>
+            </div>
+            <span id="copyFeedback" style="display: block; font-size: 0.8rem; color: #34d399; min-height: 20px; font-weight: 600;"></span>
+
+            <form id="contactForm" class="inquiry-form" style="margin-top: 10px;">
+              <input type="text" id="contactName" placeholder="Nama Anda" required>
+              <textarea id="contactMsg" rows="3" placeholder="Pesan atau maksud diskusi..." required></textarea>
+              <button type="submit" class="primary-btn interactive-target" style="width: 100%; margin-top: 12px; background: #25d366;">
+                <i class="fa-brands fa-whatsapp"></i> Lanjutkan ke WhatsApp
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <footer class="screen-footer">
       <p>© <span id="currentYear"></span> • Portofolio & Profil Pribadi</p>
     </footer>
 
@@ -836,10 +921,60 @@
   <!-- JAVASCRIPT LOGIC -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // 1. Tahun otomatis
       document.getElementById("currentYear").textContent = new Date().getFullYear();
 
-      // 2. Perpindahan Tab Navigasi
+      // 1. Logika Kursor Lucu & Trail Partikel
+      const cursorDot = document.getElementById("cursorDot");
+      const cursorRing = document.getElementById("cursorRing");
+      const sparkleIcons = ["✦", "★", "✧", "🏀", "•", "✨"];
+      let lastSparkleTime = 0;
+
+      window.addEventListener("mousemove", (e) => {
+        const x = e.clientX;
+        const y = e.clientY;
+
+        cursorDot.style.left = `${x}px`;
+        cursorDot.style.top = `${y}px`;
+
+        cursorRing.style.left = `${x}px`;
+        cursorRing.style.top = `${y}px`;
+
+        // Buat partikel lucu saat mouse digerakkan
+        const now = Date.now();
+        if (now - lastSparkleTime > 60) {
+          createSparkle(x, y);
+          lastSparkleTime = now;
+        }
+      });
+
+      function createSparkle(x, y) {
+        const sparkle = document.createElement("span");
+        sparkle.className = "sparkle-trail";
+        sparkle.textContent = sparkleIcons[Math.floor(Math.random() * sparkleIcons.length)];
+        
+        const tx = (Math.random() - 0.5) * 50;
+        const ty = (Math.random() - 0.5) * 50;
+        sparkle.style.setProperty("--tx", `${tx}px`);
+        sparkle.style.setProperty("--ty", `${ty}px`);
+
+        const colors = ["#93c5fd", "#f472b6", "#a5f3fc", "#c084fc", "#fb923c"];
+        sparkle.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+        sparkle.style.left = `${x}px`;
+        sparkle.style.top = `${y}px`;
+
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 800);
+      }
+
+      // Efek membesar saat hover tombol & kartu
+      const hoverTargets = document.querySelectorAll(".interactive-target, a, button, input, textarea");
+      hoverTargets.forEach((target) => {
+        target.addEventListener("mouseenter", () => document.body.classList.add("cursor-active"));
+        target.addEventListener("mouseleave", () => document.body.classList.remove("cursor-active"));
+      });
+
+      // 2. Tab Navigasi
       const navTabs = document.querySelectorAll(".nav-tab");
       const tabPanels = document.querySelectorAll(".tab-panel");
 
@@ -911,7 +1046,6 @@
         const name = encodeURIComponent(document.getElementById("contactName").value);
         const msg = encodeURIComponent(document.getElementById("contactMsg").value);
 
-        // Langsung membuka tautan WhatsApp Anda
         const waUrl = `https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo%20Keenan,%20saya%20${name}.%20${msg}`;
         window.open(waUrl, "_blank");
       });
