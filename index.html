@@ -15,38 +15,42 @@
 
   <style>
     /* ==========================================
-       WARNA TEMA: DEEP NAVY & YELLOW AMBER
+       WARNA TEMA: MIDNIGHT NAVY & CHAMPAGNE GOLD
     ========================================== */
     :root {
-      --bg-color: #071122; /* Biru sangat gelap */
-      --nav-bg: rgba(7, 17, 34, 0.85);
-      --card-bg: rgba(15, 28, 54, 0.65);
-      --card-border: rgba(250, 204, 21, 0.2); /* Kuning transparan */
+      --bg-color: #040b14; /* Biru sangat gelap (Midnight) */
+      --nav-bg: rgba(4, 11, 20, 0.85);
+      --card-bg: rgba(12, 22, 45, 0.6);
+      --card-border: rgba(234, 179, 8, 0.15); /* Emas transparan */
       
       --text-main: #f8fafc;
-      --text-body: #94a3b8;
+      --text-body: #a8b8d0;
       
-      --accent-yellow: #facc15; /* Kuning utama */
-      --accent-blue: #38bdf8; /* Biru terang pelengkap */
+      --accent-gold: #eab308; /* Champagne Gold / Emas elegan */
+      --accent-blue: #38bdf8; /* Cyan cerah */
       
       --shadow-3d: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
       background-color: var(--bg-color);
       color: var(--text-body);
       font-family: 'Plus Jakarta Sans', sans-serif;
-      margin: 0;
-      padding: 0;
       overflow-x: hidden;
       
       /* Background Pola Dots / Grid Halus */
-      background-image: radial-gradient(rgba(56, 189, 248, 0.08) 1.5px, transparent 1.5px);
+      background-image: radial-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px);
       background-size: 30px 30px;
     }
 
     /* ==========================================
-       KURSOR KUSTOM (KHUSUS LAPTOP/PC)
+       KURSOR KUSTOM ELEGAN (KHUSUS LAPTOP/PC)
     ========================================== */
     @media (hover: hover) and (pointer: fine) {
       *, *::before, *::after {
@@ -56,93 +60,83 @@
       .cursor-dot {
         position: fixed;
         top: 0; left: 0;
-        width: 24px; height: 24px;
+        width: 6px; height: 6px;
+        background: var(--accent-gold);
+        border-radius: 50%;
         pointer-events: none;
         z-index: 9999;
-        transform: translate(-50%, -50%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 24px;
-        transition: transform 0.1s ease-out, opacity 0.2s;
-        animation: spinBall 4s linear infinite;
+        box-shadow: 0 0 8px var(--accent-gold);
+        /* Transform diatur via JS */
       }
       
       .cursor-ring {
         position: fixed;
         top: 0; left: 0;
-        width: 45px; height: 45px;
-        border: 2px dashed var(--accent-yellow);
+        width: 34px; height: 34px;
+        border: 1px solid rgba(234, 179, 8, 0.6);
         border-radius: 50%;
         pointer-events: none;
         z-index: 9998;
-        transform: translate(-50%, -50%);
-        transition: transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28), width 0.3s, height 0.3s, border-color 0.3s, opacity 0.2s;
-        animation: spinRing 10s linear infinite reverse;
+        transition: width 0.3s, height 0.3s, border-color 0.3s, background 0.3s;
+        /* Transform diatur via JS menggunakan .animate() */
       }
 
       .cursor-hover .cursor-dot {
-        transform: translate(-50%, -50%) scale(1.3);
+        background: var(--accent-blue);
+        box-shadow: 0 0 12px var(--accent-blue);
+        width: 8px; height: 8px;
       }
       .cursor-hover .cursor-ring {
-        width: 60px; height: 60px;
+        width: 55px; height: 55px;
         border-color: var(--accent-blue);
-        background: rgba(56, 189, 248, 0.1);
-        border-style: solid;
+        background: rgba(56, 189, 248, 0.05);
       }
     }
 
     /* Sembunyikan kursor kustom di HP agar tidak beku */
     @media (hover: none), (pointer: coarse) {
-      .cursor-dot, .cursor-ring, .trail-particle {
+      .cursor-dot, .cursor-ring {
         display: none !important;
       }
     }
 
-    @keyframes spinBall {
-      100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-    @keyframes spinRing {
-      100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-
-    .trail-particle {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9997;
-      font-size: 14px;
-      animation: floatParticle 0.7s forwards ease-out;
-    }
-    @keyframes floatParticle {
-      0% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
-      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(90deg); }
-    }
-
     /* ==========================================
-       AMBIENT GLOW BACKGROUND
+       BACKGROUND INTERAKTIF (MOUSE GLOW)
     ========================================== */
-    .ambient-glow {
+    #mouseGlow {
+      position: fixed;
+      top: 0; left: 0;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.07) 0%, transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      /* Transform diatur via JS */
+    }
+
+    /* Ambient statis */
+    .ambient-static {
       position: fixed;
       border-radius: 50%;
       filter: blur(150px);
-      z-index: -1;
+      z-index: -2;
       pointer-events: none;
     }
 
     /* ==========================================
-       NAVBAR (STICKY ON TOP)
+       NAVBAR (STICKY, RAPI & TIDAK TERPOTONG)
     ========================================== */
     .navbar {
       position: fixed;
-      top: 0; left: 0; width: 100%;
+      top: 0; left: 0; right: 0; /* Mencegah terpotong di kanan */
       background: var(--nav-bg);
       backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--card-border);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 40px;
+      padding: 16px 5%; /* Menggunakan persentase agar responsif */
       transition: all 0.3s ease;
     }
     .nav-brand {
@@ -152,27 +146,26 @@
       color: var(--text-main);
       text-decoration: none;
     }
-    .nav-brand span { color: var(--accent-yellow); }
+    .nav-brand span { color: var(--accent-gold); }
     
     .nav-links {
       display: flex;
-      gap: 16px;
+      gap: 12px;
     }
     .nav-btn {
       text-decoration: none;
       color: var(--text-body);
       font-size: 0.95rem;
       font-weight: 600;
-      padding: 10px 16px;
+      padding: 10px 18px;
       border-radius: 10px;
       transition: all 0.3s;
     }
     .nav-btn:hover, .nav-btn.active {
-      color: var(--accent-yellow);
-      background: rgba(250, 204, 21, 0.1);
+      color: var(--accent-gold);
+      background: rgba(234, 179, 8, 0.1);
     }
 
-    /* Hamburger Menu */
     .hamburger {
       display: none;
       flex-direction: column;
@@ -192,15 +185,14 @@
        STRUKTUR HALAMAN
     ========================================== */
     .page-container {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 24px;
     }
 
-    /* Jarak section agar tidak tertutup navbar saat discroll */
     .page-section {
-      padding-top: 100px; 
-      padding-bottom: 40px;
+      padding-top: 120px; 
+      padding-bottom: 60px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -208,21 +200,21 @@
     }
 
     /* ==========================================
-       KOMPONEN 3D HOVER (DIPERHALUS)
+       EFEK HOVER 3D (SANGAT HALUS & ELEGAN)
     ========================================== */
     .card-3d {
       background: var(--card-bg);
-      border: 1px solid rgba(56, 189, 248, 0.15); /* Border biru redup */
+      border: 1px solid rgba(255, 255, 255, 0.05); /* Border sangat halus */
       border-radius: 24px;
-      padding: 30px;
+      padding: 32px;
       backdrop-filter: blur(16px);
       box-shadow: var(--shadow-3d);
       transform-style: preserve-3d;
       will-change: transform;
-      transition: border-color 0.4s, transform 0.1s; /* Transisi diperhalus */
+      transition: border-color 0.4s, transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .card-3d:hover {
-      border-color: var(--accent-yellow);
+      border-color: rgba(234, 179, 8, 0.3); /* Cahaya emas saat disentuh */
     }
 
     /* Typography */
@@ -230,13 +222,14 @@
       font-family: 'Urbanist', sans-serif;
       font-size: clamp(2.5rem, 6vw, 4rem);
       font-weight: 800;
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-yellow), #fff);
+      background: linear-gradient(135deg, #fff, var(--accent-gold), var(--accent-blue));
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: gradientFlow 5s linear infinite alternate;
-      filter: drop-shadow(0 0 15px rgba(250, 204, 21, 0.3));
+      animation: gradientFlow 6s ease infinite alternate;
+      filter: drop-shadow(0 0 20px rgba(234, 179, 8, 0.2));
       margin-bottom: 15px;
+      line-height: 1.1;
     }
     @keyframes gradientFlow {
       0% { background-position: 0% 50%; }
@@ -246,98 +239,116 @@
       font-family: 'Urbanist', sans-serif;
       font-size: 2rem;
       color: var(--text-main);
-      margin-bottom: 30px;
+      margin-bottom: 24px;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    /* Hero Layout (Home) */
+    /* ==========================================
+       LAYOUT KHUSUS
+    ========================================== */
+    /* Hero */
     .hero-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      gap: 50px;
       align-items: center;
     }
     .hero-img-box {
       width: 100%;
-      max-width: 400px;
+      max-width: 380px;
       aspect-ratio: 1;
-      border-radius: 30px;
+      border-radius: 50%; /* Bulat elegan */
       overflow: hidden;
       margin: 0 auto;
-      border: 2px solid var(--accent-yellow);
-      box-shadow: 0 0 30px rgba(250, 204, 21, 0.2);
+      border: 3px solid rgba(234, 179, 8, 0.4);
+      box-shadow: 0 0 40px rgba(234, 179, 8, 0.15);
+      position: relative;
     }
     .hero-img-box img {
       width: 100%; height: 100%; object-fit: cover;
     }
 
-    /* Jadwal Layout */
-    .jadwal-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 24px;
+    /* Jadwal Layout (ATAS-BAWAH RAPIH) */
+    .jadwal-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
     }
     .schedule-table {
       width: 100%; border-collapse: collapse;
       color: var(--text-main);
+      font-size: 0.95rem;
     }
     .schedule-table th, .schedule-table td {
-      padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left;
+      padding: 16px 12px; 
+      border-bottom: 1px solid rgba(255,255,255,0.05); 
+      text-align: left;
     }
+    .schedule-table th {
+      color: var(--accent-gold);
+      font-family: 'Urbanist', sans-serif;
+      font-size: 1.05rem;
+    }
+    
     .teacher-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;
     }
     .teacher-card {
       background: rgba(255,255,255,0.03);
-      border: 1px solid var(--card-border);
+      border: 1px solid rgba(255,255,255,0.05);
       padding: 16px; border-radius: 16px;
       text-align: center; color: var(--text-main); text-decoration: none;
-      transition: 0.3s;
+      transition: all 0.3s;
     }
     .teacher-card:hover { 
-      background: var(--accent-yellow); color: #000; transform: translateY(-5px); 
+      background: var(--accent-gold); color: #000; 
+      border-color: var(--accent-gold); transform: translateY(-4px); 
     }
 
-    /* List Portofolio */
+    /* Portofolio List */
     .port-list { display: flex; flex-direction: column; gap: 20px; }
     .port-item {
-      display: flex; gap: 20px; align-items: center; text-decoration: none;
+      display: flex; gap: 24px; align-items: center; text-decoration: none;
     }
     .port-icon {
-      width: 60px; height: 60px; border-radius: 16px;
-      background: rgba(56, 189, 248, 0.15); color: var(--accent-blue);
+      width: 65px; height: 65px; border-radius: 18px;
+      background: rgba(234, 179, 8, 0.1); color: var(--accent-gold);
       display: flex; justify-content: center; align-items: center; font-size: 1.8rem;
+      flex-shrink: 0;
     }
 
-    /* Media Queries (Responsive) */
+    /* Media Queries */
     @media (max-width: 768px) {
-      .navbar { padding: 16px 20px; }
       .hamburger { display: flex; }
       .nav-links {
         position: fixed; top: 65px; right: -100%;
         flex-direction: column; background: var(--nav-bg);
         width: 100%; height: calc(100vh - 65px); padding: 30px;
-        border-top: 1px solid var(--card-border);
+        border-top: 1px solid rgba(255,255,255,0.05);
         transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
       }
       .nav-links.show { right: 0; }
-      .hero-grid, .jadwal-grid { grid-template-columns: 1fr; }
-      .hero-text { text-align: center; }
+      .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 30px;}
       .hero-text div { justify-content: center; }
+      .hero-img-box { max-width: 280px; }
+      .port-item { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- KURSOR KUSTOM (Disembunyikan otomatis di HP via CSS) -->
-  <div class="cursor-dot" id="cursorDot">🏀</div>
+  <!-- KURSOR KUSTOM (Elegan, nonaktif otomatis di HP) -->
+  <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
+  
+  <!-- INTERACTIVE BACKGROUND GLOW -->
+  <div id="mouseGlow"></div>
 
-  <!-- AMBIENT BACKGROUND -->
-  <div class="ambient-glow" style="width:500px; height:500px; background:rgba(56,189,248,0.15); top:-50px; left:-100px;"></div>
-  <div class="ambient-glow" style="width:600px; height:600px; background:rgba(250,204,21,0.1); bottom:-100px; right:-150px;"></div>
+  <!-- AMBIENT STATIS -->
+  <div class="ambient-static" style="width:500px; height:500px; background:rgba(234,179,8,0.08); top:-50px; left:-100px;"></div>
+  <div class="ambient-static" style="width:600px; height:600px; background:rgba(56,189,248,0.06); bottom:-100px; right:-150px;"></div>
 
   <!-- NAVBAR STICKY -->
   <nav class="navbar">
@@ -353,22 +364,21 @@
     </div>
   </nav>
 
-  <!-- KONTEN HALAMAN -->
   <div class="page-container">
     
     <!-- SECTION 1: HOME / PROFIL -->
     <section id="home" class="page-section">
       <div class="hero-grid">
         <div class="hero-text">
-          <p style="color:var(--accent-blue); font-weight:700; letter-spacing:2px; margin-bottom:10px;">HALO, SAYA</p>
-          <h1 class="title-glow">Keenan Clio <br> Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.6em; color:var(--text-main); filter:none;">(黄錫豪)</span></h1>
-          <p style="font-size:1.1rem; line-height:1.6; margin-bottom:30px;">
+          <p style="color:var(--accent-gold); font-weight:700; letter-spacing:2px; margin-bottom:10px;">HALO, SAYA</p>
+          <h1 class="title-glow">Keenan Clio <br> Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.5em; color:var(--text-body); filter:none;">(黄錫豪)</span></h1>
+          <p style="font-size:1.1rem; line-height:1.7; margin-bottom:30px;">
             Student • Math & Logic Enthusiast • Basketball Player.<br>
-            Menggabungkan ketajaman analisis matematis dengan disiplin fisik dan strategi di lapangan.
+            Menggabungkan ketajaman analisis matematis dengan kedisiplinan dan strategi di lapangan.
           </p>
           <div style="display:flex; gap:16px;">
-            <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="teacher-card interactive" style="padding:12px 24px; background:rgba(250,204,21,0.1); border-color:var(--accent-yellow); color:var(--accent-yellow);"><i class="fa-brands fa-instagram"></i> Instagram</a>
-            <a href="#contact" class="teacher-card interactive" style="padding:12px 24px; background:var(--accent-blue); color:#fff; border:none;">Hubungi Saya</a>
+            <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="teacher-card interactive" style="padding:12px 24px; background:rgba(234,179,8,0.1); border-color:var(--accent-gold); color:var(--accent-gold);"><i class="fa-brands fa-instagram"></i> Instagram</a>
+            <a href="#contact" class="teacher-card interactive" style="padding:12px 24px; background:var(--text-main); color:var(--bg-color); border:none;">Hubungi Saya</a>
           </div>
         </div>
         <div class="hero-img">
@@ -381,79 +391,80 @@
 
     <!-- SECTION 2: PORTOFOLIO -->
     <section id="portfolio" class="page-section">
-      <h2 class="section-title"><i class="fa-solid fa-layer-group" style="color:var(--accent-yellow)"></i> Portofolio & Proyek</h2>
+      <h2 class="section-title"><i class="fa-solid fa-layer-group" style="color:var(--accent-gold)"></i> Portofolio & Proyek</h2>
       <div class="port-list">
         <a href="#" class="card-3d interactive port-item">
           <div class="port-icon"><i class="fa-solid fa-square-root-variable"></i></div>
           <div>
-            <h3 style="color:#fff; margin-bottom:8px;">Analisis & Logika Matematika</h3>
+            <h3 style="color:#fff; margin-bottom:8px; font-family:'Urbanist', sans-serif;">Analisis & Logika Matematika</h3>
             <p>Kumpulan studi mandiri dan persiapan olimpiade matematika. Fokus pada problem solving tingkat lanjut.</p>
           </div>
         </a>
         <a href="#" class="card-3d interactive port-item">
-          <div class="port-icon" style="color:#000; background:var(--accent-yellow);"><i class="fa-solid fa-basketball"></i></div>
+          <div class="port-icon" style="color:#000; background:var(--accent-gold);"><i class="fa-solid fa-basketball"></i></div>
           <div>
-            <h3 style="color:#fff; margin-bottom:8px;">Basketball & Team Strategy</h3>
+            <h3 style="color:#fff; margin-bottom:8px; font-family:'Urbanist', sans-serif;">Basketball & Team Strategy</h3>
             <p>Dokumentasi partisipasi turnamen pelajar, latihan fisik, dan analisis formasi permainan tim.</p>
           </div>
         </a>
         <a href="#" class="card-3d interactive port-item">
-          <div class="port-icon" style="color:var(--accent-blue); background:rgba(56, 189, 248, 0.15);"><i class="fa-solid fa-flask"></i></div>
+          <div class="port-icon" style="color:var(--accent-blue); background:rgba(56, 189, 248, 0.1);"><i class="fa-solid fa-flask"></i></div>
           <div>
-            <h3 style="color:#fff; margin-bottom:8px;">Eksperimen Riset Sains</h3>
+            <h3 style="color:#fff; margin-bottom:8px; font-family:'Urbanist', sans-serif;">Eksperimen Riset Sains</h3>
             <p>Proyek penelitian ilmiah terapan biologi/kimia serta penulisan esai kritis bertema lingkungan.</p>
           </div>
         </a>
       </div>
     </section>
 
-    <!-- SECTION 3: JADWAL KELAS XI-2 -->
+    <!-- SECTION 3: JADWAL KELAS XI-2 (ATAS BAWAH) -->
     <section id="jadwal" class="page-section">
-      <h2 class="section-title"><i class="fa-solid fa-calendar-days" style="color:var(--accent-blue)"></i> Jadwal & Modul Kelas XI-2</h2>
+      <h2 class="section-title"><i class="fa-solid fa-calendar-days" style="color:var(--accent-blue)"></i> Jadwal Kelas XI-2</h2>
       
-      <div class="jadwal-grid">
-        <!-- Live Status -->
-        <div>
-          <div class="card-3d interactive" style="text-align:center; padding:40px 20px;">
-            <i class="fa-solid fa-clock" style="font-size:3rem; color:var(--accent-yellow); margin-bottom:20px;"></i>
-            <h3 style="color:#fff; margin-bottom:10px;">Pelajaran Saat Ini</h3>
-            <div id="live-schedule-box">
-              <p>Memuat jadwal waktu nyata...</p>
-            </div>
+      <div class="jadwal-stack">
+        <!-- Live Status (ATAS) -->
+        <div class="card-3d interactive" style="text-align:center; padding:40px 20px; border-color: rgba(56, 189, 248, 0.3);">
+          <i class="fa-solid fa-clock" style="font-size:2.5rem; color:var(--accent-blue); margin-bottom:16px;"></i>
+          <h3 style="color:#fff; font-family:'Urbanist', sans-serif; font-size:1.5rem; margin-bottom:10px;">Pelajaran Saat Ini</h3>
+          <div id="live-schedule-box">
+            <p>Memuat jadwal waktu nyata...</p>
           </div>
         </div>
 
-        <!-- Tabel Jadwal -->
+        <!-- Tabel Jadwal Seluruh (BAWAH) -->
         <div class="card-3d interactive">
-          <h3 style="color:#fff; margin-bottom:16px;">Tabel Jadwal Sepakan</h3>
+          <h3 style="color:var(--accent-gold); margin-bottom:20px; font-family:'Urbanist', sans-serif; font-size:1.4rem;">Tabel Jadwal Sepakan</h3>
           <div style="overflow-x:auto;">
             <div id="schedule-table-container"></div>
           </div>
         </div>
-      </div>
 
-      <h2 class="section-title" style="margin-top:40px;"><i class="fa-solid fa-globe" style="color:var(--accent-yellow)"></i> Website Modul Guru</h2>
-      <div class="teacher-grid" id="teacher-links-grid"></div>
+        <!-- Website Guru -->
+        <div class="card-3d interactive">
+          <h3 style="color:var(--text-main); margin-bottom:20px; font-family:'Urbanist', sans-serif; font-size:1.4rem;"><i class="fa-solid fa-link" style="color:var(--accent-gold)"></i> Link Modul Guru</h3>
+          <div class="teacher-grid" id="teacher-links-grid"></div>
+        </div>
+      </div>
     </section>
 
     <!-- SECTION 4: KONTAK -->
     <section id="contact" class="page-section">
-      <div class="card-3d interactive" style="max-width:600px; margin:0 auto; width:100%;">
-        <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-blue)"></i> Kirim Pesan</h2>
-        <p style="margin-bottom:20px;">Silakan isi form di bawah untuk terhubung langsung melalui WhatsApp pribadi saya.</p>
+      <div class="card-3d interactive" style="max-width:700px; margin:0 auto; width:100%;">
+        <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-gold)"></i> Kirim Pesan</h2>
+        <p style="margin-bottom:24px;">Silakan isi form di bawah untuk terhubung langsung melalui WhatsApp pribadi saya.</p>
         
         <form id="contactForm" style="display:flex; flex-direction:column; gap:16px;">
-          <input type="text" id="waName" placeholder="Nama Anda" required style="padding:16px; border-radius:12px; border:1px solid var(--card-border); background:rgba(0,0,0,0.3); color:#fff; font-size:1rem; outline:none;">
-          <textarea id="waMsg" rows="4" placeholder="Pesan Anda..." required style="padding:16px; border-radius:12px; border:1px solid var(--card-border); background:rgba(0,0,0,0.3); color:#fff; font-size:1rem; outline:none;"></textarea>
-          <button type="submit" class="interactive" style="background:var(--accent-yellow); color:#000; border:none; padding:16px; border-radius:12px; font-weight:700; font-size:1rem;">
+          <input type="text" id="waName" placeholder="Nama Anda" required style="padding:18px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:#fff; font-size:1rem; outline:none; transition:0.3s;">
+          <textarea id="waMsg" rows="4" placeholder="Pesan Anda..." required style="padding:18px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:#fff; font-size:1rem; outline:none; transition:0.3s;"></textarea>
+          <button type="submit" class="interactive" style="background:var(--accent-gold); color:#000; border:none; padding:18px; border-radius:14px; font-family:'Urbanist', sans-serif; font-weight:800; font-size:1.1rem; cursor:none; transition:0.3s;">
             <i class="fa-brands fa-whatsapp"></i> Lanjut ke WhatsApp
           </button>
         </form>
       </div>
     </section>
     
-    <footer style="text-align:center; padding: 40px 0; color:var(--text-muted); font-size:0.85rem;">
-      <p>© <span id="currentYear"></span> • Portofolio & Profil Pribadi Keenan</p>
+    <footer style="text-align:center; padding: 40px 0 20px; color:var(--text-muted); font-size:0.9rem;">
+      <p>© <span id="currentYear"></span> • Keenan Clio Adiwinata</p>
     </footer>
 
   </div>
@@ -464,65 +475,52 @@
       document.getElementById("currentYear").textContent = new Date().getFullYear();
       
       // =====================================
-      // 1. KURSOR KUSTOM (ANTI BEKU DI TEPI)
+      // 1. KURSOR ELEGAN & BACKGROUND INTERAKTIF
       // =====================================
       const dot = document.getElementById("cursorDot");
       const ring = document.getElementById("cursorRing");
-      const sparkles = ["🏀", "✨", "✦", "⚡", "🏀"];
-      let lastTime = 0;
-      let isMouseVisible = false;
+      const glow = document.getElementById("mouseGlow");
 
-      // Menyembunyikan kursor jika mouse keluar dari layar browser
+      // Auto-hide kursor saat mouse keluar browser (Anti-nyangkut)
       document.addEventListener("mouseleave", () => {
-        if(dot && ring) {
-          dot.style.opacity = '0';
-          ring.style.opacity = '0';
-        }
+        if(dot && ring) { dot.style.opacity = '0'; ring.style.opacity = '0'; }
       });
       document.addEventListener("mouseenter", () => {
-        if(dot && ring) {
-          dot.style.opacity = '1';
-          ring.style.opacity = '1';
-        }
+        if(dot && ring) { dot.style.opacity = '1'; ring.style.opacity = '1'; }
       });
 
       window.addEventListener("mousemove", (e) => {
-        // Hanya jalankan jika elemen kursor ada (di desktop)
-        if(!dot || !ring || window.matchMedia("(pointer: coarse)").matches) return;
+        // Jangan jalankan efek jika di layar sentuh (HP/Tablet)
+        if(window.matchMedia("(pointer: coarse)").matches) return;
         
-        dot.style.left = `${e.clientX}px`;
-        dot.style.top = `${e.clientY}px`;
-        
-        // Animasi ring mengikuti lebih lambat (efek spring)
-        setTimeout(() => {
-          ring.style.left = `${e.clientX}px`;
-          ring.style.top = `${e.clientY}px`;
-        }, 60);
+        const x = e.clientX;
+        const y = e.clientY;
 
-        if (Date.now() - lastTime > 100) {
-          createParticle(e.clientX, e.clientY);
-          lastTime = Date.now();
+        // Titik kursor instan
+        if(dot) dot.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
+        
+        // Cincin & Background Glow mengikuti secara mulus dengan Web Animations API
+        if(ring) {
+          ring.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
+            { duration: 400, fill: "forwards", easing: "ease-out" });
+        }
+        
+        if(glow) {
+          glow.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
+            { duration: 1000, fill: "forwards", easing: "ease-out" });
         }
       });
 
-      function createParticle(x, y) {
-        const p = document.createElement("span");
-        p.className = "trail-particle";
-        p.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
-        p.style.left = `${x}px`; p.style.top = `${y}px`;
-        
-        p.style.setProperty("--tx", `${(Math.random() - 0.5) * 60}px`);
-        p.style.setProperty("--ty", `${(Math.random() - 0.5) * 60}px`);
-        p.style.color = Math.random() > 0.5 ? "#facc15" : "#38bdf8"; 
-        
-        document.body.appendChild(p);
-        setTimeout(() => p.remove(), 700);
-      }
-
-      // Hover efek pada elemen
+      // Hover efek kursor
       document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
         el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
         el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+      });
+
+      // Input Focus Highlight
+      document.querySelectorAll('input, textarea').forEach(el => {
+        el.addEventListener('focus', () => el.style.borderColor = 'var(--accent-gold)');
+        el.addEventListener('blur', () => el.style.borderColor = 'rgba(255,255,255,0.1)');
       });
 
       // =====================================
@@ -532,10 +530,7 @@
       
       navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-          // Tutup menu hamburger jika terbuka
           document.getElementById("navLinks").classList.remove("show");
-          
-          // Hapus kelas aktif dari semua link
           navLinks.forEach(l => l.classList.remove('active'));
           this.classList.add('active');
         });
@@ -546,21 +541,22 @@
       });
 
       // =====================================
-      // 3. EFEK HOVER 3D (DIPERHALUS / WEAKER)
+      // 3. EFEK HOVER 3D (HALUS)
       // =====================================
       document.querySelectorAll('.card-3d').forEach(card => {
         card.addEventListener('mousemove', (e) => {
+          if(window.matchMedia("(pointer: coarse)").matches) return; // Matikan di HP
           let rect = card.getBoundingClientRect();
           let x = e.clientX - rect.left; 
           let y = e.clientY - rect.top;
           let centerX = rect.width / 2;
           let centerY = rect.height / 2;
           
-          // Multiplier dikurangi dari 8 menjadi 3 agar tidak terlalu agresif
-          let rotateX = ((y - centerY) / centerY) * -3; 
-          let rotateY = ((x - centerX) / centerX) * 3;  
+          // Efek sangat halus (max rotasi kecil)
+          let rotateX = ((y - centerY) / centerY) * -2; 
+          let rotateY = ((x - centerX) / centerX) * 2;  
           
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px)`;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
         });
         
         card.addEventListener('mouseleave', () => {
@@ -620,7 +616,6 @@
         { day: "JUMAT", start: "13:00", end: "14:30", subject: "INFORMATIKA" }
       ];
 
-      // Logic Cek Waktu Live
       function checkLiveClass() {
         const now = new Date();
         const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
@@ -631,25 +626,26 @@
         
         const box = document.getElementById("live-schedule-box");
         if(current) {
-          let linkHTML = links[current.subject] ? `<a href="${links[current.subject]}" target="_blank" class="teacher-card interactive" style="display:inline-block; background:var(--accent-blue); color:#fff; border:none; margin-top:10px;">Buka Web ${current.subject}</a>` : `<p style="color:var(--accent-yellow); font-size:0.8rem; margin-top:10px;">*Web Guru Tidak Tersedia</p>`;
-          box.innerHTML = `<h2 style="color:var(--accent-blue); font-size:1.8rem; margin:10px 0;">${current.subject}</h2>
-                           <p>${current.start} - ${current.end}</p>
+          let linkHTML = links[current.subject] ? `<a href="${links[current.subject]}" target="_blank" class="teacher-card interactive" style="display:inline-block; background:var(--accent-gold); color:#000; font-weight:800; border:none; margin-top:14px; padding:12px 24px;">Buka Web ${current.subject}</a>` : `<p style="color:var(--text-body); font-size:0.85rem; margin-top:10px;">*Web Guru Tidak Tersedia</p>`;
+          box.innerHTML = `<h2 style="color:var(--accent-gold); font-size:2.2rem; font-family:'Urbanist', sans-serif; margin:10px 0;">${current.subject}</h2>
+                           <p style="font-size:1.1rem; color:var(--text-main);">${current.start} - ${current.end}</p>
                            ${linkHTML}`;
         } else {
-          box.innerHTML = `<p style="color:var(--text-body);">Saat ini tidak ada jam pelajaran.<br>Waktu: ${today}, ${timeStr}</p>`;
+          box.innerHTML = `<p style="color:var(--text-body); font-size:1.1rem;">Saat ini sedang jam istirahat / tidak ada jam pelajaran.<br><span style="font-size:0.9rem; margin-top:8px; display:block;">Waktu Sistem: ${today}, ${timeStr}</span></p>`;
         }
       }
       setInterval(checkLiveClass, 60000);
       checkLiveClass();
 
-      // Render Tabel & Kartu Guru
-      let tbHtml = '<table class="schedule-table"><tr><th>Hari</th><th>Jam</th><th>Mapel</th></tr>';
+      // Render Tabel Jadwal
+      let tbHtml = '<table class="schedule-table"><tr><th>Hari</th><th>Jam</th><th>Mata Pelajaran</th></tr>';
       jadwal.forEach(j => {
         let name = links[j.subject] ? `<a href="${links[j.subject]}" target="_blank" class="interactive" style="color:var(--accent-blue); font-weight:700; text-decoration:none;">${j.subject}</a>` : j.subject;
-        tbHtml += `<tr><td>${j.day}</td><td>${j.start}-${j.end}</td><td>${name}</td></tr>`;
+        tbHtml += `<tr><td style="font-weight:600;">${j.day}</td><td>${j.start} - ${j.end}</td><td>${name}</td></tr>`;
       });
       document.getElementById("schedule-table-container").innerHTML = tbHtml + "</table>";
 
+      // Render Grid Web Guru
       let gridHtml = '';
       for(let subj in links) {
         gridHtml += `<a href="${links[subj]}" target="_blank" class="teacher-card interactive">${subj}</a>`;
