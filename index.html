@@ -206,9 +206,7 @@
       transform: scale(1.06);
     }
 
-    /* =========================================================
-       HEADER NAMA: FONT URBANIST (LUWES, ENAK DILIHAT, ESTETIK)
-    ========================================================= */
+    /* HEADER NAMA: FONT URBANIST */
     .hero-name-banner {
       text-align: center;
       padding: 20px 16px 36px;
@@ -222,7 +220,6 @@
       line-height: 1.15;
       text-transform: none;
       
-      /* Gradien Halus Bergerak */
       background: linear-gradient(
         120deg,
         #ffffff 0%,
@@ -235,8 +232,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: auroraFlow 7s ease-in-out infinite alternate;
-
-      /* Efek Cahaya Halus, Tidak Silau */
       filter: drop-shadow(0 2px 14px rgba(147, 197, 253, 0.45));
     }
 
@@ -404,6 +399,7 @@
       gap: 8px;
       backdrop-filter: blur(14px);
       box-shadow: var(--shadow-card);
+      flex-wrap: wrap; /* Support for multiple tabs */
     }
 
     .nav-tab {
@@ -420,6 +416,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      min-width: 100px;
     }
     .nav-tab:hover {
       color: var(--text-main);
@@ -622,13 +619,114 @@
       line-height: 1.45;
     }
 
+    /* ------------------------------------------
+       JADWAL PELAJARAN (NEW STYLES)
+    ------------------------------------------- */
+    .current-schedule-box {
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid var(--pastel-blue-bright);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
+    }
+    .current-schedule-box h4 {
+      font-size: 1.15rem;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .current-schedule-box p {
+      font-size: 0.95rem;
+      color: var(--text-body);
+    }
+    .btn-schedule {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      background: var(--pastel-blue-bright);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-schedule:hover {
+      background: var(--pastel-pink);
+      transform: translateY(-2px);
+    }
+
+    .schedule-table-wrap {
+      overflow-x: auto;
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+    }
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 400px;
+    }
+    .schedule-table th, .schedule-table td {
+      border-bottom: 1px solid var(--card-border);
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+    .schedule-table th {
+      background: var(--pastel-blue-soft);
+      color: var(--text-main);
+      font-weight: 700;
+    }
+    .schedule-table td {
+      color: var(--text-body);
+    }
+    .schedule-table tr:last-child td {
+      border-bottom: none;
+    }
+    .schedule-link {
+      color: var(--pastel-blue-bright);
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+    .schedule-link:hover {
+      text-decoration: underline;
+      color: var(--pastel-pink);
+    }
+
+    .teacher-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+    }
+    .teacher-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 14px;
+      border-radius: 12px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .teacher-card:hover {
+      background: var(--pastel-blue-soft);
+      border-color: var(--pastel-blue-bright);
+      transform: translateY(-2px);
+      color: var(--pastel-blue-bright);
+    }
+
     /* Contact */
     .quick-copy {
       display: flex;
       gap: 10px;
       margin: 16px 0 6px;
     }
-
     .quick-copy input {
       flex: 1;
       background: rgba(0, 0, 0, 0.25);
@@ -639,7 +737,6 @@
       font-size: 0.9rem;
       outline: none;
     }
-
     .primary-btn {
       background: var(--pastel-blue-bright);
       color: #fff;
@@ -683,7 +780,7 @@
 </head>
 <body>
 
-  <!-- Kursor Lucu Elemen DOM -->
+  <!-- Kursor Lucu -->
   <div class="custom-cursor-dot" id="cursorDot"></div>
   <div class="custom-cursor-ring" id="cursorRing"></div>
 
@@ -704,7 +801,7 @@
       </button>
     </header>
 
-    <!-- HEADER UTAMA DENGAN FONT URBANIST MODERN -->
+    <!-- HEADER UTAMA -->
     <section class="hero-name-banner">
       <h1 class="aurora-title">
         Keenan Clio Adiwinata <span class="mandarin-char">(黄錫豪)</span>
@@ -714,12 +811,13 @@
       </p>
     </section>
 
-    <!-- MAIN FULLSCREEN GRID -->
+    <!-- MAIN GRID -->
     <div class="main-grid-layout">
 
-      <!-- Kolom Kiri: Profil & Stat Ringkas -->
+      <!-- Kolom Kiri -->
       <aside class="profile-sidebar">
         <div class="avatar-container">
+          <!-- Ganti foto disini -->
           <img src="profile.jpeg" alt="Keenan Clio Adiwinata" class="avatar-photo" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
         </div>
 
@@ -727,7 +825,6 @@
           Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
         </p>
 
-        <!-- 3 Pilar Metrik -->
         <div class="metrics-strip">
           <div class="metric-cell">
             <span class="metric-num"><i class="fa-solid fa-square-root-variable"></i></span>
@@ -745,7 +842,6 @@
           </div>
         </div>
 
-        <!-- Social Icons -->
         <div class="social-row">
           <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="social-link interactive-target" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
           <a href="mailto:keenanclio12@gmail.com" class="social-link interactive-target" title="Email"><i class="fa-solid fa-envelope"></i></a>
@@ -753,7 +849,7 @@
         </div>
       </aside>
 
-      <!-- Kolom Kanan: Tab Navigasi & Konten Interaktif -->
+      <!-- Kolom Kanan -->
       <main class="content-workspace">
 
         <!-- Navigation Tabs -->
@@ -761,6 +857,12 @@
           <button class="nav-tab active interactive-target" data-tab="links">
             <i class="fa-solid fa-link"></i> Portofolio
           </button>
+          
+          <!-- TAB BARU: JADWAL -->
+          <button class="nav-tab interactive-target" data-tab="jadwal">
+            <i class="fa-solid fa-calendar-days"></i> Jadwal
+          </button>
+          
           <button class="nav-tab interactive-target" data-tab="about">
             <i class="fa-solid fa-user-tie"></i> Profil
           </button>
@@ -775,7 +877,6 @@
         <!-- TAB 1: Portofolio -->
         <div class="tab-panel active" id="tab-links">
           <div class="cards-list">
-
             <a href="#" class="portfolio-card interactive-target" style="background: linear-gradient(135deg, rgba(30, 58, 102, 0.6), rgba(20, 34, 61, 0.85)); border-color: rgba(96, 165, 250, 0.35);">
               <div class="card-lead-icon"><i class="fa-solid fa-chart-pie"></i></div>
               <div class="card-details">
@@ -785,7 +886,6 @@
               </div>
               <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
             </a>
-
             <a href="#" class="portfolio-card interactive-target">
               <div class="card-lead-icon"><i class="fa-solid fa-square-root-variable"></i></div>
               <div class="card-details">
@@ -794,7 +894,6 @@
               </div>
               <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
             </a>
-
             <a href="#" class="portfolio-card interactive-target">
               <div class="card-lead-icon"><i class="fa-solid fa-book-open"></i></div>
               <div class="card-details">
@@ -803,7 +902,6 @@
               </div>
               <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
             </a>
-
             <a href="#" class="portfolio-card interactive-target">
               <div class="card-lead-icon"><i class="fa-solid fa-basketball"></i></div>
               <div class="card-details">
@@ -812,11 +910,33 @@
               </div>
               <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
             </a>
-
           </div>
         </div>
 
-        <!-- TAB 2: Profil & Tentang Saya -->
+        <!-- TAB 2: Jadwal Pelajaran & Web Guru -->
+        <div class="tab-panel" id="tab-jadwal">
+          <div class="glass-container">
+            <!-- Sesi 1: Jadwal Saat Ini -->
+            <h3 class="block-title"><i class="fa-solid fa-clock" style="color: #60a5fa;"></i> Jadwal Saat Ini</h3>
+            <div id="current-schedule" class="current-schedule-box">
+               <!-- Injeksi JS -->
+            </div>
+
+            <!-- Sesi 2: Tabel Seluruh Mapel XI-2 -->
+            <h3 class="block-title" style="margin-top:32px;"><i class="fa-solid fa-calendar-week" style="color: #60a5fa;"></i> Jadwal Kelas XI-2</h3>
+            <div id="schedule-table-container">
+               <!-- Injeksi JS -->
+            </div>
+
+            <!-- Sesi 3: Daftar Link Seluruh Guru -->
+            <h3 class="block-title" style="margin-top:32px;"><i class="fa-solid fa-globe" style="color: #60a5fa;"></i> Website Guru</h3>
+            <div class="teacher-grid" id="teacher-links-grid">
+               <!-- Injeksi JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: Profil -->
         <div class="tab-panel" id="tab-about">
           <div class="glass-container">
             <h3 class="block-title"><i class="fa-solid fa-compass" style="color: #60a5fa;"></i> Tentang Saya</h3>
@@ -840,7 +960,7 @@
           </div>
         </div>
 
-        <!-- TAB 3: Rekam Jejak / Pencapaian -->
+        <!-- TAB 4: Rekam Jejak -->
         <div class="tab-panel" id="tab-achievements">
           <div class="filter-wrapper">
             <button class="filter-chip active interactive-target" data-filter="all">Semua</button>
@@ -848,7 +968,6 @@
             <button class="filter-chip interactive-target" data-filter="olahraga">Olahraga</button>
             <button class="filter-chip interactive-target" data-filter="proyek">Proyek</button>
           </div>
-
           <div class="timeline-list">
             <div class="timeline-entry" data-category="akademik">
               <div class="timeline-badge" style="background: rgba(96, 165, 250, 0.15); color: #60a5fa;">
@@ -860,7 +979,6 @@
                 <p>Berlatih dan berpartisipasi dalam pemecahan masalah analitis serta logika tingkat sekolah menengah.</p>
               </div>
             </div>
-
             <div class="timeline-entry" data-category="olahraga">
               <div class="timeline-badge" style="background: rgba(251, 146, 60, 0.15); color: #fb923c;">
                 <i class="fa-solid fa-basketball"></i>
@@ -871,7 +989,6 @@
                 <p>Menjadi bagian dari tim sekolah, melatih kedisiplinan taktik permainan, dan menjaga kebugaran fisik rutin.</p>
               </div>
             </div>
-
             <div class="timeline-entry" data-category="proyek">
               <div class="timeline-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
                 <i class="fa-solid fa-flask"></i>
@@ -885,7 +1002,7 @@
           </div>
         </div>
 
-        <!-- TAB 4: Kontak -->
+        <!-- TAB 5: Kontak -->
         <div class="tab-panel" id="tab-contact">
           <div class="glass-container">
             <h3 class="block-title"><i class="fa-solid fa-paper-plane" style="color: #60a5fa;"></i> Hubungi Saya</h3>
@@ -915,15 +1032,207 @@
     <footer class="screen-footer">
       <p>© <span id="currentYear"></span> • Portofolio & Profil Pribadi</p>
     </footer>
-
   </div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- FIREBASE CONFIG & MODULES -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsmRv3gSSxsyLF07jmy3VMWHmvQbIJfJg",
+      authDomain: "keenan-web.firebaseapp.com",
+      projectId: "keenan-web",
+      storageBucket: "keenan-web.firebasestorage.app",
+      messagingSenderId: "205196073414",
+      appId: "1:205196073414:web:2eb91a134c502bd1dcbac7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Integrasi Form Kontak WhatsApp + Firebase Backup
+    const contactForm = document.getElementById("contactForm");
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("contactName").value;
+      const msg = document.getElementById("contactMsg").value;
+
+      try {
+        await addDoc(collection(db, "contact_messages"), {
+          name: name,
+          message: msg,
+          timestamp: serverTimestamp()
+        });
+      } catch (e) {
+        console.error("Error saving message: ", e);
+      }
+
+      // Alihkan ke WA
+      const waUrl = `https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo%20Keenan,%20saya%20${encodeURIComponent(name)}.%20${encodeURIComponent(msg)}`;
+      window.open(waUrl, "_blank");
+    });
+  </script>
+
+  <!-- JAVASCRIPT LOGIC (Kursor, Tabs, Jadwal XI-2) -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("currentYear").textContent = new Date().getFullYear();
 
-      // 1. Logika Kursor Lucu & Trail Partikel
+      // 1. DATA JADWAL KELAS XI-2 & LINK WEB GURU
+      const subjectLinks = {
+        "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
+        "PKN": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
+        "B.INDONESIA": "https://sites.google.com/cintakasihtzuchi.sch.id/rulymedianamanurungspd/bio",
+        "INGGRIS": "https://sites.google.com/view/tibisatibi/home?authuser=0",
+        "INGGRIS LANJUT": "https://sites.google.com/view/tibisatibi/home?authuser=0",
+        "MANDARIN": "https://sites.google.com/cintakasihtzuchi.sch.id/laoshi-mul?usp=sharing",
+        "MAT WAJIB": "https://sites.google.com/cintakasihtzuchi.sch.id/sma-cinta-kasih-tzu-chi/profil?authuser=0",
+        "SENI BUDAYA": "https://sites.google.com/cintakasihtzuchi.sch.id/senibudaya",
+        "B.HUMANIS": "https://sites.google.com/cintakasihtzuchi.sch.id/iriwatyjaputra?usp=sharing",
+        "FISIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/sartikalumbantoruan/bio?authuser=0",
+        "KIMIA": "https://sites.google.com/cintakasihtzuchi.sch.id/chem-is-try/kimia/materi?authuser=0",
+        "GEOGRAFI": "https://sites.google.com/cintakasihtzuchi.sch.id/nurfajarsidikweb/lesson-materi-ajar/geography?authuser=0",
+        "SEJARAH": "https://sites.google.com/cintakasihtzuchi.sch.id/nurfajarsidikweb/lesson-materi-ajar/history?authuser=0",
+        "INFORMATIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/informatics"
+      };
+
+      const fullSchedule = [
+        { day: "SENIN", start: "06:30", end: "07:30", subject: "UPACARA/WALIKELAS" },
+        { day: "SENIN", start: "07:30", end: "08:15", subject: "GEOGRAFI" },
+        { day: "SENIN", start: "08:15", end: "09:00", subject: "GEOGRAFI" },
+        { day: "SENIN", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
+        { day: "SENIN", start: "09:30", end: "10:10", subject: "MANDARIN" },
+        { day: "SENIN", start: "10:10", end: "10:50", subject: "MANDARIN" },
+        { day: "SENIN", start: "10:50", end: "11:30", subject: "B.INDONESIA" },
+        { day: "SENIN", start: "11:30", end: "12:10", subject: "BUDI PEKERTI" },
+        { day: "SENIN", start: "12:10", end: "12:40", subject: "ISTIRAHAT" },
+        { day: "SENIN", start: "12:40", end: "13:20", subject: "B.HUMANIS" },
+        { day: "SENIN", start: "13:20", end: "14:00", subject: "INGGRIS LANJUT" },
+        { day: "SENIN", start: "14:00", end: "14:40", subject: "INGGRIS LANJUT" },
+        { day: "SELASA", start: "06:30", end: "06:45", subject: "PEMBIASAAN" },
+        { day: "SELASA", start: "06:45", end: "07:30", subject: "AGAMA" },
+        { day: "SELASA", start: "07:30", end: "08:15", subject: "AGAMA" },
+        { day: "SELASA", start: "08:15", end: "09:00", subject: "PKN" },
+        { day: "SELASA", start: "09:00", end: "09:45", subject: "PKN" },
+        { day: "SELASA", start: "09:45", end: "10:05", subject: "ISTIRAHAT" },
+        { day: "SELASA", start: "10:05", end: "10:50", subject: "INGGRIS LANJUT" },
+        { day: "SELASA", start: "10:50", end: "11:35", subject: "INGGRIS LANJUT" },
+        { day: "SELASA", start: "11:35", end: "12:00", subject: "ISTIRAHAT" },
+        { day: "SELASA", start: "12:00", end: "12:40", subject: "B.INDONESIA" },
+        { day: "SELASA", start: "12:40", end: "13:20", subject: "B.INDONESIA" },
+        { day: "SELASA", start: "13:20", end: "14:00", subject: "FISIKA" },
+        { day: "SELASA", start: "14:00", end: "14:30", subject: "FISIKA" },
+        { day: "RABU", start: "06:30", end: "06:45", subject: "PEMBIASAAN" },
+        { day: "RABU", start: "06:45", end: "07:30", subject: "MAT WAJIB" },
+        { day: "RABU", start: "07:30", end: "08:15", subject: "MAT WAJIB" },
+        { day: "RABU", start: "08:15", end: "09:00", subject: "MANDARIN" },
+        { day: "RABU", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
+        { day: "RABU", start: "09:30", end: "10:10", subject: "MANDARIN" },
+        { day: "RABU", start: "10:10", end: "10:50", subject: "INFORMATIKA" },
+        { day: "RABU", start: "10:50", end: "11:30", subject: "INFORMATIKA" },
+        { day: "RABU", start: "11:30", end: "12:10", subject: "KOKURIKULER" },
+        { day: "RABU", start: "12:10", end: "12:40", subject: "ISTIRAHAT" },
+        { day: "RABU", start: "12:40", end: "13:20", subject: "GEOGRAFI" },
+        { day: "RABU", start: "13:20", end: "14:00", subject: "GEOGRAFI" },
+        { day: "RABU", start: "14:00", end: "14:40", subject: "KIMIA" },
+        { day: "RABU", start: "14:40", end: "15:20", subject: "KIMIA" },
+        { day: "KAMIS", start: "06:30", end: "06:45", subject: "PEMBIASAAN" },
+        { day: "KAMIS", start: "06:45", end: "07:30", subject: "FISIKA" },
+        { day: "KAMIS", start: "07:30", end: "08:15", subject: "FISIKA" },
+        { day: "KAMIS", start: "08:15", end: "09:00", subject: "PJOK" },
+        { day: "KAMIS", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
+        { day: "KAMIS", start: "09:30", end: "10:15", subject: "PJOK" },
+        { day: "KAMIS", start: "10:15", end: "11:00", subject: "KIMIA" },
+        { day: "KAMIS", start: "11:00", end: "11:45", subject: "KIMIA" },
+        { day: "KAMIS", start: "11:45", end: "12:30", subject: "ISTIRAHAT" },
+        { day: "KAMIS", start: "12:30", end: "13:15", subject: "INGGRIS" },
+        { day: "KAMIS", start: "13:15", end: "13:55", subject: "INGGRIS" },
+        { day: "KAMIS", start: "13:55", end: "14:35", subject: "INGGRIS" },
+        { day: "KAMIS", start: "14:35", end: "15:15", subject: "B. KONSELING" },
+        { day: "JUMAT", start: "06:30", end: "07:15", subject: "PEMBIASAAN" },
+        { day: "JUMAT", start: "07:15", end: "08:00", subject: "SENI BUDAYA" },
+        { day: "JUMAT", start: "08:00", end: "08:45", subject: "SENI BUDAYA" },
+        { day: "JUMAT", start: "08:45", end: "09:15", subject: "ISTIRAHAT" },
+        { day: "JUMAT", start: "09:15", end: "10:00", subject: "MAT WAJIB" },
+        { day: "JUMAT", start: "10:00", end: "10:45", subject: "SEJARAH" },
+        { day: "JUMAT", start: "10:45", end: "11:30", subject: "SEJARAH" },
+        { day: "JUMAT", start: "11:30", end: "12:30", subject: "ISTIRAHAT" },
+        { day: "JUMAT", start: "12:30", end: "13:00", subject: "ISTIRAHAT/KEGIATAN" },
+        { day: "JUMAT", start: "13:00", end: "13:45", subject: "INFORMATIKA" },
+        { day: "JUMAT", start: "13:45", end: "14:30", subject: "INFORMATIKA" }
+      ];
+
+      // 2. LOGIKA JADWAL LIVE (Deteksi Hari & Waktu)
+      function updateCurrentSchedule() {
+        const now = new Date();
+        const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
+        const currentDay = days[now.getDay()];
+        
+        const currentHour = now.getHours().toString().padStart(2, '0');
+        const currentMin = now.getMinutes().toString().padStart(2, '0');
+        const currentTime = `${currentHour}:${currentMin}`;
+        
+        const todaySchedule = fullSchedule.filter(item => item.day === currentDay);
+        let currentSubject = null;
+        
+        for (let item of todaySchedule) {
+          if (currentTime >= item.start && currentTime < item.end) {
+            currentSubject = item;
+            break;
+          }
+        }
+        
+        const box = document.getElementById("current-schedule");
+        if (!currentSubject) {
+          box.innerHTML = `<h4>Status: Sedang tidak ada kelas</h4>
+                           <p>Waktu saat ini: ${currentTime} (${currentDay})</p>`;
+        } else {
+          let link = subjectLinks[currentSubject.subject];
+          if (link) {
+            box.innerHTML = `<h4>Pelajaran Saat Ini: <span style="color:var(--pastel-pink);">${currentSubject.subject}</span></h4>
+                             <p>Jam: ${currentSubject.start} - ${currentSubject.end}</p>
+                             <a href="${link}" target="_blank" class="btn-schedule interactive-target"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Web Guru</a>`;
+          } else {
+            box.innerHTML = `<h4>Pelajaran Saat Ini: <span style="color:var(--pastel-pink);">${currentSubject.subject}</span></h4>
+                             <p>Jam: ${currentSubject.start} - ${currentSubject.end}</p>
+                             <span style="font-size:0.8rem; color:var(--text-muted); display:block; margin-top:8px;">(Web Guru tidak tersedia)</span>`;
+          }
+        }
+      }
+      setInterval(updateCurrentSchedule, 60000); // Update setiap 1 menit
+      updateCurrentSchedule();
+
+      // 3. GENERATE TABEL JADWAL MINGGUAN (HTML via JS)
+      const tableContainer = document.getElementById('schedule-table-container');
+      let tableHtml = '';
+      const daysOfWeek = ['SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT'];
+
+      daysOfWeek.forEach(day => {
+        tableHtml += `<h4 style="margin-top:16px; color:var(--pastel-blue-bright); font-size:1rem;">Hari ${day}</h4>`;
+        tableHtml += `<div class="schedule-table-wrap"><table class="schedule-table"><tr><th style="width:130px;">Waktu</th><th>Mata Pelajaran</th></tr>`;
+        const dayItems = fullSchedule.filter(i => i.day === day);
+        dayItems.forEach(item => {
+          let subjectDisplay = item.subject;
+          if(subjectLinks[item.subject]) {
+            subjectDisplay = `<a href="${subjectLinks[item.subject]}" target="_blank" class="schedule-link interactive-target">${item.subject}</a>`;
+          }
+          tableHtml += `<tr><td>${item.start} - ${item.end}</td><td>${subjectDisplay}</td></tr>`;
+        });
+        tableHtml += `</table></div>`;
+      });
+      tableContainer.innerHTML = tableHtml;
+
+      // 4. GENERATE TOMBOL WEB GURU
+      const grid = document.getElementById('teacher-links-grid');
+      let gridHtml = '';
+      for(let subject in subjectLinks) {
+        gridHtml += `<a href="${subjectLinks[subject]}" target="_blank" class="teacher-card interactive-target">${subject}</a>`;
+      }
+      grid.innerHTML = gridHtml;
+
+
+      // 5. Logika Kursor Lucu & Trail Partikel
       const cursorDot = document.getElementById("cursorDot");
       const cursorRing = document.getElementById("cursorRing");
       const sparkleIcons = ["✦", "★", "✧", "🏀", "•", "✨"];
@@ -935,11 +1244,9 @@
 
         cursorDot.style.left = `${x}px`;
         cursorDot.style.top = `${y}px`;
-
         cursorRing.style.left = `${x}px`;
         cursorRing.style.top = `${y}px`;
 
-        // Buat partikel lucu saat mouse digerakkan
         const now = Date.now();
         if (now - lastSparkleTime > 60) {
           createSparkle(x, y);
@@ -974,7 +1281,7 @@
         target.addEventListener("mouseleave", () => document.body.classList.remove("cursor-active"));
       });
 
-      // 2. Tab Navigasi
+      // 6. Tab Navigasi Dasar
       const navTabs = document.querySelectorAll(".nav-tab");
       const tabPanels = document.querySelectorAll(".tab-panel");
 
@@ -992,10 +1299,9 @@
         });
       });
 
-      // 3. Toggle Mode (Gelap / Terang)
+      // 7. Toggle Mode Gelap / Terang
       const themeToggle = document.getElementById("themeToggle");
       const themeIcon = themeToggle.querySelector("i");
-
       themeToggle.addEventListener("click", () => {
         document.body.classList.toggle("light-mode");
         if (document.body.classList.contains("light-mode")) {
@@ -1005,49 +1311,15 @@
         }
       });
 
-      // 4. Filter Kategori Rekam Jejak
-      const filterChips = document.querySelectorAll(".filter-chip");
-      const timelineEntries = document.querySelectorAll(".timeline-entry");
-
-      filterChips.forEach((chip) => {
-        chip.addEventListener("click", () => {
-          filterChips.forEach((c) => c.classList.remove("active"));
-          chip.classList.add("active");
-
-          const category = chip.dataset.filter;
-          timelineEntries.forEach((entry) => {
-            if (category === "all" || entry.dataset.category === category) {
-              entry.style.display = "flex";
-            } else {
-              entry.style.display = "none";
-            }
-          });
-        });
-      });
-
-      // 5. Salin Email
+      // 8. Copy Email
       const copyEmailBtn = document.getElementById("copyEmailBtn");
       const userEmail = document.getElementById("userEmail");
       const copyFeedback = document.getElementById("copyFeedback");
-
       copyEmailBtn.addEventListener("click", () => {
         navigator.clipboard.writeText(userEmail.value).then(() => {
           copyFeedback.textContent = "✓ Email berhasil disalin!";
-          setTimeout(() => {
-            copyFeedback.textContent = "";
-          }, 3000);
+          setTimeout(() => { copyFeedback.textContent = ""; }, 3000);
         });
-      });
-
-      // 6. Formulir WhatsApp
-      const contactForm = document.getElementById("contactForm");
-      contactForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const name = encodeURIComponent(document.getElementById("contactName").value);
-        const msg = encodeURIComponent(document.getElementById("contactMsg").value);
-
-        const waUrl = `https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo%20Keenan,%20saya%20${name}.%20${msg}`;
-        window.open(waUrl, "_blank");
       });
     });
   </script>
