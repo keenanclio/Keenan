@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" style="scroll-behavior: smooth;">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,30 +15,21 @@
 
   <style>
     /* ==========================================
-       HILANGKAN KURSOR PANAH PUTIH SECARA TOTAL
-    ========================================== */
-    *, *::before, *::after {
-      cursor: none !important;
-      box-sizing: border-box;
-    }
-
-    /* ==========================================
-       WARNA TEMA: DEEP OCEAN & SKY PASTEL
+       WARNA TEMA: DEEP NAVY & YELLOW AMBER
     ========================================== */
     :root {
-      --bg-color: #0b1121;
-      --nav-bg: rgba(11, 17, 33, 0.85);
-      --card-bg: rgba(21, 30, 50, 0.6);
-      --card-border: rgba(56, 189, 248, 0.15);
+      --bg-color: #071122; /* Biru sangat gelap */
+      --nav-bg: rgba(7, 17, 34, 0.85);
+      --card-bg: rgba(15, 28, 54, 0.65);
+      --card-border: rgba(250, 204, 21, 0.2); /* Kuning transparan */
       
       --text-main: #f8fafc;
       --text-body: #94a3b8;
       
-      --accent-blue: #38bdf8;
-      --accent-indigo: #818cf8;
-      --accent-orange: #fb923c;
+      --accent-yellow: #facc15; /* Kuning utama */
+      --accent-blue: #38bdf8; /* Biru terang pelengkap */
       
-      --shadow-3d: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+      --shadow-3d: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
     }
 
     body {
@@ -48,73 +39,104 @@
       margin: 0;
       padding: 0;
       overflow-x: hidden;
-      min-height: 100vh;
+      
+      /* Background Pola Dots / Grid Halus */
+      background-image: radial-gradient(rgba(56, 189, 248, 0.08) 1.5px, transparent 1.5px);
+      background-size: 30px 30px;
     }
 
     /* ==========================================
-       KURSOR KUSTOM (BASKET & SPARKLES)
+       KURSOR KUSTOM (KHUSUS LAPTOP/PC)
     ========================================== */
-    .cursor-dot {
-      position: fixed;
-      top: 0; left: 0;
-      width: 8px; height: 8px;
-      background: var(--accent-blue);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 10px var(--accent-blue);
-      transition: width 0.2s, height 0.2s, background 0.2s;
+    @media (hover: hover) and (pointer: fine) {
+      *, *::before, *::after {
+        cursor: none !important; /* Hilangkan panah putih */
+      }
+      
+      .cursor-dot {
+        position: fixed;
+        top: 0; left: 0;
+        width: 24px; height: 24px;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        transition: transform 0.1s ease-out, opacity 0.2s;
+        animation: spinBall 4s linear infinite;
+      }
+      
+      .cursor-ring {
+        position: fixed;
+        top: 0; left: 0;
+        width: 45px; height: 45px;
+        border: 2px dashed var(--accent-yellow);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28), width 0.3s, height 0.3s, border-color 0.3s, opacity 0.2s;
+        animation: spinRing 10s linear infinite reverse;
+      }
+
+      .cursor-hover .cursor-dot {
+        transform: translate(-50%, -50%) scale(1.3);
+      }
+      .cursor-hover .cursor-ring {
+        width: 60px; height: 60px;
+        border-color: var(--accent-blue);
+        background: rgba(56, 189, 248, 0.1);
+        border-style: solid;
+      }
     }
-    .cursor-ring {
-      position: fixed;
-      top: 0; left: 0;
-      width: 36px; height: 36px;
-      border: 2px solid rgba(56, 189, 248, 0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: width 0.3s, height 0.3s, border-color 0.3s;
+
+    /* Sembunyikan kursor kustom di HP agar tidak beku */
+    @media (hover: none), (pointer: coarse) {
+      .cursor-dot, .cursor-ring, .trail-particle {
+        display: none !important;
+      }
     }
-    .cursor-hover .cursor-dot {
-      width: 12px; height: 12px;
-      background: var(--accent-orange);
-      box-shadow: 0 0 15px var(--accent-orange);
+
+    @keyframes spinBall {
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
-    .cursor-hover .cursor-ring {
-      width: 50px; height: 50px;
-      border-color: var(--accent-orange);
-      background: rgba(251, 146, 60, 0.1);
+    @keyframes spinRing {
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
+
     .trail-particle {
       position: fixed;
       pointer-events: none;
       z-index: 9997;
-      font-size: 16px;
-      animation: floatParticle 0.8s forwards ease-out;
+      font-size: 14px;
+      animation: floatParticle 0.7s forwards ease-out;
     }
     @keyframes floatParticle {
       0% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
-      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(90deg); }
-    }
-
-    /* Ambient Glow */
-    .ambient-glow {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(140px);
-      z-index: -1;
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(90deg); }
     }
 
     /* ==========================================
-       NAVBAR (STICKY ON TOP) & HAMBURGER
+       AMBIENT GLOW BACKGROUND
+    ========================================== */
+    .ambient-glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(150px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ==========================================
+       NAVBAR (STICKY ON TOP)
     ========================================== */
     .navbar {
       position: fixed;
       top: 0; left: 0; width: 100%;
       background: var(--nav-bg);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--card-border);
       z-index: 1000;
       display: flex;
@@ -125,107 +147,106 @@
     }
     .nav-brand {
       font-family: 'Urbanist', sans-serif;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 800;
       color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      text-decoration: none;
     }
-    .nav-brand span { color: var(--accent-blue); }
+    .nav-brand span { color: var(--accent-yellow); }
     
     .nav-links {
       display: flex;
-      gap: 24px;
+      gap: 16px;
     }
     .nav-btn {
-      background: transparent;
-      border: none;
+      text-decoration: none;
       color: var(--text-body);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 10px 16px;
+      border-radius: 10px;
       transition: all 0.3s;
     }
     .nav-btn:hover, .nav-btn.active {
-      color: var(--accent-blue);
-      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent-yellow);
+      background: rgba(250, 204, 21, 0.1);
     }
 
     /* Hamburger Menu */
     .hamburger {
       display: none;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
       background: transparent;
       border: none;
+      cursor: pointer;
     }
     .hamburger span {
-      width: 24px; height: 3px;
+      width: 26px; height: 3px;
       background: var(--text-main);
       border-radius: 3px;
       transition: 0.3s;
     }
 
     /* ==========================================
-       STRUKTUR HALAMAN & TRANSISI
+       STRUKTUR HALAMAN
     ========================================== */
     .page-container {
-      margin-top: 80px; /* Jarak untuk navbar */
-      padding: 40px 20px;
       max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
+    /* Jarak section agar tidak tertutup navbar saat discroll */
     .page-section {
-      display: none; /* Sembunyikan semua halaman */
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    .page-section.active {
-      display: block;
-      animation: pageIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    @keyframes pageIn {
-      to { opacity: 1; transform: translateY(0); }
+      padding-top: 100px; 
+      padding-bottom: 40px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     /* ==========================================
-       KOMPONEN 3D HOVER CARDS
+       KOMPONEN 3D HOVER (DIPERHALUS)
     ========================================== */
     .card-3d {
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      border: 1px solid rgba(56, 189, 248, 0.15); /* Border biru redup */
       border-radius: 24px;
       padding: 30px;
       backdrop-filter: blur(16px);
       box-shadow: var(--shadow-3d);
       transform-style: preserve-3d;
       will-change: transform;
-      transition: border-color 0.3s;
+      transition: border-color 0.4s, transform 0.1s; /* Transisi diperhalus */
     }
     .card-3d:hover {
-      border-color: var(--accent-blue);
+      border-color: var(--accent-yellow);
     }
 
-    /* Typography & Utilities */
+    /* Typography */
     .title-glow {
       font-family: 'Urbanist', sans-serif;
       font-size: clamp(2.5rem, 6vw, 4rem);
       font-weight: 800;
-      background: linear-gradient(135deg, #fff, var(--accent-blue), var(--accent-indigo));
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-yellow), #fff);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 15px rgba(56,189,248,0.4));
-      margin-bottom: 10px;
+      animation: gradientFlow 5s linear infinite alternate;
+      filter: drop-shadow(0 0 15px rgba(250, 204, 21, 0.3));
+      margin-bottom: 15px;
+    }
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
     }
     .section-title {
       font-family: 'Urbanist', sans-serif;
-      font-size: 1.8rem;
+      font-size: 2rem;
       color: var(--text-main);
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -237,7 +258,6 @@
       grid-template-columns: 1fr 1fr;
       gap: 40px;
       align-items: center;
-      min-height: 70vh;
     }
     .hero-img-box {
       width: 100%;
@@ -246,8 +266,8 @@
       border-radius: 30px;
       overflow: hidden;
       margin: 0 auto;
-      border: 2px solid var(--accent-blue);
-      box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+      border: 2px solid var(--accent-yellow);
+      box-shadow: 0 0 30px rgba(250, 204, 21, 0.2);
     }
     .hero-img-box img {
       width: 100%; height: 100%; object-fit: cover;
@@ -264,7 +284,7 @@
       color: var(--text-main);
     }
     .schedule-table th, .schedule-table td {
-      padding: 12px; border-bottom: 1px solid var(--card-border); text-align: left;
+      padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left;
     }
     .teacher-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;
@@ -276,12 +296,14 @@
       text-align: center; color: var(--text-main); text-decoration: none;
       transition: 0.3s;
     }
-    .teacher-card:hover { background: var(--accent-blue); color: #fff; transform: translateY(-5px); }
+    .teacher-card:hover { 
+      background: var(--accent-yellow); color: #000; transform: translateY(-5px); 
+    }
 
     /* List Portofolio */
     .port-list { display: flex; flex-direction: column; gap: 20px; }
     .port-item {
-      display: flex; gap: 20px; align-items: center;
+      display: flex; gap: 20px; align-items: center; text-decoration: none;
     }
     .port-icon {
       width: 60px; height: 60px; border-radius: 16px;
@@ -289,62 +311,64 @@
       display: flex; justify-content: center; align-items: center; font-size: 1.8rem;
     }
 
-    /* Media Queries (Responsive Navbar & Layout) */
+    /* Media Queries (Responsive) */
     @media (max-width: 768px) {
       .navbar { padding: 16px 20px; }
       .hamburger { display: flex; }
       .nav-links {
-        position: fixed; top: 70px; right: -100%;
+        position: fixed; top: 65px; right: -100%;
         flex-direction: column; background: var(--nav-bg);
-        width: 250px; height: 100vh; padding: 30px;
-        border-left: 1px solid var(--card-border);
-        transition: 0.4s;
+        width: 100%; height: calc(100vh - 65px); padding: 30px;
+        border-top: 1px solid var(--card-border);
+        transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
       }
       .nav-links.show { right: 0; }
       .hero-grid, .jadwal-grid { grid-template-columns: 1fr; }
+      .hero-text { text-align: center; }
+      .hero-text div { justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- KURSOR KUSTOM -->
-  <div class="cursor-dot" id="cursorDot"></div>
+  <!-- KURSOR KUSTOM (Disembunyikan otomatis di HP via CSS) -->
+  <div class="cursor-dot" id="cursorDot">🏀</div>
   <div class="cursor-ring" id="cursorRing"></div>
 
   <!-- AMBIENT BACKGROUND -->
-  <div class="ambient-glow" style="width:500px; height:500px; background:rgba(56,189,248,0.1); top:-100px; left:-100px;"></div>
-  <div class="ambient-glow" style="width:400px; height:400px; background:rgba(129,140,248,0.1); bottom:-50px; right:-50px;"></div>
+  <div class="ambient-glow" style="width:500px; height:500px; background:rgba(56,189,248,0.15); top:-50px; left:-100px;"></div>
+  <div class="ambient-glow" style="width:600px; height:600px; background:rgba(250,204,21,0.1); bottom:-100px; right:-150px;"></div>
 
   <!-- NAVBAR STICKY -->
   <nav class="navbar">
-    <div class="nav-brand interactive">Keenan<span>.</span></div>
+    <a href="#home" class="nav-brand interactive">Keenan<span>.</span></a>
     <button class="hamburger interactive" id="hamburgerBtn">
       <span></span><span></span><span></span>
     </button>
     <div class="nav-links" id="navLinks">
-      <button class="nav-btn active interactive" data-target="home">Profil</button>
-      <button class="nav-btn interactive" data-target="portfolio">Portofolio</button>
-      <button class="nav-btn interactive" data-target="jadwal">Jadwal XI-2</button>
-      <button class="nav-btn interactive" data-target="contact">Kontak</button>
+      <a href="#home" class="nav-btn interactive nav-scroll">Profil</a>
+      <a href="#portfolio" class="nav-btn interactive nav-scroll">Portofolio</a>
+      <a href="#jadwal" class="nav-btn interactive nav-scroll">Jadwal XI-2</a>
+      <a href="#contact" class="nav-btn interactive nav-scroll">Kontak</a>
     </div>
   </nav>
 
   <!-- KONTEN HALAMAN -->
   <div class="page-container">
     
-    <!-- HALAMAN 1: HOME / PROFIL -->
-    <section id="home" class="page-section active">
+    <!-- SECTION 1: HOME / PROFIL -->
+    <section id="home" class="page-section">
       <div class="hero-grid">
         <div class="hero-text">
           <p style="color:var(--accent-blue); font-weight:700; letter-spacing:2px; margin-bottom:10px;">HALO, SAYA</p>
-          <h1 class="title-glow">Keenan Clio <br> Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.6em;">(黄錫豪)</span></h1>
+          <h1 class="title-glow">Keenan Clio <br> Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.6em; color:var(--text-main); filter:none;">(黄錫豪)</span></h1>
           <p style="font-size:1.1rem; line-height:1.6; margin-bottom:30px;">
             Student • Math & Logic Enthusiast • Basketball Player.<br>
             Menggabungkan ketajaman analisis matematis dengan disiplin fisik dan strategi di lapangan.
           </p>
           <div style="display:flex; gap:16px;">
-            <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="teacher-card interactive" style="padding:12px 24px;"><i class="fa-brands fa-instagram"></i> Instagram</a>
-            <button class="teacher-card interactive" style="padding:12px 24px;" onclick="document.querySelector('[data-target=\'contact\']').click()">Hubungi Saya</button>
+            <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="teacher-card interactive" style="padding:12px 24px; background:rgba(250,204,21,0.1); border-color:var(--accent-yellow); color:var(--accent-yellow);"><i class="fa-brands fa-instagram"></i> Instagram</a>
+            <a href="#contact" class="teacher-card interactive" style="padding:12px 24px; background:var(--accent-blue); color:#fff; border:none;">Hubungi Saya</a>
           </div>
         </div>
         <div class="hero-img">
@@ -355,9 +379,9 @@
       </div>
     </section>
 
-    <!-- HALAMAN 2: PORTOFOLIO -->
+    <!-- SECTION 2: PORTOFOLIO -->
     <section id="portfolio" class="page-section">
-      <h2 class="section-title"><i class="fa-solid fa-layer-group" style="color:var(--accent-blue)"></i> Portofolio & Proyek</h2>
+      <h2 class="section-title"><i class="fa-solid fa-layer-group" style="color:var(--accent-yellow)"></i> Portofolio & Proyek</h2>
       <div class="port-list">
         <a href="#" class="card-3d interactive port-item">
           <div class="port-icon"><i class="fa-solid fa-square-root-variable"></i></div>
@@ -367,14 +391,14 @@
           </div>
         </a>
         <a href="#" class="card-3d interactive port-item">
-          <div class="port-icon" style="color:var(--accent-orange); background:rgba(251,146,60,0.15);"><i class="fa-solid fa-basketball"></i></div>
+          <div class="port-icon" style="color:#000; background:var(--accent-yellow);"><i class="fa-solid fa-basketball"></i></div>
           <div>
             <h3 style="color:#fff; margin-bottom:8px;">Basketball & Team Strategy</h3>
             <p>Dokumentasi partisipasi turnamen pelajar, latihan fisik, dan analisis formasi permainan tim.</p>
           </div>
         </a>
         <a href="#" class="card-3d interactive port-item">
-          <div class="port-icon" style="color:var(--accent-indigo); background:rgba(129,140,248,0.15);"><i class="fa-solid fa-flask"></i></div>
+          <div class="port-icon" style="color:var(--accent-blue); background:rgba(56, 189, 248, 0.15);"><i class="fa-solid fa-flask"></i></div>
           <div>
             <h3 style="color:#fff; margin-bottom:8px;">Eksperimen Riset Sains</h3>
             <p>Proyek penelitian ilmiah terapan biologi/kimia serta penulisan esai kritis bertema lingkungan.</p>
@@ -383,7 +407,7 @@
       </div>
     </section>
 
-    <!-- HALAMAN 3: JADWAL KELAS XI-2 -->
+    <!-- SECTION 3: JADWAL KELAS XI-2 -->
     <section id="jadwal" class="page-section">
       <h2 class="section-title"><i class="fa-solid fa-calendar-days" style="color:var(--accent-blue)"></i> Jadwal & Modul Kelas XI-2</h2>
       
@@ -391,7 +415,7 @@
         <!-- Live Status -->
         <div>
           <div class="card-3d interactive" style="text-align:center; padding:40px 20px;">
-            <i class="fa-solid fa-clock" style="font-size:3rem; color:var(--accent-blue); margin-bottom:20px;"></i>
+            <i class="fa-solid fa-clock" style="font-size:3rem; color:var(--accent-yellow); margin-bottom:20px;"></i>
             <h3 style="color:#fff; margin-bottom:10px;">Pelajaran Saat Ini</h3>
             <div id="live-schedule-box">
               <p>Memuat jadwal waktu nyata...</p>
@@ -399,7 +423,7 @@
           </div>
         </div>
 
-        <!-- Tabel Jadwal (Di-generate via JS) -->
+        <!-- Tabel Jadwal -->
         <div class="card-3d interactive">
           <h3 style="color:#fff; margin-bottom:16px;">Tabel Jadwal Sepakan</h3>
           <div style="overflow-x:auto;">
@@ -408,41 +432,64 @@
         </div>
       </div>
 
-      <h2 class="section-title" style="margin-top:40px;"><i class="fa-solid fa-globe" style="color:var(--accent-blue)"></i> Website Modul Guru</h2>
+      <h2 class="section-title" style="margin-top:40px;"><i class="fa-solid fa-globe" style="color:var(--accent-yellow)"></i> Website Modul Guru</h2>
       <div class="teacher-grid" id="teacher-links-grid"></div>
     </section>
 
-    <!-- HALAMAN 4: KONTAK -->
+    <!-- SECTION 4: KONTAK -->
     <section id="contact" class="page-section">
-      <div class="card-3d interactive" style="max-width:600px; margin:0 auto;">
+      <div class="card-3d interactive" style="max-width:600px; margin:0 auto; width:100%;">
         <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-blue)"></i> Kirim Pesan</h2>
         <p style="margin-bottom:20px;">Silakan isi form di bawah untuk terhubung langsung melalui WhatsApp pribadi saya.</p>
         
         <form id="contactForm" style="display:flex; flex-direction:column; gap:16px;">
-          <input type="text" id="waName" placeholder="Nama Anda" required style="padding:16px; border-radius:12px; border:1px solid var(--card-border); background:rgba(0,0,0,0.2); color:#fff; font-size:1rem;">
-          <textarea id="waMsg" rows="4" placeholder="Pesan Anda..." required style="padding:16px; border-radius:12px; border:1px solid var(--card-border); background:rgba(0,0,0,0.2); color:#fff; font-size:1rem;"></textarea>
-          <button type="submit" class="interactive" style="background:var(--accent-blue); color:#fff; border:none; padding:16px; border-radius:12px; font-weight:700; font-size:1rem;">
+          <input type="text" id="waName" placeholder="Nama Anda" required style="padding:16px; border-radius:12px; border:1px solid var(--card-border); background:rgba(0,0,0,0.3); color:#fff; font-size:1rem; outline:none;">
+          <textarea id="waMsg" rows="4" placeholder="Pesan Anda..." required style="padding:16px; border-radius:12px; border:1px solid var(--card-border); background:rgba(0,0,0,0.3); color:#fff; font-size:1rem; outline:none;"></textarea>
+          <button type="submit" class="interactive" style="background:var(--accent-yellow); color:#000; border:none; padding:16px; border-radius:12px; font-weight:700; font-size:1rem;">
             <i class="fa-brands fa-whatsapp"></i> Lanjut ke WhatsApp
           </button>
         </form>
       </div>
     </section>
+    
+    <footer style="text-align:center; padding: 40px 0; color:var(--text-muted); font-size:0.85rem;">
+      <p>© <span id="currentYear"></span> • Portofolio & Profil Pribadi Keenan</p>
+    </footer>
 
   </div>
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("currentYear").textContent = new Date().getFullYear();
       
       // =====================================
-      // 1. KURSOR KUSTOM & EFEK BASKETBALL
+      // 1. KURSOR KUSTOM (ANTI BEKU DI TEPI)
       // =====================================
       const dot = document.getElementById("cursorDot");
       const ring = document.getElementById("cursorRing");
-      const sparkles = ["🏀", "✨", "✦", "★", "🏀", "✧"];
+      const sparkles = ["🏀", "✨", "✦", "⚡", "🏀"];
       let lastTime = 0;
+      let isMouseVisible = false;
+
+      // Menyembunyikan kursor jika mouse keluar dari layar browser
+      document.addEventListener("mouseleave", () => {
+        if(dot && ring) {
+          dot.style.opacity = '0';
+          ring.style.opacity = '0';
+        }
+      });
+      document.addEventListener("mouseenter", () => {
+        if(dot && ring) {
+          dot.style.opacity = '1';
+          ring.style.opacity = '1';
+        }
+      });
 
       window.addEventListener("mousemove", (e) => {
+        // Hanya jalankan jika elemen kursor ada (di desktop)
+        if(!dot || !ring || window.matchMedia("(pointer: coarse)").matches) return;
+        
         dot.style.left = `${e.clientX}px`;
         dot.style.top = `${e.clientY}px`;
         
@@ -450,9 +497,9 @@
         setTimeout(() => {
           ring.style.left = `${e.clientX}px`;
           ring.style.top = `${e.clientY}px`;
-        }, 50);
+        }, 60);
 
-        if (Date.now() - lastTime > 70) {
+        if (Date.now() - lastTime > 100) {
           createParticle(e.clientX, e.clientY);
           lastTime = Date.now();
         }
@@ -466,52 +513,40 @@
         
         p.style.setProperty("--tx", `${(Math.random() - 0.5) * 60}px`);
         p.style.setProperty("--ty", `${(Math.random() - 0.5) * 60}px`);
-        p.style.color = Math.random() > 0.5 ? "#fb923c" : "#38bdf8"; // Basket(orange) & cyan
+        p.style.color = Math.random() > 0.5 ? "#facc15" : "#38bdf8"; 
         
         document.body.appendChild(p);
-        setTimeout(() => p.remove(), 800);
+        setTimeout(() => p.remove(), 700);
       }
 
-      // Membesar saat mengenai elemen interaktif
+      // Hover efek pada elemen
       document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
         el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
         el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
       });
 
       // =====================================
-      // 2. NAVIGASI HALAMAN (SINGLE PAGE APP)
+      // 2. NAVIGASI SMOOTH SCROLL & HAMBURGER
       // =====================================
-      const navBtns = document.querySelectorAll(".nav-btn");
-      const pages = document.querySelectorAll(".page-section");
+      const navLinks = document.querySelectorAll('.nav-scroll');
       
-      navBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-          // Tutup menu hamburger jika di mobile
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          // Tutup menu hamburger jika terbuka
           document.getElementById("navLinks").classList.remove("show");
           
-          const target = btn.dataset.target;
-          
-          navBtns.forEach(b => b.classList.remove("active"));
-          btn.classList.add("active");
-          
-          pages.forEach(page => {
-            page.classList.remove("active");
-            if(page.id === target) {
-              // Reset scroll ke atas
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              page.classList.add("active");
-            }
-          });
+          // Hapus kelas aktif dari semua link
+          navLinks.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
         });
       });
 
-      // Hamburger Toggle
       document.getElementById("hamburgerBtn").addEventListener("click", () => {
         document.getElementById("navLinks").classList.toggle("show");
       });
 
       // =====================================
-      // 3. EFEK HOVER 3D (DYNAMIC TILT)
+      // 3. EFEK HOVER 3D (DIPERHALUS / WEAKER)
       // =====================================
       document.querySelectorAll('.card-3d').forEach(card => {
         card.addEventListener('mousemove', (e) => {
@@ -521,10 +556,11 @@
           let centerX = rect.width / 2;
           let centerY = rect.height / 2;
           
-          let rotateX = ((y - centerY) / centerY) * -8; // Rotasi X
-          let rotateY = ((x - centerX) / centerX) * 8;  // Rotasi Y
+          // Multiplier dikurangi dari 8 menjadi 3 agar tidak terlalu agresif
+          let rotateX = ((y - centerY) / centerY) * -3; 
+          let rotateY = ((x - centerX) / centerX) * 3;  
           
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px)`;
         });
         
         card.addEventListener('mouseleave', () => {
@@ -595,12 +631,12 @@
         
         const box = document.getElementById("live-schedule-box");
         if(current) {
-          let linkHTML = links[current.subject] ? `<a href="${links[current.subject]}" target="_blank" class="teacher-card interactive" style="display:inline-block; background:var(--accent-blue); border:none; margin-top:10px;">Buka Web ${current.subject}</a>` : `<p style="color:var(--accent-orange); font-size:0.8rem; margin-top:10px;">*Web Guru Tidak Tersedia</p>`;
+          let linkHTML = links[current.subject] ? `<a href="${links[current.subject]}" target="_blank" class="teacher-card interactive" style="display:inline-block; background:var(--accent-blue); color:#fff; border:none; margin-top:10px;">Buka Web ${current.subject}</a>` : `<p style="color:var(--accent-yellow); font-size:0.8rem; margin-top:10px;">*Web Guru Tidak Tersedia</p>`;
           box.innerHTML = `<h2 style="color:var(--accent-blue); font-size:1.8rem; margin:10px 0;">${current.subject}</h2>
                            <p>${current.start} - ${current.end}</p>
                            ${linkHTML}`;
         } else {
-          box.innerHTML = `<p style="color:var(--text-body);">Saat ini tidak ada jam pelajaran (atau jam istirahat).<br>Waktu: ${today}, ${timeStr}</p>`;
+          box.innerHTML = `<p style="color:var(--text-body);">Saat ini tidak ada jam pelajaran.<br>Waktu: ${today}, ${timeStr}</p>`;
         }
       }
       setInterval(checkLiveClass, 60000);
