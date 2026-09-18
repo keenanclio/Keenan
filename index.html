@@ -3,1084 +3,539 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profil & Portofolio Pribadi | Keenan Clio Adiwinata</title>
+  <title>Keenan Clio | Personal Hub</title>
   
-  <!-- Fonts: Urbanist (Luwes & Ramah), Plus Jakarta Sans, dan Noto Sans SC untuk Aksara Mandarin -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Urbanist:ital,wght@0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Urbanist:wght@600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Font Awesome Icons -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
-    /* =========================================================
-       VARIABEL WARNA: DARK PASTEL BLUE & AURORA NEON
-    ========================================================= */
-    :root {
-      --bg-color: #0a1120;
-      --card-bg: rgba(16, 26, 48, 0.72);
-      --card-hover-bg: rgba(23, 38, 68, 0.85);
-      --card-border: rgba(125, 182, 248, 0.18);
-      --card-border-hover: rgba(147, 197, 253, 0.45);
-
-      --text-main: #f1f6fd;
-      --text-body: #a0bede;
-      --text-muted: #6f8fae;
-
-      --pastel-blue: #7bb5e8;
-      --pastel-blue-soft: rgba(123, 181, 232, 0.14);
-      --pastel-blue-bright: #60a5fa;
-      --pastel-orange: #fb923c;
-      --pastel-cyan: #38bdf8;
-      --pastel-purple: #c084fc;
-      --pastel-pink: #f472b6;
-
-      --shadow-card: 0 14px 34px -8px rgba(2, 6, 17, 0.65);
-      --shadow-hover: 0 20px 40px -6px rgba(96, 165, 250, 0.25);
-    }
-
-    body.light-mode {
-      --bg-color: #eef5fc;
-      --card-bg: rgba(255, 255, 255, 0.88);
-      --card-hover-bg: rgba(255, 255, 255, 0.98);
-      --card-border: rgba(147, 197, 253, 0.45);
-      --card-border-hover: rgba(59, 130, 246, 0.6);
-
-      --text-main: #0f172a;
-      --text-body: #334155;
-      --text-muted: #64748b;
-
-      --pastel-blue: #2563eb;
-      --pastel-blue-soft: rgba(59, 130, 246, 0.1);
-      --pastel-blue-bright: #3b82f6;
-
-      --shadow-card: 0 10px 30px -8px rgba(100, 116, 139, 0.15);
-      --shadow-hover: 0 16px 36px -6px rgba(59, 130, 246, 0.2);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
+    /* ==========================================
+       HILANGKAN KURSOR PANAH PUTIH SECARA TOTAL
+    ========================================== */
+    *, *::before, *::after {
+      cursor: none !important;
       box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* ==========================================
+       WARNA TEMA: DEEP OCEAN & SKY PASTEL
+    ========================================== */
+    :root {
+      --bg-color: #0b1121;
+      --nav-bg: rgba(11, 17, 33, 0.85);
+      --card-bg: rgba(21, 30, 50, 0.6);
+      --card-border: rgba(56, 189, 248, 0.15);
+      
+      --text-main: #f8fafc;
+      --text-body: #94a3b8;
+      
+      --accent-blue: #38bdf8;
+      --accent-indigo: #818cf8;
+      --accent-orange: #fb923c;
+      
+      --shadow-3d: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
     }
 
     body {
       background-color: var(--bg-color);
       color: var(--text-body);
-      min-height: 100vh;
-      width: 100%;
-      position: relative;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      padding: 0;
       overflow-x: hidden;
-      cursor: default;
+      min-height: 100vh;
     }
 
-    /* Kursor Lucu Kustom */
-    .custom-cursor-dot {
+    /* ==========================================
+       KURSOR KUSTOM (BASKET & SPARKLES)
+    ========================================== */
+    .cursor-dot {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 10px;
-      height: 10px;
-      background: var(--pastel-blue-bright);
+      top: 0; left: 0;
+      width: 8px; height: 8px;
+      background: var(--accent-blue);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
       transform: translate(-50%, -50%);
-      box-shadow: 0 0 12px var(--pastel-blue-bright);
-      transition: transform 0.08s ease-out, background-color 0.2s ease;
+      box-shadow: 0 0 10px var(--accent-blue);
+      transition: width 0.2s, height 0.2s, background 0.2s;
     }
-
-    .custom-cursor-ring {
+    .cursor-ring {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 32px;
-      height: 32px;
-      border: 2px dashed var(--pastel-cyan);
+      top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 2px solid rgba(56, 189, 248, 0.5);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9998;
       transform: translate(-50%, -50%);
-      transition: transform 0.18s cubic-bezier(0.18, 0.89, 0.32, 1.28), width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
-      animation: spinRing 9s linear infinite;
+      transition: width 0.3s, height 0.3s, border-color 0.3s;
     }
-
-    @keyframes spinRing {
-      0% { transform: translate(-50%, -50%) rotate(0deg); }
-      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    .cursor-hover .cursor-dot {
+      width: 12px; height: 12px;
+      background: var(--accent-orange);
+      box-shadow: 0 0 15px var(--accent-orange);
     }
-
-    .cursor-active .custom-cursor-ring {
-      width: 48px;
-      height: 48px;
-      border: 2px solid var(--pastel-pink);
-      background: rgba(244, 114, 182, 0.12);
+    .cursor-hover .cursor-ring {
+      width: 50px; height: 50px;
+      border-color: var(--accent-orange);
+      background: rgba(251, 146, 60, 0.1);
     }
-
-    .sparkle-trail {
+    .trail-particle {
       position: fixed;
       pointer-events: none;
       z-index: 9997;
-      font-size: 14px;
-      animation: floatFade 0.85s forwards ease-out;
+      font-size: 16px;
+      animation: floatParticle 0.8s forwards ease-out;
     }
-
-    @keyframes floatFade {
+    @keyframes floatParticle {
       0% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
-      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(45deg); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(90deg); }
     }
 
-    /* Ambient Background Glows */
-    .glow-orb {
+    /* Ambient Glow */
+    .ambient-glow {
       position: fixed;
       border-radius: 50%;
-      filter: blur(150px);
-      z-index: 0;
-      pointer-events: none;
+      filter: blur(140px);
+      z-index: -1;
     }
 
-    /* Layout Fullscreen */
-    .app-screen-wrapper {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding: 24px 32px 36px;
-      max-width: 1440px;
-      margin: 0 auto;
-      box-sizing: border-box;
-    }
-
-    /* Top Control Bar */
-    .top-control-bar {
+    /* ==========================================
+       NAVBAR (STICKY ON TOP) & HAMBURGER
+    ========================================== */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      padding: 16px 40px;
+      transition: all 0.3s ease;
     }
-
-    .badge-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      padding: 8px 18px;
-      border-radius: 99px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text-main);
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow-card);
-    }
-
-    .status-indicator {
-      width: 8px;
-      height: 8px;
-      background-color: #34d399;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #34d399;
-    }
-
-    .mode-btn {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text-main);
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(14px);
-    }
-    .mode-btn:hover {
-      border-color: var(--pastel-blue-bright);
-      color: var(--pastel-blue-bright);
-      transform: scale(1.06);
-    }
-
-    /* HEADER NAMA: FONT URBANIST */
-    .hero-name-banner {
-      text-align: center;
-      padding: 20px 16px 36px;
-    }
-
-    .aurora-title {
+    .nav-brand {
       font-family: 'Urbanist', sans-serif;
-      font-size: clamp(2.2rem, 5.5vw, 4.4rem);
+      font-size: 1.4rem;
       font-weight: 800;
-      letter-spacing: -0.5px;
-      line-height: 1.15;
-      text-transform: none;
-      
-      background: linear-gradient(
-        120deg,
-        #ffffff 0%,
-        #93c5fd 25%,
-        #f472b6 50%,
-        #67e8f9 75%,
-        #ffffff 100%
-      );
-      background-size: 260% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: auroraFlow 7s ease-in-out infinite alternate;
-      filter: drop-shadow(0 2px 14px rgba(147, 197, 253, 0.45));
-    }
-
-    .mandarin-char {
-      font-family: 'Noto Sans SC', sans-serif;
-      font-weight: 700;
-      font-size: 0.85em;
-      letter-spacing: 2px;
-      margin-left: 8px;
-    }
-
-    @keyframes auroraFlow {
-      0% {
-        background-position: 0% 50%;
-        filter: drop-shadow(0 2px 14px rgba(96, 165, 250, 0.35));
-      }
-      50% {
-        background-position: 100% 50%;
-        filter: drop-shadow(0 2px 22px rgba(244, 114, 182, 0.45));
-      }
-      100% {
-        background-position: 0% 50%;
-        filter: drop-shadow(0 2px 18px rgba(103, 232, 249, 0.4));
-      }
-    }
-
-    .hero-subtitle {
-      font-family: 'Urbanist', sans-serif;
-      font-size: clamp(1rem, 1.8vw, 1.25rem);
-      font-weight: 600;
-      color: var(--pastel-blue);
-      margin-top: 10px;
-      letter-spacing: 0.3px;
-    }
-
-    /* Grid Layout Fullscreen */
-    .main-grid-layout {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 28px;
-      align-items: start;
-    }
-
-    @media (max-width: 960px) {
-      .app-screen-wrapper {
-        padding: 16px;
-      }
-      .main-grid-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Kolom Kiri: Profil Hero */
-    .profile-sidebar {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 28px;
-      padding: 32px 24px;
-      text-align: center;
-      backdrop-filter: blur(18px);
-      box-shadow: var(--shadow-card);
-      position: sticky;
-      top: 24px;
-    }
-
-    .avatar-container {
-      width: 124px;
-      height: 124px;
-      margin: 0 auto 18px;
-      position: relative;
-    }
-
-    .avatar-photo {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--pastel-blue-bright);
-      box-shadow: 0 8px 26px rgba(96, 165, 250, 0.3);
-    }
-
-    .profile-summary {
-      font-size: 0.92rem;
-      line-height: 1.6;
-      color: var(--text-body);
-      margin: 16px 0 20px;
-    }
-
-    .metrics-strip {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      background: var(--pastel-blue-soft);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 12px 10px;
-      margin: 20px 0;
-    }
-
-    .metric-cell {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .metric-num {
-      font-size: 1.15rem;
-      color: var(--pastel-blue-bright);
-    }
-
-    .metric-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--text-body);
-    }
-
-    .metric-split {
-      width: 1px;
-      height: 26px;
-      background-color: var(--card-border);
-    }
-
-    .social-row {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .social-link {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
       color: var(--text-main);
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      font-size: 1.15rem;
+      gap: 10px;
     }
-    .social-link:hover {
-      background: var(--pastel-blue-bright);
-      color: #fff;
-      transform: translateY(-3px);
-      border-color: var(--pastel-blue-bright);
-      box-shadow: 0 8px 20px rgba(96, 165, 250, 0.3);
-    }
-
-    /* Kolom Kanan: Navigasi & Konten */
-    .content-workspace {
+    .nav-brand span { color: var(--accent-blue); }
+    
+    .nav-links {
       display: flex;
-      flex-direction: column;
-      gap: 20px;
+      gap: 24px;
     }
-
-    .tab-navigation {
-      display: flex;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 6px;
-      gap: 8px;
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow-card);
-      flex-wrap: wrap; /* Support for multiple tabs */
-    }
-
-    .nav-tab {
-      flex: 1;
+    .nav-btn {
       background: transparent;
       border: none;
-      color: var(--text-muted);
-      padding: 12px 10px;
-      font-size: 0.88rem;
+      color: var(--text-body);
+      font-size: 0.9rem;
       font-weight: 600;
-      border-radius: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-width: 100px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.3s;
     }
-    .nav-tab:hover {
-      color: var(--text-main);
-    }
-    .nav-tab.active {
-      background: var(--pastel-blue-bright);
-      color: #ffffff;
-      box-shadow: 0 4px 16px rgba(96, 165, 250, 0.4);
+    .nav-btn:hover, .nav-btn.active {
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.1);
     }
 
-    .tab-panel {
+    /* Hamburger Menu */
+    .hamburger {
       display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      border: none;
     }
-    .tab-panel.active {
-      display: block;
-      animation: tabFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    .hamburger span {
+      width: 24px; height: 3px;
+      background: var(--text-main);
+      border-radius: 3px;
+      transition: 0.3s;
     }
 
-    @keyframes tabFadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+    /* ==========================================
+       STRUKTUR HALAMAN & TRANSISI
+    ========================================== */
+    .page-container {
+      margin-top: 80px; /* Jarak untuk navbar */
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .page-section {
+      display: none; /* Sembunyikan semua halaman */
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .page-section.active {
+      display: block;
+      animation: pageIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes pageIn {
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Card List */
-    .cards-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .portfolio-card {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      padding: 18px 22px;
-      border-radius: 20px;
-      text-decoration: none;
-      color: var(--text-main);
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow-card);
-    }
-    .portfolio-card:hover {
-      transform: translateY(-3px);
-      background: var(--card-hover-bg);
-      border-color: var(--card-border-hover);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .card-lead-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: var(--pastel-blue-soft);
-      color: var(--pastel-blue-bright);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-    }
-
-    .card-details {
-      flex: 1;
-    }
-
-    .card-details h3 {
-      font-size: 1.02rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 4px;
-    }
-
-    .card-details p {
-      font-size: 0.85rem;
-      color: var(--text-body);
-      line-height: 1.45;
-    }
-
-    .card-jump {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* Glass Container */
-    .glass-container {
+    /* ==========================================
+       KOMPONEN 3D HOVER CARDS
+    ========================================== */
+    .card-3d {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 24px;
-      padding: 28px;
+      padding: 30px;
       backdrop-filter: blur(16px);
-      box-shadow: var(--shadow-card);
+      box-shadow: var(--shadow-3d);
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: border-color 0.3s;
+    }
+    .card-3d:hover {
+      border-color: var(--accent-blue);
     }
 
-    .block-title {
+    /* Typography & Utilities */
+    .title-glow {
       font-family: 'Urbanist', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 700;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, var(--accent-blue), var(--accent-indigo));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 15px rgba(56,189,248,0.4));
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Urbanist', sans-serif;
+      font-size: 1.8rem;
       color: var(--text-main);
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .desc-text {
-      font-size: 0.94rem;
-      line-height: 1.68;
-      color: var(--text-body);
-      margin-bottom: 18px;
-    }
-
-    .sub-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 12px;
-    }
-
-    .chips-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .chip {
-      background: var(--pastel-blue-soft);
-      border: 1px solid var(--card-border);
-      color: var(--text-main);
-      font-size: 0.82rem;
-      font-weight: 500;
-      padding: 8px 16px;
-      border-radius: 22px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Timeline & Filters */
-    .filter-wrapper {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .filter-chip {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text-muted);
-      padding: 8px 18px;
-      border-radius: 22px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .filter-chip.active {
-      background: var(--pastel-blue-bright);
-      color: #fff;
-      border-color: var(--pastel-blue-bright);
-    }
-
-    .timeline-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .timeline-entry {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 18px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .timeline-badge {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    .timeline-body h4 {
-      font-size: 0.98rem;
-      color: var(--text-main);
-      margin-bottom: 4px;
-    }
-
-    .timeline-body p {
-      font-size: 0.84rem;
-      color: var(--text-body);
-      line-height: 1.45;
-    }
-
-    /* ------------------------------------------
-       JADWAL PELAJARAN (NEW STYLES)
-    ------------------------------------------- */
-    .current-schedule-box {
-      background: rgba(37, 99, 235, 0.1);
-      border: 1px solid var(--pastel-blue-bright);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
-    }
-    .current-schedule-box h4 {
-      font-size: 1.15rem;
-      color: var(--text-main);
-      margin-bottom: 6px;
-    }
-    .current-schedule-box p {
-      font-size: 0.95rem;
-      color: var(--text-body);
-    }
-    .btn-schedule {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 14px;
-      background: var(--pastel-blue-bright);
-      color: #fff;
-      padding: 10px 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.85rem;
-      transition: all 0.2s;
-    }
-    .btn-schedule:hover {
-      background: var(--pastel-pink);
-      transform: translateY(-2px);
-    }
-
-    .schedule-table-wrap {
-      overflow-x: auto;
-      margin-top: 10px;
-      border-radius: 12px;
-      border: 1px solid var(--card-border);
-    }
-    .schedule-table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 400px;
-    }
-    .schedule-table th, .schedule-table td {
-      border-bottom: 1px solid var(--card-border);
-      padding: 10px 14px;
-      text-align: left;
-      font-size: 0.85rem;
-    }
-    .schedule-table th {
-      background: var(--pastel-blue-soft);
-      color: var(--text-main);
-      font-weight: 700;
-    }
-    .schedule-table td {
-      color: var(--text-body);
-    }
-    .schedule-table tr:last-child td {
-      border-bottom: none;
-    }
-    .schedule-link {
-      color: var(--pastel-blue-bright);
-      text-decoration: none;
-      font-weight: 700;
-      transition: color 0.2s;
-    }
-    .schedule-link:hover {
-      text-decoration: underline;
-      color: var(--pastel-pink);
-    }
-
-    .teacher-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 12px;
     }
-    .teacher-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      padding: 14px;
-      border-radius: 12px;
-      text-align: center;
-      text-decoration: none;
-      color: var(--text-main);
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-    .teacher-card:hover {
-      background: var(--pastel-blue-soft);
-      border-color: var(--pastel-blue-bright);
-      transform: translateY(-2px);
-      color: var(--pastel-blue-bright);
-    }
 
-    /* Contact */
-    .quick-copy {
-      display: flex;
-      gap: 10px;
-      margin: 16px 0 6px;
-    }
-    .quick-copy input {
-      flex: 1;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 12px 16px;
-      color: var(--text-main);
-      font-size: 0.9rem;
-      outline: none;
-    }
-    .primary-btn {
-      background: var(--pastel-blue-bright);
-      color: #fff;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 14px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      display: inline-flex;
+    /* Hero Layout (Home) */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
+      min-height: 70vh;
     }
-    .primary-btn:hover {
-      opacity: 0.92;
-      transform: translateY(-2px);
-    }
-
-    .inquiry-form input,
-    .inquiry-form textarea {
+    .hero-img-box {
       width: 100%;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 12px 16px;
-      color: var(--text-main);
-      font-size: 0.9rem;
-      margin-top: 10px;
-      outline: none;
-      resize: vertical;
+      max-width: 400px;
+      aspect-ratio: 1;
+      border-radius: 30px;
+      overflow: hidden;
+      margin: 0 auto;
+      border: 2px solid var(--accent-blue);
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+    }
+    .hero-img-box img {
+      width: 100%; height: 100%; object-fit: cover;
     }
 
-    .screen-footer {
-      text-align: center;
-      padding: 32px 0 10px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    /* Jadwal Layout */
+    .jadwal-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 24px;
+    }
+    .schedule-table {
+      width: 100%; border-collapse: collapse;
+      color: var(--text-main);
+    }
+    .schedule-table th, .schedule-table td {
+      padding: 12px; border-bottom: 1px solid var(--card-border); text-align: left;
+    }
+    .teacher-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;
+    }
+    .teacher-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--card-border);
+      padding: 16px; border-radius: 16px;
+      text-align: center; color: var(--text-main); text-decoration: none;
+      transition: 0.3s;
+    }
+    .teacher-card:hover { background: var(--accent-blue); color: #fff; transform: translateY(-5px); }
+
+    /* List Portofolio */
+    .port-list { display: flex; flex-direction: column; gap: 20px; }
+    .port-item {
+      display: flex; gap: 20px; align-items: center;
+    }
+    .port-icon {
+      width: 60px; height: 60px; border-radius: 16px;
+      background: rgba(56, 189, 248, 0.15); color: var(--accent-blue);
+      display: flex; justify-content: center; align-items: center; font-size: 1.8rem;
+    }
+
+    /* Media Queries (Responsive Navbar & Layout) */
+    @media (max-width: 768px) {
+      .navbar { padding: 16px 20px; }
+      .hamburger { display: flex; }
+      .nav-links {
+        position: fixed; top: 70px; right: -100%;
+        flex-direction: column; background: var(--nav-bg);
+        width: 250px; height: 100vh; padding: 30px;
+        border-left: 1px solid var(--card-border);
+        transition: 0.4s;
+      }
+      .nav-links.show { right: 0; }
+      .hero-grid, .jadwal-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Kursor Lucu -->
-  <div class="custom-cursor-dot" id="cursorDot"></div>
-  <div class="custom-cursor-ring" id="cursorRing"></div>
+  <!-- KURSOR KUSTOM -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-  <!-- Ambient Glows -->
-  <div class="glow-orb" style="width: 520px; height: 520px; background: rgba(74, 126, 194, 0.16); top: -120px; left: 50%; transform: translateX(-50%);"></div>
-  <div class="glow-orb" style="width: 440px; height: 440px; background: rgba(192, 132, 252, 0.12); bottom: -100px; right: -80px;"></div>
+  <!-- AMBIENT BACKGROUND -->
+  <div class="ambient-glow" style="width:500px; height:500px; background:rgba(56,189,248,0.1); top:-100px; left:-100px;"></div>
+  <div class="ambient-glow" style="width:400px; height:400px; background:rgba(129,140,248,0.1); bottom:-50px; right:-50px;"></div>
 
-  <div class="app-screen-wrapper">
+  <!-- NAVBAR STICKY -->
+  <nav class="navbar">
+    <div class="nav-brand interactive">Keenan<span>.</span></div>
+    <button class="hamburger interactive" id="hamburgerBtn">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <button class="nav-btn active interactive" data-target="home">Profil</button>
+      <button class="nav-btn interactive" data-target="portfolio">Portofolio</button>
+      <button class="nav-btn interactive" data-target="jadwal">Jadwal XI-2</button>
+      <button class="nav-btn interactive" data-target="contact">Kontak</button>
+    </div>
+  </nav>
 
-    <!-- Top Control Bar -->
-    <header class="top-control-bar">
-      <div class="badge-status">
-        <span class="status-indicator"></span>
-        <span>Terbuka untuk Diskusi & Kolaborasi</span>
+  <!-- KONTEN HALAMAN -->
+  <div class="page-container">
+    
+    <!-- HALAMAN 1: HOME / PROFIL -->
+    <section id="home" class="page-section active">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <p style="color:var(--accent-blue); font-weight:700; letter-spacing:2px; margin-bottom:10px;">HALO, SAYA</p>
+          <h1 class="title-glow">Keenan Clio <br> Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.6em;">(黄錫豪)</span></h1>
+          <p style="font-size:1.1rem; line-height:1.6; margin-bottom:30px;">
+            Student • Math & Logic Enthusiast • Basketball Player.<br>
+            Menggabungkan ketajaman analisis matematis dengan disiplin fisik dan strategi di lapangan.
+          </p>
+          <div style="display:flex; gap:16px;">
+            <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="teacher-card interactive" style="padding:12px 24px;"><i class="fa-brands fa-instagram"></i> Instagram</a>
+            <button class="teacher-card interactive" style="padding:12px 24px;" onclick="document.querySelector('[data-target=\'contact\']').click()">Hubungi Saya</button>
+          </div>
+        </div>
+        <div class="hero-img">
+          <div class="hero-img-box card-3d interactive">
+            <img src="profile.jpeg" alt="Keenan Clio" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
+          </div>
+        </div>
       </div>
-      <button id="themeToggle" class="mode-btn interactive-target" title="Ganti Mode Tampilan">
-        <i class="fa-solid fa-moon"></i>
-      </button>
-    </header>
-
-    <!-- HEADER UTAMA -->
-    <section class="hero-name-banner">
-      <h1 class="aurora-title">
-        Keenan Clio Adiwinata <span class="mandarin-char">(黄錫豪)</span>
-      </h1>
-      <p class="hero-subtitle">
-        Student • Math & Logic Enthusiast • Basketball Player
-      </p>
     </section>
 
-    <!-- MAIN GRID -->
-    <div class="main-grid-layout">
+    <!-- HALAMAN 2: PORTOFOLIO -->
+    <section id="portfolio" class="page-section">
+      <h2 class="section-title"><i class="fa-solid fa-layer-group" style="color:var(--accent-blue)"></i> Portofolio & Proyek</h2>
+      <div class="port-list">
+        <a href="#" class="card-3d interactive port-item">
+          <div class="port-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+          <div>
+            <h3 style="color:#fff; margin-bottom:8px;">Analisis & Logika Matematika</h3>
+            <p>Kumpulan studi mandiri dan persiapan olimpiade matematika. Fokus pada problem solving tingkat lanjut.</p>
+          </div>
+        </a>
+        <a href="#" class="card-3d interactive port-item">
+          <div class="port-icon" style="color:var(--accent-orange); background:rgba(251,146,60,0.15);"><i class="fa-solid fa-basketball"></i></div>
+          <div>
+            <h3 style="color:#fff; margin-bottom:8px;">Basketball & Team Strategy</h3>
+            <p>Dokumentasi partisipasi turnamen pelajar, latihan fisik, dan analisis formasi permainan tim.</p>
+          </div>
+        </a>
+        <a href="#" class="card-3d interactive port-item">
+          <div class="port-icon" style="color:var(--accent-indigo); background:rgba(129,140,248,0.15);"><i class="fa-solid fa-flask"></i></div>
+          <div>
+            <h3 style="color:#fff; margin-bottom:8px;">Eksperimen Riset Sains</h3>
+            <p>Proyek penelitian ilmiah terapan biologi/kimia serta penulisan esai kritis bertema lingkungan.</p>
+          </div>
+        </a>
+      </div>
+    </section>
 
-      <!-- Kolom Kiri -->
-      <aside class="profile-sidebar">
-        <div class="avatar-container">
-          <!-- Ganti foto disini -->
-          <img src="profile.jpeg" alt="Keenan Clio Adiwinata" class="avatar-photo" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
+    <!-- HALAMAN 3: JADWAL KELAS XI-2 -->
+    <section id="jadwal" class="page-section">
+      <h2 class="section-title"><i class="fa-solid fa-calendar-days" style="color:var(--accent-blue)"></i> Jadwal & Modul Kelas XI-2</h2>
+      
+      <div class="jadwal-grid">
+        <!-- Live Status -->
+        <div>
+          <div class="card-3d interactive" style="text-align:center; padding:40px 20px;">
+            <i class="fa-solid fa-clock" style="font-size:3rem; color:var(--accent-blue); margin-bottom:20px;"></i>
+            <h3 style="color:#fff; margin-bottom:10px;">Pelajaran Saat Ini</h3>
+            <div id="live-schedule-box">
+              <p>Memuat jadwal waktu nyata...</p>
+            </div>
+          </div>
         </div>
 
-        <p class="profile-summary">
-          Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
-        </p>
-
-        <div class="metrics-strip">
-          <div class="metric-cell">
-            <span class="metric-num"><i class="fa-solid fa-square-root-variable"></i></span>
-            <span class="metric-label">Logika</span>
-          </div>
-          <div class="metric-split"></div>
-          <div class="metric-cell">
-            <span class="metric-num"><i class="fa-solid fa-graduation-cap"></i></span>
-            <span class="metric-label">Target Global</span>
-          </div>
-          <div class="metric-split"></div>
-          <div class="metric-cell">
-            <span class="metric-num"><i class="fa-solid fa-basketball"></i></span>
-            <span class="metric-label">Sportivitas</span>
+        <!-- Tabel Jadwal (Di-generate via JS) -->
+        <div class="card-3d interactive">
+          <h3 style="color:#fff; margin-bottom:16px;">Tabel Jadwal Sepakan</h3>
+          <div style="overflow-x:auto;">
+            <div id="schedule-table-container"></div>
           </div>
         </div>
+      </div>
 
-        <div class="social-row">
-          <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="social-link interactive-target" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="mailto:keenanclio12@gmail.com" class="social-link interactive-target" title="Email"><i class="fa-solid fa-envelope"></i></a>
-          <a href="https://wa.me/qr/QIJEMS2SE3AJB1" target="_blank" class="social-link interactive-target" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-        </div>
-      </aside>
+      <h2 class="section-title" style="margin-top:40px;"><i class="fa-solid fa-globe" style="color:var(--accent-blue)"></i> Website Modul Guru</h2>
+      <div class="teacher-grid" id="teacher-links-grid"></div>
+    </section>
 
-      <!-- Kolom Kanan -->
-      <main class="content-workspace">
-
-        <!-- Navigation Tabs -->
-        <nav class="tab-navigation">
-          <button class="nav-tab active interactive-target" data-tab="links">
-            <i class="fa-solid fa-link"></i> Portofolio
+    <!-- HALAMAN 4: KONTAK -->
+    <section id="contact" class="page-section">
+      <div class="card-3d interactive" style="max-width:600px; margin:0 auto;">
+        <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-blue)"></i> Kirim Pesan</h2>
+        <p style="margin-bottom:20px;">Silakan isi form di bawah untuk terhubung langsung melalui WhatsApp pribadi saya.</p>
+        
+        <form id="contactForm" style="display:flex; flex-direction:column; gap:16px;">
+          <input type="text" id="waName" placeholder="Nama Anda" required style="padding:16px; border-radius:12px; border:1px solid var(--card-border); background:rgba(0,0,0,0.2); color:#fff; font-size:1rem;">
+          <textarea id="waMsg" rows="4" placeholder="Pesan Anda..." required style="padding:16px; border-radius:12px; border:1px solid var(--card-border); background:rgba(0,0,0,0.2); color:#fff; font-size:1rem;"></textarea>
+          <button type="submit" class="interactive" style="background:var(--accent-blue); color:#fff; border:none; padding:16px; border-radius:12px; font-weight:700; font-size:1rem;">
+            <i class="fa-brands fa-whatsapp"></i> Lanjut ke WhatsApp
           </button>
-          
-          <!-- TAB BARU: JADWAL -->
-          <button class="nav-tab interactive-target" data-tab="jadwal">
-            <i class="fa-solid fa-calendar-days"></i> Jadwal
-          </button>
-          
-          <button class="nav-tab interactive-target" data-tab="about">
-            <i class="fa-solid fa-user-tie"></i> Profil
-          </button>
-          <button class="nav-tab interactive-target" data-tab="achievements">
-            <i class="fa-solid fa-award"></i> Rekam Jejak
-          </button>
-          <button class="nav-tab interactive-target" data-tab="contact">
-            <i class="fa-solid fa-envelope-open-text"></i> Kontak
-          </button>
-        </nav>
+        </form>
+      </div>
+    </section>
 
-        <!-- TAB 1: Portofolio -->
-        <div class="tab-panel active" id="tab-links">
-          <div class="cards-list">
-            <a href="#" class="portfolio-card interactive-target" style="background: linear-gradient(135deg, rgba(30, 58, 102, 0.6), rgba(20, 34, 61, 0.85)); border-color: rgba(96, 165, 250, 0.35);">
-              <div class="card-lead-icon"><i class="fa-solid fa-chart-pie"></i></div>
-              <div class="card-details">
-                <span style="display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; background: #60a5fa; color: #ffffff; padding: 2px 8px; border-radius: 6px; margin-bottom: 5px;">Pilihan Utama</span>
-                <h3>Portofolio & Resume Akademik</h3>
-                <p>Ringkasan kompetensi, proyek sekolah, dan pengalaman organisasi.</p>
-              </div>
-              <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
-            </a>
-            <a href="#" class="portfolio-card interactive-target">
-              <div class="card-lead-icon"><i class="fa-solid fa-square-root-variable"></i></div>
-              <div class="card-details">
-                <h3>Catatan Logika & Pemecahan Soal</h3>
-                <p>Kumpulan materi persiapan olimpiade matematika dan studi mandiri.</p>
-              </div>
-              <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
-            </a>
-            <a href="#" class="portfolio-card interactive-target">
-              <div class="card-lead-icon"><i class="fa-solid fa-book-open"></i></div>
-              <div class="card-details">
-                <h3>Esai & Tulisan Refleksi</h3>
-                <p>Karya tulis bertema pendidikan, kepemimpinan, dan isu sosial.</p>
-              </div>
-              <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
-            </a>
-            <a href="#" class="portfolio-card interactive-target">
-              <div class="card-lead-icon"><i class="fa-solid fa-basketball"></i></div>
-              <div class="card-details">
-                <h3>Aktivitas Olahraga & Komunitas</h3>
-                <p>Dokumentasi latihan intensif, kompetisi basket, dan kerja sama tim.</p>
-              </div>
-              <i class="fa-solid fa-arrow-up-right-from-square card-jump"></i>
-            </a>
-          </div>
-        </div>
-
-        <!-- TAB 2: Jadwal Pelajaran & Web Guru -->
-        <div class="tab-panel" id="tab-jadwal">
-          <div class="glass-container">
-            <!-- Sesi 1: Jadwal Saat Ini -->
-            <h3 class="block-title"><i class="fa-solid fa-clock" style="color: #60a5fa;"></i> Jadwal Saat Ini</h3>
-            <div id="current-schedule" class="current-schedule-box">
-               <!-- Injeksi JS -->
-            </div>
-
-            <!-- Sesi 2: Tabel Seluruh Mapel XI-2 -->
-            <h3 class="block-title" style="margin-top:32px;"><i class="fa-solid fa-calendar-week" style="color: #60a5fa;"></i> Jadwal Kelas XI-2</h3>
-            <div id="schedule-table-container">
-               <!-- Injeksi JS -->
-            </div>
-
-            <!-- Sesi 3: Daftar Link Seluruh Guru -->
-            <h3 class="block-title" style="margin-top:32px;"><i class="fa-solid fa-globe" style="color: #60a5fa;"></i> Website Guru</h3>
-            <div class="teacher-grid" id="teacher-links-grid">
-               <!-- Injeksi JS -->
-            </div>
-          </div>
-        </div>
-
-        <!-- TAB 3: Profil -->
-        <div class="tab-panel" id="tab-about">
-          <div class="glass-container">
-            <h3 class="block-title"><i class="fa-solid fa-compass" style="color: #60a5fa;"></i> Tentang Saya</h3>
-            <p class="desc-text">
-              Saya adalah seorang pelajar yang senang memadukan ketajaman analisis matematis dengan disiplin fisik di lapangan. Memiliki orientasi jangka panjang untuk menempuh studi lanjut ke universitas global serta aktif mengeksplorasi ilmu bisnis, manajemen, dan komunikasi bahasa asing.
-            </p>
-
-            <h4 class="sub-title">Bidang Minat Utama</h4>
-            <div class="chips-group">
-              <span class="chip"><i class="fa-solid fa-calculator"></i> Matematika Terapan</span>
-              <span class="chip"><i class="fa-solid fa-language"></i> Bahasa Asing (Inggris & Mandarin)</span>
-              <span class="chip"><i class="fa-solid fa-briefcase"></i> Bisnis & Manajemen</span>
-              <span class="chip"><i class="fa-solid fa-users"></i> Kepemimpinan & Organisasi</span>
-              <span class="chip"><i class="fa-solid fa-basketball"></i> Bola Basket</span>
-            </div>
-
-            <h4 class="sub-title" style="margin-top: 24px;">Visi & Prinsip</h4>
-            <p class="desc-text">
-              <em>“Konsistensi dalam hal-hal mendasar adalah kunci keberhasilan, baik saat menyelesaikan persamaan rumit maupun saat mengeksekusi strategi tim di bawah tekanan waktu.”</em>
-            </p>
-          </div>
-        </div>
-
-        <!-- TAB 4: Rekam Jejak -->
-        <div class="tab-panel" id="tab-achievements">
-          <div class="filter-wrapper">
-            <button class="filter-chip active interactive-target" data-filter="all">Semua</button>
-            <button class="filter-chip interactive-target" data-filter="akademik">Akademik</button>
-            <button class="filter-chip interactive-target" data-filter="olahraga">Olahraga</button>
-            <button class="filter-chip interactive-target" data-filter="proyek">Proyek</button>
-          </div>
-          <div class="timeline-list">
-            <div class="timeline-entry" data-category="akademik">
-              <div class="timeline-badge" style="background: rgba(96, 165, 250, 0.15); color: #60a5fa;">
-                <i class="fa-solid fa-square-root-variable"></i>
-              </div>
-              <div class="timeline-body">
-                <span style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #60a5fa; display: inline-block; margin-bottom: 3px;">Akademik</span>
-                <h4>Kompetisi Matematika & Sains</h4>
-                <p>Berlatih dan berpartisipasi dalam pemecahan masalah analitis serta logika tingkat sekolah menengah.</p>
-              </div>
-            </div>
-            <div class="timeline-entry" data-category="olahraga">
-              <div class="timeline-badge" style="background: rgba(251, 146, 60, 0.15); color: #fb923c;">
-                <i class="fa-solid fa-basketball"></i>
-              </div>
-              <div class="timeline-body">
-                <span style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #fb923c; display: inline-block; margin-bottom: 3px;">Olahraga</span>
-                <h4>Turnamen Bola Basket Antar Pelajar</h4>
-                <p>Menjadi bagian dari tim sekolah, melatih kedisiplinan taktik permainan, dan menjaga kebugaran fisik rutin.</p>
-              </div>
-            </div>
-            <div class="timeline-entry" data-category="proyek">
-              <div class="timeline-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
-                <i class="fa-solid fa-flask"></i>
-              </div>
-              <div class="timeline-body">
-                <span style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; display: inline-block; margin-bottom: 3px;">Proyek Riset</span>
-                <h4>Eksperimen Sains & Penulisan Esai</h4>
-                <p>Menyelesaikan proyek eksperimen ilmiah terapan serta penulisan gagasan kritis seputar pemberdayaan masyarakat.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TAB 5: Kontak -->
-        <div class="tab-panel" id="tab-contact">
-          <div class="glass-container">
-            <h3 class="block-title"><i class="fa-solid fa-paper-plane" style="color: #60a5fa;"></i> Hubungi Saya</h3>
-            <p class="desc-text">Terbuka untuk diskusi proyek bersama, kolaborasi tim, atau pertukaran wawasan seputar akademik.</p>
-
-            <div class="quick-copy">
-              <input type="text" id="userEmail" value="keenanclio12@gmail.com" readonly>
-              <button id="copyEmailBtn" class="primary-btn interactive-target">
-                <i class="fa-regular fa-copy"></i> Salin Email
-              </button>
-            </div>
-            <span id="copyFeedback" style="display: block; font-size: 0.8rem; color: #34d399; min-height: 20px; font-weight: 600;"></span>
-
-            <form id="contactForm" class="inquiry-form" style="margin-top: 10px;">
-              <input type="text" id="contactName" placeholder="Nama Anda" required>
-              <textarea id="contactMsg" rows="3" placeholder="Pesan atau maksud diskusi..." required></textarea>
-              <button type="submit" class="primary-btn interactive-target" style="width: 100%; margin-top: 12px; background: #25d366;">
-                <i class="fa-brands fa-whatsapp"></i> Lanjutkan ke WhatsApp
-              </button>
-            </form>
-          </div>
-        </div>
-
-      </main>
-    </div>
-
-    <footer class="screen-footer">
-      <p>© <span id="currentYear"></span> • Portofolio & Profil Pribadi</p>
-    </footer>
   </div>
 
-  <!-- FIREBASE CONFIG & MODULES -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAsmRv3gSSxsyLF07jmy3VMWHmvQbIJfJg",
-      authDomain: "keenan-web.firebaseapp.com",
-      projectId: "keenan-web",
-      storageBucket: "keenan-web.firebasestorage.app",
-      messagingSenderId: "205196073414",
-      appId: "1:205196073414:web:2eb91a134c502bd1dcbac7"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // Integrasi Form Kontak WhatsApp + Firebase Backup
-    const contactForm = document.getElementById("contactForm");
-    contactForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const name = document.getElementById("contactName").value;
-      const msg = document.getElementById("contactMsg").value;
-
-      try {
-        await addDoc(collection(db, "contact_messages"), {
-          name: name,
-          message: msg,
-          timestamp: serverTimestamp()
-        });
-      } catch (e) {
-        console.error("Error saving message: ", e);
-      }
-
-      // Alihkan ke WA
-      const waUrl = `https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo%20Keenan,%20saya%20${encodeURIComponent(name)}.%20${encodeURIComponent(msg)}`;
-      window.open(waUrl, "_blank");
-    });
-  </script>
-
-  <!-- JAVASCRIPT LOGIC (Kursor, Tabs, Jadwal XI-2) -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("currentYear").textContent = new Date().getFullYear();
+      
+      // =====================================
+      // 1. KURSOR KUSTOM & EFEK BASKETBALL
+      // =====================================
+      const dot = document.getElementById("cursorDot");
+      const ring = document.getElementById("cursorRing");
+      const sparkles = ["🏀", "✨", "✦", "★", "🏀", "✧"];
+      let lastTime = 0;
 
-      // 1. DATA JADWAL KELAS XI-2 & LINK WEB GURU
-      const subjectLinks = {
+      window.addEventListener("mousemove", (e) => {
+        dot.style.left = `${e.clientX}px`;
+        dot.style.top = `${e.clientY}px`;
+        
+        // Animasi ring mengikuti lebih lambat (efek spring)
+        setTimeout(() => {
+          ring.style.left = `${e.clientX}px`;
+          ring.style.top = `${e.clientY}px`;
+        }, 50);
+
+        if (Date.now() - lastTime > 70) {
+          createParticle(e.clientX, e.clientY);
+          lastTime = Date.now();
+        }
+      });
+
+      function createParticle(x, y) {
+        const p = document.createElement("span");
+        p.className = "trail-particle";
+        p.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+        p.style.left = `${x}px`; p.style.top = `${y}px`;
+        
+        p.style.setProperty("--tx", `${(Math.random() - 0.5) * 60}px`);
+        p.style.setProperty("--ty", `${(Math.random() - 0.5) * 60}px`);
+        p.style.color = Math.random() > 0.5 ? "#fb923c" : "#38bdf8"; // Basket(orange) & cyan
+        
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 800);
+      }
+
+      // Membesar saat mengenai elemen interaktif
+      document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
+        el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
+        el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+      });
+
+      // =====================================
+      // 2. NAVIGASI HALAMAN (SINGLE PAGE APP)
+      // =====================================
+      const navBtns = document.querySelectorAll(".nav-btn");
+      const pages = document.querySelectorAll(".page-section");
+      
+      navBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          // Tutup menu hamburger jika di mobile
+          document.getElementById("navLinks").classList.remove("show");
+          
+          const target = btn.dataset.target;
+          
+          navBtns.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          
+          pages.forEach(page => {
+            page.classList.remove("active");
+            if(page.id === target) {
+              // Reset scroll ke atas
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              page.classList.add("active");
+            }
+          });
+        });
+      });
+
+      // Hamburger Toggle
+      document.getElementById("hamburgerBtn").addEventListener("click", () => {
+        document.getElementById("navLinks").classList.toggle("show");
+      });
+
+      // =====================================
+      // 3. EFEK HOVER 3D (DYNAMIC TILT)
+      // =====================================
+      document.querySelectorAll('.card-3d').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          let rect = card.getBoundingClientRect();
+          let x = e.clientX - rect.left; 
+          let y = e.clientY - rect.top;
+          let centerX = rect.width / 2;
+          let centerY = rect.height / 2;
+          
+          let rotateX = ((y - centerY) / centerY) * -8; // Rotasi X
+          let rotateY = ((x - centerX) / centerX) * 8;  // Rotasi Y
+          
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+        });
+      });
+
+      // =====================================
+      // 4. DATA JADWAL & LINK GURU (XI-2)
+      // =====================================
+      const links = {
         "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
         "PKN": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
         "B.INDONESIA": "https://sites.google.com/cintakasihtzuchi.sch.id/rulymedianamanurungspd/bio",
@@ -1097,229 +552,82 @@
         "INFORMATIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/informatics"
       };
 
-      const fullSchedule = [
+      const jadwal = [
         { day: "SENIN", start: "06:30", end: "07:30", subject: "UPACARA/WALIKELAS" },
-        { day: "SENIN", start: "07:30", end: "08:15", subject: "GEOGRAFI" },
-        { day: "SENIN", start: "08:15", end: "09:00", subject: "GEOGRAFI" },
+        { day: "SENIN", start: "07:30", end: "09:00", subject: "GEOGRAFI" },
         { day: "SENIN", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
-        { day: "SENIN", start: "09:30", end: "10:10", subject: "MANDARIN" },
-        { day: "SENIN", start: "10:10", end: "10:50", subject: "MANDARIN" },
+        { day: "SENIN", start: "09:30", end: "10:50", subject: "MANDARIN" },
         { day: "SENIN", start: "10:50", end: "11:30", subject: "B.INDONESIA" },
         { day: "SENIN", start: "11:30", end: "12:10", subject: "BUDI PEKERTI" },
         { day: "SENIN", start: "12:10", end: "12:40", subject: "ISTIRAHAT" },
         { day: "SENIN", start: "12:40", end: "13:20", subject: "B.HUMANIS" },
-        { day: "SENIN", start: "13:20", end: "14:00", subject: "INGGRIS LANJUT" },
-        { day: "SENIN", start: "14:00", end: "14:40", subject: "INGGRIS LANJUT" },
-        { day: "SELASA", start: "06:30", end: "06:45", subject: "PEMBIASAAN" },
-        { day: "SELASA", start: "06:45", end: "07:30", subject: "AGAMA" },
-        { day: "SELASA", start: "07:30", end: "08:15", subject: "AGAMA" },
-        { day: "SELASA", start: "08:15", end: "09:00", subject: "PKN" },
-        { day: "SELASA", start: "09:00", end: "09:45", subject: "PKN" },
-        { day: "SELASA", start: "09:45", end: "10:05", subject: "ISTIRAHAT" },
-        { day: "SELASA", start: "10:05", end: "10:50", subject: "INGGRIS LANJUT" },
-        { day: "SELASA", start: "10:50", end: "11:35", subject: "INGGRIS LANJUT" },
-        { day: "SELASA", start: "11:35", end: "12:00", subject: "ISTIRAHAT" },
-        { day: "SELASA", start: "12:00", end: "12:40", subject: "B.INDONESIA" },
-        { day: "SELASA", start: "12:40", end: "13:20", subject: "B.INDONESIA" },
-        { day: "SELASA", start: "13:20", end: "14:00", subject: "FISIKA" },
-        { day: "SELASA", start: "14:00", end: "14:30", subject: "FISIKA" },
-        { day: "RABU", start: "06:30", end: "06:45", subject: "PEMBIASAAN" },
-        { day: "RABU", start: "06:45", end: "07:30", subject: "MAT WAJIB" },
-        { day: "RABU", start: "07:30", end: "08:15", subject: "MAT WAJIB" },
+        { day: "SENIN", start: "13:20", end: "14:40", subject: "INGGRIS LANJUT" },
+        { day: "SELASA", start: "06:45", end: "08:15", subject: "AGAMA" },
+        { day: "SELASA", start: "08:15", end: "09:45", subject: "PKN" },
+        { day: "SELASA", start: "10:05", end: "11:35", subject: "INGGRIS LANJUT" },
+        { day: "SELASA", start: "12:00", end: "13:20", subject: "B.INDONESIA" },
+        { day: "SELASA", start: "13:20", end: "14:30", subject: "FISIKA" },
+        { day: "RABU", start: "06:45", end: "08:15", subject: "MAT WAJIB" },
         { day: "RABU", start: "08:15", end: "09:00", subject: "MANDARIN" },
-        { day: "RABU", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
         { day: "RABU", start: "09:30", end: "10:10", subject: "MANDARIN" },
-        { day: "RABU", start: "10:10", end: "10:50", subject: "INFORMATIKA" },
-        { day: "RABU", start: "10:50", end: "11:30", subject: "INFORMATIKA" },
-        { day: "RABU", start: "11:30", end: "12:10", subject: "KOKURIKULER" },
-        { day: "RABU", start: "12:10", end: "12:40", subject: "ISTIRAHAT" },
-        { day: "RABU", start: "12:40", end: "13:20", subject: "GEOGRAFI" },
-        { day: "RABU", start: "13:20", end: "14:00", subject: "GEOGRAFI" },
-        { day: "RABU", start: "14:00", end: "14:40", subject: "KIMIA" },
-        { day: "RABU", start: "14:40", end: "15:20", subject: "KIMIA" },
-        { day: "KAMIS", start: "06:30", end: "06:45", subject: "PEMBIASAAN" },
-        { day: "KAMIS", start: "06:45", end: "07:30", subject: "FISIKA" },
-        { day: "KAMIS", start: "07:30", end: "08:15", subject: "FISIKA" },
+        { day: "RABU", start: "10:10", end: "11:30", subject: "INFORMATIKA" },
+        { day: "RABU", start: "12:40", end: "14:00", subject: "GEOGRAFI" },
+        { day: "RABU", start: "14:00", end: "15:20", subject: "KIMIA" },
+        { day: "KAMIS", start: "06:45", end: "08:15", subject: "FISIKA" },
         { day: "KAMIS", start: "08:15", end: "09:00", subject: "PJOK" },
-        { day: "KAMIS", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
         { day: "KAMIS", start: "09:30", end: "10:15", subject: "PJOK" },
-        { day: "KAMIS", start: "10:15", end: "11:00", subject: "KIMIA" },
-        { day: "KAMIS", start: "11:00", end: "11:45", subject: "KIMIA" },
-        { day: "KAMIS", start: "11:45", end: "12:30", subject: "ISTIRAHAT" },
-        { day: "KAMIS", start: "12:30", end: "13:15", subject: "INGGRIS" },
-        { day: "KAMIS", start: "13:15", end: "13:55", subject: "INGGRIS" },
-        { day: "KAMIS", start: "13:55", end: "14:35", subject: "INGGRIS" },
-        { day: "KAMIS", start: "14:35", end: "15:15", subject: "B. KONSELING" },
-        { day: "JUMAT", start: "06:30", end: "07:15", subject: "PEMBIASAAN" },
-        { day: "JUMAT", start: "07:15", end: "08:00", subject: "SENI BUDAYA" },
-        { day: "JUMAT", start: "08:00", end: "08:45", subject: "SENI BUDAYA" },
-        { day: "JUMAT", start: "08:45", end: "09:15", subject: "ISTIRAHAT" },
+        { day: "KAMIS", start: "10:15", end: "11:45", subject: "KIMIA" },
+        { day: "KAMIS", start: "12:30", end: "14:35", subject: "INGGRIS" },
+        { day: "JUMAT", start: "07:15", end: "08:45", subject: "SENI BUDAYA" },
         { day: "JUMAT", start: "09:15", end: "10:00", subject: "MAT WAJIB" },
-        { day: "JUMAT", start: "10:00", end: "10:45", subject: "SEJARAH" },
-        { day: "JUMAT", start: "10:45", end: "11:30", subject: "SEJARAH" },
-        { day: "JUMAT", start: "11:30", end: "12:30", subject: "ISTIRAHAT" },
-        { day: "JUMAT", start: "12:30", end: "13:00", subject: "ISTIRAHAT/KEGIATAN" },
-        { day: "JUMAT", start: "13:00", end: "13:45", subject: "INFORMATIKA" },
-        { day: "JUMAT", start: "13:45", end: "14:30", subject: "INFORMATIKA" }
+        { day: "JUMAT", start: "10:00", end: "11:30", subject: "SEJARAH" },
+        { day: "JUMAT", start: "13:00", end: "14:30", subject: "INFORMATIKA" }
       ];
 
-      // 2. LOGIKA JADWAL LIVE (Deteksi Hari & Waktu)
-      function updateCurrentSchedule() {
+      // Logic Cek Waktu Live
+      function checkLiveClass() {
         const now = new Date();
         const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
-        const currentDay = days[now.getDay()];
+        const today = days[now.getDay()];
+        const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
         
-        const currentHour = now.getHours().toString().padStart(2, '0');
-        const currentMin = now.getMinutes().toString().padStart(2, '0');
-        const currentTime = `${currentHour}:${currentMin}`;
+        let current = jadwal.find(j => j.day === today && timeStr >= j.start && timeStr < j.end);
         
-        const todaySchedule = fullSchedule.filter(item => item.day === currentDay);
-        let currentSubject = null;
-        
-        for (let item of todaySchedule) {
-          if (currentTime >= item.start && currentTime < item.end) {
-            currentSubject = item;
-            break;
-          }
-        }
-        
-        const box = document.getElementById("current-schedule");
-        if (!currentSubject) {
-          box.innerHTML = `<h4>Status: Sedang tidak ada kelas</h4>
-                           <p>Waktu saat ini: ${currentTime} (${currentDay})</p>`;
+        const box = document.getElementById("live-schedule-box");
+        if(current) {
+          let linkHTML = links[current.subject] ? `<a href="${links[current.subject]}" target="_blank" class="teacher-card interactive" style="display:inline-block; background:var(--accent-blue); border:none; margin-top:10px;">Buka Web ${current.subject}</a>` : `<p style="color:var(--accent-orange); font-size:0.8rem; margin-top:10px;">*Web Guru Tidak Tersedia</p>`;
+          box.innerHTML = `<h2 style="color:var(--accent-blue); font-size:1.8rem; margin:10px 0;">${current.subject}</h2>
+                           <p>${current.start} - ${current.end}</p>
+                           ${linkHTML}`;
         } else {
-          let link = subjectLinks[currentSubject.subject];
-          if (link) {
-            box.innerHTML = `<h4>Pelajaran Saat Ini: <span style="color:var(--pastel-pink);">${currentSubject.subject}</span></h4>
-                             <p>Jam: ${currentSubject.start} - ${currentSubject.end}</p>
-                             <a href="${link}" target="_blank" class="btn-schedule interactive-target"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Web Guru</a>`;
-          } else {
-            box.innerHTML = `<h4>Pelajaran Saat Ini: <span style="color:var(--pastel-pink);">${currentSubject.subject}</span></h4>
-                             <p>Jam: ${currentSubject.start} - ${currentSubject.end}</p>
-                             <span style="font-size:0.8rem; color:var(--text-muted); display:block; margin-top:8px;">(Web Guru tidak tersedia)</span>`;
-          }
+          box.innerHTML = `<p style="color:var(--text-body);">Saat ini tidak ada jam pelajaran (atau jam istirahat).<br>Waktu: ${today}, ${timeStr}</p>`;
         }
       }
-      setInterval(updateCurrentSchedule, 60000); // Update setiap 1 menit
-      updateCurrentSchedule();
+      setInterval(checkLiveClass, 60000);
+      checkLiveClass();
 
-      // 3. GENERATE TABEL JADWAL MINGGUAN (HTML via JS)
-      const tableContainer = document.getElementById('schedule-table-container');
-      let tableHtml = '';
-      const daysOfWeek = ['SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT'];
-
-      daysOfWeek.forEach(day => {
-        tableHtml += `<h4 style="margin-top:16px; color:var(--pastel-blue-bright); font-size:1rem;">Hari ${day}</h4>`;
-        tableHtml += `<div class="schedule-table-wrap"><table class="schedule-table"><tr><th style="width:130px;">Waktu</th><th>Mata Pelajaran</th></tr>`;
-        const dayItems = fullSchedule.filter(i => i.day === day);
-        dayItems.forEach(item => {
-          let subjectDisplay = item.subject;
-          if(subjectLinks[item.subject]) {
-            subjectDisplay = `<a href="${subjectLinks[item.subject]}" target="_blank" class="schedule-link interactive-target">${item.subject}</a>`;
-          }
-          tableHtml += `<tr><td>${item.start} - ${item.end}</td><td>${subjectDisplay}</td></tr>`;
-        });
-        tableHtml += `</table></div>`;
+      // Render Tabel & Kartu Guru
+      let tbHtml = '<table class="schedule-table"><tr><th>Hari</th><th>Jam</th><th>Mapel</th></tr>';
+      jadwal.forEach(j => {
+        let name = links[j.subject] ? `<a href="${links[j.subject]}" target="_blank" class="interactive" style="color:var(--accent-blue); font-weight:700; text-decoration:none;">${j.subject}</a>` : j.subject;
+        tbHtml += `<tr><td>${j.day}</td><td>${j.start}-${j.end}</td><td>${name}</td></tr>`;
       });
-      tableContainer.innerHTML = tableHtml;
+      document.getElementById("schedule-table-container").innerHTML = tbHtml + "</table>";
 
-      // 4. GENERATE TOMBOL WEB GURU
-      const grid = document.getElementById('teacher-links-grid');
       let gridHtml = '';
-      for(let subject in subjectLinks) {
-        gridHtml += `<a href="${subjectLinks[subject]}" target="_blank" class="teacher-card interactive-target">${subject}</a>`;
+      for(let subj in links) {
+        gridHtml += `<a href="${links[subj]}" target="_blank" class="teacher-card interactive">${subj}</a>`;
       }
-      grid.innerHTML = gridHtml;
+      document.getElementById("teacher-links-grid").innerHTML = gridHtml;
 
-
-      // 5. Logika Kursor Lucu & Trail Partikel
-      const cursorDot = document.getElementById("cursorDot");
-      const cursorRing = document.getElementById("cursorRing");
-      const sparkleIcons = ["✦", "★", "✧", "🏀", "•", "✨"];
-      let lastSparkleTime = 0;
-
-      window.addEventListener("mousemove", (e) => {
-        const x = e.clientX;
-        const y = e.clientY;
-
-        cursorDot.style.left = `${x}px`;
-        cursorDot.style.top = `${y}px`;
-        cursorRing.style.left = `${x}px`;
-        cursorRing.style.top = `${y}px`;
-
-        const now = Date.now();
-        if (now - lastSparkleTime > 60) {
-          createSparkle(x, y);
-          lastSparkleTime = now;
-        }
-      });
-
-      function createSparkle(x, y) {
-        const sparkle = document.createElement("span");
-        sparkle.className = "sparkle-trail";
-        sparkle.textContent = sparkleIcons[Math.floor(Math.random() * sparkleIcons.length)];
-        
-        const tx = (Math.random() - 0.5) * 50;
-        const ty = (Math.random() - 0.5) * 50;
-        sparkle.style.setProperty("--tx", `${tx}px`);
-        sparkle.style.setProperty("--ty", `${ty}px`);
-
-        const colors = ["#93c5fd", "#f472b6", "#a5f3fc", "#c084fc", "#fb923c"];
-        sparkle.style.color = colors[Math.floor(Math.random() * colors.length)];
-
-        sparkle.style.left = `${x}px`;
-        sparkle.style.top = `${y}px`;
-
-        document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 800);
-      }
-
-      // Efek membesar saat hover tombol & kartu
-      const hoverTargets = document.querySelectorAll(".interactive-target, a, button, input, textarea");
-      hoverTargets.forEach((target) => {
-        target.addEventListener("mouseenter", () => document.body.classList.add("cursor-active"));
-        target.addEventListener("mouseleave", () => document.body.classList.remove("cursor-active"));
-      });
-
-      // 6. Tab Navigasi Dasar
-      const navTabs = document.querySelectorAll(".nav-tab");
-      const tabPanels = document.querySelectorAll(".tab-panel");
-
-      navTabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-          navTabs.forEach((t) => t.classList.remove("active"));
-          tabPanels.forEach((p) => p.classList.remove("active"));
-
-          tab.classList.add("active");
-          const targetId = `tab-${tab.dataset.tab}`;
-          const targetPanel = document.getElementById(targetId);
-          if (targetPanel) {
-            targetPanel.classList.add("active");
-          }
-        });
-      });
-
-      // 7. Toggle Mode Gelap / Terang
-      const themeToggle = document.getElementById("themeToggle");
-      const themeIcon = themeToggle.querySelector("i");
-      themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("light-mode");
-        if (document.body.classList.contains("light-mode")) {
-          themeIcon.classList.replace("fa-moon", "fa-sun");
-        } else {
-          themeIcon.classList.replace("fa-sun", "fa-moon");
-        }
-      });
-
-      // 8. Copy Email
-      const copyEmailBtn = document.getElementById("copyEmailBtn");
-      const userEmail = document.getElementById("userEmail");
-      const copyFeedback = document.getElementById("copyFeedback");
-      copyEmailBtn.addEventListener("click", () => {
-        navigator.clipboard.writeText(userEmail.value).then(() => {
-          copyFeedback.textContent = "✓ Email berhasil disalin!";
-          setTimeout(() => { copyFeedback.textContent = ""; }, 3000);
-        });
+      // =====================================
+      // 5. KONTAK WHATSAPP
+      // =====================================
+      document.getElementById("contactForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nama = encodeURIComponent(document.getElementById("waName").value);
+        const msg = encodeURIComponent(document.getElementById("waMsg").value);
+        window.open(`https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo,%20saya%20${nama}.%20${msg}`, "_blank");
       });
     });
   </script>
