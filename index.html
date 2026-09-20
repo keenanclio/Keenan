@@ -10,7 +10,1811 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Urbanist:wght@600;700;800;900&display=swap" rel="stylesheet">
   
+  <!-- Font Awesome --><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keenan Clio | Personal Hub</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Urbanist:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
   <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      /* Premium Midnight Slate Palette */
+      --bg-base: #090a0f; 
+      --bg-surface: rgba(20, 22, 32, 0.6);
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(168, 85, 247, 0.4);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --accent-primary: #a855f7;   /* Elegant Violet */
+      --accent-secondary: #38bdf8; /* Bright Cyan */
+      
+      --shadow-soft: 0 8px 30px rgba(0,0,0,0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-muted);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Kursor Custom Desktop */
+    @media (hover: hover) and (pointer: fine) {
+      *, *::before, *::after { cursor: none !important; }
+      
+      .cursor-dot {
+        position: fixed; top: 0; left: 0;
+        width: 6px; height: 6px;
+        background: var(--text-main);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        box-shadow: 0 0 10px var(--text-main);
+        transition: transform 0.1s;
+      }
+      
+      .cursor-ring {
+        position: fixed; top: 0; left: 0;
+        width: 32px; height: 32px;
+        border: 1px solid var(--accent-primary);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s;
+      }
+
+      .cursor-hover .cursor-dot { transform: scale(0); }
+      .cursor-hover .cursor-ring {
+        width: 50px; height: 50px;
+        background: rgba(168, 85, 247, 0.1);
+        border-color: var(--accent-secondary);
+        backdrop-filter: blur(2px);
+      }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .cursor-dot, .cursor-ring { display: none !important; }
+    }
+
+    /* Tekstur Noise Premium (Awwwards Style) */
+    .bg-noise {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Cahaya Mouse Ambient yang Lebih Halus */
+    .ambient-tracker {
+      position: fixed;
+      top: 0; left: 0;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(168,85,247,0.06) 0%, rgba(56,189,248,0.03) 30%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -2;
+      transform: translate(-50%, -50%);
+    }
+    
+    .bg-mesh {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56,189,248,0.03) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(168,85,247,0.03) 0px, transparent 50%);
+      z-index: -3;
+    }
+
+    /* ANIMASI SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: opacity, transform;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Staggering delays untuk elemen berurutan */
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+    .delay-5 { transition-delay: 0.5s; }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(9, 10, 15, 0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-light);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 6%;
+      transition: all 0.3s ease;
+    }
+    .nav-brand {
+      font-family: 'Urbanist', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .nav-brand span { color: var(--accent-primary); }
+    
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-btn {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      color: var(--text-main);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .hamburger span {
+      width: 28px; height: 3px;
+      background: var(--text-main);
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .page-section {
+      padding-top: 130px; 
+      padding-bottom: 80px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .glass-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 24px;
+      padding: 32px;
+      backdrop-filter: blur(24px);
+      box-shadow: var(--shadow-soft);
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: border-color 0.4s ease, transform 0.2s ease-out;
+    }
+    .glass-card:hover {
+      border-color: var(--border-glow);
+    }
+
+    /* Typografi Header Glowing */
+    .title-glow {
+      font-family: 'Urbanist', sans-serif;
+      font-size: clamp(2.8rem, 6.5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #fff 20%, var(--accent-secondary) 50%, var(--accent-primary) 80%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shineFlow 5s ease infinite alternate;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 20px rgba(168,85,247,0.2));
+    }
+    @keyframes shineFlow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    .section-title {
+      font-family: 'Urbanist', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-img-box {
+      width: 100%;
+      max-width: 360px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      margin: 0 auto;
+      position: relative;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      padding: 4px; /* Untuk border gradient */
+      box-shadow: 0 20px 50px rgba(168,85,247,0.25);
+    }
+    .hero-img-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--bg-base);
+    }
+    .hero-img-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top; /* Mencegah wajah kepotong */
+    }
+
+    /* Metrik 3 Pilar */
+    .metrics-row {
+      display: flex; gap: 24px; margin: 30px 0; flex-wrap: wrap;
+    }
+    .metric-item {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .metric-item strong {
+      font-size: 1.1rem; color: var(--text-main); font-family: 'Urbanist', sans-serif;
+    }
+    .metric-item span { font-size: 0.85rem; color: var(--accent-secondary); }
+
+    /* Tombol Interaktif */
+    .btn-primary {
+      background: var(--text-main);
+      color: var(--bg-base);
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: 0.3s;
+      border: none; cursor: none;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.15); }
+    
+    .btn-social {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-main);
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: inline-flex; justify-content: center; align-items: center;
+      text-decoration: none; font-size: 1.2rem;
+      border: 1px solid var(--border-light);
+      transition: 0.3s; cursor: none;
+    }
+    .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); transform: translateY(-3px); }
+
+    .port-grid {
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .port-card {
+      display: flex; gap: 24px; align-items: center; text-decoration: none;
+    }
+    .port-icon {
+      width: 75px; height: 75px; border-radius: 20px;
+      background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.15));
+      color: var(--text-main);
+      display: flex; justify-content: center; align-items: center; font-size: 2rem;
+      flex-shrink: 0; border: 1px solid var(--border-light);
+    }
+    .port-card h3 { color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.3rem; margin-bottom: 8px; }
+
+    /* HSK Cards Grid */
+    .hsk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .live-status-box {
+      background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.05));
+      border: 1px solid var(--border-glow);
+      text-align: center;
+      padding: 40px;
+      border-radius: 24px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px rgba(168,85,247,0.1);
+    }
+    .live-time { font-family: 'Urbanist', sans-serif; font-size: 1.2rem; color: var(--accent-secondary); margin-bottom: 16px; }
+    .live-subject { font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.1; }
+
+    /* Grid Hari (Senin-Jumat) */
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 50px;
+    }
+    .day-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+    }
+    .day-card h3 {
+      font-family: 'Urbanist', sans-serif;
+      font-size: 1.4rem;
+      color: var(--accent-primary);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .schedule-list { list-style: none; }
+    .schedule-list li {
+      display: flex; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.05);
+      font-size: 0.9rem;
+    }
+    .schedule-list li:last-child { border-bottom: none; }
+    .time-badge { background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 6px; font-family: monospace; color: var(--text-muted); }
+    .subj-name { font-weight: 600; color: var(--text-main); text-align: right; }
+    .subj-link { color: var(--accent-secondary); text-decoration: none; transition: 0.3s; }
+    .subj-link:hover { color: var(--accent-primary); }
+
+    /* Web Guru Grid */
+    .teacher-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;
+    }
+    .teacher-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-light);
+      padding: 16px; border-radius: 16px;
+      text-align: center; color: var(--text-main); text-decoration: none;
+      font-family: 'Urbanist', sans-serif; font-weight: 600; font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+    .teacher-card:hover { 
+      background: var(--border-glow); border-color: var(--accent-primary); transform: translateY(-4px); 
+    }
+
+    .contact-form {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .form-input {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border-light);
+      padding: 18px; border-radius: 16px;
+      color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
+      outline: none; transition: 0.3s;
+    }
+    .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.5); }
+    
+    footer { text-align: center; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid var(--border-light); margin-top: 60px; }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .metrics-row { justify-content: center; }
+      .hero-img-box { max-width: 280px; }
+      .port-card { flex-direction: column; text-align: center; }
+      .nav-links { gap: 4px; }
+    }
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        position: fixed; top: 70px; right: -100%;
+        flex-direction: column; background: var(--bg-base);
+        width: 100%; height: calc(100vh - 70px); padding: 40px;
+        border-top: 1px solid var(--border-light);
+        justify-content: flex-start;
+        transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      }
+      .nav-links.show { right: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Kursor Custom Desktop -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  
+  <!-- Latar Belakang Premium (Noise + Mesh + Glow) -->
+  <div class="bg-noise"></div>
+  <div class="bg-mesh"></div>
+  <div class="ambient-tracker" id="mouseGlow"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="#home" class="nav-brand interactive">Keenan<span>.</span></a>
+    <button class="hamburger interactive" id="hamburgerBtn">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" class="nav-btn interactive nav-scroll active">Profil</a>
+      <a href="#about" class="nav-btn interactive nav-scroll">About Me</a>
+      <a href="#portfolio" class="nav-btn interactive nav-scroll">Portofolio</a>
+      <a href="#jadwal" class="nav-btn interactive nav-scroll">Jadwal</a>
+      <a href="#mandarin" class="nav-btn interactive nav-scroll">Mandarin</a>
+      <a href="#contact" class="nav-btn interactive nav-scroll">Kontak</a>
+    </div>
+  </nav>
+
+  <div class="page-container">
+    
+    <section id="home" class="page-section">
+      <div class="hero-grid">
+        <div class="hero-text reveal">
+          <p style="color:var(--accent-secondary); font-weight:700; letter-spacing:3px; margin-bottom:12px; font-size:0.9rem; text-transform:uppercase;">Student & Enthusiast</p>
+          <h1 class="title-glow">Keenan Clio Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.45em; color:var(--text-muted); filter:none; font-weight:500;">(黄錫豪)</span></h1>
+          <p style="font-size:1.15rem; line-height:1.7; margin-bottom:10px;">
+            Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
+          </p>
+          
+          <div class="metrics-row reveal delay-1">
+            <div class="metric-item"><strong>Logika</strong><span>Matematika</span></div>
+            <div class="metric-item"><strong>Target Global</strong><span>Bahasa & Bisnis</span></div>
+            <div class="metric-item"><strong>Sportivitas</strong><span>Basketball</span></div>
+          </div>
+
+          <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;" class="reveal delay-2">
+            <a href="#contact" class="btn-primary interactive">Kirim Pesan <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="btn-social interactive"><i class="fa-brands fa-instagram"></i></a>
+            <a href="mailto:keenanclio12@gmail.com" class="btn-social interactive"><i class="fa-regular fa-envelope"></i></a>
+          </div>
+        </div>
+        <div class="hero-img reveal delay-1">
+          <div class="hero-img-box glass-card interactive card-3d">
+            <div class="hero-img-inner">
+              <img src="profile.jpeg" alt="Keenan Clio" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="page-section">
+      <h2 class="section-title reveal"><i class="fa-solid fa-id-card-clip" style="color:var(--accent-secondary)"></i> About Me</h2>
+      <div class="glass-card interactive card-3d reveal delay-1" style="position: relative; overflow: hidden;">
+        <!-- Dekorasi Orbs di dalam kartu -->
+        <div style="position: absolute; top: -50%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+        
+        <div style="position: relative; z-index: 1;">
+          <h3 style="font-family: 'Urbanist', sans-serif; font-size: 1.8rem; color: var(--text-main); margin-bottom: 16px;">Lebih Dekat dengan Keenan</h3>
+          <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px;">
+            Saya percaya bahwa keseimbangan adalah kunci. Di satu sisi, saya sangat menikmati keindahan logika, pemecahan masalah matematis, dan riset sains. Di sisi lain, lapangan basket mengajarkan saya tentang sportivitas, pengambilan keputusan cepat dalam tekanan, dan kerja sama tim.
+          </p>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+            <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); padding: 20px; border-radius: 16px; transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-brain" style="font-size: 2rem; color: var(--accent-primary); margin-bottom: 16px;"></i>
+              <h4 style="color: var(--text-main); margin-bottom: 8px; font-family: 'Urbanist';">Analytical Thinker</h4>
+              <p style="font-size: 0.9rem;">Mendekati masalah dengan logika terstruktur dan pendekatan berbasis data.</p>
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); padding: 20px; border-radius: 16px; transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-users-rays" style="font-size: 2rem; color: var(--accent-secondary); margin-bottom: 16px;"></i>
+              <h4 style="color: var(--text-main); margin-bottom: 8px; font-family: 'Urbanist';">Team Player</h4>
+              <p style="font-size: 0.9rem;">Menjunjung tinggi komunikasi adaptif dan sinergi tim di setiap keadaan.</p>
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); padding: 20px; border-radius: 16px; transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-earth-asia" style="font-size: 2rem; color: #34d399; margin-bottom: 16px;"></i>
+              <h4 style="color: var(--text-main); margin-bottom: 8px; font-family: 'Urbanist';">Global Target</h4>
+              <p style="font-size: 0.9rem;">Mengeksplorasi bahasa asing dan budaya untuk persiapan jangkauan global.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="page-section">
+      <h2 class="section-title reveal"><i class="fa-solid fa-layer-group" style="color:var(--accent-primary)"></i> Portofolio & Proyek</h2>
+      <div class="port-grid">
+        <a href="#" class="glass-card interactive card-3d port-card reveal delay-1">
+          <div class="port-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+          <div>
+            <h3>Analisis & Logika Matematika</h3>
+            <p>Kumpulan studi mandiri dan persiapan olimpiade matematika. Fokus pada problem solving dan pembuktian logis tingkat lanjut.</p>
+          </div>
+        </a>
+        <a href="#" class="glass-card interactive card-3d port-card reveal delay-2">
+          <div class="port-icon"><i class="fa-solid fa-basketball"></i></div>
+          <div>
+            <h3>Basketball & Team Strategy</h3>
+            <p>Dokumentasi kepemimpinan tim, partisipasi turnamen pelajar, latihan fisik intensif, dan analisis taktik formasi permainan.</p>
+          </div>
+        </a>
+        <a href="#" class="glass-card interactive card-3d port-card reveal delay-3">
+          <div class="port-icon"><i class="fa-solid fa-flask"></i></div>
+          <div>
+            <h3>Eksperimen Riset Sains</h3>
+            <p>Proyek penelitian terapan berbasis biologi/kimia serta penyusunan esai kritis bertema lingkungan dan sosial.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section id="jadwal" class="page-section">
+      <h2 class="section-title reveal"><i class="fa-solid fa-calendar-days" style="color:var(--accent-secondary)"></i> Jadwal Kelas XI-2</h2>
+      
+      <!-- Box Live Schedule -->
+      <div class="live-status-box glass-card interactive card-3d reveal delay-1" id="live-schedule-box">
+        <div class="live-time" id="live-time-display">Memuat Waktu...</div>
+        <h3 class="live-subject">Mengecek Jadwal...</h3>
+      </div>
+
+      <!-- Kartu Per Hari -->
+      <div class="days-grid" id="daily-schedule-container">
+        <!-- Konten di-generate lewat JS agar rapi -->
+      </div>
+
+      <!-- Web Guru List -->
+      <h3 class="reveal" style="font-family:'Urbanist'; font-size:1.6rem; color:var(--text-main); margin: 40px 0 20px;">
+        <i class="fa-solid fa-globe" style="color:var(--accent-primary); margin-right:10px;"></i> Direktori Modul Guru
+      </h3>
+      <div class="teacher-grid reveal delay-1" id="teacher-links-grid"></div>
+    </section>
+
+    <section id="mandarin" class="page-section">
+      <h2 class="section-title reveal"><i class="fa-solid fa-book-open" style="color:#f43f5e"></i> Ruang Belajar Mandarin</h2>
+      <p class="reveal delay-1" style="margin-bottom: 30px; font-size: 1.05rem;">Koleksi referensi materi ujian HSK (Hanyu Shuiping Kaoshi) untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
+      
+      <div class="hsk-grid">
+        <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="glass-card interactive card-3d reveal delay-1" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">1</div>
+          <h3 style="color: #fca5a5; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 1</h3>
+          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Pemula</p>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Fondasi pinyin, nada dasar, dan kosakata esensial untuk komunikasi sederhana.</p>
+        </a>
+
+        <a href="https://pandarin.net/new-hsk/level2/" target="_blank" class="glass-card interactive card-3d reveal delay-2" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">2</div>
+          <h3 style="color: var(--accent-secondary); font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 2</h3>
+          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Dasar</p>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Peningkatan struktur kalimat dan kelancaran untuk percakapan topik rutin.</p>
+        </a>
+
+        <a href="https://pandarin.net/new-hsk/level3/" target="_blank" class="glass-card interactive card-3d reveal delay-3" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">3</div>
+          <h3 style="color: #fcd34d; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 3</h3>
+          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah Bawah</p>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Pemahaman konteks luas untuk kehidupan sosial dan akademik mendasar.</p>
+        </a>
+
+        <a href="https://pandarin.net/new-hsk/level4/" target="_blank" class="glass-card interactive card-3d reveal delay-4" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">4</div>
+          <h3 style="color: #34d399; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 4</h3>
+          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah</p>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Kefasihan berinteraksi dengan penutur asli serta diskusi topik kompleks.</p>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact" class="page-section">
+      <div class="glass-card interactive card-3d reveal" style="max-width:700px; margin:0 auto; width:100%;">
+        <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-primary)"></i> Hubungi Saya</h2>
+        <p style="margin-bottom:30px;">Kirimkan pesan untuk berkolaborasi, diskusi matematika, atau sekadar menyapa via WhatsApp.</p>
+        
+        <form id="contactForm" class="contact-form">
+          <input type="text" id="waName" class="form-input interactive" placeholder="Nama Lengkap / Panggilan" required>
+          <textarea id="waMsg" class="form-input interactive" rows="5" placeholder="Tulis pesan Anda di sini..." required></textarea>
+          <button type="submit" class="btn-primary interactive" style="justify-content:center; padding:18px; margin-top:10px; font-size:1.05rem;">
+            <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Lanjut ke WhatsApp
+          </button>
+        </form>
+      </div>
+    </section>
+    
+    <footer>
+      <p>© <span id="currentYear"></span> • Keenan Clio Adiwinata • Crafted with Elegance</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("currentYear").textContent = new Date().getFullYear();
+      
+      // =====================================
+      // 1. KURSOR & BACKGROUND MOUSE GLOW
+      // =====================================
+      const dot = document.getElementById("cursorDot");
+      const ring = document.getElementById("cursorRing");
+      const glow = document.getElementById("mouseGlow");
+      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+
+      if (!isTouchDevice) {
+        document.addEventListener("mousemove", (e) => {
+          const x = e.clientX, y = e.clientY;
+          
+          if(dot) dot.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
+          
+          if(ring) {
+            ring.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
+              { duration: 300, fill: "forwards", easing: "ease-out" });
+          }
+          if(glow) {
+            // Glow dibuat lebih luas dan lembut pergerakannya
+            glow.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
+              { duration: 1500, fill: "forwards", easing: "ease-out" });
+          }
+        });
+
+        document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
+          el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
+          el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+        });
+      }
+
+      // =====================================
+      // 2. SCROLL REVEAL ANIMATION (Intersection Observer)
+      // =====================================
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1 // Memicu animasi ketika 10% elemen terlihat di layar
+      };
+
+      const scrollObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Biarkan observer terus memantau jika ingin efek terulang, atau uncomment baris di bawah untuk sekali jalan:
+            // observer.unobserve(entry.target); 
+          }
+        });
+      }, observerOptions);
+
+      // Jalankan observasi
+      function observeRevealElements() {
+        document.querySelectorAll('.reveal').forEach(el => {
+          scrollObserver.observe(el);
+        });
+      }
+
+      // =====================================
+      // 3. EFEK HOVER 3D (TILT SANGAT HALUS)
+      // =====================================
+      if (!isTouchDevice) {
+        document.querySelectorAll('.card-3d').forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            let rect = card.getBoundingClientRect();
+            let x = e.clientX - rect.left; 
+            let y = e.clientY - rect.top;
+            let centerX = rect.width / 2;
+            let centerY = rect.height / 2;
+            
+            // Pengali rotasi diperkecil agar terasa elegan (3 bukannya 8)
+            let rotateX = ((y - centerY) / centerY) * -3; 
+            let rotateY = ((x - centerX) / centerX) * 3;  
+            
+            card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+          });
+        });
+      }
+
+      // =====================================
+      // 4. NAVBAR SCROLL SPY
+      // =====================================
+      const navLinks = document.querySelectorAll('.nav-scroll');
+      const sections = document.querySelectorAll('.page-section');
+      
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+          }
+        });
+      });
+
+      document.getElementById("hamburgerBtn").addEventListener("click", () => {
+        document.getElementById("navLinks").classList.toggle("show");
+      });
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          document.getElementById("navLinks").classList.remove("show");
+        });
+      });
+
+      // =====================================
+      // 5. DATA JADWAL & WEB GURU
+      // =====================================
+      const links = {
+        "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
+        "PKN": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
+        "B.INDONESIA": "https://sites.google.com/cintakasihtzuchi.sch.id/rulymedianamanurungspd/bio",
+        "INGGRIS": "https://sites.google.com/view/tibisatibi/home?authuser=0",
+        "INGGRIS LANJUT": "https://sites.google.com/view/tibisatibi/home?authuser=0",
+        "MANDARIN": "https://sites.google.com/cintakasihtzuchi.sch.id/laoshi-mul?usp=sharing",
+        "MAT WAJIB": "https://sites.google.com/cintakasihtzuchi.sch.id/sma-cinta-kasih-tzu-chi/profil?authuser=0",
+        "SENI BUDAYA": "https://sites.google.com/cintakasihtzuchi.sch.id/senibudaya",
+        "B.HUMANIS": "https://sites.google.com/cintakasihtzuchi.sch.id/iriwatyjaputra?usp=sharing",
+        "FISIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/sartikalumbantoruan/bio?authuser=0",
+        "KIMIA": "https://sites.google.com/cintakasihtzuchi.sch.id/chem-is-try/kimia/materi?authuser=0",
+        "GEOGRAFI": "https://sites.google.com/cintakasihtzuchi.sch.id/nurfajarsidikweb/lesson-materi-ajar/geography?authuser=0",
+        "SEJARAH": "https://sites.google.com/cintakasihtzuchi.sch.id/nurfajarsidikweb/lesson-materi-ajar/history?authuser=0",
+        "INFORMATIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/informatics"
+      };
+
+      const jadwal = [
+        { day: "SENIN", start: "06:30", end: "07:30", subject: "UPACARA/WALIKELAS" },
+        { day: "SENIN", start: "07:30", end: "09:00", subject: "GEOGRAFI" },
+        { day: "SENIN", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
+        { day: "SENIN", start: "09:30", end: "10:50", subject: "MANDARIN" },
+        { day: "SENIN", start: "10:50", end: "11:30", subject: "B.INDONESIA" },
+        { day: "SENIN", start: "11:30", end: "12:10", subject: "BUDI PEKERTI" },
+        { day: "SENIN", start: "12:10", end: "12:40", subject: "ISTIRAHAT" },
+        { day: "SENIN", start: "12:40", end: "13:20", subject: "B.HUMANIS" },
+        { day: "SENIN", start: "13:20", end: "14:40", subject: "INGGRIS LANJUT" },
+        
+        { day: "SELASA", start: "06:45", end: "08:15", subject: "AGAMA" },
+        { day: "SELASA", start: "08:15", end: "09:45", subject: "PKN" },
+        { day: "SELASA", start: "10:05", end: "11:35", subject: "INGGRIS LANJUT" },
+        { day: "SELASA", start: "12:00", end: "13:20", subject: "B.INDONESIA" },
+        { day: "SELASA", start: "13:20", end: "14:30", subject: "FISIKA" },
+        
+        { day: "RABU", start: "06:45", end: "08:15", subject: "MAT WAJIB" },
+        { day: "RABU", start: "08:15", end: "09:00", subject: "MANDARIN" },
+        { day: "RABU", start: "09:30", end: "10:10", subject: "MANDARIN" },
+        { day: "RABU", start: "10:10", end: "11:30", subject: "INFORMATIKA" },
+        { day: "RABU", start: "12:40", end: "14:00", subject: "GEOGRAFI" },
+        { day: "RABU", start: "14:00", end: "15:20", subject: "KIMIA" },
+        
+        { day: "KAMIS", start: "06:45", end: "08:15", subject: "FISIKA" },
+        { day: "KAMIS", start: "08:15", end: "09:00", subject: "PJOK" },
+        { day: "KAMIS", start: "09:30", end: "10:15", subject: "PJOK" },
+        { day: "KAMIS", start: "10:15", end: "11:45", subject: "KIMIA" },
+        { day: "KAMIS", start: "12:30", end: "14:35", subject: "INGGRIS" },
+        
+        { day: "JUMAT", start: "07:15", end: "08:45", subject: "SENI BUDAYA" },
+        { day: "JUMAT", start: "09:15", end: "10:00", subject: "MAT WAJIB" },
+        { day: "JUMAT", start: "10:00", end: "11:30", subject: "SEJARAH" },
+        { day: "JUMAT", start: "13:00", end: "14:30", subject: "INFORMATIKA" }
+      ];
+
+      // Format Kartu Per Hari dengan Staggered Animations (.delay-*)
+      const daysOrder = ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT"];
+      const scheduleContainer = document.getElementById("daily-schedule-container");
+      
+      daysOrder.forEach((day, index) => {
+        const dayTasks = jadwal.filter(j => j.day === day);
+        if(dayTasks.length > 0) {
+          let listHtml = `<ul class="schedule-list">`;
+          dayTasks.forEach(task => {
+            let subjName = task.subject;
+            if(links[task.subject]) {
+              subjName = `<a href="${links[task.subject]}" target="_blank" class="subj-link interactive">${task.subject}</a>`;
+            }
+            let isBreak = task.subject.includes("ISTIRAHAT");
+            let opacityStyle = isBreak ? 'opacity: 0.5;' : '';
+            
+            listHtml += `<li style="${opacityStyle}">
+               <span class="time-badge">${task.start} - ${task.end}</span>
+               <span class="subj-name">${subjName}</span>
+            </li>`;
+          });
+          listHtml += `</ul>`;
+
+          // Memberikan delay dinamis 1, 2, 3...
+          let delayClass = `delay-${index + 1}`;
+          scheduleContainer.innerHTML += `
+            <div class="day-card interactive reveal ${delayClass}">
+              <h3>${day}</h3>
+              ${listHtml}
+            </div>
+          `;
+        }
+      });
+
+      // Render Web Guru Grid
+      let gridHtml = '';
+      for(let subj in links) {
+        gridHtml += `<a href="${links[subj]}" target="_blank" class="teacher-card interactive">${subj}</a>`;
+      }
+      document.getElementById("teacher-links-grid").innerHTML = gridHtml;
+
+      // Inisialisasi observer setelah DOM digenerate
+      observeRevealElements();
+
+      // =====================================
+      // 6. LIVE SCHEDULE TRACKER
+      // =====================================
+      function updateLiveSchedule() {
+        const now = new Date();
+        const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
+        const today = days[now.getDay()];
+        const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        
+        document.getElementById("live-time-display").innerHTML = `<i class="fa-regular fa-clock"></i> ${today}, ${timeStr} WIB`;
+
+        let current = jadwal.find(j => j.day === today && timeStr >= j.start && timeStr < j.end);
+        const box = document.getElementById("live-schedule-box");
+        
+        if(current) {
+          let isBreak = current.subject.includes("ISTIRAHAT");
+          if(isBreak) {
+            box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted);">Sedang Istirahat ☕</span>`;
+          } else {
+            let linkHTML = links[current.subject] ? 
+              `<a href="${links[current.subject]}" target="_blank" class="btn-primary interactive" style="margin-top:10px; background:var(--accent-primary); color:#fff;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Modul ${current.subject}</a>` 
+              : `<p style="color:var(--text-muted); font-size:0.9rem; margin-top:10px;">*Web belum tersedia</p>`;
+            
+            box.querySelector('.live-subject').textContent = current.subject;
+            
+            let oldLink = box.querySelector('.btn-primary');
+            let oldP = box.querySelector('p');
+            if(oldLink) oldLink.remove();
+            if(oldP) oldP.remove();
+            
+            box.innerHTML += linkHTML;
+          }
+        } else {
+          box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted); font-size:1.6rem;">Tidak ada kelas saat ini.</span>`;
+        }
+      }
+      setInterval(updateLiveSchedule, 60000);
+      updateLiveSchedule();
+
+      // =====================================
+      // 7. KONTAK WHATSAPP
+      // =====================================
+      document.getElementById("contactForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nama = encodeURIComponent(document.getElementById("waName").value);
+        const msg = encodeURIComponent(document.getElementById("waMsg").value);
+        window.open(`https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo%20Keenan,%20saya%20${nama}.%20${msg}`, "_blank");
+      });
+    });
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keenan Clio | Personal Hub</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Urbanist:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      /* Premium Midnight Slate Palette */
+      --bg-base: #090a0f; 
+      --bg-surface: rgba(20, 22, 32, 0.6);
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(168, 85, 247, 0.4);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --accent-primary: #a855f7;   /* Elegant Violet */
+      --accent-secondary: #38bdf8; /* Bright Cyan */
+      
+      --shadow-soft: 0 8px 30px rgba(0,0,0,0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-muted);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Kursor Custom Desktop */
+    @media (hover: hover) and (pointer: fine) {
+      *, *::before, *::after { cursor: none !important; }
+      
+      .cursor-dot {
+        position: fixed; top: 0; left: 0;
+        width: 6px; height: 6px;
+        background: var(--text-main);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        box-shadow: 0 0 10px var(--text-main);
+        transition: transform 0.1s;
+      }
+      
+      .cursor-ring {
+        position: fixed; top: 0; left: 0;
+        width: 32px; height: 32px;
+        border: 1px solid var(--accent-primary);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s;
+      }
+
+      .cursor-hover .cursor-dot { transform: scale(0); }
+      .cursor-hover .cursor-ring {
+        width: 50px; height: 50px;
+        background: rgba(168, 85, 247, 0.1);
+        border-color: var(--accent-secondary);
+        backdrop-filter: blur(2px);
+      }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .cursor-dot, .cursor-ring { display: none !important; }
+    }
+
+    /* Tekstur Noise Premium (Awwwards Style) */
+    .bg-noise {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Cahaya Mouse Ambient yang Lebih Halus */
+    .ambient-tracker {
+      position: fixed;
+      top: 0; left: 0;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(168,85,247,0.06) 0%, rgba(56,189,248,0.03) 30%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -2;
+      transform: translate(-50%, -50%);
+    }
+    
+    .bg-mesh {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56,189,248,0.03) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(168,85,247,0.03) 0px, transparent 50%);
+      z-index: -3;
+    }
+
+    /* ANIMASI SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: opacity, transform;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Staggering delays untuk elemen berurutan */
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+    .delay-5 { transition-delay: 0.5s; }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(9, 10, 15, 0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-light);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 6%;
+      transition: all 0.3s ease;
+    }
+    .nav-brand {
+      font-family: 'Urbanist', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .nav-brand span { color: var(--accent-primary); }
+    
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-btn {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      color: var(--text-main);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .hamburger span {
+      width: 28px; height: 3px;
+      background: var(--text-main);
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .page-section {
+      padding-top: 130px; 
+      padding-bottom: 80px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .glass-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 24px;
+      padding: 32px;
+      backdrop-filter: blur(24px);
+      box-shadow: var(--shadow-soft);
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: border-color 0.4s ease, transform 0.2s ease-out;
+    }
+    .glass-card:hover {
+      border-color: var(--border-glow);
+    }
+
+    /* Typografi Header Glowing */
+    .title-glow {
+      font-family: 'Urbanist', sans-serif;
+      font-size: clamp(2.8rem, 6.5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #fff 20%, var(--accent-secondary) 50%, var(--accent-primary) 80%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shineFlow 5s ease infinite alternate;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 20px rgba(168,85,247,0.2));
+    }
+    @keyframes shineFlow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    .section-title {
+      font-family: 'Urbanist', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-img-box {
+      width: 100%;
+      max-width: 360px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      margin: 0 auto;
+      position: relative;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      padding: 4px; /* Untuk border gradient */
+      box-shadow: 0 20px 50px rgba(168,85,247,0.25);
+    }
+    .hero-img-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--bg-base);
+    }
+    .hero-img-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top; /* Mencegah wajah kepotong */
+    }
+
+    /* Metrik 3 Pilar */
+    .metrics-row {
+      display: flex; gap: 24px; margin: 30px 0; flex-wrap: wrap;
+    }
+    .metric-item {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .metric-item strong {
+      font-size: 1.1rem; color: var(--text-main); font-family: 'Urbanist', sans-serif;
+    }
+    .metric-item span { font-size: 0.85rem; color: var(--accent-secondary); }
+
+    /* Tombol Interaktif */
+    .btn-primary {
+      background: var(--text-main);
+      color: var(--bg-base);
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: 0.3s;
+      border: none; cursor: none;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.15); }
+    
+    .btn-social {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-main);
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: inline-flex; justify-content: center; align-items: center;
+      text-decoration: none; font-size: 1.2rem;
+      border: 1px solid var(--border-light);
+      transition: 0.3s; cursor: none;
+    }
+    .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); transform: translateY(-3px); }
+
+    .port-grid {
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .port-card {
+      display: flex; gap: 24px; align-items: center; text-decoration: none;
+    }
+    .port-icon {
+      width: 75px; height: 75px; border-radius: 20px;
+      background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.15));
+      color: var(--text-main);
+      display: flex; justify-content: center; align-items: center; font-size: 2rem;
+      flex-shrink: 0; border: 1px solid var(--border-light);
+    }
+    .port-card h3 { color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.3rem; margin-bottom: 8px; }
+
+    /* HSK Cards Grid */
+    .hsk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .live-status-box {
+      background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.05));
+      border: 1px solid var(--border-glow);
+      text-align: center;
+      padding: 40px;
+      border-radius: 24px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px rgba(168,85,247,0.1);
+    }
+    .live-time { font-family: 'Urbanist', sans-serif; font-size: 1.2rem; color: var(--accent-secondary); margin-bottom: 16px; }
+    .live-subject { font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.1; }
+
+    /* Grid Hari (Senin-Jumat) */
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 50px;
+    }
+    .day-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+    }
+    .day-card h3 {
+      font-family: 'Urbanist', sans-serif;
+      font-size: 1.4rem;
+      color: var(--accent-primary);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .schedule-list { list-style: none; }
+    .schedule-list li {
+      display: flex; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.05);
+      font-size: 0.9rem;
+    }
+    .schedule-list li:last-child { border-bottom: none; }
+    .time-badge { background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 6px; font-family: monospace; color: var(--text-muted); }
+    .subj-name { font-weight: 600; color: var(--text-main); text-align: right; }
+    .subj-link { color: var(--accent-secondary); text-decoration: none; transition: 0.3s; }
+    .subj-link:hover { color: var(--accent-primary); }
+
+    /* Web Guru Grid */
+    .teacher-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;
+    }
+    .teacher-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-light);
+      padding: 16px; border-radius: 16px;
+      text-align: center; color: var(--text-main); text-decoration: none;
+      font-family: 'Urbanist', sans-serif; font-weight: 600; font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+    .teacher-card:hover { 
+      background: var(--border-glow); border-color: var(--accent-primary); transform: translateY(-4px); 
+    }
+
+    .contact-form {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .form-input {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border-light);
+      padding: 18px; border-radius: 16px;
+      color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
+      outline: none; transition: 0.3s;
+    }
+    .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.5); }
+    
+    footer { text-align: center; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid var(--border-light); margin-top: 60px; }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .metrics-row { justify-content: center; }
+      .hero-img-box { max-width: 280px; }
+      .port-card { flex-direction: column; text-align: center; }
+      .nav-links { gap: 4px; }
+    }
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        position: fixed; top: 70px; right: -100%;
+        flex-direction: column; background: var(--bg-base);
+        width: 100%; height: calc(100vh - 70px); padding: 40px;
+        border-top: 1px solid var(--border-light);
+        justify-content: flex-start;
+        transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      }
+      .nav-links.show { right: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Kursor Custom Desktop -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  
+  <!-- Latar Belakang Premium (Noise + Mesh + Glow) -->
+  <div class="bg-noise"></div>
+  <div class="bg-mesh"></div>
+  <div class="ambient-tracker" id="mouseGlow"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="#home" class="nav-brand interactive">Keenan<span>.</span></a>
+    <button class="hamburger interactive" id="hamburgerBtn">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" class="nav-btn interactive nav-scroll active">Profil</a>
+      <a href="#about" class="nav-btn interactive nav-scroll">About Me</a>
+      <a href="#portfolio" class="nav-btn interactive nav-scroll">Portofolio</a>
+      <a href="#jadwal" class="nav-btn interactive nav-scroll">Jadwal</a>
+      <a href="#mandarin" class="nav-btn interactive nav-scroll">Mandarin</a>
+      <a href="#contact" class="nav-btn interactive nav-scroll">Kontak</a>
+    </div>
+  </nav>
+
+  <div class="page-container">
+    
+    <section id="home" class="page-section">
+      <div class="hero-grid">
+        <div class="hero-text reveal">
+          <p style="color:var(--accent-secondary); font-weight:700; letter-spacing:3px; margin-bottom:12px; font-size:0.9rem; text-transform:uppercase;">Student & Enthusiast</p>
+          <h1 class="title-glow">Keenan Clio Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.45em; color:var(--text-muted); filter:none; font-weight:500;">(黄錫豪)</span></h1>
+          <p style="font-size:1.15rem; line-height:1.7; margin-bottom:10px;">
+            Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
+          </p>
+          
+          <div class="metrics-row reveal delay-1">
+            <div class="metric-item"><strong>Logika</strong><span>Matematika</span></div>
+            <div class="metric-item"><strong>Target Global</strong><span>Bahasa & Bisnis</span></div>
+            <div class="metric-item"><strong>Sportivitas</strong><span>Basketball</span></div>
+          </div>
+
+          <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;" class="reveal delay-2">
+            <a href="#contact" class="btn-primary interactive">Kirim Pesan <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="btn-social interactive"><i class="fa-brands fa-instagram"></i></a>
+            <a href="mailto:keenanclio12@gmail.com" class="btn-social interactive"><i class="fa-regular fa-envelope"></i></a>
+          </div>
+        </div>
+        <div class="hero-img reveal delay-1">
+          <div class="hero-img-box glass-card interactive card-3d">
+            <div class="hero-img-inner">
+              <img src="profile.jpeg" alt="Keenan Clio" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="page-section">
+      <h2 class="section-title reveal"><i class="fa-solid fa-id-card-clip" style="color:var(--accent-secondary)"></i> About Me</h2>
+      <div class="glass-card interactive card-3d reveal delay-1" style="position: relative; overflow: hidden;">
+        <!-- Dekorasi Orbs di dalam kartu -->
+        <div style="position: absolute; top: -50%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+        
+        <div style="position: relative; z-index: 1;">
+          <h3 style="font-family: 'Urbanist', sans-serif; font-size: 1.8rem; color: var(--text-main); margin-bottom: 16px;">Lebih Dekat dengan Keenan</h3>
+          <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px;">
+            Saya percaya bahwa keseimbangan adalah kunci. Di satu sisi, saya sangat menikmati keindahan logika, pemecahan masalah matematis, dan riset sains. Di sisi lain, lapangan basket mengajarkan saya tentang sportivitas, pengambilan keputusan cepat dalam tekanan, dan kerja sama tim.
+          </p>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+            <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); padding: 20px; border-radius: 16px; transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-brain" style="font-size: 2rem; color: var(--accent-primary); margin-bottom: 16px;"></i>
+              <h4 style="color: var(--text-main); margin-bottom: 8px; font-family: 'Urbanist';">Analytical Thinker</h4>
+              <p style="font-size: 0.9rem;">Mendekati masalah dengan logika terstruktur dan pendekatan berbasis data.</p>
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); padding: 20px; border-radius: 16px; transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-users-rays" style="font-size: 2rem; color: var(--accent-secondary); margin-bottom: 16px;"></i>
+              <h4 style="color: var(--text-main); margin-bottom: 8px; font-family: 'Urbanist';">Team Player</h4>
+              <p style="font-size: 0.9rem;">Menjunjung tinggi komunikasi adaptif dan sinergi tim di setiap keadaan.</p>
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); padding: 20px; border-radius: 16px; transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-earth-asia" style="font-size: 2rem; color: #34d399; margin-bottom: 16px;"></i>
+              <h4 style="color: var(--text-main); margin-bottom: 8px; font-family: 'Urbanist';">Global Target</h4>
+              <p style="font-size: 0.9rem;">Mengeksplorasi bahasa asing dan budaya untuk persiapan jangkauan global.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="page-section">
+      <h2 class="section-title reveal"><i class="fa-solid fa-layer-group" style="color:var(--accent-primary)"></i> Portofolio & Proyek</h2>
+      <div class="port-grid">
+        <a href="#" class="glass-card interactive card-3d port-card reveal delay-1">
+          <div class="port-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+          <div>
+            <h3>Analisis & Logika Matematika</h3>
+            <p>Kumpulan studi mandiri dan persiapan olimpiade matematika. Fokus pada problem solving dan pembuktian logis tingkat lanjut.</p>
+          </div>
+        </a>
+        <a href="#" class="glass-card interactive card-3d port-card reveal delay-2">
+          <div class="port-icon"><i class="fa-solid fa-basketball"></i></div>
+          <div>
+            <h3>Basketball & Team Strategy</h3>
+            <p>Dokumentasi kepemimpinan tim, partisipasi turnamen pelajar, latihan fisik intensif, dan analisis taktik formasi permainan.</p>
+          </div>
+        </a>
+        <a href="#" class="glass-card interactive card-3d port-card reveal delay-3">
+          <div class="port-icon"><i class="fa-solid fa-flask"></i></div>
+          <div>
+            <h3>Eksperimen Riset Sains</h3>
+            <p>Proyek penelitian terapan berbasis biologi/kimia serta penyusunan esai kritis bertema lingkungan dan sosial.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section id="jadwal" class="page-section">
+      <h2 class="section-title reveal"><i class="fa-solid fa-calendar-days" style="color:var(--accent-secondary)"></i> Jadwal Kelas XI-2</h2>
+      
+      <!-- Box Live Schedule -->
+      <div class="live-status-box glass-card interactive card-3d reveal delay-1" id="live-schedule-box">
+        <div class="live-time" id="live-time-display">Memuat Waktu...</div>
+        <h3 class="live-subject">Mengecek Jadwal...</h3>
+      </div>
+
+      <!-- Kartu Per Hari -->
+      <div class="days-grid" id="daily-schedule-container">
+        <!-- Konten di-generate lewat JS agar rapi -->
+      </div>
+
+      <!-- Web Guru List -->
+      <h3 class="reveal" style="font-family:'Urbanist'; font-size:1.6rem; color:var(--text-main); margin: 40px 0 20px;">
+        <i class="fa-solid fa-globe" style="color:var(--accent-primary); margin-right:10px;"></i> Direktori Modul Guru
+      </h3>
+      <div class="teacher-grid reveal delay-1" id="teacher-links-grid"></div>
+    </section>
+
+    <section id="mandarin" class="page-section">
+      <h2 class="section-title reveal"><i class="fa-solid fa-book-open" style="color:#f43f5e"></i> Ruang Belajar Mandarin</h2>
+      <p class="reveal delay-1" style="margin-bottom: 30px; font-size: 1.05rem;">Koleksi referensi materi ujian HSK (Hanyu Shuiping Kaoshi) untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
+      
+      <div class="hsk-grid">
+        <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="glass-card interactive card-3d reveal delay-1" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">1</div>
+          <h3 style="color: #fca5a5; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 1</h3>
+          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Pemula</p>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Fondasi pinyin, nada dasar, dan kosakata esensial untuk komunikasi sederhana.</p>
+        </a>
+
+        <a href="https://pandarin.net/new-hsk/level2/" target="_blank" class="glass-card interactive card-3d reveal delay-2" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">2</div>
+          <h3 style="color: var(--accent-secondary); font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 2</h3>
+          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Dasar</p>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Peningkatan struktur kalimat dan kelancaran untuk percakapan topik rutin.</p>
+        </a>
+
+        <a href="https://pandarin.net/new-hsk/level3/" target="_blank" class="glass-card interactive card-3d reveal delay-3" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">3</div>
+          <h3 style="color: #fcd34d; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 3</h3>
+          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah Bawah</p>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Pemahaman konteks luas untuk kehidupan sosial dan akademik mendasar.</p>
+        </a>
+
+        <a href="https://pandarin.net/new-hsk/level4/" target="_blank" class="glass-card interactive card-3d reveal delay-4" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">4</div>
+          <h3 style="color: #34d399; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 4</h3>
+          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah</p>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Kefasihan berinteraksi dengan penutur asli serta diskusi topik kompleks.</p>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact" class="page-section">
+      <div class="glass-card interactive card-3d reveal" style="max-width:700px; margin:0 auto; width:100%;">
+        <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-primary)"></i> Hubungi Saya</h2>
+        <p style="margin-bottom:30px;">Kirimkan pesan untuk berkolaborasi, diskusi matematika, atau sekadar menyapa via WhatsApp.</p>
+        
+        <form id="contactForm" class="contact-form">
+          <input type="text" id="waName" class="form-input interactive" placeholder="Nama Lengkap / Panggilan" required>
+          <textarea id="waMsg" class="form-input interactive" rows="5" placeholder="Tulis pesan Anda di sini..." required></textarea>
+          <button type="submit" class="btn-primary interactive" style="justify-content:center; padding:18px; margin-top:10px; font-size:1.05rem;">
+            <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Lanjut ke WhatsApp
+          </button>
+        </form>
+      </div>
+    </section>
+    
+    <footer>
+      <p>© <span id="currentYear"></span> • Keenan Clio Adiwinata • Crafted with Elegance</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("currentYear").textContent = new Date().getFullYear();
+      
+      // =====================================
+      // 1. KURSOR & BACKGROUND MOUSE GLOW
+      // =====================================
+      const dot = document.getElementById("cursorDot");
+      const ring = document.getElementById("cursorRing");
+      const glow = document.getElementById("mouseGlow");
+      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+
+      if (!isTouchDevice) {
+        document.addEventListener("mousemove", (e) => {
+          const x = e.clientX, y = e.clientY;
+          
+          if(dot) dot.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
+          
+          if(ring) {
+            ring.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
+              { duration: 300, fill: "forwards", easing: "ease-out" });
+          }
+          if(glow) {
+            // Glow dibuat lebih luas dan lembut pergerakannya
+            glow.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
+              { duration: 1500, fill: "forwards", easing: "ease-out" });
+          }
+        });
+
+        document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
+          el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
+          el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+        });
+      }
+
+      // =====================================
+      // 2. SCROLL REVEAL ANIMATION (Intersection Observer)
+      // =====================================
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1 // Memicu animasi ketika 10% elemen terlihat di layar
+      };
+
+      const scrollObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Biarkan observer terus memantau jika ingin efek terulang, atau uncomment baris di bawah untuk sekali jalan:
+            // observer.unobserve(entry.target); 
+          }
+        });
+      }, observerOptions);
+
+      // Jalankan observasi
+      function observeRevealElements() {
+        document.querySelectorAll('.reveal').forEach(el => {
+          scrollObserver.observe(el);
+        });
+      }
+
+      // =====================================
+      // 3. EFEK HOVER 3D (TILT SANGAT HALUS)
+      // =====================================
+      if (!isTouchDevice) {
+        document.querySelectorAll('.card-3d').forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            let rect = card.getBoundingClientRect();
+            let x = e.clientX - rect.left; 
+            let y = e.clientY - rect.top;
+            let centerX = rect.width / 2;
+            let centerY = rect.height / 2;
+            
+            // Pengali rotasi diperkecil agar terasa elegan (3 bukannya 8)
+            let rotateX = ((y - centerY) / centerY) * -3; 
+            let rotateY = ((x - centerX) / centerX) * 3;  
+            
+            card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+          });
+        });
+      }
+
+      // =====================================
+      // 4. NAVBAR SCROLL SPY
+      // =====================================
+      const navLinks = document.querySelectorAll('.nav-scroll');
+      const sections = document.querySelectorAll('.page-section');
+      
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+          }
+        });
+      });
+
+      document.getElementById("hamburgerBtn").addEventListener("click", () => {
+        document.getElementById("navLinks").classList.toggle("show");
+      });
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          document.getElementById("navLinks").classList.remove("show");
+        });
+      });
+
+      // =====================================
+      // 5. DATA JADWAL & WEB GURU
+      // =====================================
+      const links = {
+        "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
+        "PKN": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
+        "B.INDONESIA": "https://sites.google.com/cintakasihtzuchi.sch.id/rulymedianamanurungspd/bio",
+        "INGGRIS": "https://sites.google.com/view/tibisatibi/home?authuser=0",
+        "INGGRIS LANJUT": "https://sites.google.com/view/tibisatibi/home?authuser=0",
+        "MANDARIN": "https://sites.google.com/cintakasihtzuchi.sch.id/laoshi-mul?usp=sharing",
+        "MAT WAJIB": "https://sites.google.com/cintakasihtzuchi.sch.id/sma-cinta-kasih-tzu-chi/profil?authuser=0",
+        "SENI BUDAYA": "https://sites.google.com/cintakasihtzuchi.sch.id/senibudaya",
+        "B.HUMANIS": "https://sites.google.com/cintakasihtzuchi.sch.id/iriwatyjaputra?usp=sharing",
+        "FISIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/sartikalumbantoruan/bio?authuser=0",
+        "KIMIA": "https://sites.google.com/cintakasihtzuchi.sch.id/chem-is-try/kimia/materi?authuser=0",
+        "GEOGRAFI": "https://sites.google.com/cintakasihtzuchi.sch.id/nurfajarsidikweb/lesson-materi-ajar/geography?authuser=0",
+        "SEJARAH": "https://sites.google.com/cintakasihtzuchi.sch.id/nurfajarsidikweb/lesson-materi-ajar/history?authuser=0",
+        "INFORMATIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/informatics"
+      };
+
+      const jadwal = [
+        { day: "SENIN", start: "06:30", end: "07:30", subject: "UPACARA/WALIKELAS" },
+        { day: "SENIN", start: "07:30", end: "09:00", subject: "GEOGRAFI" },
+        { day: "SENIN", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
+        { day: "SENIN", start: "09:30", end: "10:50", subject: "MANDARIN" },
+        { day: "SENIN", start: "10:50", end: "11:30", subject: "B.INDONESIA" },
+        { day: "SENIN", start: "11:30", end: "12:10", subject: "BUDI PEKERTI" },
+        { day: "SENIN", start: "12:10", end: "12:40", subject: "ISTIRAHAT" },
+        { day: "SENIN", start: "12:40", end: "13:20", subject: "B.HUMANIS" },
+        { day: "SENIN", start: "13:20", end: "14:40", subject: "INGGRIS LANJUT" },
+        
+        { day: "SELASA", start: "06:45", end: "08:15", subject: "AGAMA" },
+        { day: "SELASA", start: "08:15", end: "09:45", subject: "PKN" },
+        { day: "SELASA", start: "10:05", end: "11:35", subject: "INGGRIS LANJUT" },
+        { day: "SELASA", start: "12:00", end: "13:20", subject: "B.INDONESIA" },
+        { day: "SELASA", start: "13:20", end: "14:30", subject: "FISIKA" },
+        
+        { day: "RABU", start: "06:45", end: "08:15", subject: "MAT WAJIB" },
+        { day: "RABU", start: "08:15", end: "09:00", subject: "MANDARIN" },
+        { day: "RABU", start: "09:30", end: "10:10", subject: "MANDARIN" },
+        { day: "RABU", start: "10:10", end: "11:30", subject: "INFORMATIKA" },
+        { day: "RABU", start: "12:40", end: "14:00", subject: "GEOGRAFI" },
+        { day: "RABU", start: "14:00", end: "15:20", subject: "KIMIA" },
+        
+        { day: "KAMIS", start: "06:45", end: "08:15", subject: "FISIKA" },
+        { day: "KAMIS", start: "08:15", end: "09:00", subject: "PJOK" },
+        { day: "KAMIS", start: "09:30", end: "10:15", subject: "PJOK" },
+        { day: "KAMIS", start: "10:15", end: "11:45", subject: "KIMIA" },
+        { day: "KAMIS", start: "12:30", end: "14:35", subject: "INGGRIS" },
+        
+        { day: "JUMAT", start: "07:15", end: "08:45", subject: "SENI BUDAYA" },
+        { day: "JUMAT", start: "09:15", end: "10:00", subject: "MAT WAJIB" },
+        { day: "JUMAT", start: "10:00", end: "11:30", subject: "SEJARAH" },
+        { day: "JUMAT", start: "13:00", end: "14:30", subject: "INFORMATIKA" }
+      ];
+
+      // Format Kartu Per Hari dengan Staggered Animations (.delay-*)
+      const daysOrder = ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT"];
+      const scheduleContainer = document.getElementById("daily-schedule-container");
+      
+      daysOrder.forEach((day, index) => {
+        const dayTasks = jadwal.filter(j => j.day === day);
+        if(dayTasks.length > 0) {
+          let listHtml = `<ul class="schedule-list">`;
+          dayTasks.forEach(task => {
+            let subjName = task.subject;
+            if(links[task.subject]) {
+              subjName = `<a href="${links[task.subject]}" target="_blank" class="subj-link interactive">${task.subject}</a>`;
+            }
+            let isBreak = task.subject.includes("ISTIRAHAT");
+            let opacityStyle = isBreak ? 'opacity: 0.5;' : '';
+            
+            listHtml += `<li style="${opacityStyle}">
+               <span class="time-badge">${task.start} - ${task.end}</span>
+               <span class="subj-name">${subjName}</span>
+            </li>`;
+          });
+          listHtml += `</ul>`;
+
+          // Memberikan delay dinamis 1, 2, 3...
+          let delayClass = `delay-${index + 1}`;
+          scheduleContainer.innerHTML += `
+            <div class="day-card interactive reveal ${delayClass}">
+              <h3>${day}</h3>
+              ${listHtml}
+            </div>
+          `;
+        }
+      });
+
+      // Render Web Guru Grid
+      let gridHtml = '';
+      for(let subj in links) {
+        gridHtml += `<a href="${links[subj]}" target="_blank" class="teacher-card interactive">${subj}</a>`;
+      }
+      document.getElementById("teacher-links-grid").innerHTML = gridHtml;
+
+      // Inisialisasi observer setelah DOM digenerate
+      observeRevealElements();
+
+      // =====================================
+      // 6. LIVE SCHEDULE TRACKER
+      // =====================================
+      function updateLiveSchedule() {
+        const now = new Date();
+        const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
+        const today = days[now.getDay()];
+        const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        
+        document.getElementById("live-time-display").innerHTML = `<i class="fa-regular fa-clock"></i> ${today}, ${timeStr} WIB`;
+
+        let current = jadwal.find(j => j.day === today && timeStr >= j.start && timeStr < j.end);
+        const box = document.getElementById("live-schedule-box");
+        
+        if(current) {
+          let isBreak = current.subject.includes("ISTIRAHAT");
+          if(isBreak) {
+            box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted);">Sedang Istirahat ☕</span>`;
+          } else {
+            let linkHTML = links[current.subject] ? 
+              `<a href="${links[current.subject]}" target="_blank" class="btn-primary interactive" style="margin-top:10px; background:var(--accent-primary); color:#fff;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Modul ${current.subject}</a>` 
+              : `<p style="color:var(--text-muted); font-size:0.9rem; margin-top:10px;">*Web belum tersedia</p>`;
+            
+            box.querySelector('.live-subject').textContent = current.subject;
+            
+            let oldLink = box.querySelector('.btn-primary');
+            let oldP = box.querySelector('p');
+            if(oldLink) oldLink.remove();
+            if(oldP) oldP.remove();
+            
+            box.innerHTML += linkHTML;
+          }
+        } else {
+          box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted); font-size:1.6rem;">Tidak ada kelas saat ini.</span>`;
+        }
+      }
+      setInterval(updateLiveSchedule, 60000);
+      updateLiveSchedule();
+
+      // =====================================
+      // 7. KONTAK WHATSAPP
+      // =====================================
+      document.getElementById("contactForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nama = encodeURIComponent(document.getElementById("waName").value);
+        const msg = encodeURIComponent(document.getElementById("waMsg").value);
+        window.open(`https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo%20Keenan,%20saya%20${nama}.%20${msg}`, "_blank");
+      });
+    });
+  </script>
+</body>
+</html>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
