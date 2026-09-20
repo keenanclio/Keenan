@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" style="scroll-behavior: smooth;">
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,162 +8,136 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Urbanist:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Urbanist:wght@600;700;800;900&display=swap" rel="stylesheet">
   
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
-    /* ==========================================
-       WARNA TEMA: MIDNIGHT NAVY & CHAMPAGNE GOLD
-    ========================================== */
     :root {
-      --bg-color: #040b14; /* Biru sangat gelap (Midnight) */
-      --nav-bg: rgba(4, 11, 20, 0.85);
-      --card-bg: rgba(12, 22, 45, 0.6);
-      --card-border: rgba(234, 179, 8, 0.15); /* Emas transparan */
+      /* Premium Midnight Slate Palette */
+      --bg-base: #090a0f; 
+      --bg-surface: rgba(20, 22, 32, 0.6);
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(168, 85, 247, 0.4);
       
       --text-main: #f8fafc;
-      --text-body: #a8b8d0;
+      --text-muted: #94a3b8;
       
-      --accent-gold: #eab308; /* Champagne Gold / Emas elegan */
-      --accent-blue: #38bdf8; /* Cyan cerah */
+      --accent-primary: #a855f7;   /* Elegant Violet */
+      --accent-secondary: #38bdf8; /* Bright Cyan */
       
-      --shadow-3d: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
+      --shadow-soft: 0 8px 30px rgba(0,0,0,0.5);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      scroll-behavior: smooth;
     }
 
     body {
-      background-color: var(--bg-color);
-      color: var(--text-body);
+      background-color: var(--bg-base);
+      color: var(--text-muted);
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
-      
-      /* Background Pola Dots / Grid Halus */
-      background-image: radial-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px);
-      background-size: 30px 30px;
+      min-height: 100vh;
+      position: relative;
     }
 
-    /* ==========================================
-       KURSOR KUSTOM ELEGAN (KHUSUS LAPTOP/PC)
-    ========================================== */
     @media (hover: hover) and (pointer: fine) {
-      *, *::before, *::after {
-        cursor: none !important; /* Hilangkan panah putih */
-      }
+      *, *::before, *::after { cursor: none !important; }
       
       .cursor-dot {
-        position: fixed;
-        top: 0; left: 0;
+        position: fixed; top: 0; left: 0;
         width: 6px; height: 6px;
-        background: var(--accent-gold);
+        background: var(--text-main);
         border-radius: 50%;
         pointer-events: none;
         z-index: 9999;
-        box-shadow: 0 0 8px var(--accent-gold);
-        /* Transform diatur via JS */
+        box-shadow: 0 0 10px var(--text-main);
+        transition: transform 0.1s;
       }
       
       .cursor-ring {
-        position: fixed;
-        top: 0; left: 0;
-        width: 34px; height: 34px;
-        border: 1px solid rgba(234, 179, 8, 0.6);
+        position: fixed; top: 0; left: 0;
+        width: 32px; height: 32px;
+        border: 1px solid var(--accent-primary);
         border-radius: 50%;
         pointer-events: none;
         z-index: 9998;
-        transition: width 0.3s, height 0.3s, border-color 0.3s, background 0.3s;
-        /* Transform diatur via JS menggunakan .animate() */
+        transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s;
       }
 
-      .cursor-hover .cursor-dot {
-        background: var(--accent-blue);
-        box-shadow: 0 0 12px var(--accent-blue);
-        width: 8px; height: 8px;
-      }
+      .cursor-hover .cursor-dot { transform: scale(0); }
       .cursor-hover .cursor-ring {
-        width: 55px; height: 55px;
-        border-color: var(--accent-blue);
-        background: rgba(56, 189, 248, 0.05);
+        width: 50px; height: 50px;
+        background: rgba(168, 85, 247, 0.1);
+        border-color: var(--accent-secondary);
+        backdrop-filter: blur(2px);
       }
     }
 
-    /* Sembunyikan kursor kustom di HP agar tidak beku */
     @media (hover: none), (pointer: coarse) {
-      .cursor-dot, .cursor-ring {
-        display: none !important;
-      }
+      .cursor-dot, .cursor-ring { display: none !important; }
     }
 
-    /* ==========================================
-       BACKGROUND INTERAKTIF (MOUSE GLOW)
-    ========================================== */
-    #mouseGlow {
+    .ambient-tracker {
       position: fixed;
       top: 0; left: 0;
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.07) 0%, transparent 60%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(168,85,247,0.08) 0%, transparent 60%);
       border-radius: 50%;
       pointer-events: none;
       z-index: -1;
-      /* Transform diatur via JS */
+      transform: translate(-50%, -50%);
     }
-
-    /* Ambient statis */
-    .ambient-static {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(150px);
+    
+    .bg-mesh {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56,189,248,0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(168,85,247,0.05) 0px, transparent 50%);
       z-index: -2;
-      pointer-events: none;
     }
 
-    /* ==========================================
-       NAVBAR (STICKY, RAPI & TIDAK TERPOTONG)
-    ========================================== */
     .navbar {
       position: fixed;
-      top: 0; left: 0; right: 0; /* Mencegah terpotong di kanan */
-      background: var(--nav-bg);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      top: 0; left: 0; right: 0;
+      background: rgba(9, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-light);
       z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 5%; /* Menggunakan persentase agar responsif */
+      padding: 18px 6%;
       transition: all 0.3s ease;
     }
     .nav-brand {
       font-family: 'Urbanist', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 800;
       color: var(--text-main);
       text-decoration: none;
+      letter-spacing: -0.5px;
     }
-    .nav-brand span { color: var(--accent-gold); }
+    .nav-brand span { color: var(--accent-primary); }
     
-    .nav-links {
-      display: flex;
-      gap: 12px;
-    }
+    .nav-links { display: flex; gap: 8px; }
     .nav-btn {
       text-decoration: none;
-      color: var(--text-body);
+      color: var(--text-muted);
       font-size: 0.95rem;
       font-weight: 600;
       padding: 10px 18px;
-      border-radius: 10px;
+      border-radius: 12px;
       transition: all 0.3s;
     }
     .nav-btn:hover, .nav-btn.active {
-      color: var(--accent-gold);
-      background: rgba(234, 179, 8, 0.1);
+      color: var(--text-main);
+      background: rgba(255,255,255,0.05);
     }
 
     .hamburger {
@@ -175,189 +149,267 @@
       cursor: pointer;
     }
     .hamburger span {
-      width: 26px; height: 3px;
+      width: 28px; height: 3px;
       background: var(--text-main);
       border-radius: 3px;
       transition: 0.3s;
     }
 
-    /* ==========================================
-       STRUKTUR HALAMAN
-    ========================================== */
     .page-container {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 24px;
     }
-
     .page-section {
-      padding-top: 120px; 
-      padding-bottom: 60px;
+      padding-top: 130px; 
+      padding-bottom: 80px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
-    /* ==========================================
-       EFEK HOVER 3D (SANGAT HALUS & ELEGAN)
-    ========================================== */
-    .card-3d {
-      background: var(--card-bg);
-      border: 1px solid rgba(255, 255, 255, 0.05); /* Border sangat halus */
+    .glass-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
       border-radius: 24px;
       padding: 32px;
-      backdrop-filter: blur(16px);
-      box-shadow: var(--shadow-3d);
+      backdrop-filter: blur(24px);
+      box-shadow: var(--shadow-soft);
       transform-style: preserve-3d;
       will-change: transform;
-      transition: border-color 0.4s, transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: border-color 0.4s ease;
     }
-    .card-3d:hover {
-      border-color: rgba(234, 179, 8, 0.3); /* Cahaya emas saat disentuh */
+    .glass-card:hover {
+      border-color: var(--border-glow);
     }
 
-    /* Typography */
+    /* Typografi Header Glowing */
     .title-glow {
       font-family: 'Urbanist', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 800;
-      background: linear-gradient(135deg, #fff, var(--accent-gold), var(--accent-blue));
+      font-size: clamp(2.8rem, 6.5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #fff 20%, var(--accent-secondary) 50%, var(--accent-primary) 80%);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: gradientFlow 6s ease infinite alternate;
-      filter: drop-shadow(0 0 20px rgba(234, 179, 8, 0.2));
-      margin-bottom: 15px;
-      line-height: 1.1;
+      animation: shineFlow 5s ease infinite alternate;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 20px rgba(168,85,247,0.2));
     }
-    @keyframes gradientFlow {
+    @keyframes shineFlow {
       0% { background-position: 0% 50%; }
       100% { background-position: 100% 50%; }
     }
     .section-title {
       font-family: 'Urbanist', sans-serif;
-      font-size: 2rem;
+      font-size: 2.2rem;
+      font-weight: 800;
       color: var(--text-main);
-      margin-bottom: 24px;
+      margin-bottom: 30px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
-    /* ==========================================
-       LAYOUT KHUSUS
-    ========================================== */
-    /* Hero */
     .hero-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 50px;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 60px;
       align-items: center;
     }
     .hero-img-box {
       width: 100%;
-      max-width: 380px;
+      max-width: 360px;
       aspect-ratio: 1;
-      border-radius: 50%; /* Bulat elegan */
-      overflow: hidden;
+      border-radius: 50%;
       margin: 0 auto;
-      border: 3px solid rgba(234, 179, 8, 0.4);
-      box-shadow: 0 0 40px rgba(234, 179, 8, 0.15);
       position: relative;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      padding: 4px; /* Untuk border gradient */
+      box-shadow: 0 20px 50px rgba(168,85,247,0.25);
     }
-    .hero-img-box img {
-      width: 100%; height: 100%; object-fit: cover;
+    .hero-img-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--bg-base);
+    }
+    .hero-img-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top; /* Mencegah wajah kepotong */
     }
 
-    /* Jadwal Layout (ATAS-BAWAH RAPIH) */
-    .jadwal-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
+    /* Metrik 3 Pilar */
+    .metrics-row {
+      display: flex; gap: 24px; margin: 30px 0;
     }
-    .schedule-table {
-      width: 100%; border-collapse: collapse;
-      color: var(--text-main);
-      font-size: 0.95rem;
+    .metric-item {
+      display: flex; flex-direction: column; gap: 6px;
     }
-    .schedule-table th, .schedule-table td {
-      padding: 16px 12px; 
-      border-bottom: 1px solid rgba(255,255,255,0.05); 
-      text-align: left;
+    .metric-item strong {
+      font-size: 1.1rem; color: var(--text-main); font-family: 'Urbanist', sans-serif;
     }
-    .schedule-table th {
-      color: var(--accent-gold);
-      font-family: 'Urbanist', sans-serif;
-      font-size: 1.05rem;
+    .metric-item span { font-size: 0.85rem; color: var(--accent-secondary); }
+
+    /* Tombol Interaktif */
+    .btn-primary {
+      background: var(--text-main);
+      color: var(--bg-base);
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: 0.3s;
+      border: none; cursor: none;
     }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.15); }
     
-    .teacher-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;
+    .btn-social {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-main);
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: inline-flex; justify-content: center; align-items: center;
+      text-decoration: none; font-size: 1.2rem;
+      border: 1px solid var(--border-light);
+      transition: 0.3s; cursor: none;
     }
-    .teacher-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      padding: 16px; border-radius: 16px;
-      text-align: center; color: var(--text-main); text-decoration: none;
-      transition: all 0.3s;
-    }
-    .teacher-card:hover { 
-      background: var(--accent-gold); color: #000; 
-      border-color: var(--accent-gold); transform: translateY(-4px); 
-    }
+    .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); transform: translateY(-3px); }
 
-    /* Portofolio List */
-    .port-list { display: flex; flex-direction: column; gap: 20px; }
-    .port-item {
+    .port-grid {
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .port-card {
       display: flex; gap: 24px; align-items: center; text-decoration: none;
     }
     .port-icon {
-      width: 65px; height: 65px; border-radius: 18px;
-      background: rgba(234, 179, 8, 0.1); color: var(--accent-gold);
-      display: flex; justify-content: center; align-items: center; font-size: 1.8rem;
-      flex-shrink: 0;
+      width: 75px; height: 75px; border-radius: 20px;
+      background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.15));
+      color: var(--text-main);
+      display: flex; justify-content: center; align-items: center; font-size: 2rem;
+      flex-shrink: 0; border: 1px solid var(--border-light);
+    }
+    .port-card h3 { color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.3rem; margin-bottom: 8px; }
+
+    .live-status-box {
+      background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.05));
+      border: 1px solid var(--border-glow);
+      text-align: center;
+      padding: 40px;
+      border-radius: 24px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px rgba(168,85,247,0.1);
+    }
+    .live-time { font-family: 'Urbanist', sans-serif; font-size: 1.2rem; color: var(--accent-secondary); margin-bottom: 16px; }
+    .live-subject { font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.1; }
+
+    /* Grid Hari (Senin-Jumat) */
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 50px;
+    }
+    .day-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+    }
+    .day-card h3 {
+      font-family: 'Urbanist', sans-serif;
+      font-size: 1.4rem;
+      color: var(--accent-primary);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .schedule-list { list-style: none; }
+    .schedule-list li {
+      display: flex; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.05);
+      font-size: 0.9rem;
+    }
+    .schedule-list li:last-child { border-bottom: none; }
+    .time-badge { background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 6px; font-family: monospace; color: var(--text-muted); }
+    .subj-name { font-weight: 600; color: var(--text-main); text-align: right; }
+    .subj-link { color: var(--accent-secondary); text-decoration: none; transition: 0.3s; }
+    .subj-link:hover { color: var(--accent-primary); }
+
+    /* Web Guru Grid */
+    .teacher-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;
+    }
+    .teacher-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-light);
+      padding: 16px; border-radius: 16px;
+      text-align: center; color: var(--text-main); text-decoration: none;
+      font-family: 'Urbanist', sans-serif; font-weight: 600; font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+    .teacher-card:hover { 
+      background: var(--border-glow); border-color: var(--accent-primary); transform: translateY(-4px); 
     }
 
-    /* Media Queries */
+    .contact-form {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .form-input {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border-light);
+      padding: 18px; border-radius: 16px;
+      color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
+      outline: none; transition: 0.3s;
+    }
+    .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.5); }
+    
+    footer { text-align: center; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid var(--border-light); margin-top: 60px; }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .metrics-row { justify-content: center; }
+      .hero-img-box { max-width: 280px; }
+      .port-card { flex-direction: column; text-align: center; }
+    }
     @media (max-width: 768px) {
       .hamburger { display: flex; }
       .nav-links {
-        position: fixed; top: 65px; right: -100%;
-        flex-direction: column; background: var(--nav-bg);
-        width: 100%; height: calc(100vh - 65px); padding: 30px;
-        border-top: 1px solid rgba(255,255,255,0.05);
+        position: fixed; top: 70px; right: -100%;
+        flex-direction: column; background: var(--bg-base);
+        width: 100%; height: calc(100vh - 70px); padding: 40px;
+        border-top: 1px solid var(--border-light);
         transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
       }
       .nav-links.show { right: 0; }
-      .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 30px;}
-      .hero-text div { justify-content: center; }
-      .hero-img-box { max-width: 280px; }
-      .port-item { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- KURSOR KUSTOM (Elegan, nonaktif otomatis di HP) -->
+  <!-- Kursor Custom Desktop -->
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
   
-  <!-- INTERACTIVE BACKGROUND GLOW -->
-  <div id="mouseGlow"></div>
+  <!-- Background Animasi -->
+  <div class="bg-mesh"></div>
+  <div class="ambient-tracker" id="mouseGlow"></div>
 
-  <!-- AMBIENT STATIS -->
-  <div class="ambient-static" style="width:500px; height:500px; background:rgba(234,179,8,0.08); top:-50px; left:-100px;"></div>
-  <div class="ambient-static" style="width:600px; height:600px; background:rgba(56,189,248,0.06); bottom:-100px; right:-150px;"></div>
-
-  <!-- NAVBAR STICKY -->
+  <!-- Navbar -->
   <nav class="navbar">
     <a href="#home" class="nav-brand interactive">Keenan<span>.</span></a>
     <button class="hamburger interactive" id="hamburgerBtn">
       <span></span><span></span><span></span>
     </button>
     <div class="nav-links" id="navLinks">
-      <a href="#home" class="nav-btn interactive nav-scroll">Profil</a>
+      <a href="#home" class="nav-btn interactive nav-scroll active">Profil</a>
       <a href="#portfolio" class="nav-btn interactive nav-scroll">Portofolio</a>
       <a href="#jadwal" class="nav-btn interactive nav-scroll">Jadwal XI-2</a>
       <a href="#contact" class="nav-btn interactive nav-scroll">Kontak</a>
@@ -366,206 +418,206 @@
 
   <div class="page-container">
     
-    <!-- SECTION 1: HOME / PROFIL -->
     <section id="home" class="page-section">
       <div class="hero-grid">
         <div class="hero-text">
-          <p style="color:var(--accent-gold); font-weight:700; letter-spacing:2px; margin-bottom:10px;">HALO, SAYA</p>
-          <h1 class="title-glow">Keenan Clio <br> Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.5em; color:var(--text-body); filter:none;">(黄錫豪)</span></h1>
-          <p style="font-size:1.1rem; line-height:1.7; margin-bottom:30px;">
-            Student • Math & Logic Enthusiast • Basketball Player.<br>
-            Menggabungkan ketajaman analisis matematis dengan kedisiplinan dan strategi di lapangan.
+          <p style="color:var(--accent-secondary); font-weight:700; letter-spacing:3px; margin-bottom:12px; font-size:0.9rem; text-transform:uppercase;">Student & Enthusiast</p>
+          <h1 class="title-glow">Keenan Clio Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.45em; color:var(--text-muted); filter:none; font-weight:500;">(黄錫豪)</span></h1>
+          <p style="font-size:1.15rem; line-height:1.7; margin-bottom:10px;">
+            Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
           </p>
-          <div style="display:flex; gap:16px;">
-            <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="teacher-card interactive" style="padding:12px 24px; background:rgba(234,179,8,0.1); border-color:var(--accent-gold); color:var(--accent-gold);"><i class="fa-brands fa-instagram"></i> Instagram</a>
-            <a href="#contact" class="teacher-card interactive" style="padding:12px 24px; background:var(--text-main); color:var(--bg-color); border:none;">Hubungi Saya</a>
+          
+          <div class="metrics-row">
+            <div class="metric-item"><strong>Logika</strong><span>Matematika</span></div>
+            <div class="metric-item"><strong>Target Global</strong><span>Bahasa & Bisnis</span></div>
+            <div class="metric-item"><strong>Sportivitas</strong><span>Basketball</span></div>
+          </div>
+
+          <div style="display:flex; gap:16px; align-items:center;">
+            <a href="#contact" class="btn-primary interactive">Kirim Pesan <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="btn-social interactive"><i class="fa-brands fa-instagram"></i></a>
+            <a href="mailto:keenanclio12@gmail.com" class="btn-social interactive"><i class="fa-regular fa-envelope"></i></a>
           </div>
         </div>
         <div class="hero-img">
-          <div class="hero-img-box card-3d interactive">
-            <img src="profile.jpeg" alt="Keenan Clio" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
+          <div class="hero-img-box glass-card interactive card-3d">
+            <div class="hero-img-inner">
+              <!-- Foto profil dengan object-position top agar wajah tidak kepotong -->
+              <img src="profile.jpeg" alt="Keenan Clio" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 2: PORTOFOLIO -->
     <section id="portfolio" class="page-section">
-      <h2 class="section-title"><i class="fa-solid fa-layer-group" style="color:var(--accent-gold)"></i> Portofolio & Proyek</h2>
-      <div class="port-list">
-        <a href="#" class="card-3d interactive port-item">
+      <h2 class="section-title"><i class="fa-solid fa-layer-group" style="color:var(--accent-primary)"></i> Portofolio & Proyek</h2>
+      <div class="port-grid">
+        <a href="#" class="glass-card interactive card-3d port-card">
           <div class="port-icon"><i class="fa-solid fa-square-root-variable"></i></div>
           <div>
-            <h3 style="color:#fff; margin-bottom:8px; font-family:'Urbanist', sans-serif;">Analisis & Logika Matematika</h3>
-            <p>Kumpulan studi mandiri dan persiapan olimpiade matematika. Fokus pada problem solving tingkat lanjut.</p>
+            <h3>Analisis & Logika Matematika</h3>
+            <p>Kumpulan studi mandiri dan persiapan olimpiade matematika. Fokus pada problem solving dan pembuktian logis tingkat lanjut.</p>
           </div>
         </a>
-        <a href="#" class="card-3d interactive port-item">
-          <div class="port-icon" style="color:#000; background:var(--accent-gold);"><i class="fa-solid fa-basketball"></i></div>
+        <a href="#" class="glass-card interactive card-3d port-card">
+          <div class="port-icon"><i class="fa-solid fa-basketball"></i></div>
           <div>
-            <h3 style="color:#fff; margin-bottom:8px; font-family:'Urbanist', sans-serif;">Basketball & Team Strategy</h3>
-            <p>Dokumentasi partisipasi turnamen pelajar, latihan fisik, dan analisis formasi permainan tim.</p>
+            <h3>Basketball & Team Strategy</h3>
+            <p>Dokumentasi kepemimpinan tim, partisipasi turnamen pelajar, latihan fisik intensif, dan analisis taktik formasi permainan.</p>
           </div>
         </a>
-        <a href="#" class="card-3d interactive port-item">
-          <div class="port-icon" style="color:var(--accent-blue); background:rgba(56, 189, 248, 0.1);"><i class="fa-solid fa-flask"></i></div>
+        <a href="#" class="glass-card interactive card-3d port-card">
+          <div class="port-icon"><i class="fa-solid fa-flask"></i></div>
           <div>
-            <h3 style="color:#fff; margin-bottom:8px; font-family:'Urbanist', sans-serif;">Eksperimen Riset Sains</h3>
-            <p>Proyek penelitian ilmiah terapan biologi/kimia serta penulisan esai kritis bertema lingkungan.</p>
+            <h3>Eksperimen Riset Sains</h3>
+            <p>Proyek penelitian terapan berbasis biologi/kimia serta penyusunan esai kritis bertema lingkungan dan sosial.</p>
           </div>
         </a>
       </div>
     </section>
 
-    <!-- SECTION 3: JADWAL KELAS XI-2 (ATAS BAWAH) -->
     <section id="jadwal" class="page-section">
-      <h2 class="section-title"><i class="fa-solid fa-calendar-days" style="color:var(--accent-blue)"></i> Jadwal Kelas XI-2</h2>
+      <h2 class="section-title"><i class="fa-solid fa-calendar-days" style="color:var(--accent-secondary)"></i> Jadwal Kelas XI-2</h2>
       
-      <div class="jadwal-stack">
-        <!-- Live Status (ATAS) -->
-        <div class="card-3d interactive" style="text-align:center; padding:40px 20px; border-color: rgba(56, 189, 248, 0.3);">
-          <i class="fa-solid fa-clock" style="font-size:2.5rem; color:var(--accent-blue); margin-bottom:16px;"></i>
-          <h3 style="color:#fff; font-family:'Urbanist', sans-serif; font-size:1.5rem; margin-bottom:10px;">Pelajaran Saat Ini</h3>
-          <div id="live-schedule-box">
-            <p>Memuat jadwal waktu nyata...</p>
-          </div>
-        </div>
-
-        <!-- Tabel Jadwal Seluruh (BAWAH) -->
-        <div class="card-3d interactive">
-          <h3 style="color:var(--accent-gold); margin-bottom:20px; font-family:'Urbanist', sans-serif; font-size:1.4rem;">Tabel Jadwal Sepakan</h3>
-          <div style="overflow-x:auto;">
-            <div id="schedule-table-container"></div>
-          </div>
-        </div>
-
-        <!-- Website Guru -->
-        <div class="card-3d interactive">
-          <h3 style="color:var(--text-main); margin-bottom:20px; font-family:'Urbanist', sans-serif; font-size:1.4rem;"><i class="fa-solid fa-link" style="color:var(--accent-gold)"></i> Link Modul Guru</h3>
-          <div class="teacher-grid" id="teacher-links-grid"></div>
-        </div>
+      <!-- Box Live Schedulue -->
+      <div class="live-status-box glass-card interactive card-3d" id="live-schedule-box">
+        <div class="live-time" id="live-time-display">Memuat Waktu...</div>
+        <h3 class="live-subject">Mengecek Jadwal...</h3>
       </div>
+
+      <!-- Kartu Per Hari -->
+      <div class="days-grid" id="daily-schedule-container">
+        <!-- Konten di-generate lewat JS agar rapi -->
+      </div>
+
+      <!-- Web Guru List -->
+      <h3 style="font-family:'Urbanist'; font-size:1.6rem; color:var(--text-main); margin: 40px 0 20px;">
+        <i class="fa-solid fa-globe" style="color:var(--accent-primary); margin-right:10px;"></i> Direktori Modul Guru
+      </h3>
+      <div class="teacher-grid" id="teacher-links-grid"></div>
     </section>
 
-    <!-- SECTION 4: KONTAK -->
     <section id="contact" class="page-section">
-      <div class="card-3d interactive" style="max-width:700px; margin:0 auto; width:100%;">
-        <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-gold)"></i> Kirim Pesan</h2>
-        <p style="margin-bottom:24px;">Silakan isi form di bawah untuk terhubung langsung melalui WhatsApp pribadi saya.</p>
+      <div class="glass-card interactive card-3d" style="max-width:700px; margin:0 auto; width:100%;">
+        <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-primary)"></i> Hubungi Saya</h2>
+        <p style="margin-bottom:30px;">Kirimkan pesan untuk berkolaborasi, diskusi matematika, atau sekadar menyapa via WhatsApp.</p>
         
-        <form id="contactForm" style="display:flex; flex-direction:column; gap:16px;">
-          <input type="text" id="waName" placeholder="Nama Anda" required style="padding:18px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:#fff; font-size:1rem; outline:none; transition:0.3s;">
-          <textarea id="waMsg" rows="4" placeholder="Pesan Anda..." required style="padding:18px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:#fff; font-size:1rem; outline:none; transition:0.3s;"></textarea>
-          <button type="submit" class="interactive" style="background:var(--accent-gold); color:#000; border:none; padding:18px; border-radius:14px; font-family:'Urbanist', sans-serif; font-weight:800; font-size:1.1rem; cursor:none; transition:0.3s;">
-            <i class="fa-brands fa-whatsapp"></i> Lanjut ke WhatsApp
+        <form id="contactForm" class="contact-form">
+          <input type="text" id="waName" class="form-input interactive" placeholder="Nama Lengkap / Panggilan" required>
+          <textarea id="waMsg" class="form-input interactive" rows="5" placeholder="Tulis pesan Anda di sini..." required></textarea>
+          <button type="submit" class="btn-primary interactive" style="justify-content:center; padding:18px; margin-top:10px; font-size:1.05rem;">
+            <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Lanjut ke WhatsApp
           </button>
         </form>
       </div>
     </section>
     
-    <footer style="text-align:center; padding: 40px 0 20px; color:var(--text-muted); font-size:0.9rem;">
-      <p>© <span id="currentYear"></span> • Keenan Clio Adiwinata</p>
+    <footer>
+      <p>© <span id="currentYear"></span> • Keenan Clio Adiwinata • Crafted with Elegance</p>
     </footer>
 
   </div>
 
-  <!-- JAVASCRIPT LOGIC -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("currentYear").textContent = new Date().getFullYear();
       
       // =====================================
-      // 1. KURSOR ELEGAN & BACKGROUND INTERAKTIF
+      // 1. KURSOR & BACKGROUND MOUSE GLOW
       // =====================================
       const dot = document.getElementById("cursorDot");
       const ring = document.getElementById("cursorRing");
       const glow = document.getElementById("mouseGlow");
 
-      // Auto-hide kursor saat mouse keluar browser (Anti-nyangkut)
-      document.addEventListener("mouseleave", () => {
-        if(dot && ring) { dot.style.opacity = '0'; ring.style.opacity = '0'; }
-      });
-      document.addEventListener("mouseenter", () => {
-        if(dot && ring) { dot.style.opacity = '1'; ring.style.opacity = '1'; }
-      });
+      // Deteksi jika device adalah touch screen
+      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
-      window.addEventListener("mousemove", (e) => {
-        // Jangan jalankan efek jika di layar sentuh (HP/Tablet)
-        if(window.matchMedia("(pointer: coarse)").matches) return;
-        
-        const x = e.clientX;
-        const y = e.clientY;
+      if (!isTouchDevice) {
+        document.addEventListener("mousemove", (e) => {
+          const x = e.clientX, y = e.clientY;
+          
+          if(dot) dot.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
+          
+          // Animate ring & background glow mulus menggunakan Web API
+          if(ring) {
+            ring.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
+              { duration: 300, fill: "forwards", easing: "ease-out" });
+          }
+          if(glow) {
+            glow.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
+              { duration: 800, fill: "forwards", easing: "ease-out" });
+          }
+        });
 
-        // Titik kursor instan
-        if(dot) dot.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
-        
-        // Cincin & Background Glow mengikuti secara mulus dengan Web Animations API
-        if(ring) {
-          ring.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
-            { duration: 400, fill: "forwards", easing: "ease-out" });
-        }
-        
-        if(glow) {
-          glow.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
-            { duration: 1000, fill: "forwards", easing: "ease-out" });
-        }
-      });
-
-      // Hover efek kursor
-      document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
-        el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
-        el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
-      });
-
-      // Input Focus Highlight
-      document.querySelectorAll('input, textarea').forEach(el => {
-        el.addEventListener('focus', () => el.style.borderColor = 'var(--accent-gold)');
-        el.addEventListener('blur', () => el.style.borderColor = 'rgba(255,255,255,0.1)');
-      });
+        // Hover Kursor (Membesar)
+        document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
+          el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
+          el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+        });
+      }
 
       // =====================================
-      // 2. NAVIGASI SMOOTH SCROLL & HAMBURGER
+      // 2. EFEK HOVER 3D (TILT SANGAT HALUS)
+      // =====================================
+      if (!isTouchDevice) {
+        document.querySelectorAll('.card-3d').forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            let rect = card.getBoundingClientRect();
+            let x = e.clientX - rect.left; 
+            let y = e.clientY - rect.top;
+            let centerX = rect.width / 2;
+            let centerY = rect.height / 2;
+            
+            // Pengali rotasi diperkecil agar terasa elegan seperti premium glass
+            let rotateX = ((y - centerY) / centerY) * -3; 
+            let rotateY = ((x - centerX) / centerX) * 3;  
+            
+            card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+          });
+        });
+      }
+
+      // =====================================
+      // 3. NAVBAR & SMOOTH SCROLLING
       // =====================================
       const navLinks = document.querySelectorAll('.nav-scroll');
+      const sections = document.querySelectorAll('.page-section');
       
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          document.getElementById("navLinks").classList.remove("show");
-          navLinks.forEach(l => l.classList.remove('active'));
-          this.classList.add('active');
+      // Update Navbar Active on Scroll
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+          }
         });
       });
 
+      // Hamburger Menu
       document.getElementById("hamburgerBtn").addEventListener("click", () => {
         document.getElementById("navLinks").classList.toggle("show");
       });
-
-      // =====================================
-      // 3. EFEK HOVER 3D (HALUS)
-      // =====================================
-      document.querySelectorAll('.card-3d').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-          if(window.matchMedia("(pointer: coarse)").matches) return; // Matikan di HP
-          let rect = card.getBoundingClientRect();
-          let x = e.clientX - rect.left; 
-          let y = e.clientY - rect.top;
-          let centerX = rect.width / 2;
-          let centerY = rect.height / 2;
-          
-          // Efek sangat halus (max rotasi kecil)
-          let rotateX = ((y - centerY) / centerY) * -2; 
-          let rotateY = ((x - centerX) / centerX) * 2;  
-          
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
-        });
-        
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          document.getElementById("navLinks").classList.remove("show");
         });
       });
 
       // =====================================
-      // 4. DATA JADWAL & LINK GURU (XI-2)
+      // 4. DATA JADWAL (GROUP BY DAY) & WEB GURU
       // =====================================
       const links = {
         "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
@@ -585,7 +637,7 @@
       };
 
       const jadwal = [
-        { day: "SENIN", start: "06:30", end: "07:30", subject: "UPACARA/WALIKELAS" },
+        { day: "SENIN", start: "06:30", end: "07:30", subject: "UPACARA / WALI" },
         { day: "SENIN", start: "07:30", end: "09:00", subject: "GEOGRAFI" },
         { day: "SENIN", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
         { day: "SENIN", start: "09:30", end: "10:50", subject: "MANDARIN" },
@@ -594,58 +646,66 @@
         { day: "SENIN", start: "12:10", end: "12:40", subject: "ISTIRAHAT" },
         { day: "SENIN", start: "12:40", end: "13:20", subject: "B.HUMANIS" },
         { day: "SENIN", start: "13:20", end: "14:40", subject: "INGGRIS LANJUT" },
+        
         { day: "SELASA", start: "06:45", end: "08:15", subject: "AGAMA" },
         { day: "SELASA", start: "08:15", end: "09:45", subject: "PKN" },
         { day: "SELASA", start: "10:05", end: "11:35", subject: "INGGRIS LANJUT" },
         { day: "SELASA", start: "12:00", end: "13:20", subject: "B.INDONESIA" },
         { day: "SELASA", start: "13:20", end: "14:30", subject: "FISIKA" },
+        
         { day: "RABU", start: "06:45", end: "08:15", subject: "MAT WAJIB" },
         { day: "RABU", start: "08:15", end: "09:00", subject: "MANDARIN" },
         { day: "RABU", start: "09:30", end: "10:10", subject: "MANDARIN" },
         { day: "RABU", start: "10:10", end: "11:30", subject: "INFORMATIKA" },
         { day: "RABU", start: "12:40", end: "14:00", subject: "GEOGRAFI" },
         { day: "RABU", start: "14:00", end: "15:20", subject: "KIMIA" },
+        
         { day: "KAMIS", start: "06:45", end: "08:15", subject: "FISIKA" },
         { day: "KAMIS", start: "08:15", end: "09:00", subject: "PJOK" },
         { day: "KAMIS", start: "09:30", end: "10:15", subject: "PJOK" },
         { day: "KAMIS", start: "10:15", end: "11:45", subject: "KIMIA" },
         { day: "KAMIS", start: "12:30", end: "14:35", subject: "INGGRIS" },
+        
         { day: "JUMAT", start: "07:15", end: "08:45", subject: "SENI BUDAYA" },
         { day: "JUMAT", start: "09:15", end: "10:00", subject: "MAT WAJIB" },
         { day: "JUMAT", start: "10:00", end: "11:30", subject: "SEJARAH" },
         { day: "JUMAT", start: "13:00", end: "14:30", subject: "INFORMATIKA" }
       ];
 
-      function checkLiveClass() {
-        const now = new Date();
-        const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
-        const today = days[now.getDay()];
-        const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-        
-        let current = jadwal.find(j => j.day === today && timeStr >= j.start && timeStr < j.end);
-        
-        const box = document.getElementById("live-schedule-box");
-        if(current) {
-          let linkHTML = links[current.subject] ? `<a href="${links[current.subject]}" target="_blank" class="teacher-card interactive" style="display:inline-block; background:var(--accent-gold); color:#000; font-weight:800; border:none; margin-top:14px; padding:12px 24px;">Buka Web ${current.subject}</a>` : `<p style="color:var(--text-body); font-size:0.85rem; margin-top:10px;">*Web Guru Tidak Tersedia</p>`;
-          box.innerHTML = `<h2 style="color:var(--accent-gold); font-size:2.2rem; font-family:'Urbanist', sans-serif; margin:10px 0;">${current.subject}</h2>
-                           <p style="font-size:1.1rem; color:var(--text-main);">${current.start} - ${current.end}</p>
-                           ${linkHTML}`;
-        } else {
-          box.innerHTML = `<p style="color:var(--text-body); font-size:1.1rem;">Saat ini sedang jam istirahat / tidak ada jam pelajaran.<br><span style="font-size:0.9rem; margin-top:8px; display:block;">Waktu Sistem: ${today}, ${timeStr}</span></p>`;
+      // Format Kartu Per Hari
+      const daysOrder = ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT"];
+      const scheduleContainer = document.getElementById("daily-schedule-container");
+      
+      daysOrder.forEach(day => {
+        const dayTasks = jadwal.filter(j => j.day === day);
+        if(dayTasks.length > 0) {
+          let listHtml = `<ul class="schedule-list">`;
+          dayTasks.forEach(task => {
+            let subjName = task.subject;
+            if(links[task.subject]) {
+              subjName = `<a href="${links[task.subject]}" target="_blank" class="subj-link interactive">${task.subject}</a>`;
+            }
+            // Warna redup untuk jam istirahat
+            let isBreak = task.subject.includes("ISTIRAHAT");
+            let opacityStyle = isBreak ? 'opacity: 0.5;' : '';
+            
+            listHtml += `<li style="${opacityStyle}">
+               <span class="time-badge">${task.start} - ${task.end}</span>
+               <span class="subj-name">${subjName}</span>
+            </li>`;
+          });
+          listHtml += `</ul>`;
+
+          scheduleContainer.innerHTML += `
+            <div class="day-card interactive">
+              <h3>${day}</h3>
+              ${listHtml}
+            </div>
+          `;
         }
-      }
-      setInterval(checkLiveClass, 60000);
-      checkLiveClass();
-
-      // Render Tabel Jadwal
-      let tbHtml = '<table class="schedule-table"><tr><th>Hari</th><th>Jam</th><th>Mata Pelajaran</th></tr>';
-      jadwal.forEach(j => {
-        let name = links[j.subject] ? `<a href="${links[j.subject]}" target="_blank" class="interactive" style="color:var(--accent-blue); font-weight:700; text-decoration:none;">${j.subject}</a>` : j.subject;
-        tbHtml += `<tr><td style="font-weight:600;">${j.day}</td><td>${j.start} - ${j.end}</td><td>${name}</td></tr>`;
       });
-      document.getElementById("schedule-table-container").innerHTML = tbHtml + "</table>";
 
-      // Render Grid Web Guru
+      // Render Web Guru Grid
       let gridHtml = '';
       for(let subj in links) {
         gridHtml += `<a href="${links[subj]}" target="_blank" class="teacher-card interactive">${subj}</a>`;
@@ -653,13 +713,53 @@
       document.getElementById("teacher-links-grid").innerHTML = gridHtml;
 
       // =====================================
-      // 5. KONTAK WHATSAPP
+      // 5. LIVE SCHEDULE TRACKER
+      // =====================================
+      function updateLiveSchedule() {
+        const now = new Date();
+        const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
+        const today = days[now.getDay()];
+        const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        
+        document.getElementById("live-time-display").innerHTML = `<i class="fa-regular fa-clock"></i> ${today}, ${timeStr} WIB`;
+
+        let current = jadwal.find(j => j.day === today && timeStr >= j.start && timeStr < j.end);
+        const box = document.getElementById("live-schedule-box");
+        
+        if(current) {
+          let isBreak = current.subject.includes("ISTIRAHAT");
+          if(isBreak) {
+            box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted);">Sedang Istirahat ☕</span>`;
+          } else {
+            let linkHTML = links[current.subject] ? 
+              `<a href="${links[current.subject]}" target="_blank" class="btn-primary interactive" style="margin-top:10px; background:var(--accent-primary); color:#fff;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Modul ${current.subject}</a>` 
+              : `<p style="color:var(--text-muted); font-size:0.9rem; margin-top:10px;">*Web belum tersedia</p>`;
+            
+            box.querySelector('.live-subject').textContent = current.subject;
+            
+            // Hapus tombol link lama jika ada
+            let oldLink = box.querySelector('.btn-primary');
+            let oldP = box.querySelector('p');
+            if(oldLink) oldLink.remove();
+            if(oldP) oldP.remove();
+            
+            box.innerHTML += linkHTML;
+          }
+        } else {
+          box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted); font-size:1.6rem;">Tidak ada kelas saat ini.</span>`;
+        }
+      }
+      setInterval(updateLiveSchedule, 60000); // Tiap menit
+      updateLiveSchedule(); // Panggilan pertama
+
+      // =====================================
+      // 6. KONTAK WHATSAPP
       // =====================================
       document.getElementById("contactForm").addEventListener("submit", (e) => {
         e.preventDefault();
         const nama = encodeURIComponent(document.getElementById("waName").value);
         const msg = encodeURIComponent(document.getElementById("waMsg").value);
-        window.open(`https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo,%20saya%20${nama}.%20${msg}`, "_blank");
+        window.open(`https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo%20Keenan,%20saya%20${nama}.%20${msg}`, "_blank");
       });
     });
   </script>
