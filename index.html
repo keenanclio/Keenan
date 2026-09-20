@@ -34,6 +34,9 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    html {
       scroll-behavior: smooth;
     }
 
@@ -46,6 +49,7 @@
       position: relative;
     }
 
+    /* Kursor Custom Desktop */
     @media (hover: hover) and (pointer: fine) {
       *, *::before, *::after { cursor: none !important; }
       
@@ -83,29 +87,58 @@
       .cursor-dot, .cursor-ring { display: none !important; }
     }
 
+    /* Tekstur Noise Premium (Awwwards Style) */
+    .bg-noise {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Cahaya Mouse Ambient yang Lebih Halus */
     .ambient-tracker {
       position: fixed;
       top: 0; left: 0;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(168,85,247,0.08) 0%, transparent 60%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(168,85,247,0.06) 0%, rgba(56,189,248,0.03) 30%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
-      z-index: -1;
+      z-index: -2;
       transform: translate(-50%, -50%);
     }
     
     .bg-mesh {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background-image: 
-        radial-gradient(at 0% 0%, rgba(56,189,248,0.05) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(168,85,247,0.05) 0px, transparent 50%);
-      z-index: -2;
+        radial-gradient(at 0% 0%, rgba(56,189,248,0.03) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(168,85,247,0.03) 0px, transparent 50%);
+      z-index: -3;
     }
 
+    /* ANIMASI SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: opacity, transform;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Staggering delays untuk elemen berurutan */
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+    .delay-5 { transition-delay: 0.5s; }
+
+    /* Navbar */
     .navbar {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(9, 10, 15, 0.8);
+      background: rgba(9, 10, 15, 0.7);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-light);
       z-index: 1000;
@@ -178,7 +211,7 @@
       box-shadow: var(--shadow-soft);
       transform-style: preserve-3d;
       will-change: transform;
-      transition: border-color 0.4s ease;
+      transition: border-color 0.4s ease, transform 0.2s ease-out;
     }
     .glass-card:hover {
       border-color: var(--border-glow);
@@ -398,7 +431,8 @@
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
   
-  <!-- Background Animasi -->
+  <!-- Latar Belakang Premium (Noise + Mesh + Glow) -->
+  <div class="bg-noise"></div>
   <div class="bg-mesh"></div>
   <div class="ambient-tracker" id="mouseGlow"></div>
 
@@ -420,29 +454,28 @@
     
     <section id="home" class="page-section">
       <div class="hero-grid">
-        <div class="hero-text">
+        <div class="hero-text reveal">
           <p style="color:var(--accent-secondary); font-weight:700; letter-spacing:3px; margin-bottom:12px; font-size:0.9rem; text-transform:uppercase;">Student & Enthusiast</p>
           <h1 class="title-glow">Keenan Clio Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.45em; color:var(--text-muted); filter:none; font-weight:500;">(黄錫豪)</span></h1>
           <p style="font-size:1.15rem; line-height:1.7; margin-bottom:10px;">
             Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
           </p>
           
-          <div class="metrics-row">
+          <div class="metrics-row reveal delay-1">
             <div class="metric-item"><strong>Logika</strong><span>Matematika</span></div>
             <div class="metric-item"><strong>Target Global</strong><span>Bahasa & Bisnis</span></div>
             <div class="metric-item"><strong>Sportivitas</strong><span>Basketball</span></div>
           </div>
 
-          <div style="display:flex; gap:16px; align-items:center;">
+          <div style="display:flex; gap:16px; align-items:center;" class="reveal delay-2">
             <a href="#contact" class="btn-primary interactive">Kirim Pesan <i class="fa-solid fa-arrow-right"></i></a>
             <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="btn-social interactive"><i class="fa-brands fa-instagram"></i></a>
             <a href="mailto:keenanclio12@gmail.com" class="btn-social interactive"><i class="fa-regular fa-envelope"></i></a>
           </div>
         </div>
-        <div class="hero-img">
+        <div class="hero-img reveal delay-1">
           <div class="hero-img-box glass-card interactive card-3d">
             <div class="hero-img-inner">
-              <!-- Foto profil dengan object-position top agar wajah tidak kepotong -->
               <img src="profile.jpeg" alt="Keenan Clio" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
             </div>
           </div>
@@ -451,23 +484,23 @@
     </section>
 
     <section id="portfolio" class="page-section">
-      <h2 class="section-title"><i class="fa-solid fa-layer-group" style="color:var(--accent-primary)"></i> Portofolio & Proyek</h2>
+      <h2 class="section-title reveal"><i class="fa-solid fa-layer-group" style="color:var(--accent-primary)"></i> Portofolio & Proyek</h2>
       <div class="port-grid">
-        <a href="#" class="glass-card interactive card-3d port-card">
+        <a href="#" class="glass-card interactive card-3d port-card reveal delay-1">
           <div class="port-icon"><i class="fa-solid fa-square-root-variable"></i></div>
           <div>
             <h3>Analisis & Logika Matematika</h3>
             <p>Kumpulan studi mandiri dan persiapan olimpiade matematika. Fokus pada problem solving dan pembuktian logis tingkat lanjut.</p>
           </div>
         </a>
-        <a href="#" class="glass-card interactive card-3d port-card">
+        <a href="#" class="glass-card interactive card-3d port-card reveal delay-2">
           <div class="port-icon"><i class="fa-solid fa-basketball"></i></div>
           <div>
             <h3>Basketball & Team Strategy</h3>
             <p>Dokumentasi kepemimpinan tim, partisipasi turnamen pelajar, latihan fisik intensif, dan analisis taktik formasi permainan.</p>
           </div>
         </a>
-        <a href="#" class="glass-card interactive card-3d port-card">
+        <a href="#" class="glass-card interactive card-3d port-card reveal delay-3">
           <div class="port-icon"><i class="fa-solid fa-flask"></i></div>
           <div>
             <h3>Eksperimen Riset Sains</h3>
@@ -478,10 +511,10 @@
     </section>
 
     <section id="jadwal" class="page-section">
-      <h2 class="section-title"><i class="fa-solid fa-calendar-days" style="color:var(--accent-secondary)"></i> Jadwal Kelas XI-2</h2>
+      <h2 class="section-title reveal"><i class="fa-solid fa-calendar-days" style="color:var(--accent-secondary)"></i> Jadwal Kelas XI-2</h2>
       
-      <!-- Box Live Schedulue -->
-      <div class="live-status-box glass-card interactive card-3d" id="live-schedule-box">
+      <!-- Box Live Schedule -->
+      <div class="live-status-box glass-card interactive card-3d reveal delay-1" id="live-schedule-box">
         <div class="live-time" id="live-time-display">Memuat Waktu...</div>
         <h3 class="live-subject">Mengecek Jadwal...</h3>
       </div>
@@ -492,14 +525,14 @@
       </div>
 
       <!-- Web Guru List -->
-      <h3 style="font-family:'Urbanist'; font-size:1.6rem; color:var(--text-main); margin: 40px 0 20px;">
+      <h3 class="reveal" style="font-family:'Urbanist'; font-size:1.6rem; color:var(--text-main); margin: 40px 0 20px;">
         <i class="fa-solid fa-globe" style="color:var(--accent-primary); margin-right:10px;"></i> Direktori Modul Guru
       </h3>
-      <div class="teacher-grid" id="teacher-links-grid"></div>
+      <div class="teacher-grid reveal delay-1" id="teacher-links-grid"></div>
     </section>
 
     <section id="contact" class="page-section">
-      <div class="glass-card interactive card-3d" style="max-width:700px; margin:0 auto; width:100%;">
+      <div class="glass-card interactive card-3d reveal" style="max-width:700px; margin:0 auto; width:100%;">
         <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-primary)"></i> Hubungi Saya</h2>
         <p style="margin-bottom:30px;">Kirimkan pesan untuk berkolaborasi, diskusi matematika, atau sekadar menyapa via WhatsApp.</p>
         
@@ -529,8 +562,6 @@
       const dot = document.getElementById("cursorDot");
       const ring = document.getElementById("cursorRing");
       const glow = document.getElementById("mouseGlow");
-
-      // Deteksi jika device adalah touch screen
       const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
       if (!isTouchDevice) {
@@ -539,18 +570,17 @@
           
           if(dot) dot.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
           
-          // Animate ring & background glow mulus menggunakan Web API
           if(ring) {
             ring.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
               { duration: 300, fill: "forwards", easing: "ease-out" });
           }
           if(glow) {
+            // Glow dibuat lebih luas dan lembut pergerakannya
             glow.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
-              { duration: 800, fill: "forwards", easing: "ease-out" });
+              { duration: 1500, fill: "forwards", easing: "ease-out" });
           }
         });
 
-        // Hover Kursor (Membesar)
         document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
           el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
           el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
@@ -558,7 +588,33 @@
       }
 
       // =====================================
-      // 2. EFEK HOVER 3D (TILT SANGAT HALUS)
+      // 2. SCROLL REVEAL ANIMATION (Intersection Observer)
+      // =====================================
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1 // Memicu animasi ketika 10% elemen terlihat di layar
+      };
+
+      const scrollObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Jika ingin animasi hanya berjalan 1x, uncomment baris bawah:
+            // observer.unobserve(entry.target); 
+          }
+        });
+      }, observerOptions);
+
+      // Kita jalankan observasi setelah DOM/Jadwal selesai digenerate
+      function observeRevealElements() {
+        document.querySelectorAll('.reveal').forEach(el => {
+          scrollObserver.observe(el);
+        });
+      }
+
+      // =====================================
+      // 3. EFEK HOVER 3D (TILT SANGAT HALUS)
       // =====================================
       if (!isTouchDevice) {
         document.querySelectorAll('.card-3d').forEach(card => {
@@ -569,7 +625,7 @@
             let centerX = rect.width / 2;
             let centerY = rect.height / 2;
             
-            // Pengali rotasi diperkecil agar terasa elegan seperti premium glass
+            // Pengali rotasi diperkecil agar terasa elegan
             let rotateX = ((y - centerY) / centerY) * -3; 
             let rotateY = ((x - centerX) / centerX) * 3;  
             
@@ -583,12 +639,11 @@
       }
 
       // =====================================
-      // 3. NAVBAR & SMOOTH SCROLLING
+      // 4. NAVBAR SCROLL SPY
       // =====================================
       const navLinks = document.querySelectorAll('.nav-scroll');
       const sections = document.querySelectorAll('.page-section');
       
-      // Update Navbar Active on Scroll
       window.addEventListener('scroll', () => {
         let current = '';
         sections.forEach(section => {
@@ -606,7 +661,6 @@
         });
       });
 
-      // Hamburger Menu
       document.getElementById("hamburgerBtn").addEventListener("click", () => {
         document.getElementById("navLinks").classList.toggle("show");
       });
@@ -617,7 +671,7 @@
       });
 
       // =====================================
-      // 4. DATA JADWAL (GROUP BY DAY) & WEB GURU
+      // 5. DATA JADWAL & WEB GURU
       // =====================================
       const links = {
         "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
@@ -672,11 +726,11 @@
         { day: "JUMAT", start: "13:00", end: "14:30", subject: "INFORMATIKA" }
       ];
 
-      // Format Kartu Per Hari
+      // Format Kartu Per Hari dengan Staggered Animations (.delay-*)
       const daysOrder = ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT"];
       const scheduleContainer = document.getElementById("daily-schedule-container");
       
-      daysOrder.forEach(day => {
+      daysOrder.forEach((day, index) => {
         const dayTasks = jadwal.filter(j => j.day === day);
         if(dayTasks.length > 0) {
           let listHtml = `<ul class="schedule-list">`;
@@ -685,7 +739,6 @@
             if(links[task.subject]) {
               subjName = `<a href="${links[task.subject]}" target="_blank" class="subj-link interactive">${task.subject}</a>`;
             }
-            // Warna redup untuk jam istirahat
             let isBreak = task.subject.includes("ISTIRAHAT");
             let opacityStyle = isBreak ? 'opacity: 0.5;' : '';
             
@@ -696,8 +749,10 @@
           });
           listHtml += `</ul>`;
 
+          // Memberikan delay dinamis 1, 2, 3...
+          let delayClass = `delay-${index + 1}`;
           scheduleContainer.innerHTML += `
-            <div class="day-card interactive">
+            <div class="day-card interactive reveal ${delayClass}">
               <h3>${day}</h3>
               ${listHtml}
             </div>
@@ -712,8 +767,11 @@
       }
       document.getElementById("teacher-links-grid").innerHTML = gridHtml;
 
+      // Inisialisasi observer setelah DOM digenerate
+      observeRevealElements();
+
       // =====================================
-      // 5. LIVE SCHEDULE TRACKER
+      // 6. LIVE SCHEDULE TRACKER
       // =====================================
       function updateLiveSchedule() {
         const now = new Date();
@@ -737,7 +795,6 @@
             
             box.querySelector('.live-subject').textContent = current.subject;
             
-            // Hapus tombol link lama jika ada
             let oldLink = box.querySelector('.btn-primary');
             let oldP = box.querySelector('p');
             if(oldLink) oldLink.remove();
@@ -749,11 +806,11 @@
           box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted); font-size:1.6rem;">Tidak ada kelas saat ini.</span>`;
         }
       }
-      setInterval(updateLiveSchedule, 60000); // Tiap menit
-      updateLiveSchedule(); // Panggilan pertama
+      setInterval(updateLiveSchedule, 60000);
+      updateLiveSchedule();
 
       // =====================================
-      // 6. KONTAK WHATSAPP
+      // 7. KONTAK WHATSAPP
       // =====================================
       document.getElementById("contactForm").addEventListener("submit", (e) => {
         e.preventDefault();
