@@ -22,16 +22,15 @@
     ========================================== */
     :root {
       --bg-base: #020610; 
-      /* Transparansi sangat tinggi untuk semua kotak kaca */
       --bg-surface: rgba(10, 15, 30, 0.25); 
       --border-light: rgba(255, 255, 255, 0.1);
       --border-glow: rgba(56, 189, 248, 0.4);
       
-      --text-main: #ffffff; /* Lebih cerah murni */
+      --text-main: #ffffff;
       --text-muted: #cbd5e1;
       
-      --accent-primary: #38bdf8;   /* Cyan cerah */
-      --accent-secondary: #818cf8; /* Indigo lembut */
+      --accent-primary: #38bdf8;   
+      --accent-secondary: #818cf8; 
       
       --shadow-soft: 0 10px 40px rgba(0,0,0,0.6);
     }
@@ -51,7 +50,7 @@
       position: relative;
     }
 
-    /* WebGL Canvas Container - Latar Belakang Liquid Metal */
+    /* WebGL Canvas Container */
     #webgl-container {
       position: fixed;
       top: 0;
@@ -60,7 +59,7 @@
       height: 100vh;
       z-index: -5; 
       pointer-events: none; 
-      opacity: 0.25; /* Opacity diturunkan agar nyaman dibaca */
+      opacity: 0.25;
     }
 
     /* Kursor Custom Desktop */
@@ -127,7 +126,7 @@
     .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
     .nav-btn {
       text-decoration: none;
-      color: var(--text-muted);
+      color: var(--text-muted); /* Warna seragam untuk semua menu termasuk Modul Guru */
       font-size: 0.9rem;
       font-weight: 600;
       padding: 10px 14px;
@@ -204,26 +203,24 @@
       100% { background-position: 100% 50%; }
     }
     
-    /* REVISI 1: Font Mewah untuk Paragraf Hero */
     .hero-luxury-text {
       font-family: 'Urbanist', sans-serif;
       font-size: 1.25rem;
-      font-weight: 300; /* Tipis & Elegan */
+      font-weight: 300;
       line-height: 1.7;
       letter-spacing: 0.5px;
-      color: #ffffff; /* Lebih putih/terang */
+      color: #ffffff;
       margin-bottom: 30px;
       text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
-    /* REVISI 2: Kerapian Metrik Logika / Target / Sportivitas */
     .hero-metrics-container {
       display: flex;
       flex-wrap: wrap;
       gap: 16px;
       margin-bottom: 30px;
       padding: 16px;
-      background: rgba(255,255,255,0.03); /* Latar kotak halus */
+      background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 16px;
       backdrop-filter: blur(8px);
@@ -237,7 +234,6 @@
       text-align: center;
       gap: 4px;
     }
-    /* Pembatas (Divider) antar metrik */
     .metric-item:not(:last-child) {
       border-right: 1px solid rgba(255,255,255,0.1);
       padding-right: 16px;
@@ -304,11 +300,11 @@
     .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
     .gallery-item:hover img { transform: scale(1.08); }
 
-    /* REVISI 4: Portofolio Font Super Cerah & Putih */
+    /* Portofolio */
     .port-grid { display: flex; flex-direction: column; gap: 24px; }
     .port-card { 
       display: flex; gap: 24px; align-items: center; text-decoration: none;
-      background: rgba(10, 15, 30, 0.4); /* Transparansi dijaga */
+      background: rgba(10, 15, 30, 0.4); 
     }
     .port-icon {
       width: 75px; height: 75px; border-radius: 20px; background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.2));
@@ -318,15 +314,15 @@
       font-family: 'Urbanist', sans-serif;
       font-size: 1.4rem;
       font-weight: 800;
-      color: #ffffff !important; /* Putih murni */
+      color: #ffffff !important;
       margin-bottom: 8px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Shadow agar stand out */
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
     .port-card-text p {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 1rem;
       font-weight: 500;
-      color: #ffffff !important; /* Putih murni */
+      color: #ffffff !important;
       line-height: 1.6;
       text-shadow: 0 1px 3px rgba(0,0,0,0.8);
     }
@@ -362,10 +358,9 @@
     .row-break td { opacity: 0.45; font-style: italic; }
     .row-break .subj-link, .row-break span { color: var(--text-muted) !important; font-weight: 400; }
 
-    /* REVISI 3: Modul Guru Transparansi Tinggi */
+    /* Modul Guru Transparansi Tinggi */
     .teacher-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
     .teacher-card {
-      /* Sangat bening / Glassmorphism level tinggi */
       background: rgba(255,255,255,0.05); 
       border: 1px solid rgba(255,255,255,0.1); 
       padding: 18px 16px; 
@@ -389,6 +384,7 @@
       background: rgba(10, 20, 40, 0.25); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
       backdrop-filter: blur(16px); transform-style: preserve-3d; will-change: transform;
       transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      cursor: pointer;
     }
     .hsk-glare {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -408,6 +404,65 @@
     }
     .hsk-card:hover .hsk-number { color: rgba(255,255,255,0.15); }
     .hsk-content { transform: translateZ(30px); pointer-events: none; }
+
+    /* HSK Sub-View (Halaman Baru untuk HSK 3) */
+    .hsk-subpage {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .hsk-subpage.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid var(--border-light);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-family: 'Urbanist', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      transition: 0.3s;
+    }
+    .back-btn:hover {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: #000;
+    }
+    .hsk-sections-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .hsk-section-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 20px;
+      text-decoration: none;
+      color: #fff;
+      font-family: 'Urbanist', sans-serif;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s;
+      backdrop-filter: blur(8px);
+    }
+    .hsk-section-card:hover {
+      background: rgba(56,189,248,0.15);
+      border-color: var(--accent-primary);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
 
     /* Animasi Reveal Scroll */
     .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
@@ -450,8 +505,7 @@
       <a href="#about" class="nav-btn interactive nav-scroll">About Me</a>
       <a href="#portfolio" class="nav-btn interactive nav-scroll">Portofolio</a>
       <a href="#jadwal" class="nav-btn interactive nav-scroll">Jadwal</a>
-      <!-- REVISI 5: Tab Web Guru Sendiri -->
-      <a href="#webguru" class="nav-btn interactive nav-scroll" style="color:var(--accent-primary);">Modul Guru</a>
+      <a href="#webguru" class="nav-btn interactive nav-scroll">Modul Guru</a>
       <a href="#mandarin" class="nav-btn interactive nav-scroll">Mandarin</a>
       <a href="#contact" class="nav-btn interactive nav-scroll">Kontak</a>
     </div>
@@ -466,12 +520,10 @@
           <p style="color:var(--accent-primary); font-weight:700; letter-spacing:3px; margin-bottom:12px; text-transform:uppercase; font-size:0.9rem;">Student & Enthusiast</p>
           <h1 class="title-glow">Keenan Clio Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.45em; color:var(--text-muted); filter:none; font-weight:500;">(黄錫豪)</span></h1>
           
-          <!-- REVISI 1: Paragraf Mewah -->
           <p class="hero-luxury-text">
             Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
           </p>
           
-          <!-- REVISI 2: Metrik Dirapikan -->
           <div class="hero-metrics-container reveal">
             <div class="metric-item"><strong>Logika</strong><span>Matematika</span></div>
             <div class="metric-item"><strong>Target Global</strong><span>Bahasa & Bisnis</span></div>
@@ -533,7 +585,6 @@
     <section id="portfolio" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-layer-group" style="color:var(--accent-primary)"></i> Portofolio & Proyek</h2>
       <div class="port-grid">
-        <!-- REVISI 4: Kelas port-card-text memastikan font cerah -->
         <a href="#" class="glass-card interactive card-3d-soft port-card reveal">
           <div class="port-icon"><i class="fa-solid fa-square-root-variable"></i></div>
           <div class="port-card-text">
@@ -572,7 +623,7 @@
       </div>
     </section>
 
-    <!-- REVISI 5: HALAMAN KHUSUS WEB GURU -->
+    <!-- HALAMAN KHUSUS WEB GURU -->
     <section id="webguru" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-globe" style="color:var(--accent-primary)"></i> Direktori Modul Guru</h2>
       <p class="reveal" style="font-size: 1.1rem; color: #fff; margin-bottom: 30px;">Akses cepat ke portal materi dan tugas mata pelajaran.</p>
@@ -585,9 +636,10 @@
     <!-- HALAMAN MANDARIN -->
     <section id="mandarin" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-book-open" style="color:#f43f5e"></i> Ruang Belajar Mandarin</h2>
-      <p class="reveal" style="margin-bottom: 40px; font-size: 1.05rem; color:#fff;">Koleksi referensi materi ujian HSK untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
+      <p class="reveal" style="margin-bottom: 40px; font-size: 1.05rem; color:#fff;">Koleksi referensi materi ujian HSK dan Flashcard interaktif untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
       
-      <div class="hsk-grid reveal">
+      <!-- TAMPILAN UTAMA HSK -->
+      <div class="hsk-grid reveal" id="hskMainView">
         <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="hsk-card interactive">
           <div class="hsk-glare"></div>
           <div class="hsk-number">1</div>
@@ -597,6 +649,7 @@
             <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Fondasi pinyin, nada dasar, dan kosakata esensial.</p>
           </div>
         </a>
+
         <a href="https://pandarin.net/new-hsk/level2/" target="_blank" class="hsk-card interactive">
           <div class="hsk-glare"></div>
           <div class="hsk-number">2</div>
@@ -606,15 +659,29 @@
             <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Peningkatan struktur kalimat dan kelancaran rutin.</p>
           </div>
         </a>
-        <a href="https://pandarin.net/new-hsk/level3/" target="_blank" class="hsk-card interactive">
+
+        <!-- KOLOM BARU: FLASHCARD HSK 2 -->
+        <a href="https://share.gemini.google/5HkxV95d74FC" target="_blank" class="hsk-card interactive" style="border-color: rgba(129, 140, 248, 0.4);">
+          <div class="hsk-glare"></div>
+          <div class="hsk-number"><i class="fa-solid fa-clone"></i></div>
+          <div class="hsk-content">
+            <h3 style="color: #a5f3fc; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">Flashcard HSK 2</h3>
+            <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Media Hafalan Kosakata</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Latihan kartu kilat interaktif untuk menghafal karakter HSK 2 dengan cepat.</p>
+          </div>
+        </a>
+
+        <!-- KARTU HSK 3 (KLIK UNTUK MASUK KE HALAMAN BARU) -->
+        <div class="hsk-card interactive" id="hsk3Card">
           <div class="hsk-glare"></div>
           <div class="hsk-number">3</div>
           <div class="hsk-content">
-            <h3 style="color: #fcd34d; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 3</h3>
+            <h3 style="color: #fcd34d; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 3 <i class="fa-solid fa-arrow-right" style="font-size:1rem; margin-left:6px;"></i></h3>
             <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah Bawah</p>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Pemahaman konteks luas untuk akademik dasar.</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Klik untuk melihat 9 Bagian Materi & Tautan Spesifik HSK 3.</p>
           </div>
-        </a>
+        </div>
+
         <a href="https://pandarin.net/new-hsk/level4/" target="_blank" class="hsk-card interactive">
           <div class="hsk-glare"></div>
           <div class="hsk-number">4</div>
@@ -625,6 +692,46 @@
           </div>
         </a>
       </div>
+
+      <!-- TAMPILAN SUB-HALAMAN HSK 3 (9 BAGIAN) -->
+      <div class="hsk-subpage" id="hsk3Subpage">
+        <button class="back-btn interactive" id="backToHskMain">
+          <i class="fa-solid fa-arrow-left"></i> Kembali ke Menu Utama Mandarin
+        </button>
+        <h3 style="font-family: 'Urbanist'; font-size: 1.8rem; color: #fcd34d; margin-bottom: 8px;">Materi HSK 3 (9 Bagian)</h3>
+        <p style="margin-bottom: 24px; color: #fff;">Pilih salah satu bagian di bawah untuk mengakses modul pembelajarannya:</p>
+        
+        <div class="hsk-sections-grid">
+          <a href="https://share.gemini.google/GD5Q0bO2lcby" target="_blank" class="hsk-section-card interactive">
+            <span>Bagian 1</span> <i class="fa-solid fa-external-link-alt"></i>
+          </a>
+          <a href="https://share.gemini.google/DSiiBlHhUIUq" target="_blank" class="hsk-section-card interactive">
+            <span>Bagian 2</span> <i class="fa-solid fa-external-link-alt"></i>
+          </a>
+          <a href="https://share.gemini.google/JFR8rMUwwHAf" target="_blank" class="hsk-section-card interactive">
+            <span>Bagian 3</span> <i class="fa-solid fa-external-link-alt"></i>
+          </a>
+          <a href="https://share.gemini.google/rIx5cBNGQXFJ" target="_blank" class="hsk-section-card interactive">
+            <span>Bagian 4</span> <i class="fa-solid fa-external-link-alt"></i>
+          </a>
+          <a href="https://share.gemini.google/S7dssk3dUCeO" target="_blank" class="hsk-section-card interactive">
+            <span>Bagian 5</span> <i class="fa-solid fa-external-link-alt"></i>
+          </a>
+          <a href="https://share.gemini.google/s9A4ORjoO5pP" target="_blank" class="hsk-section-card interactive">
+            <span>Bagian 6</span> <i class="fa-solid fa-external-link-alt"></i>
+          </a>
+          <a href="https://share.gemini.google/1dgOAK5F9zoI" target="_blank" class="hsk-section-card interactive">
+            <span>Bagian 7</span> <i class="fa-solid fa-external-link-alt"></i>
+          </a>
+          <a href="https://share.gemini.google/Vqp4ebK3KyhT" target="_blank" class="hsk-section-card interactive">
+            <span>Bagian 8</span> <i class="fa-solid fa-external-link-alt"></i>
+          </a>
+          <a href="https://share.gemini.google/NpIl7g6gpPUM" target="_blank" class="hsk-section-card interactive">
+            <span>Bagian 9</span> <i class="fa-solid fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+
     </section>
 
     <!-- HALAMAN KONTAK -->
@@ -671,6 +778,25 @@
         document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
           el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
           el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+        });
+      }
+
+      // NAVIGASI ANTAR VIEW HSK (HSK 3 Subpage)
+      const hskMainView = document.getElementById("hskMainView");
+      const hsk3Subpage = document.getElementById("hsk3Subpage");
+      const hsk3Card = document.getElementById("hsk3Card");
+      const backToHskMain = document.getElementById("backToHskMain");
+
+      if (hsk3Card) {
+        hsk3Card.addEventListener("click", () => {
+          hskMainView.style.display = "none";
+          hsk3Subpage.classList.add("active");
+        });
+      }
+      if (backToHskMain) {
+        backToHskMain.addEventListener("click", () => {
+          hsk3Subpage.classList.remove("active");
+          hskMainView.style.display = "grid";
         });
       }
 
@@ -935,7 +1061,6 @@
             vec2 mouseDist = st - (u_mouse + 1.0) / 2.0;
             vec2 flow = st + mouseDist * 0.15;
 
-            // ZOOM IN: Pengali (multiplier) diperkecil dari 3.0 menjadi 1.2 agar gelombang membesar
             float n1 = snoise(flow * 1.2 + time);
             float n2 = snoise(flow * 2.5 - time * 1.5 + vec2(n1));
             float n3 = snoise(flow * 5.0 + time * 2.0 + vec2(n2));
