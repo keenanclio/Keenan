@@ -13,19 +13,22 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+  <!-- Three.js for WebGL Liquid Background -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
   <style>
     :root {
-      /* Premium Midnight Slate Palette */
-      --bg-base: #090a0f; 
-      --bg-surface: rgba(20, 22, 32, 0.4); /* Dibuat sedikit lebih transparan untuk efek liquid */
-      --border-light: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(168, 85, 247, 0.4);
+      /* Premium Midnight Slate Palette for UI Elements */
+      --bg-base: transparent; /* Changed to transparent to show WebGL */
+      --bg-surface: rgba(10, 15, 30, 0.4); /* Glassmorphism background */
+      --border-light: rgba(255, 255, 255, 0.1);
+      --border-glow: rgba(56, 189, 248, 0.5);
       
       --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --text-muted: #cbd5e1;
       
-      --accent-primary: #a855f7;   /* Elegant Violet */
-      --accent-secondary: #38bdf8; /* Bright Cyan */
+      --accent-primary: #38bdf8;   /* Cyan / Blue to match liquid metal */
+      --accent-secondary: #818cf8; /* Indigo */
       
       --shadow-soft: 0 8px 30px rgba(0,0,0,0.5);
     }
@@ -41,12 +44,23 @@
     }
 
     body {
-      background-color: var(--bg-base);
+      background-color: #030814; /* Fallback deep blue */
       color: var(--text-muted);
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
       min-height: 100vh;
       position: relative;
+    }
+
+    /* WebGL Canvas Container */
+    #webgl-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -5; /* Stay behind everything */
+      pointer-events: none; /* Let clicks pass through */
     }
 
     /* Kursor Custom Desktop */
@@ -77,8 +91,8 @@
       .cursor-hover .cursor-dot { transform: scale(0); }
       .cursor-hover .cursor-ring {
         width: 50px; height: 50px;
-        background: rgba(168, 85, 247, 0.1);
-        border-color: var(--accent-secondary);
+        background: rgba(56, 189, 248, 0.1);
+        border-color: #fff;
         backdrop-filter: blur(2px);
       }
     }
@@ -87,58 +101,11 @@
       .cursor-dot, .cursor-ring { display: none !important; }
     }
 
-    /* ==========================================
-       LIQUID METAL INTERACTIVE BACKGROUND
-    ========================================== */
-    .liquid-bg-container {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: -3;
-      overflow: hidden;
-      background-color: #050508;
-    }
-
-    /* Bola-bola liquid raksasa yang saling menyatu (Gooey effect) */
-    .liquid-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      will-change: transform;
-      animation: floatOrb 15s infinite alternate ease-in-out;
-      opacity: 0.6;
-    }
-    .orb-1 { width: 60vw; height: 60vw; background: rgba(56, 189, 248, 0.2); top: -20%; left: -10%; animation-duration: 20s; }
-    .orb-2 { width: 50vw; height: 50vw; background: rgba(168, 85, 247, 0.2); bottom: -10%; right: -10%; animation-duration: 18s; animation-direction: alternate-reverse; }
-    .orb-3 { width: 40vw; height: 40vw; background: rgba(99, 102, 241, 0.2); top: 30%; left: 40%; animation-duration: 25s; }
-
-    @keyframes floatOrb {
-      0% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(10vw, -10vh) scale(1.1); }
-      66% { transform: translate(-5vw, 15vh) scale(0.9); }
-      100% { transform: translate(0, 0) scale(1); }
-    }
-
-    /* Cahaya kilap logam yang mengikuti mouse */
-    .metal-reflection {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      pointer-events: none;
-      z-index: -2;
-      background: radial-gradient(
-        circle 800px at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-        rgba(255, 255, 255, 0.08) 0%,
-        rgba(56, 189, 248, 0.03) 30%,
-        transparent 60%
-      );
-      mix-blend-mode: screen;
-    }
-
-    /* Tekstur grain halus di atas liquid */
+    /* Tekstur Grain Halus */
     .bg-noise {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
-      opacity: 0.03;
+      opacity: 0.04;
       pointer-events: none;
       z-index: -1;
     }
@@ -164,8 +131,8 @@
     .navbar {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(9, 10, 15, 0.6);
-      backdrop-filter: blur(20px);
+      background: rgba(5, 10, 20, 0.5);
+      backdrop-filter: blur(15px);
       border-bottom: 1px solid var(--border-light);
       z-index: 1000;
       display: flex;
@@ -196,7 +163,7 @@
     }
     .nav-btn:hover, .nav-btn.active {
       color: var(--text-main);
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.1);
     }
 
     .hamburger {
@@ -233,7 +200,7 @@
       border: 1px solid var(--border-light);
       border-radius: 24px;
       padding: 32px;
-      backdrop-filter: blur(24px);
+      backdrop-filter: blur(12px);
       box-shadow: var(--shadow-soft);
       transform-style: preserve-3d;
       will-change: transform;
@@ -255,13 +222,13 @@
       font-weight: 900;
       line-height: 1.1;
       letter-spacing: -1px;
-      background: linear-gradient(135deg, #fff 20%, var(--accent-secondary) 50%, var(--accent-primary) 80%);
+      background: linear-gradient(135deg, #fff 20%, #93c5fd 50%, var(--accent-primary) 80%);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: shineFlow 5s ease infinite alternate;
       margin-bottom: 16px;
-      filter: drop-shadow(0 0 20px rgba(168,85,247,0.3));
+      filter: drop-shadow(0 0 15px rgba(56,189,248,0.4));
     }
     @keyframes shineFlow {
       0% { background-position: 0% 50%; }
@@ -276,6 +243,7 @@
       display: flex;
       align-items: center;
       gap: 14px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
     .hero-grid {
@@ -293,13 +261,13 @@
       position: relative;
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
       padding: 4px; /* Untuk border gradient */
-      box-shadow: 0 20px 50px rgba(168,85,247,0.3);
+      box-shadow: 0 20px 50px rgba(56,189,248,0.3);
     }
     .hero-img-inner {
       width: 100%; height: 100%;
       border-radius: 50%;
       overflow: hidden;
-      background: var(--bg-base);
+      background: #000;
     }
     .hero-img-inner img {
       width: 100%; height: 100%;
@@ -316,11 +284,11 @@
     .metric-item strong {
       font-size: 1.1rem; color: var(--text-main); font-family: 'Urbanist', sans-serif;
     }
-    .metric-item span { font-size: 0.85rem; color: var(--accent-secondary); }
+    .metric-item span { font-size: 0.85rem; color: var(--accent-primary); }
 
     .btn-primary {
       background: var(--text-main);
-      color: var(--bg-base);
+      color: #000;
       padding: 14px 28px;
       border-radius: 14px;
       font-weight: 700;
@@ -329,10 +297,10 @@
       transition: 0.3s;
       border: none; cursor: none;
     }
-    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.2); }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.3); }
     
     .btn-social {
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.1);
       color: var(--text-main);
       width: 48px; height: 48px;
       border-radius: 14px;
@@ -341,17 +309,18 @@
       border: 1px solid var(--border-light);
       transition: 0.3s; cursor: none;
     }
-    .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(168,85,247,0.3); }
+    .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); color: #000; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(56,189,248,0.4); }
 
     .port-grid {
       display: flex; flex-direction: column; gap: 24px;
     }
     .port-card {
       display: flex; gap: 24px; align-items: center; text-decoration: none;
+      background: rgba(10, 20, 40, 0.5);
     }
     .port-icon {
       width: 75px; height: 75px; border-radius: 20px;
-      background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(56,189,248,0.2));
+      background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.2));
       color: var(--text-main);
       display: flex; justify-content: center; align-items: center; font-size: 2rem;
       flex-shrink: 0; border: 1px solid var(--border-light);
@@ -379,7 +348,7 @@
       line-height: 1.5;
     }
     .achievements-list li i {
-      color: var(--accent-secondary);
+      color: var(--accent-primary);
       margin-top: 4px;
     }
 
@@ -407,15 +376,15 @@
     }
 
     .live-status-box {
-      background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(56,189,248,0.1));
+      background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.1));
       border: 1px solid var(--border-glow);
       text-align: center;
       padding: 40px;
       border-radius: 24px;
       margin-bottom: 40px;
-      box-shadow: 0 10px 40px rgba(168,85,247,0.2);
+      box-shadow: 0 10px 40px rgba(56,189,248,0.2);
     }
-    .live-time { font-family: 'Urbanist', sans-serif; font-size: 1.2rem; color: var(--accent-secondary); margin-bottom: 16px; }
+    .live-time { font-family: 'Urbanist', sans-serif; font-size: 1.2rem; color: var(--accent-primary); margin-bottom: 16px; }
     .live-subject { font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.1; text-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
     .days-grid {
@@ -425,7 +394,7 @@
       margin-bottom: 50px;
     }
     .day-card {
-      background: var(--bg-surface);
+      background: rgba(10, 15, 30, 0.6);
       border: 1px solid var(--border-light);
       border-radius: 20px;
       padding: 24px;
@@ -442,28 +411,39 @@
     .schedule-list { list-style: none; }
     .schedule-list li {
       display: flex; justify-content: space-between;
-      padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.05);
+      padding: 10px 0; border-bottom: 1px dashed rgba(255,255,255,0.1);
       font-size: 0.9rem;
     }
     .schedule-list li:last-child { border-bottom: none; }
-    .time-badge { background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 6px; font-family: monospace; color: var(--text-muted); }
+    .time-badge { background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 6px; font-family: monospace; color: var(--text-main); }
     .subj-name { font-weight: 600; color: var(--text-main); text-align: right; }
-    .subj-link { color: var(--accent-secondary); text-decoration: none; transition: 0.3s; }
-    .subj-link:hover { color: var(--accent-primary); text-shadow: 0 0 8px rgba(168,85,247,0.5); }
+    .subj-link { color: var(--accent-primary); text-decoration: none; transition: 0.3s; }
+    .subj-link:hover { color: #fff; text-shadow: 0 0 8px rgba(56,189,248,0.8); }
+    
+    /* Styling for Breaks */
+    .schedule-break {
+      opacity: 0.5;
+      font-style: italic;
+    }
+    .schedule-break .subj-name {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
 
     .teacher-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;
     }
     .teacher-card {
-      background: rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--border-light);
       padding: 16px; border-radius: 16px;
       text-align: center; color: var(--text-main); text-decoration: none;
       font-family: 'Urbanist', sans-serif; font-weight: 600; font-size: 0.95rem;
       transition: all 0.3s;
+      backdrop-filter: blur(10px);
     }
     .teacher-card:hover { 
-      background: var(--border-glow); border-color: var(--accent-primary); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(168,85,247,0.2);
+      background: var(--border-glow); border-color: var(--accent-primary); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(56,189,248,0.3);
     }
 
     /* ==========================================
@@ -473,7 +453,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 24px;
-      perspective: 1500px; /* Perspective kuat untuk wadah */
+      perspective: 1500px;
     }
 
     .hsk-card {
@@ -481,21 +461,20 @@
       position: relative;
       overflow: hidden;
       padding: 30px;
-      background: rgba(255,255,255,0.03);
+      background: rgba(10, 20, 40, 0.5);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 20px;
       backdrop-filter: blur(16px);
       transform-style: preserve-3d;
       will-change: transform;
-      transition: transform 0.1s; /* Transisi cepat agar terasa responsif ke mouse */
+      transition: transform 0.1s, box-shadow 0.2s;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    /* Efek pantulan cahaya (Glare) di dalam kartu */
     .hsk-glare {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.15) 25%, transparent 30%);
+      background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.2) 25%, transparent 30%);
       transform: translateX(-150%);
       pointer-events: none;
       transition: transform 0.4s ease-out;
@@ -507,29 +486,29 @@
     }
 
     .hsk-card:hover {
-      border-color: rgba(255,255,255,0.3);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 20px rgba(168, 85, 247, 0.3);
-      z-index: 10; /* Agar kartu yang di-hover ada di atas */
+      border-color: rgba(255,255,255,0.4);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(56,189,248,0.4);
+      z-index: 10; 
     }
 
     .hsk-number {
       position: absolute; 
       top: -15px; right: 10px; 
       font-size: 7rem; 
-      color: rgba(255,255,255,0.03); 
+      color: rgba(255,255,255,0.05); 
       font-weight: 900; 
       font-family: 'Urbanist'; 
       pointer-events: none; 
       line-height: 1;
-      transform: translateZ(-20px); /* Terlihat jauh ke dalam */
+      transform: translateZ(-20px); 
       transition: color 0.3s;
     }
     .hsk-card:hover .hsk-number {
-      color: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.15);
     }
 
     .hsk-content {
-      transform: translateZ(30px); /* Konten terlihat maju/mengambang */
+      transform: translateZ(30px);
       pointer-events: none;
     }
 
@@ -543,9 +522,9 @@
       color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
       outline: none; transition: 0.3s;
     }
-    .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.6); box-shadow: 0 0 15px rgba(168,85,247,0.2); }
+    .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.6); box-shadow: 0 0 15px rgba(56,189,248,0.3); }
     
-    footer { text-align: center; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid var(--border-light); margin-top: 60px; }
+    footer { text-align: center; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid var(--border-light); margin-top: 60px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 
     /* Responsive */
     @media (max-width: 968px) {
@@ -560,7 +539,8 @@
       .hamburger { display: flex; }
       .nav-links {
         position: fixed; top: 70px; right: -100%;
-        flex-direction: column; background: var(--bg-base);
+        flex-direction: column; background: rgba(5, 10, 20, 0.95);
+        backdrop-filter: blur(20px);
         width: 100%; height: calc(100vh - 70px); padding: 40px;
         border-top: 1px solid var(--border-light);
         justify-content: flex-start;
@@ -572,17 +552,14 @@
 </head>
 <body>
 
+  <!-- WebGL Container for Liquid Metal Background -->
+  <div id="webgl-container"></div>
+
   <!-- Kursor Custom Desktop -->
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
   
-  <!-- LIQUID METAL BACKGROUND -->
-  <div class="liquid-bg-container">
-    <div class="liquid-orb orb-1"></div>
-    <div class="liquid-orb orb-2"></div>
-    <div class="liquid-orb orb-3"></div>
-  </div>
-  <div class="metal-reflection" id="metalReflection"></div>
+  <!-- Texture overlay -->
   <div class="bg-noise"></div>
 
   <!-- Navbar -->
@@ -606,9 +583,9 @@
     <section id="home" class="page-section">
       <div class="hero-grid">
         <div class="hero-text reveal">
-          <p style="color:var(--accent-secondary); font-weight:700; letter-spacing:3px; margin-bottom:12px; font-size:0.9rem; text-transform:uppercase;">Student & Enthusiast</p>
+          <p style="color:var(--accent-primary); font-weight:700; letter-spacing:3px; margin-bottom:12px; font-size:0.9rem; text-transform:uppercase;">Student & Enthusiast</p>
           <h1 class="title-glow">Keenan Clio Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.45em; color:var(--text-muted); filter:none; font-weight:500;">(黄錫豪)</span></h1>
-          <p style="font-size:1.15rem; line-height:1.7; margin-bottom:10px;">
+          <p style="font-size:1.15rem; line-height:1.7; margin-bottom:10px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
             Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
           </p>
           
@@ -634,13 +611,12 @@
       </div>
     </section>
 
-    <!-- NEW SECTION: ABOUT ME -->
     <section id="about" class="page-section">
-      <h2 class="section-title reveal"><i class="fa-solid fa-id-card-clip" style="color:var(--accent-secondary)"></i> About Me</h2>
+      <h2 class="section-title reveal"><i class="fa-solid fa-id-card-clip" style="color:var(--accent-primary)"></i> About Me</h2>
       
       <div class="about-layout">
         <!-- Kolom Kiri: Teks -->
-        <div class="glass-card interactive card-3d-soft reveal delay-1" style="position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
+        <div class="glass-card interactive card-3d-soft reveal delay-1" style="position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; background: rgba(10,15,30,0.6);">
           <div style="position: absolute; top: -50%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
           
           <div style="position: relative; z-index: 1;">
@@ -653,15 +629,15 @@
               <i class="fa-solid fa-trophy"></i> Prestasi Basket
             </h4>
             <ul class="achievements-list">
-              <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span>Juara 1 Lomba Basket - BSI Cup 2026</span></li>
-              <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span>Juara 1 Lomba Basket - Pelangi Kasih Cup 2026</span></li>
-              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span>Juara 3 Lomba Basket - COSPORTA 4.0 2025</span></li>
-              <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span>Juara 1 Lomba Basket - Abdi Siswa Cup 2024</span></li>
-              <li><i class="fa-solid fa-medal" style="color: silver;"></i> <span>Juara 2 Lomba Basket - SNS Cup 2024</span></li>
-              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span>Juara 3 Lomba Basket 3x3 - Telkom Cup 2024</span></li>
-              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span>Juara 3 Lomba Basket - SBM Cup 2026</span></li>
-              <li><i class="fa-solid fa-medal" style="color: silver;"></i> <span>Juara 2 Lomba Basket - Kanaan Global School Cup 2026</span></li>
-              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span>Juara 3 Lomba Basket - Pelita Kasih Cup 2026</span></li>
+              <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span style="color:#fff;">Juara 1 Lomba Basket - BSI Cup 2026</span></li>
+              <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span style="color:#fff;">Juara 1 Lomba Basket - Pelangi Kasih Cup 2026</span></li>
+              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket - COSPORTA 4.0 2025</span></li>
+              <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span style="color:#fff;">Juara 1 Lomba Basket - Abdi Siswa Cup 2024</span></li>
+              <li><i class="fa-solid fa-medal" style="color: silver;"></i> <span style="color:#fff;">Juara 2 Lomba Basket - SNS Cup 2024</span></li>
+              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket 3x3 - Telkom Cup 2024</span></li>
+              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket - SBM Cup 2026</span></li>
+              <li><i class="fa-solid fa-medal" style="color: silver;"></i> <span style="color:#fff;">Juara 2 Lomba Basket - Kanaan Global School Cup 2026</span></li>
+              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket - Pelita Kasih Cup 2026</span></li>
             </ul>
           </div>
         </div>
@@ -669,16 +645,16 @@
         <!-- Kolom Kanan: Galeri Foto -->
         <div class="gallery-grid reveal delay-2">
           <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
-            <img src="WhatsApp Image 2026-09-20 at 8.35.40 PM.jpeg" alt="Prestasi Basket 1" onerror="this.src='https://placehold.co/400x500/1a1a2e/ffffff?text=Gallery+1'">
+            <img src="WhatsApp Image 2026-09-20 at 8.35.40 PM.jpeg" alt="Prestasi Basket 1" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+1'">
           </div>
           <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
-            <img src="WhatsApp Image 2026-09-20 at 8.35.40 PM (1).jpeg" alt="Prestasi Basket 2" onerror="this.src='https://placehold.co/400x500/1a1a2e/ffffff?text=Gallery+2'">
+            <img src="WhatsApp Image 2026-09-20 at 8.35.40 PM (1).jpeg" alt="Prestasi Basket 2" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+2'">
           </div>
           <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
-            <img src="WhatsApp Image 2026-09-20 at 8.35.39 PM.jpeg" alt="Prestasi Basket 3" onerror="this.src='https://placehold.co/400x500/1a1a2e/ffffff?text=Gallery+3'">
+            <img src="WhatsApp Image 2026-09-20 at 8.35.39 PM.jpeg" alt="Prestasi Basket 3" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+3'">
           </div>
           <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
-            <img src="WhatsApp Image 2026-09-20 at 8.35.38 PM (1).jpeg" alt="Prestasi Basket 4" onerror="this.src='https://placehold.co/400x500/1a1a2e/ffffff?text=Gallery+4'">
+            <img src="WhatsApp Image 2026-09-20 at 8.35.38 PM (1).jpeg" alt="Prestasi Basket 4" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+4'">
           </div>
         </div>
       </div>
@@ -712,7 +688,7 @@
     </section>
 
     <section id="jadwal" class="page-section">
-      <h2 class="section-title reveal"><i class="fa-solid fa-calendar-days" style="color:var(--accent-secondary)"></i> Jadwal Kelas XI-2</h2>
+      <h2 class="section-title reveal"><i class="fa-solid fa-calendar-days" style="color:var(--accent-primary)"></i> Jadwal Kelas XI-2</h2>
       
       <!-- Box Live Schedule -->
       <div class="live-status-box glass-card interactive card-3d-soft reveal delay-1" id="live-schedule-box">
@@ -726,7 +702,7 @@
       </div>
 
       <!-- Web Guru List -->
-      <h3 class="reveal" style="font-family:'Urbanist'; font-size:1.6rem; color:var(--text-main); margin: 40px 0 20px;">
+      <h3 class="reveal" style="font-family:'Urbanist'; font-size:1.6rem; color:var(--text-main); margin: 40px 0 20px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
         <i class="fa-solid fa-globe" style="color:var(--accent-primary); margin-right:10px;"></i> Direktori Modul Guru
       </h3>
       <div class="teacher-grid reveal delay-1" id="teacher-links-grid"></div>
@@ -735,7 +711,7 @@
     <!-- NEW SECTION: RUANG BELAJAR MANDARIN (STRONG 3D HOVER) -->
     <section id="mandarin" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-book-open" style="color:#f43f5e"></i> Ruang Belajar Mandarin</h2>
-      <p class="reveal delay-1" style="margin-bottom: 40px; font-size: 1.05rem;">Koleksi referensi materi ujian HSK (Hanyu Shuiping Kaoshi) untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
+      <p class="reveal delay-1" style="margin-bottom: 40px; font-size: 1.05rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">Koleksi referensi materi ujian HSK (Hanyu Shuiping Kaoshi) untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
       
       <div class="hsk-grid reveal delay-2">
         <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="hsk-card interactive hsk-3d">
@@ -752,7 +728,7 @@
           <div class="hsk-glare"></div>
           <div class="hsk-number">2</div>
           <div class="hsk-content">
-            <h3 style="color: var(--accent-secondary); font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 2</h3>
+            <h3 style="color: #818cf8; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 2</h3>
             <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Dasar</p>
             <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Peningkatan struktur kalimat dan kelancaran untuk percakapan topik rutin.</p>
           </div>
@@ -781,7 +757,7 @@
     </section>
 
     <section id="contact" class="page-section">
-      <div class="glass-card interactive card-3d-soft reveal" style="max-width:700px; margin:0 auto; width:100%;">
+      <div class="glass-card interactive card-3d-soft reveal" style="max-width:700px; margin:0 auto; width:100%; background: rgba(10,15,30,0.6);">
         <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-primary)"></i> Hubungi Saya</h2>
         <p style="margin-bottom:30px;">Kirimkan pesan untuk berkolaborasi, diskusi matematika, atau sekadar menyapa via WhatsApp.</p>
         
@@ -806,30 +782,29 @@
       document.getElementById("currentYear").textContent = new Date().getFullYear();
       
       // =====================================
-      // 1. LIQUID BACKGROUND & CURSOR TRACKING
+      // 1. KURSOR KUSTOM
       // =====================================
       const dot = document.getElementById("cursorDot");
       const ring = document.getElementById("cursorRing");
-      const reflection = document.getElementById("metalReflection");
       const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+
+      // Variabel untuk WebGL Shader agar bereaksi ke mouse
+      let mouseX = 0;
+      let mouseY = 0;
 
       if (!isTouchDevice) {
         document.addEventListener("mousemove", (e) => {
           const x = e.clientX, y = e.clientY;
           
-          // Gerakan Kursor
           if(dot) dot.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
           if(ring) {
             ring.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
               { duration: 300, fill: "forwards", easing: "ease-out" });
           }
 
-          // Liquid Reflection Gerak dengan Mouse
-          if(reflection) {
-            // Mengubah posisi gradient center CSS variable
-            reflection.style.setProperty('--mouse-x', `${x}px`);
-            reflection.style.setProperty('--mouse-y', `${y}px`);
-          }
+          // Normalize mouse coordinates for WebGL (-1 to 1)
+          mouseX = (x / window.innerWidth) * 2 - 1;
+          mouseY = -(y / window.innerHeight) * 2 + 1;
         });
 
         document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
@@ -841,9 +816,7 @@
       // =====================================
       // 2. SCROLL REVEAL ANIMATION
       // =====================================
-      const observerOptions = {
-        root: null, rootMargin: '0px', threshold: 0.1 
-      };
+      const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
       const scrollObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -857,10 +830,10 @@
       });
 
       // =====================================
-      // 3. EFEK HOVER 3D (SOFT untuk Card Biasa, STRONG untuk HSK)
+      // 3. EFEK HOVER 3D (SOFT & STRONG)
       // =====================================
       if (!isTouchDevice) {
-        // Soft 3D untuk kartu profil dll
+        // Soft 3D untuk kartu biasa
         document.querySelectorAll('.card-3d-soft').forEach(card => {
           card.addEventListener('mousemove', (e) => {
             let rect = card.getBoundingClientRect();
@@ -882,8 +855,8 @@
             let x = e.clientX - rect.left; let y = e.clientY - rect.top;
             let centerX = rect.width / 2; let centerY = rect.height / 2;
             // Rotasi lebih tajam (pengali 12)
-            let rotateX = ((y - centerY) / centerY) * -12; 
-            let rotateY = ((x - centerX) / centerX) * 12;  
+            let rotateX = ((y - centerY) / centerY) * -15; 
+            let rotateY = ((x - centerX) / centerX) * 15;  
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
           });
           card.addEventListener('mouseleave', () => {
@@ -925,7 +898,7 @@
       });
 
       // =====================================
-      // 5. DATA JADWAL & WEB GURU
+      // 5. DATA JADWAL FULL & WEB GURU
       // =====================================
       const links = {
         "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
@@ -946,55 +919,75 @@
 
       const jadwal = [
         { day: "SENIN", start: "06:30", end: "07:30", subject: "UPACARA/WALIKELAS" },
-        { day: "SENIN", start: "07:30", end: "09:00", subject: "GEOGRAFI" },
+        { day: "SENIN", start: "07:30", end: "08:15", subject: "GEOGRAFI" },
+        { day: "SENIN", start: "08:15", end: "09:00", subject: "GEOGRAFI" },
         { day: "SENIN", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
-        { day: "SENIN", start: "09:30", end: "10:50", subject: "MANDARIN" },
+        { day: "SENIN", start: "09:30", end: "10:10", subject: "MANDARIN" },
+        { day: "SENIN", start: "10:10", end: "10:50", subject: "MANDARIN" },
         { day: "SENIN", start: "10:50", end: "11:30", subject: "B.INDONESIA" },
         { day: "SENIN", start: "11:30", end: "12:10", subject: "BUDI PEKERTI" },
         { day: "SENIN", start: "12:10", end: "12:40", subject: "ISTIRAHAT" },
         { day: "SENIN", start: "12:40", end: "13:20", subject: "B.HUMANIS" },
-        { day: "SENIN", start: "13:20", end: "14:40", subject: "INGGRIS LANJUT" },
+        { day: "SENIN", start: "13:20", end: "14:00", subject: "INGGRIS LANJUT" },
+        { day: "SENIN", start: "14:00", end: "14:40", subject: "INGGRIS LANJUT" },
         
         { day: "SELASA", start: "06:30", end: "06:45", subject: "PEMBIASAAN" },
-        { day: "SELASA", start: "06:45", end: "08:15", subject: "AGAMA" },
-        { day: "SELASA", start: "08:15", end: "09:45", subject: "PKN" },
+        { day: "SELASA", start: "06:45", end: "07:30", subject: "AGAMA" },
+        { day: "SELASA", start: "07:30", end: "08:15", subject: "AGAMA" },
+        { day: "SELASA", start: "08:15", end: "09:00", subject: "PKN" },
+        { day: "SELASA", start: "09:00", end: "09:45", subject: "PKN" },
         { day: "SELASA", start: "09:45", end: "10:05", subject: "ISTIRAHAT" },
-        { day: "SELASA", start: "10:05", end: "11:35", subject: "INGGRIS LANJUT" },
+        { day: "SELASA", start: "10:05", end: "10:50", subject: "INGGRIS LANJUT" },
+        { day: "SELASA", start: "10:50", end: "11:35", subject: "INGGRIS LANJUT" },
         { day: "SELASA", start: "11:35", end: "12:00", subject: "ISTIRAHAT" },
-        { day: "SELASA", start: "12:00", end: "13:20", subject: "B.INDONESIA" },
-        { day: "SELASA", start: "13:20", end: "14:30", subject: "FISIKA" },
+        { day: "SELASA", start: "12:00", end: "12:40", subject: "B.INDONESIA" },
+        { day: "SELASA", start: "12:40", end: "13:20", subject: "B.INDONESIA" },
+        { day: "SELASA", start: "13:20", end: "14:00", subject: "FISIKA" },
+        { day: "SELASA", start: "14:00", end: "14:30", subject: "FISIKA" },
         
         { day: "RABU", start: "06:30", end: "06:45", subject: "PEMBIASAAN" },
-        { day: "RABU", start: "06:45", end: "08:15", subject: "MAT WAJIB" },
+        { day: "RABU", start: "06:45", end: "07:30", subject: "MAT WAJIB" },
+        { day: "RABU", start: "07:30", end: "08:15", subject: "MAT WAJIB" },
         { day: "RABU", start: "08:15", end: "09:00", subject: "MANDARIN" },
         { day: "RABU", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
         { day: "RABU", start: "09:30", end: "10:10", subject: "MANDARIN" },
-        { day: "RABU", start: "10:10", end: "11:30", subject: "INFORMATIKA" },
+        { day: "RABU", start: "10:10", end: "10:50", subject: "INFORMATIKA" },
+        { day: "RABU", start: "10:50", end: "11:30", subject: "INFORMATIKA" },
         { day: "RABU", start: "11:30", end: "12:10", subject: "KOKURIKULER" },
         { day: "RABU", start: "12:10", end: "12:40", subject: "ISTIRAHAT" },
-        { day: "RABU", start: "12:40", end: "14:00", subject: "GEOGRAFI" },
-        { day: "RABU", start: "14:00", end: "15:20", subject: "KIMIA" },
+        { day: "RABU", start: "12:40", end: "13:20", subject: "GEOGRAFI" },
+        { day: "RABU", start: "13:20", end: "14:00", subject: "GEOGRAFI" },
+        { day: "RABU", start: "14:00", end: "14:40", subject: "KIMIA" },
+        { day: "RABU", start: "14:40", end: "15:20", subject: "KIMIA" },
         
         { day: "KAMIS", start: "06:30", end: "06:45", subject: "PEMBIASAAN" },
-        { day: "KAMIS", start: "06:45", end: "08:15", subject: "FISIKA" },
+        { day: "KAMIS", start: "06:45", end: "07:30", subject: "FISIKA" },
+        { day: "KAMIS", start: "07:30", end: "08:15", subject: "FISIKA" },
         { day: "KAMIS", start: "08:15", end: "09:00", subject: "PJOK" },
         { day: "KAMIS", start: "09:00", end: "09:30", subject: "ISTIRAHAT" },
         { day: "KAMIS", start: "09:30", end: "10:15", subject: "PJOK" },
-        { day: "KAMIS", start: "10:15", end: "11:45", subject: "KIMIA" },
+        { day: "KAMIS", start: "10:15", end: "11:00", subject: "KIMIA" },
+        { day: "KAMIS", start: "11:00", end: "11:45", subject: "KIMIA" },
         { day: "KAMIS", start: "11:45", end: "12:30", subject: "ISTIRAHAT" },
-        { day: "KAMIS", start: "12:30", end: "14:35", subject: "INGGRIS" },
+        { day: "KAMIS", start: "12:30", end: "13:15", subject: "INGGRIS" },
+        { day: "KAMIS", start: "13:15", end: "13:55", subject: "INGGRIS" },
+        { day: "KAMIS", start: "13:55", end: "14:35", subject: "INGGRIS" },
         { day: "KAMIS", start: "14:35", end: "15:15", subject: "B. KONSELING" },
         
         { day: "JUMAT", start: "06:30", end: "07:15", subject: "PEMBIASAAN" },
-        { day: "JUMAT", start: "07:15", end: "08:45", subject: "SENI BUDAYA" },
+        { day: "JUMAT", start: "07:15", end: "08:00", subject: "SENI BUDAYA" },
+        { day: "JUMAT", start: "08:00", end: "08:45", subject: "SENI BUDAYA" },
         { day: "JUMAT", start: "08:45", end: "09:15", subject: "ISTIRAHAT" },
         { day: "JUMAT", start: "09:15", end: "10:00", subject: "MAT WAJIB" },
-        { day: "JUMAT", start: "10:00", end: "11:30", subject: "SEJARAH" },
-        { day: "JUMAT", start: "11:30", end: "13:00", subject: "ISTIRAHAT" },
-        { day: "JUMAT", start: "13:00", end: "14:30", subject: "INFORMATIKA" }
+        { day: "JUMAT", start: "10:00", end: "10:45", subject: "SEJARAH" },
+        { day: "JUMAT", start: "10:45", end: "11:30", subject: "SEJARAH" },
+        { day: "JUMAT", start: "11:30", end: "12:30", subject: "ISTIRAHAT" },
+        { day: "JUMAT", start: "12:30", end: "13:00", subject: "ISTIRAHAT/KEGIATAN" },
+        { day: "JUMAT", start: "13:00", end: "13:45", subject: "INFORMATIKA" },
+        { day: "JUMAT", start: "13:45", end: "14:30", subject: "INFORMATIKA" }
       ];
 
-      // Format Kartu Per Hari dengan Staggered Animations (.delay-*)
+      // Format Kartu Per Hari
       const daysOrder = ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT"];
       const scheduleContainer = document.getElementById("daily-schedule-container");
       
@@ -1004,13 +997,14 @@
           let listHtml = `<ul class="schedule-list">`;
           dayTasks.forEach(task => {
             let subjName = task.subject;
+            let isBreak = task.subject.includes("ISTIRAHAT");
+            let liClass = isBreak ? "schedule-break" : "";
+            
             if(links[task.subject]) {
               subjName = `<a href="${links[task.subject]}" target="_blank" class="subj-link interactive">${task.subject}</a>`;
             }
-            let isBreak = task.subject.includes("ISTIRAHAT");
-            let opacityStyle = isBreak ? 'opacity: 0.5;' : '';
             
-            listHtml += `<li style="${opacityStyle}">
+            listHtml += `<li class="${liClass}">
                <span class="time-badge">${task.start} - ${task.end}</span>
                <span class="subj-name">${subjName}</span>
             </li>`;
@@ -1051,16 +1045,20 @@
         if(current) {
           let isBreak = current.subject.includes("ISTIRAHAT");
           if(isBreak) {
-            box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted);">Sedang Istirahat ☕</span>`;
+            box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted); font-size:2rem;">Sedang Istirahat ☕</span>`;
+            let oldLink = box.querySelector('.btn-primary');
+            let oldP = box.querySelector('p:not(.live-time)');
+            if(oldLink) oldLink.remove();
+            if(oldP) oldP.remove();
           } else {
             let linkHTML = links[current.subject] ? 
-              `<a href="${links[current.subject]}" target="_blank" class="btn-primary interactive" style="margin-top:10px; background:var(--accent-primary); color:#fff;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Modul ${current.subject}</a>` 
+              `<a href="${links[current.subject]}" target="_blank" class="btn-primary interactive" style="margin-top:10px; background:var(--accent-primary); color:#000;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Modul ${current.subject}</a>` 
               : `<p style="color:var(--text-muted); font-size:0.9rem; margin-top:10px;">*Web belum tersedia</p>`;
             
             box.querySelector('.live-subject').textContent = current.subject;
             
             let oldLink = box.querySelector('.btn-primary');
-            let oldP = box.querySelector('p');
+            let oldP = box.querySelector('p:not(.live-time)');
             if(oldLink) oldLink.remove();
             if(oldP) oldP.remove();
             
@@ -1068,6 +1066,10 @@
           }
         } else {
           box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted); font-size:1.6rem;">Tidak ada kelas saat ini.</span>`;
+          let oldLink = box.querySelector('.btn-primary');
+          let oldP = box.querySelector('p:not(.live-time)');
+          if(oldLink) oldLink.remove();
+          if(oldP) oldP.remove();
         }
       }
       setInterval(updateLiveSchedule, 60000);
@@ -1082,6 +1084,147 @@
         const msg = encodeURIComponent(document.getElementById("waMsg").value);
         window.open(`https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo%20Keenan,%20saya%20${nama}.%20${msg}`, "_blank");
       });
+
+      // =====================================
+      // 8. WEBGL LIQUID METAL BACKGROUND
+      // =====================================
+      function initWebGLBackground() {
+        const container = document.getElementById('webgl-container');
+        
+        // Setup Three.js
+        const scene = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // Simple Plane Geometry
+        const geometry = new THREE.PlaneGeometry(2, 2);
+
+        // Shaders
+        const vertexShader = `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 1.0);
+          }
+        `;
+
+        const fragmentShader = `
+          uniform float u_time;
+          uniform vec2 u_resolution;
+          uniform vec2 u_mouse;
+
+          varying vec2 vUv;
+
+          // Simplex 2D noise
+          vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+          float snoise(vec2 v){
+            const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+                     -0.577350269189626, 0.024390243902439);
+            vec2 i  = floor(v + dot(v, C.yy) );
+            vec2 x0 = v -   i + dot(i, C.xx);
+            vec2 i1;
+            i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+            vec4 x12 = x0.xyxy + C.xxzz;
+            x12.xy -= i1;
+            i = mod(i, 289.0);
+            vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+              + i.x + vec3(0.0, i1.x, 1.0 ));
+            vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+            m = m*m ;
+            m = m*m ;
+            vec3 x = 2.0 * fract(p * C.www) - 1.0;
+            vec3 h = abs(x) - 0.5;
+            vec3 ox = floor(x + 0.5);
+            vec3 a0 = x - ox;
+            m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+            vec3 g;
+            g.x  = a0.x  * x0.x  + h.x  * x0.y;
+            g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+            return 130.0 * dot(m, g);
+          }
+
+          void main() {
+            vec2 st = gl_FragCoord.xy / u_resolution.xy;
+            st.x *= u_resolution.x / u_resolution.y;
+
+            // Base movement
+            float time = u_time * 0.2;
+            
+            // Influence of mouse
+            vec2 mouseDist = st - (u_mouse + 1.0) / 2.0;
+            // Adjust mouse influence to be subtle
+            vec2 flow = st + mouseDist * 0.1;
+
+            // Generate noise for displacement
+            float n1 = snoise(flow * 3.0 + time);
+            float n2 = snoise(flow * 6.0 - time * 1.5 + vec2(n1));
+            float n3 = snoise(flow * 12.0 + time * 2.0 + vec2(n2));
+
+            // Create metallic ripples
+            float f = n1 * 0.5 + n2 * 0.25 + n3 * 0.125;
+            f = sin(f * 10.0) * 0.5 + 0.5;
+
+            // Deep Blue Metallic Color Palette
+            vec3 color1 = vec3(0.01, 0.03, 0.1); // Darkest deep blue
+            vec3 color2 = vec3(0.05, 0.2, 0.4);  // Mid blue
+            vec3 color3 = vec3(0.2, 0.7, 1.0);   // Bright cyan highlights
+            vec3 color4 = vec3(0.9, 0.95, 1.0);  // Specular white highlights
+
+            // Map noise to colors
+            vec3 finalColor = mix(color1, color2, smoothstep(0.0, 0.4, f));
+            finalColor = mix(finalColor, color3, smoothstep(0.4, 0.7, f));
+            finalColor = mix(finalColor, color4, smoothstep(0.7, 1.0, f));
+
+            // Add a subtle vignette
+            float dist = distance(vUv, vec2(0.5));
+            finalColor *= smoothstep(0.8, 0.2, dist);
+
+            gl_FragColor = vec4(finalColor, 1.0);
+          }
+        `;
+
+        const uniforms = {
+          u_time: { value: 0.0 },
+          u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+          u_mouse: { value: new THREE.Vector2(0, 0) }
+        };
+
+        const material = new THREE.ShaderMaterial({
+          vertexShader,
+          fragmentShader,
+          uniforms
+        });
+
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        // Animation Loop
+        const clock = new THREE.Clock();
+        function animate() {
+          requestAnimationFrame(animate);
+          uniforms.u_time.value = clock.getElapsedTime();
+          
+          // Smooth mouse movement for shader
+          uniforms.u_mouse.value.x += (mouseX - uniforms.u_mouse.value.x) * 0.05;
+          uniforms.u_mouse.value.y += (mouseY - uniforms.u_mouse.value.y) * 0.05;
+
+          renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+          renderer.setSize(window.innerWidth, window.innerHeight);
+          uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+        });
+      }
+
+      // Initialize WebGL Background
+      initWebGLBackground();
     });
   </script>
 </body>
