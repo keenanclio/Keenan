@@ -17,20 +17,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <style>
+    /* ==========================================
+       WARNA TEMA: MIDNIGHT NAVY & ELEGANT BLUE
+    ========================================== */
     :root {
-      /* Premium Midnight Slate Palette for UI Elements */
-      --bg-base: transparent; /* Transparent to show WebGL */
-      --bg-surface: rgba(10, 15, 30, 0.5); /* Glassmorphism background */
+      --bg-base: transparent; /* Transparan karena ada WebGL di belakang */
+      --bg-surface: rgba(10, 15, 30, 0.65); /* Glassmorphism agak gelap */
       --border-light: rgba(255, 255, 255, 0.1);
-      --border-glow: rgba(56, 189, 248, 0.5);
+      --border-glow: rgba(56, 189, 248, 0.4);
       
       --text-main: #f8fafc;
       --text-muted: #cbd5e1;
       
-      --accent-primary: #38bdf8;   /* Cyan / Blue to match liquid metal */
-      --accent-secondary: #818cf8; /* Indigo */
+      --accent-primary: #38bdf8;   /* Cyan cerah */
+      --accent-secondary: #818cf8; /* Indigo lembut */
       
-      --shadow-soft: 0 8px 30px rgba(0,0,0,0.5);
+      --shadow-soft: 0 10px 40px rgba(0,0,0,0.6);
     }
 
     * {
@@ -44,7 +46,7 @@
     }
 
     body {
-      background-color: #030814; /* Fallback deep blue */
+      background-color: #030814; /* Warna cadangan jika WebGL gagal loading */
       color: var(--text-muted);
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
@@ -52,19 +54,19 @@
       position: relative;
     }
 
-    /* WebGL Canvas Container */
+    /* WebGL Canvas Container - Opacity Diturunkan */
     #webgl-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -5; /* Stay behind everything */
-      pointer-events: none; /* Let clicks pass through */
-      opacity: 0.6; /* OPASITAS BACKGROUND DIKURANGI AGAR LEBIH KECIL/GELAP */
+      z-index: -5; 
+      pointer-events: none; 
+      opacity: 0.35; /* DITURUNKAN agar tidak menyilaukan teks */
     }
 
-    /* Kursor Custom Desktop */
+    /* Kursor Custom Desktop (Hanya muncul di laptop/PC) */
     @media (hover: hover) and (pointer: fine) {
       *, *::before, *::after { cursor: none !important; }
       
@@ -126,20 +128,19 @@
     .delay-2 { transition-delay: 0.2s; }
     .delay-3 { transition-delay: 0.3s; }
     .delay-4 { transition-delay: 0.4s; }
-    .delay-5 { transition-delay: 0.5s; }
 
     /* Navbar */
     .navbar {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(5, 10, 20, 0.6);
+      background: rgba(5, 10, 20, 0.75);
       backdrop-filter: blur(15px);
       border-bottom: 1px solid var(--border-light);
       z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 6%;
+      padding: 16px 6%;
       transition: all 0.3s ease;
     }
     .nav-brand {
@@ -196,6 +197,7 @@
       justify-content: center;
     }
 
+    /* Kartu Kaca */
     .glass-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-light);
@@ -211,12 +213,12 @@
       border-color: var(--border-glow);
     }
 
-    /* Efek 3D Lembut Default */
+    /* Efek 3D Lembut */
     .card-3d-soft {
       transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    /* Typografi Header Glowing */
+    /* Tipografi Header Glowing */
     .title-glow {
       font-family: 'Urbanist', sans-serif;
       font-size: clamp(2.8rem, 6.5vw, 4.5rem);
@@ -229,7 +231,7 @@
       -webkit-text-fill-color: transparent;
       animation: shineFlow 5s ease infinite alternate;
       margin-bottom: 16px;
-      filter: drop-shadow(0 0 15px rgba(56,189,248,0.4));
+      filter: drop-shadow(0 0 15px rgba(56,189,248,0.3));
     }
     @keyframes shineFlow {
       0% { background-position: 0% 50%; }
@@ -247,6 +249,7 @@
       text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
+    /* Hero Section */
     .hero-grid {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
@@ -261,8 +264,8 @@
       margin: 0 auto;
       position: relative;
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      padding: 4px; /* Untuk border gradient */
-      box-shadow: 0 20px 50px rgba(56,189,248,0.3);
+      padding: 4px; /* Ketebalan border gradient */
+      box-shadow: 0 20px 50px rgba(56,189,248,0.2);
     }
     .hero-img-inner {
       width: 100%; height: 100%;
@@ -298,7 +301,7 @@
       transition: 0.3s;
       border: none; cursor: none;
     }
-    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.3); }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.2); }
     
     .btn-social {
       background: rgba(255,255,255,0.1);
@@ -312,29 +315,13 @@
     }
     .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); color: #000; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(56,189,248,0.4); }
 
-    .port-grid {
-      display: flex; flex-direction: column; gap: 24px;
-    }
-    .port-card {
-      display: flex; gap: 24px; align-items: center; text-decoration: none;
-      background: rgba(10, 20, 40, 0.5);
-    }
-    .port-icon {
-      width: 75px; height: 75px; border-radius: 20px;
-      background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.2));
-      color: var(--text-main);
-      display: flex; justify-content: center; align-items: center; font-size: 2rem;
-      flex-shrink: 0; border: 1px solid var(--border-light);
-    }
-    .port-card h3 { color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.3rem; margin-bottom: 8px; }
-
+    /* About Section */
     .about-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 40px;
       align-items: start;
     }
-    
     .achievements-list {
       list-style-type: none;
       padding: 0;
@@ -352,7 +339,6 @@
       color: var(--accent-primary);
       margin-top: 4px;
     }
-
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -367,8 +353,7 @@
       background: rgba(0,0,0,0.3);
     }
     .gallery-item img {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       object-fit: cover;
       transition: transform 0.5s ease;
     }
@@ -376,27 +361,40 @@
       transform: scale(1.08);
     }
 
-    /* Jadwal Pelajaran (Atas ke Bawah Rapi) */
+    /* Portofolio */
+    .port-grid { display: flex; flex-direction: column; gap: 24px; }
+    .port-card {
+      display: flex; gap: 24px; align-items: center; text-decoration: none;
+    }
+    .port-icon {
+      width: 75px; height: 75px; border-radius: 20px;
+      background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.2));
+      color: var(--text-main);
+      display: flex; justify-content: center; align-items: center; font-size: 2rem;
+      flex-shrink: 0; border: 1px solid var(--border-light);
+    }
+    .port-card h3 { color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.3rem; margin-bottom: 8px; }
+
+    /* Jadwal Pelajaran */
     .live-status-box {
-      background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.1));
+      background: linear-gradient(135deg, rgba(56,189,248,0.15), rgba(129,140,248,0.1));
       border: 1px solid var(--border-glow);
       text-align: center;
       padding: 40px;
       border-radius: 24px;
       margin-bottom: 40px;
-      box-shadow: 0 10px 40px rgba(56,189,248,0.2);
+      box-shadow: 0 10px 40px rgba(56,189,248,0.15);
     }
     .live-time { font-family: 'Urbanist', sans-serif; font-size: 1.2rem; color: var(--accent-primary); margin-bottom: 16px; }
     .live-subject { font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.1; text-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-    /* Container untuk Tabel Jadwal Seluruhnya */
+    /* Container Jadwal Atas-Bawah Rapi */
     .schedule-full-container {
       display: flex;
       flex-direction: column;
       gap: 30px;
       margin-bottom: 50px;
     }
-
     .schedule-day-block {
       background: rgba(10, 15, 30, 0.6);
       border: 1px solid var(--border-light);
@@ -412,7 +410,6 @@
       padding-bottom: 12px;
       border-bottom: 1px solid var(--border-light);
     }
-
     .schedule-table {
       width: 100%;
       border-collapse: collapse;
@@ -429,16 +426,14 @@
       font-weight: 600;
       border-bottom: 1px solid var(--border-light);
     }
-    .schedule-table tr:last-child td {
-      border-bottom: none;
-    }
+    .schedule-table tr:last-child td { border-bottom: none; }
     .time-col { width: 140px; font-family: monospace; color: var(--accent-primary) !important; }
     .subj-link { color: var(--accent-primary); text-decoration: none; font-weight: 600; transition: 0.3s; }
     .subj-link:hover { color: #fff; text-shadow: 0 0 8px rgba(56,189,248,0.8); }
 
-    /* Baris Istirahat Dibuat Redup */
+    /* Baris Istirahat (Transparan & Italic) */
     .row-break td {
-      opacity: 0.5;
+      opacity: 0.45;
       font-style: italic;
     }
     .row-break .subj-link, .row-break span {
@@ -456,57 +451,47 @@
       text-align: center; color: var(--text-main); text-decoration: none;
       font-family: 'Urbanist', sans-serif; font-weight: 600; font-size: 0.95rem;
       transition: all 0.3s;
-      backdrop-filter: blur(10px);
     }
     .teacher-card:hover { 
-      background: var(--border-glow); border-color: var(--accent-primary); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(56,189,248,0.3);
+      background: var(--border-glow); border-color: var(--accent-primary); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(56,189,248,0.2);
     }
 
-    /* ==========================================
-       HSK CARDS - EFEK 3D STRONG HOVER
-    ========================================== */
+    /* HSK Cards - Hover Kuat */
     .hsk-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 24px;
       perspective: 1500px;
     }
-
     .hsk-card {
       text-decoration: none;
       position: relative;
       overflow: hidden;
       padding: 30px;
-      background: rgba(10, 20, 40, 0.5);
+      background: rgba(10, 20, 40, 0.6);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 20px;
       backdrop-filter: blur(16px);
       transform-style: preserve-3d;
       will-change: transform;
-      transition: transform 0.1s, box-shadow 0.2s;
+      transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-
     .hsk-glare {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.2) 25%, transparent 30%);
+      background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.25) 25%, transparent 30%);
       transform: translateX(-150%);
       pointer-events: none;
       transition: transform 0.4s ease-out;
       z-index: 2;
     }
-    
-    .hsk-card:hover .hsk-glare {
-      transform: translateX(150%);
-    }
-
+    .hsk-card:hover .hsk-glare { transform: translateX(150%); }
     .hsk-card:hover {
       border-color: rgba(255,255,255,0.4);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(56,189,248,0.4);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(56,189,248,0.3);
       z-index: 10; 
     }
-
     .hsk-number {
       position: absolute; 
       top: -15px; right: 10px; 
@@ -519,15 +504,13 @@
       transform: translateZ(-20px); 
       transition: color 0.3s;
     }
-    .hsk-card:hover .hsk-number {
-      color: rgba(255,255,255,0.15);
-    }
-
+    .hsk-card:hover .hsk-number { color: rgba(255,255,255,0.15); }
     .hsk-content {
       transform: translateZ(30px);
       pointer-events: none;
     }
 
+    /* Contact Form */
     .contact-form {
       display: flex; flex-direction: column; gap: 16px;
     }
@@ -538,11 +521,11 @@
       color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
       outline: none; transition: 0.3s;
     }
-    .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.6); box-shadow: 0 0 15px rgba(56,189,248,0.3); }
+    .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.6); box-shadow: 0 0 15px rgba(56,189,248,0.2); }
     
     footer { text-align: center; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid var(--border-light); margin-top: 60px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 
-    /* Responsive */
+    /* Responsive Media Queries */
     @media (max-width: 968px) {
       .hero-grid { grid-template-columns: 1fr; text-align: center; }
       .metrics-row { justify-content: center; }
@@ -565,6 +548,7 @@
         transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
       }
       .nav-links.show { right: 0; }
+      .gallery-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -577,7 +561,7 @@
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
   
-  <!-- Texture overlay -->
+  <!-- Texture overlay halus -->
   <div class="bg-noise"></div>
 
   <!-- Navbar -->
@@ -598,6 +582,7 @@
 
   <div class="page-container">
     
+    <!-- Home / Hero Section -->
     <section id="home" class="page-section">
       <div class="hero-grid">
         <div class="hero-text reveal">
@@ -629,13 +614,14 @@
       </div>
     </section>
 
+    <!-- About Me Section -->
     <section id="about" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-id-card-clip" style="color:var(--accent-primary)"></i> About Me</h2>
       
       <div class="about-layout">
-        <!-- Kolom Kiri: Teks -->
+        <!-- Teks & Prestasi -->
         <div class="glass-card interactive card-3d-soft reveal delay-1" style="position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; background: rgba(10,15,30,0.6);">
-          <div style="position: absolute; top: -50%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+          <div style="position: absolute; top: -50%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
           
           <div style="position: relative; z-index: 1;">
             <h3 style="font-family: 'Urbanist', sans-serif; font-size: 1.8rem; color: var(--text-main); margin-bottom: 16px;">Halo, saya Keenan!</h3>
@@ -660,7 +646,7 @@
           </div>
         </div>
 
-        <!-- Kolom Kanan: Galeri Foto -->
+        <!-- Galeri Foto -->
         <div class="gallery-grid reveal delay-2">
           <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
             <img src="WhatsApp Image 2026-09-20 at 8.35.40 PM.jpeg" alt="Prestasi Basket 1" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+1'">
@@ -678,6 +664,7 @@
       </div>
     </section>
 
+    <!-- Portofolio Section -->
     <section id="portfolio" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-layer-group" style="color:var(--accent-primary)"></i> Portofolio & Proyek</h2>
       <div class="port-grid">
@@ -705,6 +692,7 @@
       </div>
     </section>
 
+    <!-- JADWAL PELAJARAN SECTION (TABEL LENGKAP & RAPIH) -->
     <section id="jadwal" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-calendar-days" style="color:var(--accent-primary)"></i> Jadwal Kelas XI-2</h2>
       
@@ -716,7 +704,7 @@
 
       <!-- Tabel Jadwal Seluruhnya (Atas ke Bawah Rapi) -->
       <div class="schedule-full-container reveal delay-2" id="daily-schedule-container">
-        <!-- Konten di-generate lewat JS agar rapi -->
+        <!-- Konten di-generate lewat JS agar rapih per hari -->
       </div>
 
       <!-- Web Guru List -->
@@ -726,7 +714,7 @@
       <div class="teacher-grid reveal delay-1" id="teacher-links-grid"></div>
     </section>
 
-    <!-- NEW SECTION: RUANG BELAJAR MANDARIN (STRONG 3D HOVER) -->
+    <!-- Ruang Belajar Mandarin (HSK Cards dengan Strong 3D Hover) -->
     <section id="mandarin" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-book-open" style="color:#f43f5e"></i> Ruang Belajar Mandarin</h2>
       <p class="reveal delay-1" style="margin-bottom: 40px; font-size: 1.05rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">Koleksi referensi materi ujian HSK (Hanyu Shuiping Kaoshi) untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
@@ -774,6 +762,7 @@
       </div>
     </section>
 
+    <!-- Contact Section -->
     <section id="contact" class="page-section">
       <div class="glass-card interactive card-3d-soft reveal" style="max-width:700px; margin:0 auto; width:100%; background: rgba(10,15,30,0.6);">
         <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-primary)"></i> Hubungi Saya</h2>
@@ -916,7 +905,7 @@
       });
 
       // =====================================
-      // 5. DATA JADWAL PENGEMBALIAN PENUH & WEB GURU
+      // 5. DATA JADWAL PENUH & WEB GURU
       // =====================================
       const links = {
         "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
