@@ -17,7 +17,7 @@
     :root {
       /* Premium Midnight Slate Palette */
       --bg-base: #090a0f; 
-      --bg-surface: rgba(20, 22, 32, 0.6);
+      --bg-surface: rgba(20, 22, 32, 0.4); /* Dibuat sedikit lebih transparan untuk efek liquid */
       --border-light: rgba(255, 255, 255, 0.08);
       --border-glow: rgba(168, 85, 247, 0.4);
       
@@ -87,64 +87,60 @@
       .cursor-dot, .cursor-ring { display: none !important; }
     }
 
-    /* Tekstur Noise Premium (Awwwards Style) */
-    .bg-noise {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
-      opacity: 0.04;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    /* Cahaya Mouse Ambient yang Lebih Halus */
-    .ambient-tracker {
+    /* ==========================================
+       LIQUID METAL INTERACTIVE BACKGROUND
+    ========================================== */
+    .liquid-bg-container {
       position: fixed;
-      top: 0; left: 0;
-      width: 800px; height: 800px;
-      background: radial-gradient(circle, rgba(168,85,247,0.06) 0%, rgba(56,189,248,0.03) 30%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: -2;
-      transform: translate(-50%, -50%);
-    }
-    
-    .bg-mesh {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(56,189,248,0.03) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(168,85,247,0.03) 0px, transparent 50%);
+      top: 0; left: 0; right: 0; bottom: 0;
       z-index: -3;
+      overflow: hidden;
+      background-color: #050508;
     }
 
-    /* =========================================
-       NEW: ANIMATED GLOWING ORBS BACKGROUND
-       ========================================= */
-    .orb-container {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      overflow: hidden; z-index: -4; pointer-events: none;
+    /* Bola-bola liquid raksasa yang saling menyatu (Gooey effect) */
+    .liquid-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      will-change: transform;
+      animation: floatOrb 15s infinite alternate ease-in-out;
+      opacity: 0.6;
     }
-    .orb {
-      position: absolute; border-radius: 50%; filter: blur(90px);
-      animation: floatOrb 25s infinite ease-in-out alternate;
-      opacity: 0.4;
-    }
-    .orb-1 {
-      width: 450px; height: 450px; background: rgba(168, 85, 247, 0.15); /* Primary */
-      top: -10%; left: -10%; animation-delay: 0s;
-    }
-    .orb-2 {
-      width: 550px; height: 550px; background: rgba(56, 189, 248, 0.12); /* Secondary */
-      bottom: -20%; right: -10%; animation-delay: -5s;
-    }
-    .orb-3 {
-      width: 350px; height: 350px; background: rgba(244, 63, 94, 0.1); /* HSK Red-ish */
-      top: 40%; left: 50%; animation-delay: -12s;
-    }
+    .orb-1 { width: 60vw; height: 60vw; background: rgba(56, 189, 248, 0.2); top: -20%; left: -10%; animation-duration: 20s; }
+    .orb-2 { width: 50vw; height: 50vw; background: rgba(168, 85, 247, 0.2); bottom: -10%; right: -10%; animation-duration: 18s; animation-direction: alternate-reverse; }
+    .orb-3 { width: 40vw; height: 40vw; background: rgba(99, 102, 241, 0.2); top: 30%; left: 40%; animation-duration: 25s; }
 
     @keyframes floatOrb {
       0% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(80px, 120px) scale(1.1); }
-      100% { transform: translate(-50px, 80px) scale(0.9); }
+      33% { transform: translate(10vw, -10vh) scale(1.1); }
+      66% { transform: translate(-5vw, 15vh) scale(0.9); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+
+    /* Cahaya kilap logam yang mengikuti mouse */
+    .metal-reflection {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: -2;
+      background: radial-gradient(
+        circle 800px at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(56, 189, 248, 0.03) 30%,
+        transparent 60%
+      );
+      mix-blend-mode: screen;
+    }
+
+    /* Tekstur grain halus di atas liquid */
+    .bg-noise {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: -1;
     }
 
     /* ANIMASI SCROLL REVEAL */
@@ -158,7 +154,6 @@
       opacity: 1;
       transform: translateY(0);
     }
-    /* Staggering delays untuk elemen berurutan */
     .delay-1 { transition-delay: 0.1s; }
     .delay-2 { transition-delay: 0.2s; }
     .delay-3 { transition-delay: 0.3s; }
@@ -169,7 +164,7 @@
     .navbar {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(9, 10, 15, 0.7);
+      background: rgba(9, 10, 15, 0.6);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-light);
       z-index: 1000;
@@ -201,7 +196,7 @@
     }
     .nav-btn:hover, .nav-btn.active {
       color: var(--text-main);
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.08);
     }
 
     .hamburger {
@@ -248,6 +243,11 @@
       border-color: var(--border-glow);
     }
 
+    /* Efek 3D Lembut Default */
+    .card-3d-soft {
+      transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
     /* Typografi Header Glowing */
     .title-glow {
       font-family: 'Urbanist', sans-serif;
@@ -261,7 +261,7 @@
       -webkit-text-fill-color: transparent;
       animation: shineFlow 5s ease infinite alternate;
       margin-bottom: 16px;
-      filter: drop-shadow(0 0 20px rgba(168,85,247,0.2));
+      filter: drop-shadow(0 0 20px rgba(168,85,247,0.3));
     }
     @keyframes shineFlow {
       0% { background-position: 0% 50%; }
@@ -293,7 +293,7 @@
       position: relative;
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
       padding: 4px; /* Untuk border gradient */
-      box-shadow: 0 20px 50px rgba(168,85,247,0.25);
+      box-shadow: 0 20px 50px rgba(168,85,247,0.3);
     }
     .hero-img-inner {
       width: 100%; height: 100%;
@@ -304,10 +304,9 @@
     .hero-img-inner img {
       width: 100%; height: 100%;
       object-fit: cover;
-      object-position: center top; /* Mencegah wajah kepotong */
+      object-position: center top; 
     }
 
-    /* Metrik 3 Pilar */
     .metrics-row {
       display: flex; gap: 24px; margin: 30px 0; flex-wrap: wrap;
     }
@@ -319,7 +318,6 @@
     }
     .metric-item span { font-size: 0.85rem; color: var(--accent-secondary); }
 
-    /* Tombol Interaktif */
     .btn-primary {
       background: var(--text-main);
       color: var(--bg-base);
@@ -331,10 +329,10 @@
       transition: 0.3s;
       border: none; cursor: none;
     }
-    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.15); }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.2); }
     
     .btn-social {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.08);
       color: var(--text-main);
       width: 48px; height: 48px;
       border-radius: 14px;
@@ -343,7 +341,7 @@
       border: 1px solid var(--border-light);
       transition: 0.3s; cursor: none;
     }
-    .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); transform: translateY(-3px); }
+    .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(168,85,247,0.3); }
 
     .port-grid {
       display: flex; flex-direction: column; gap: 24px;
@@ -353,14 +351,13 @@
     }
     .port-icon {
       width: 75px; height: 75px; border-radius: 20px;
-      background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.15));
+      background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(56,189,248,0.2));
       color: var(--text-main);
       display: flex; justify-content: center; align-items: center; font-size: 2rem;
       flex-shrink: 0; border: 1px solid var(--border-light);
     }
     .port-card h3 { color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.3rem; margin-bottom: 8px; }
 
-    /* Layout untuk bagian About Me & Galeri Prestasi Basket */
     .about-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -373,7 +370,6 @@
       padding: 0;
       margin-top: 20px;
     }
-    
     .achievements-list li {
       margin-bottom: 12px;
       display: flex;
@@ -382,7 +378,6 @@
       font-size: 0.95rem;
       line-height: 1.5;
     }
-    
     .achievements-list li i {
       color: var(--accent-secondary);
       margin-top: 4px;
@@ -393,70 +388,36 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
-
     .gallery-item {
       border-radius: 16px;
       overflow: hidden;
       aspect-ratio: 4/5;
       position: relative;
       border: 1px solid var(--border-light);
-      background: rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.3);
     }
-    
     .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 0.5s ease;
     }
-    
     .gallery-item:hover img {
-      transform: scale(1.05);
-    }
-
-    /* HSK Cards Grid */
-    .hsk-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
-    }
-
-    /* =========================================
-       NEW: HSK PARALLAX 3D HOVER
-       ========================================= */
-    .hsk-card {
-      transform-style: preserve-3d;
-      transition: border-color 0.4s ease, box-shadow 0.4s ease;
-    }
-    .hsk-card:hover {
-      border-color: var(--accent-primary);
-      box-shadow: 0 20px 40px rgba(168,85,247,0.15);
-    }
-    .hsk-card > * {
-      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s;
-      transform: translateZ(0);
-    }
-    .hsk-card:hover h3 { transform: translateZ(50px); }
-    .hsk-card:hover .hsk-level { transform: translateZ(30px); }
-    .hsk-card:hover .hsk-desc { transform: translateZ(40px); }
-    .hsk-card:hover .hsk-bg-num { 
-      transform: translateZ(70px) scale(1.1); 
-      color: rgba(255,255,255,0.08) !important; 
+      transform: scale(1.08);
     }
 
     .live-status-box {
-      background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.05));
+      background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(56,189,248,0.1));
       border: 1px solid var(--border-glow);
       text-align: center;
       padding: 40px;
       border-radius: 24px;
       margin-bottom: 40px;
-      box-shadow: 0 10px 40px rgba(168,85,247,0.1);
+      box-shadow: 0 10px 40px rgba(168,85,247,0.2);
     }
     .live-time { font-family: 'Urbanist', sans-serif; font-size: 1.2rem; color: var(--accent-secondary); margin-bottom: 16px; }
-    .live-subject { font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.1; }
+    .live-subject { font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.1; text-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-    /* Grid Hari (Senin-Jumat) */
     .days-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -485,17 +446,16 @@
       font-size: 0.9rem;
     }
     .schedule-list li:last-child { border-bottom: none; }
-    .time-badge { background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 6px; font-family: monospace; color: var(--text-muted); }
+    .time-badge { background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 6px; font-family: monospace; color: var(--text-muted); }
     .subj-name { font-weight: 600; color: var(--text-main); text-align: right; }
     .subj-link { color: var(--accent-secondary); text-decoration: none; transition: 0.3s; }
-    .subj-link:hover { color: var(--accent-primary); }
+    .subj-link:hover { color: var(--accent-primary); text-shadow: 0 0 8px rgba(168,85,247,0.5); }
 
-    /* Web Guru Grid */
     .teacher-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;
     }
     .teacher-card {
-      background: rgba(255,255,255,0.02);
+      background: rgba(255,255,255,0.04);
       border: 1px solid var(--border-light);
       padding: 16px; border-radius: 16px;
       text-align: center; color: var(--text-main); text-decoration: none;
@@ -503,20 +463,87 @@
       transition: all 0.3s;
     }
     .teacher-card:hover { 
-      background: var(--border-glow); border-color: var(--accent-primary); transform: translateY(-4px); 
+      background: var(--border-glow); border-color: var(--accent-primary); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(168,85,247,0.2);
+    }
+
+    /* ==========================================
+       HSK CARDS - EFEK 3D STRONG HOVER
+    ========================================== */
+    .hsk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      perspective: 1500px; /* Perspective kuat untuk wadah */
+    }
+
+    .hsk-card {
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: transform 0.1s; /* Transisi cepat agar terasa responsif ke mouse */
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    /* Efek pantulan cahaya (Glare) di dalam kartu */
+    .hsk-glare {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.15) 25%, transparent 30%);
+      transform: translateX(-150%);
+      pointer-events: none;
+      transition: transform 0.4s ease-out;
+      z-index: 2;
+    }
+    
+    .hsk-card:hover .hsk-glare {
+      transform: translateX(150%);
+    }
+
+    .hsk-card:hover {
+      border-color: rgba(255,255,255,0.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 20px rgba(168, 85, 247, 0.3);
+      z-index: 10; /* Agar kartu yang di-hover ada di atas */
+    }
+
+    .hsk-number {
+      position: absolute; 
+      top: -15px; right: 10px; 
+      font-size: 7rem; 
+      color: rgba(255,255,255,0.03); 
+      font-weight: 900; 
+      font-family: 'Urbanist'; 
+      pointer-events: none; 
+      line-height: 1;
+      transform: translateZ(-20px); /* Terlihat jauh ke dalam */
+      transition: color 0.3s;
+    }
+    .hsk-card:hover .hsk-number {
+      color: rgba(255,255,255,0.08);
+    }
+
+    .hsk-content {
+      transform: translateZ(30px); /* Konten terlihat maju/mengambang */
+      pointer-events: none;
     }
 
     .contact-form {
       display: flex; flex-direction: column; gap: 16px;
     }
     .form-input {
-      background: rgba(0,0,0,0.3);
+      background: rgba(0,0,0,0.4);
       border: 1px solid var(--border-light);
       padding: 18px; border-radius: 16px;
       color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
       outline: none; transition: 0.3s;
     }
-    .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.5); }
+    .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.6); box-shadow: 0 0 15px rgba(168,85,247,0.2); }
     
     footer { text-align: center; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid var(--border-light); margin-top: 60px; }
 
@@ -549,15 +576,14 @@
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
   
-  <!-- Latar Belakang Premium (Noise + Mesh + Glow + Orbs) -->
-  <div class="bg-noise"></div>
-  <div class="bg-mesh"></div>
-  <div class="ambient-tracker" id="mouseGlow"></div>
-  <div class="orb-container">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
+  <!-- LIQUID METAL BACKGROUND -->
+  <div class="liquid-bg-container">
+    <div class="liquid-orb orb-1"></div>
+    <div class="liquid-orb orb-2"></div>
+    <div class="liquid-orb orb-3"></div>
   </div>
+  <div class="metal-reflection" id="metalReflection"></div>
+  <div class="bg-noise"></div>
 
   <!-- Navbar -->
   <nav class="navbar">
@@ -599,7 +625,7 @@
           </div>
         </div>
         <div class="hero-img reveal delay-1">
-          <div class="hero-img-box glass-card interactive card-3d">
+          <div class="hero-img-box glass-card interactive card-3d-soft">
             <div class="hero-img-inner">
               <img src="profile.jpeg" alt="Keenan Clio" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
             </div>
@@ -614,7 +640,7 @@
       
       <div class="about-layout">
         <!-- Kolom Kiri: Teks -->
-        <div class="glass-card interactive card-3d reveal delay-1" style="position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
+        <div class="glass-card interactive card-3d-soft reveal delay-1" style="position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
           <div style="position: absolute; top: -50%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
           
           <div style="position: relative; z-index: 1;">
@@ -642,16 +668,16 @@
 
         <!-- Kolom Kanan: Galeri Foto -->
         <div class="gallery-grid reveal delay-2">
-          <div class="gallery-item interactive card-3d" style="padding: 0;">
+          <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
             <img src="WhatsApp Image 2026-09-20 at 8.35.40 PM.jpeg" alt="Prestasi Basket 1" onerror="this.src='https://placehold.co/400x500/1a1a2e/ffffff?text=Gallery+1'">
           </div>
-          <div class="gallery-item interactive card-3d" style="padding: 0;">
+          <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
             <img src="WhatsApp Image 2026-09-20 at 8.35.40 PM (1).jpeg" alt="Prestasi Basket 2" onerror="this.src='https://placehold.co/400x500/1a1a2e/ffffff?text=Gallery+2'">
           </div>
-          <div class="gallery-item interactive card-3d" style="padding: 0;">
+          <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
             <img src="WhatsApp Image 2026-09-20 at 8.35.39 PM.jpeg" alt="Prestasi Basket 3" onerror="this.src='https://placehold.co/400x500/1a1a2e/ffffff?text=Gallery+3'">
           </div>
-          <div class="gallery-item interactive card-3d" style="padding: 0;">
+          <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
             <img src="WhatsApp Image 2026-09-20 at 8.35.38 PM (1).jpeg" alt="Prestasi Basket 4" onerror="this.src='https://placehold.co/400x500/1a1a2e/ffffff?text=Gallery+4'">
           </div>
         </div>
@@ -661,21 +687,21 @@
     <section id="portfolio" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-layer-group" style="color:var(--accent-primary)"></i> Portofolio & Proyek</h2>
       <div class="port-grid">
-        <a href="#" class="glass-card interactive card-3d port-card reveal delay-1">
+        <a href="#" class="glass-card interactive card-3d-soft port-card reveal delay-1">
           <div class="port-icon"><i class="fa-solid fa-square-root-variable"></i></div>
           <div>
             <h3>Analisis & Logika Matematika</h3>
             <p>Kumpulan studi mandiri dan persiapan olimpiade matematika. Fokus pada problem solving dan pembuktian logis tingkat lanjut.</p>
           </div>
         </a>
-        <a href="#" class="glass-card interactive card-3d port-card reveal delay-2">
+        <a href="#" class="glass-card interactive card-3d-soft port-card reveal delay-2">
           <div class="port-icon"><i class="fa-solid fa-basketball"></i></div>
           <div>
             <h3>Basketball & Team Strategy</h3>
             <p>Dokumentasi kepemimpinan tim, partisipasi turnamen pelajar, latihan fisik intensif, dan analisis taktik formasi permainan.</p>
           </div>
         </a>
-        <a href="#" class="glass-card interactive card-3d port-card reveal delay-3">
+        <a href="#" class="glass-card interactive card-3d-soft port-card reveal delay-3">
           <div class="port-icon"><i class="fa-solid fa-flask"></i></div>
           <div>
             <h3>Eksperimen Riset Sains</h3>
@@ -689,7 +715,7 @@
       <h2 class="section-title reveal"><i class="fa-solid fa-calendar-days" style="color:var(--accent-secondary)"></i> Jadwal Kelas XI-2</h2>
       
       <!-- Box Live Schedule -->
-      <div class="live-status-box glass-card interactive card-3d reveal delay-1" id="live-schedule-box">
+      <div class="live-status-box glass-card interactive card-3d-soft reveal delay-1" id="live-schedule-box">
         <div class="live-time" id="live-time-display">Memuat Waktu...</div>
         <h3 class="live-subject">Mengecek Jadwal...</h3>
       </div>
@@ -706,48 +732,56 @@
       <div class="teacher-grid reveal delay-1" id="teacher-links-grid"></div>
     </section>
 
-    <!-- NEW SECTION: RUANG BELAJAR MANDARIN -->
+    <!-- NEW SECTION: RUANG BELAJAR MANDARIN (STRONG 3D HOVER) -->
     <section id="mandarin" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-book-open" style="color:#f43f5e"></i> Ruang Belajar Mandarin</h2>
-      <p class="reveal delay-1" style="margin-bottom: 30px; font-size: 1.05rem;">Koleksi referensi materi ujian HSK (Hanyu Shuiping Kaoshi) untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
+      <p class="reveal delay-1" style="margin-bottom: 40px; font-size: 1.05rem;">Koleksi referensi materi ujian HSK (Hanyu Shuiping Kaoshi) untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
       
-      <div class="hsk-grid">
-        <!-- HSK 1 -->
-        <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="glass-card interactive card-3d hsk-card reveal delay-1" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
-          <div class="hsk-bg-num" style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">1</div>
-          <h3 style="color: #fca5a5; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 1</h3>
-          <p class="hsk-level" style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Pemula</p>
-          <p class="hsk-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Fondasi pinyin, nada dasar, dan kosakata esensial untuk komunikasi sederhana.</p>
+      <div class="hsk-grid reveal delay-2">
+        <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="hsk-card interactive hsk-3d">
+          <div class="hsk-glare"></div>
+          <div class="hsk-number">1</div>
+          <div class="hsk-content">
+            <h3 style="color: #fca5a5; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 1</h3>
+            <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Pemula</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Fondasi pinyin, nada dasar, dan kosakata esensial untuk komunikasi sederhana.</p>
+          </div>
         </a>
 
-        <!-- HSK 2 -->
-        <a href="https://pandarin.net/new-hsk/level2/" target="_blank" class="glass-card interactive card-3d hsk-card reveal delay-2" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
-          <div class="hsk-bg-num" style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">2</div>
-          <h3 style="color: var(--accent-secondary); font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 2</h3>
-          <p class="hsk-level" style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Dasar</p>
-          <p class="hsk-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Peningkatan struktur kalimat dan kelancaran untuk percakapan topik rutin.</p>
+        <a href="https://pandarin.net/new-hsk/level2/" target="_blank" class="hsk-card interactive hsk-3d">
+          <div class="hsk-glare"></div>
+          <div class="hsk-number">2</div>
+          <div class="hsk-content">
+            <h3 style="color: var(--accent-secondary); font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 2</h3>
+            <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Dasar</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Peningkatan struktur kalimat dan kelancaran untuk percakapan topik rutin.</p>
+          </div>
         </a>
 
-        <!-- HSK 3 -->
-        <a href="https://pandarin.net/new-hsk/level3/" target="_blank" class="glass-card interactive card-3d hsk-card reveal delay-3" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
-          <div class="hsk-bg-num" style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">3</div>
-          <h3 style="color: #fcd34d; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 3</h3>
-          <p class="hsk-level" style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah Bawah</p>
-          <p class="hsk-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Pemahaman konteks luas untuk kehidupan sosial dan akademik mendasar.</p>
+        <a href="https://pandarin.net/new-hsk/level3/" target="_blank" class="hsk-card interactive hsk-3d">
+          <div class="hsk-glare"></div>
+          <div class="hsk-number">3</div>
+          <div class="hsk-content">
+            <h3 style="color: #fcd34d; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 3</h3>
+            <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah Bawah</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Pemahaman konteks luas untuk kehidupan sosial dan akademik mendasar.</p>
+          </div>
         </a>
 
-        <!-- HSK 4 -->
-        <a href="https://pandarin.net/new-hsk/level4/" target="_blank" class="glass-card interactive card-3d hsk-card reveal delay-4" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
-          <div class="hsk-bg-num" style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">4</div>
-          <h3 style="color: #34d399; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 4</h3>
-          <p class="hsk-level" style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah</p>
-          <p class="hsk-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Kefasihan berinteraksi dengan penutur asli serta diskusi topik kompleks.</p>
+        <a href="https://pandarin.net/new-hsk/level4/" target="_blank" class="hsk-card interactive hsk-3d">
+          <div class="hsk-glare"></div>
+          <div class="hsk-number">4</div>
+          <div class="hsk-content">
+            <h3 style="color: #34d399; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 4</h3>
+            <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Kefasihan berinteraksi dengan penutur asli serta diskusi topik kompleks.</p>
+          </div>
         </a>
       </div>
     </section>
 
     <section id="contact" class="page-section">
-      <div class="glass-card interactive card-3d reveal" style="max-width:700px; margin:0 auto; width:100%;">
+      <div class="glass-card interactive card-3d-soft reveal" style="max-width:700px; margin:0 auto; width:100%;">
         <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-primary)"></i> Hubungi Saya</h2>
         <p style="margin-bottom:30px;">Kirimkan pesan untuk berkolaborasi, diskusi matematika, atau sekadar menyapa via WhatsApp.</p>
         
@@ -772,27 +806,29 @@
       document.getElementById("currentYear").textContent = new Date().getFullYear();
       
       // =====================================
-      // 1. KURSOR & BACKGROUND MOUSE GLOW
+      // 1. LIQUID BACKGROUND & CURSOR TRACKING
       // =====================================
       const dot = document.getElementById("cursorDot");
       const ring = document.getElementById("cursorRing");
-      const glow = document.getElementById("mouseGlow");
+      const reflection = document.getElementById("metalReflection");
       const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
       if (!isTouchDevice) {
         document.addEventListener("mousemove", (e) => {
           const x = e.clientX, y = e.clientY;
           
+          // Gerakan Kursor
           if(dot) dot.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
-          
           if(ring) {
             ring.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
               { duration: 300, fill: "forwards", easing: "ease-out" });
           }
-          if(glow) {
-            // Glow dibuat lebih luas dan lembut pergerakannya
-            glow.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
-              { duration: 1500, fill: "forwards", easing: "ease-out" });
+
+          // Liquid Reflection Gerak dengan Mouse
+          if(reflection) {
+            // Mengubah posisi gradient center CSS variable
+            reflection.style.setProperty('--mouse-x', `${x}px`);
+            reflection.style.setProperty('--mouse-y', `${y}px`);
           }
         });
 
@@ -803,14 +839,11 @@
       }
 
       // =====================================
-      // 2. SCROLL REVEAL ANIMATION (Intersection Observer)
+      // 2. SCROLL REVEAL ANIMATION
       // =====================================
       const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
+        root: null, rootMargin: '0px', threshold: 0.1 
       };
-
       const scrollObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -819,36 +852,42 @@
         });
       }, observerOptions);
 
-      function observeRevealElements() {
-        document.querySelectorAll('.reveal').forEach(el => {
-          scrollObserver.observe(el);
-        });
-      }
+      document.querySelectorAll('.reveal').forEach(el => {
+        scrollObserver.observe(el);
+      });
 
       // =====================================
-      // 3. EFEK HOVER 3D (TILT & PARALLAX)
+      // 3. EFEK HOVER 3D (SOFT untuk Card Biasa, STRONG untuk HSK)
       // =====================================
       if (!isTouchDevice) {
-        document.querySelectorAll('.card-3d').forEach(card => {
+        // Soft 3D untuk kartu profil dll
+        document.querySelectorAll('.card-3d-soft').forEach(card => {
           card.addEventListener('mousemove', (e) => {
             let rect = card.getBoundingClientRect();
-            let x = e.clientX - rect.left; 
-            let y = e.clientY - rect.top;
-            let centerX = rect.width / 2;
-            let centerY = rect.height / 2;
-            
-            // Cek apakah ini kartu HSK untuk efek putaran yang lebih ekstrim
-            let isHSK = card.classList.contains('hsk-card');
-            let multiplier = isHSK ? 12 : 3; // Rotasi 12x lebih kuat untuk HSK, 3x untuk yang lain
-            
-            let rotateX = ((y - centerY) / centerY) * -multiplier; 
-            let rotateY = ((x - centerX) / centerX) * multiplier;  
-            
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+            let x = e.clientX - rect.left; let y = e.clientY - rect.top;
+            let centerX = rect.width / 2; let centerY = rect.height / 2;
+            let rotateX = ((y - centerY) / centerY) * -3; 
+            let rotateY = ((x - centerX) / centerX) * 3;  
+            card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
           });
-          
           card.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+            card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+          });
+        });
+
+        // Strong 3D Hover untuk HSK Cards
+        document.querySelectorAll('.hsk-3d').forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            let rect = card.getBoundingClientRect();
+            let x = e.clientX - rect.left; let y = e.clientY - rect.top;
+            let centerX = rect.width / 2; let centerY = rect.height / 2;
+            // Rotasi lebih tajam (pengali 12)
+            let rotateX = ((y - centerY) / centerY) * -12; 
+            let rotateY = ((x - centerX) / centerX) * 12;  
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+          });
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
           });
         });
       }
@@ -891,14 +930,14 @@
       const links = {
         "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
         "PKN": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
-        "B.INDONESIA": "https://sites.google.com/cintakasihtzuchi.sch.id/rulymedianamanurungspd/materi/kelas-11?authuser=0",
+        "B.INDONESIA": "https://sites.google.com/cintakasihtzuchi.sch.id/rulymedianamanurungspd/bio",
         "INGGRIS": "https://sites.google.com/view/tibisatibi/home?authuser=0",
         "INGGRIS LANJUT": "https://sites.google.com/view/tibisatibi/home?authuser=0",
         "MANDARIN": "https://sites.google.com/cintakasihtzuchi.sch.id/laoshi-mul?usp=sharing",
-        "MAT WAJIB": "https://sites.google.com/cintakasihtzuchi.sch.id/sma-cinta-kasih-tzu-chi/matematika-wajib/kelas-11?authuser=0",
+        "MAT WAJIB": "https://sites.google.com/cintakasihtzuchi.sch.id/sma-cinta-kasih-tzu-chi/profil?authuser=0",
         "SENI BUDAYA": "https://sites.google.com/cintakasihtzuchi.sch.id/senibudaya",
         "B.HUMANIS": "https://sites.google.com/cintakasihtzuchi.sch.id/iriwatyjaputra?usp=sharing",
-        "FISIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/sartikalumbantoruan/grade-11?authuser=0",
+        "FISIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/sartikalumbantoruan/bio?authuser=0",
         "KIMIA": "https://sites.google.com/cintakasihtzuchi.sch.id/chem-is-try/kimia/materi?authuser=0",
         "GEOGRAFI": "https://sites.google.com/cintakasihtzuchi.sch.id/nurfajarsidikweb/lesson-materi-ajar/geography?authuser=0",
         "SEJARAH": "https://sites.google.com/cintakasihtzuchi.sch.id/nurfajarsidikweb/lesson-materi-ajar/history?authuser=0",
@@ -978,7 +1017,6 @@
           });
           listHtml += `</ul>`;
 
-          // Memberikan delay dinamis 1, 2, 3...
           let delayClass = `delay-${index + 1}`;
           scheduleContainer.innerHTML += `
             <div class="day-card interactive reveal ${delayClass}">
@@ -995,9 +1033,6 @@
         gridHtml += `<a href="${links[subj]}" target="_blank" class="teacher-card interactive">${subj}</a>`;
       }
       document.getElementById("teacher-links-grid").innerHTML = gridHtml;
-
-      // Inisialisasi observer setelah DOM digenerate
-      observeRevealElements();
 
       // =====================================
       // 6. LIVE SCHEDULE TRACKER
