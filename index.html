@@ -116,6 +116,37 @@
       z-index: -3;
     }
 
+    /* =========================================
+       NEW: ANIMATED GLOWING ORBS BACKGROUND
+       ========================================= */
+    .orb-container {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      overflow: hidden; z-index: -4; pointer-events: none;
+    }
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(90px);
+      animation: floatOrb 25s infinite ease-in-out alternate;
+      opacity: 0.4;
+    }
+    .orb-1 {
+      width: 450px; height: 450px; background: rgba(168, 85, 247, 0.15); /* Primary */
+      top: -10%; left: -10%; animation-delay: 0s;
+    }
+    .orb-2 {
+      width: 550px; height: 550px; background: rgba(56, 189, 248, 0.12); /* Secondary */
+      bottom: -20%; right: -10%; animation-delay: -5s;
+    }
+    .orb-3 {
+      width: 350px; height: 350px; background: rgba(244, 63, 94, 0.1); /* HSK Red-ish */
+      top: 40%; left: 50%; animation-delay: -12s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(80px, 120px) scale(1.1); }
+      100% { transform: translate(-50px, 80px) scale(0.9); }
+    }
+
     /* ANIMASI SCROLL REVEAL */
     .reveal {
       opacity: 0;
@@ -390,6 +421,29 @@
       gap: 24px;
     }
 
+    /* =========================================
+       NEW: HSK PARALLAX 3D HOVER
+       ========================================= */
+    .hsk-card {
+      transform-style: preserve-3d;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .hsk-card:hover {
+      border-color: var(--accent-primary);
+      box-shadow: 0 20px 40px rgba(168,85,247,0.15);
+    }
+    .hsk-card > * {
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s;
+      transform: translateZ(0);
+    }
+    .hsk-card:hover h3 { transform: translateZ(50px); }
+    .hsk-card:hover .hsk-level { transform: translateZ(30px); }
+    .hsk-card:hover .hsk-desc { transform: translateZ(40px); }
+    .hsk-card:hover .hsk-bg-num { 
+      transform: translateZ(70px) scale(1.1); 
+      color: rgba(255,255,255,0.08) !important; 
+    }
+
     .live-status-box {
       background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.05));
       border: 1px solid var(--border-glow);
@@ -495,10 +549,15 @@
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
   
-  <!-- Latar Belakang Premium (Noise + Mesh + Glow) -->
+  <!-- Latar Belakang Premium (Noise + Mesh + Glow + Orbs) -->
   <div class="bg-noise"></div>
   <div class="bg-mesh"></div>
   <div class="ambient-tracker" id="mouseGlow"></div>
+  <div class="orb-container">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
 
   <!-- Navbar -->
   <nav class="navbar">
@@ -653,32 +712,36 @@
       <p class="reveal delay-1" style="margin-bottom: 30px; font-size: 1.05rem;">Koleksi referensi materi ujian HSK (Hanyu Shuiping Kaoshi) untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
       
       <div class="hsk-grid">
-        <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="glass-card interactive card-3d reveal delay-1" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
-          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">1</div>
+        <!-- HSK 1 -->
+        <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="glass-card interactive card-3d hsk-card reveal delay-1" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div class="hsk-bg-num" style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">1</div>
           <h3 style="color: #fca5a5; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 1</h3>
-          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Pemula</p>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Fondasi pinyin, nada dasar, dan kosakata esensial untuk komunikasi sederhana.</p>
+          <p class="hsk-level" style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Pemula</p>
+          <p class="hsk-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Fondasi pinyin, nada dasar, dan kosakata esensial untuk komunikasi sederhana.</p>
         </a>
 
-        <a href="https://pandarin.net/new-hsk/level2/" target="_blank" class="glass-card interactive card-3d reveal delay-2" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
-          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">2</div>
+        <!-- HSK 2 -->
+        <a href="https://pandarin.net/new-hsk/level2/" target="_blank" class="glass-card interactive card-3d hsk-card reveal delay-2" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div class="hsk-bg-num" style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">2</div>
           <h3 style="color: var(--accent-secondary); font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 2</h3>
-          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Dasar</p>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Peningkatan struktur kalimat dan kelancaran untuk percakapan topik rutin.</p>
+          <p class="hsk-level" style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Dasar</p>
+          <p class="hsk-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Peningkatan struktur kalimat dan kelancaran untuk percakapan topik rutin.</p>
         </a>
 
-        <a href="https://pandarin.net/new-hsk/level3/" target="_blank" class="glass-card interactive card-3d reveal delay-3" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
-          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">3</div>
+        <!-- HSK 3 -->
+        <a href="https://pandarin.net/new-hsk/level3/" target="_blank" class="glass-card interactive card-3d hsk-card reveal delay-3" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div class="hsk-bg-num" style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">3</div>
           <h3 style="color: #fcd34d; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 3</h3>
-          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah Bawah</p>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Pemahaman konteks luas untuk kehidupan sosial dan akademik mendasar.</p>
+          <p class="hsk-level" style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah Bawah</p>
+          <p class="hsk-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Pemahaman konteks luas untuk kehidupan sosial dan akademik mendasar.</p>
         </a>
 
-        <a href="https://pandarin.net/new-hsk/level4/" target="_blank" class="glass-card interactive card-3d reveal delay-4" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
-          <div style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">4</div>
+        <!-- HSK 4 -->
+        <a href="https://pandarin.net/new-hsk/level4/" target="_blank" class="glass-card interactive card-3d hsk-card reveal delay-4" style="text-decoration: none; position: relative; overflow: hidden; padding: 24px;">
+          <div class="hsk-bg-num" style="position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(255,255,255,0.04); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1;">4</div>
           <h3 style="color: #34d399; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 4</h3>
-          <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah</p>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Kefasihan berinteraksi dengan penutur asli serta diskusi topik kompleks.</p>
+          <p class="hsk-level" style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah</p>
+          <p class="hsk-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Kefasihan berinteraksi dengan penutur asli serta diskusi topik kompleks.</p>
         </a>
       </div>
     </section>
@@ -745,20 +808,17 @@
       const observerOptions = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.1 // Memicu animasi ketika 10% elemen terlihat di layar
+        threshold: 0.1
       };
 
       const scrollObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('active');
-            // Biarkan observer terus memantau jika ingin efek terulang, atau uncomment baris di bawah untuk sekali jalan:
-            // observer.unobserve(entry.target); 
           }
         });
       }, observerOptions);
 
-      // Jalankan observasi
       function observeRevealElements() {
         document.querySelectorAll('.reveal').forEach(el => {
           scrollObserver.observe(el);
@@ -766,7 +826,7 @@
       }
 
       // =====================================
-      // 3. EFEK HOVER 3D (TILT SANGAT HALUS)
+      // 3. EFEK HOVER 3D (TILT & PARALLAX)
       // =====================================
       if (!isTouchDevice) {
         document.querySelectorAll('.card-3d').forEach(card => {
@@ -777,15 +837,18 @@
             let centerX = rect.width / 2;
             let centerY = rect.height / 2;
             
-            // Pengali rotasi diperkecil agar terasa elegan (3 bukannya 8)
-            let rotateX = ((y - centerY) / centerY) * -3; 
-            let rotateY = ((x - centerX) / centerX) * 3;  
+            // Cek apakah ini kartu HSK untuk efek putaran yang lebih ekstrim
+            let isHSK = card.classList.contains('hsk-card');
+            let multiplier = isHSK ? 12 : 3; // Rotasi 12x lebih kuat untuk HSK, 3x untuk yang lain
             
-            card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+            let rotateX = ((y - centerY) / centerY) * -multiplier; 
+            let rotateY = ((x - centerX) / centerX) * multiplier;  
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
           });
           
           card.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
           });
         });
       }
