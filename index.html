@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" style="scroll-behavior: smooth;">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,11 +18,11 @@
 
   <style>
     /* ==========================================
-       WARNA TEMA: MIDNIGHT NAVY & ELEGANT BLUE
+       WARNA TEMA: DEEP NAVY & ELEGANT BLUE
     ========================================== */
     :root {
-      --bg-base: transparent; /* Transparan karena ada WebGL di belakang */
-      --bg-surface: rgba(10, 15, 30, 0.65); /* Glassmorphism agak gelap */
+      --bg-base: #020610; 
+      --bg-surface: rgba(10, 15, 30, 0.65); /* Glassmorphism */
       --border-light: rgba(255, 255, 255, 0.1);
       --border-glow: rgba(56, 189, 248, 0.4);
       
@@ -41,12 +41,8 @@
       padding: 0;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
-      background-color: #030814; /* Warna cadangan jika WebGL gagal loading */
+      background-color: var(--bg-base);
       color: var(--text-muted);
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
@@ -54,7 +50,7 @@
       position: relative;
     }
 
-    /* WebGL Canvas Container - Opacity Diturunkan */
+    /* WebGL Canvas Container - Opacity Diturunkan agar teks sangat jelas */
     #webgl-container {
       position: fixed;
       top: 0;
@@ -63,10 +59,10 @@
       height: 100vh;
       z-index: -5; 
       pointer-events: none; 
-      opacity: 0.35; /* DITURUNKAN agar tidak menyilaukan teks */
+      opacity: 0.25; /* OPASITAS KECIL SEPERTI PERMINTAAN ANDA */
     }
 
-    /* Kursor Custom Desktop (Hanya muncul di laptop/PC) */
+    /* Kursor Custom Desktop */
     @media (hover: hover) and (pointer: fine) {
       *, *::before, *::after { cursor: none !important; }
       
@@ -99,35 +95,9 @@
         backdrop-filter: blur(2px);
       }
     }
-
     @media (hover: none), (pointer: coarse) {
       .cursor-dot, .cursor-ring { display: none !important; }
     }
-
-    /* Tekstur Grain Halus */
-    .bg-noise {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
-      opacity: 0.04;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    /* ANIMASI SCROLL REVEAL */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      will-change: opacity, transform;
-    }
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .delay-1 { transition-delay: 0.1s; }
-    .delay-2 { transition-delay: 0.2s; }
-    .delay-3 { transition-delay: 0.3s; }
-    .delay-4 { transition-delay: 0.4s; }
 
     /* Navbar */
     .navbar {
@@ -197,7 +167,7 @@
       justify-content: center;
     }
 
-    /* Kartu Kaca */
+    /* Glass Card Standard */
     .glass-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-light);
@@ -212,13 +182,11 @@
     .glass-card:hover {
       border-color: var(--border-glow);
     }
-
-    /* Efek 3D Lembut */
     .card-3d-soft {
       transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    /* Tipografi Header Glowing */
+    /* Typografi */
     .title-glow {
       font-family: 'Urbanist', sans-serif;
       font-size: clamp(2.8rem, 6.5vw, 4.5rem);
@@ -246,306 +214,141 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
     /* Hero Section */
     .hero-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 60px;
-      align-items: center;
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center;
     }
     .hero-img-box {
-      width: 100%;
-      max-width: 360px;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      margin: 0 auto;
-      position: relative;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      padding: 4px; /* Ketebalan border gradient */
-      box-shadow: 0 20px 50px rgba(56,189,248,0.2);
+      width: 100%; max-width: 360px; aspect-ratio: 1; border-radius: 50%;
+      margin: 0 auto; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      padding: 4px; box-shadow: 0 20px 50px rgba(56,189,248,0.2);
     }
     .hero-img-inner {
-      width: 100%; height: 100%;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #000;
+      width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #000;
     }
-    .hero-img-inner img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center top; 
-    }
-
-    .metrics-row {
-      display: flex; gap: 24px; margin: 30px 0; flex-wrap: wrap;
-    }
-    .metric-item {
-      display: flex; flex-direction: column; gap: 6px;
-    }
-    .metric-item strong {
-      font-size: 1.1rem; color: var(--text-main); font-family: 'Urbanist', sans-serif;
-    }
-    .metric-item span { font-size: 0.85rem; color: var(--accent-primary); }
-
+    .hero-img-inner img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
     .btn-primary {
-      background: var(--text-main);
-      color: #000;
-      padding: 14px 28px;
-      border-radius: 14px;
-      font-weight: 700;
-      text-decoration: none;
-      display: inline-flex; align-items: center; gap: 10px;
-      transition: 0.3s;
-      border: none; cursor: none;
+      background: var(--text-main); color: #000; padding: 14px 28px; border-radius: 14px;
+      font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+      transition: 0.3s; border: none; cursor: none;
     }
     .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.2); }
-    
     .btn-social {
-      background: rgba(255,255,255,0.1);
-      color: var(--text-main);
-      width: 48px; height: 48px;
-      border-radius: 14px;
-      display: inline-flex; justify-content: center; align-items: center;
-      text-decoration: none; font-size: 1.2rem;
-      border: 1px solid var(--border-light);
-      transition: 0.3s; cursor: none;
+      background: rgba(255,255,255,0.1); color: var(--text-main); width: 48px; height: 48px;
+      border-radius: 14px; display: inline-flex; justify-content: center; align-items: center;
+      text-decoration: none; font-size: 1.2rem; border: 1px solid var(--border-light); transition: 0.3s; cursor: none;
     }
-    .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); color: #000; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(56,189,248,0.4); }
+    .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); color: #000; transform: translateY(-3px); }
 
     /* About Section */
-    .about-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: start;
-    }
-    .achievements-list {
-      list-style-type: none;
-      padding: 0;
-      margin-top: 20px;
-    }
-    .achievements-list li {
-      margin-bottom: 12px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-    .achievements-list li i {
-      color: var(--accent-primary);
-      margin-top: 4px;
-    }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-    .gallery-item {
-      border-radius: 16px;
-      overflow: hidden;
-      aspect-ratio: 4/5;
-      position: relative;
-      border: 1px solid var(--border-light);
-      background: rgba(0,0,0,0.3);
-    }
-    .gallery-item img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-    .gallery-item:hover img {
-      transform: scale(1.08);
-    }
+    .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    .achievements-list { list-style-type: none; padding: 0; margin-top: 20px; }
+    .achievements-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.95rem; line-height: 1.5; }
+    .achievements-list li i { color: var(--accent-primary); margin-top: 4px; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .gallery-item { border-radius: 16px; overflow: hidden; aspect-ratio: 4/5; position: relative; border: 1px solid var(--border-light); background: rgba(0,0,0,0.3); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .gallery-item:hover img { transform: scale(1.08); }
 
     /* Portofolio */
     .port-grid { display: flex; flex-direction: column; gap: 24px; }
-    .port-card {
-      display: flex; gap: 24px; align-items: center; text-decoration: none;
-    }
+    .port-card { display: flex; gap: 24px; align-items: center; text-decoration: none; }
     .port-icon {
-      width: 75px; height: 75px; border-radius: 20px;
-      background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.2));
-      color: var(--text-main);
-      display: flex; justify-content: center; align-items: center; font-size: 2rem;
-      flex-shrink: 0; border: 1px solid var(--border-light);
+      width: 75px; height: 75px; border-radius: 20px; background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.2));
+      color: var(--text-main); display: flex; justify-content: center; align-items: center; font-size: 2rem; flex-shrink: 0; border: 1px solid var(--border-light);
     }
-    .port-card h3 { color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.3rem; margin-bottom: 8px; }
 
-    /* Jadwal Pelajaran */
+    /* Jadwal Pelajaran - FULL TOP TO BOTTOM */
     .live-status-box {
       background: linear-gradient(135deg, rgba(56,189,248,0.15), rgba(129,140,248,0.1));
-      border: 1px solid var(--border-glow);
-      text-align: center;
-      padding: 40px;
-      border-radius: 24px;
-      margin-bottom: 40px;
-      box-shadow: 0 10px 40px rgba(56,189,248,0.15);
+      border: 1px solid var(--border-glow); text-align: center; padding: 40px; border-radius: 24px;
+      margin-bottom: 40px; box-shadow: 0 10px 40px rgba(56,189,248,0.15);
     }
     .live-time { font-family: 'Urbanist', sans-serif; font-size: 1.2rem; color: var(--accent-primary); margin-bottom: 16px; }
-    .live-subject { font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.1; text-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    .live-subject { font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.1; }
 
-    /* Container Jadwal Atas-Bawah Rapi */
     .schedule-full-container {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-      margin-bottom: 50px;
+      display: flex; flex-direction: column; gap: 30px; margin-bottom: 50px;
     }
     .schedule-day-block {
-      background: rgba(10, 15, 30, 0.6);
-      border: 1px solid var(--border-light);
-      border-radius: 20px;
-      padding: 24px;
-      backdrop-filter: blur(12px);
+      background: rgba(10, 15, 30, 0.6); border: 1px solid var(--border-light);
+      border-radius: 20px; padding: 24px; backdrop-filter: blur(12px);
     }
     .schedule-day-block h3 {
-      font-family: 'Urbanist', sans-serif;
-      font-size: 1.6rem;
-      color: var(--accent-primary);
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border-light);
+      font-family: 'Urbanist', sans-serif; font-size: 1.6rem; color: var(--accent-primary);
+      margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-light);
     }
-    .schedule-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+    .schedule-table { width: 100%; border-collapse: collapse; }
     .schedule-table th, .schedule-table td {
-      padding: 12px 16px;
-      text-align: left;
-      border-bottom: 1px dashed rgba(255,255,255,0.1);
-      color: var(--text-main);
+      padding: 12px 16px; text-align: left; border-bottom: 1px dashed rgba(255,255,255,0.1); color: var(--text-main);
     }
-    .schedule-table th {
-      font-family: 'Urbanist', sans-serif;
-      color: var(--text-muted);
-      font-weight: 600;
-      border-bottom: 1px solid var(--border-light);
-    }
+    .schedule-table th { font-family: 'Urbanist', sans-serif; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border-light); }
     .schedule-table tr:last-child td { border-bottom: none; }
     .time-col { width: 140px; font-family: monospace; color: var(--accent-primary) !important; }
     .subj-link { color: var(--accent-primary); text-decoration: none; font-weight: 600; transition: 0.3s; }
     .subj-link:hover { color: #fff; text-shadow: 0 0 8px rgba(56,189,248,0.8); }
+    
+    /* Baris Istirahat redup */
+    .row-break td { opacity: 0.45; font-style: italic; }
+    .row-break .subj-link, .row-break span { color: var(--text-muted) !important; font-weight: 400; }
 
-    /* Baris Istirahat (Transparan & Italic) */
-    .row-break td {
-      opacity: 0.45;
-      font-style: italic;
-    }
-    .row-break .subj-link, .row-break span {
-      color: var(--text-muted) !important;
-      font-weight: 400;
-    }
-
-    .teacher-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;
-    }
+    .teacher-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
     .teacher-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border-light);
-      padding: 16px; border-radius: 16px;
-      text-align: center; color: var(--text-main); text-decoration: none;
-      font-family: 'Urbanist', sans-serif; font-weight: 600; font-size: 0.95rem;
-      transition: all 0.3s;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border-light); padding: 16px; border-radius: 16px;
+      text-align: center; color: var(--text-main); text-decoration: none; font-family: 'Urbanist', sans-serif; font-weight: 600; transition: all 0.3s;
     }
-    .teacher-card:hover { 
-      background: var(--border-glow); border-color: var(--accent-primary); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(56,189,248,0.2);
-    }
+    .teacher-card:hover { background: var(--border-glow); border-color: var(--accent-primary); transform: translateY(-4px); }
 
-    /* HSK Cards - Hover Kuat */
-    .hsk-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
-      perspective: 1500px;
-    }
+    /* HSK Cards - Hover Hologram Lebih Kuat */
+    .hsk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; perspective: 1500px; }
     .hsk-card {
-      text-decoration: none;
-      position: relative;
-      overflow: hidden;
-      padding: 30px;
-      background: rgba(10, 20, 40, 0.6);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      backdrop-filter: blur(16px);
-      transform-style: preserve-3d;
-      will-change: transform;
-      transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-decoration: none; position: relative; overflow: hidden; padding: 30px;
+      background: rgba(10, 20, 40, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+      backdrop-filter: blur(16px); transform-style: preserve-3d; will-change: transform;
+      transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
+    /* Glare Efek Kaca */
     .hsk-glare {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.25) 25%, transparent 30%);
-      transform: translateX(-150%);
-      pointer-events: none;
-      transition: transform 0.4s ease-out;
-      z-index: 2;
+      transform: translateX(-150%); pointer-events: none; transition: transform 0.4s ease-out; z-index: 2;
     }
     .hsk-card:hover .hsk-glare { transform: translateX(150%); }
     .hsk-card:hover {
       border-color: rgba(255,255,255,0.4);
       box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(56,189,248,0.3);
-      z-index: 10; 
+      z-index: 10; /* Biar nembus di atas elemen lain saat muter */
     }
     .hsk-number {
-      position: absolute; 
-      top: -15px; right: 10px; 
-      font-size: 7rem; 
-      color: rgba(255,255,255,0.05); 
-      font-weight: 900; 
-      font-family: 'Urbanist'; 
-      pointer-events: none; 
-      line-height: 1;
-      transform: translateZ(-20px); 
+      position: absolute; top: -15px; right: 10px; font-size: 7rem; color: rgba(255,255,255,0.05); font-weight: 900; 
+      font-family: 'Urbanist'; pointer-events: none; line-height: 1;
+      transform: translateZ(-20px); /* Efek parallax ke dalam */
       transition: color 0.3s;
     }
     .hsk-card:hover .hsk-number { color: rgba(255,255,255,0.15); }
     .hsk-content {
-      transform: translateZ(30px);
+      transform: translateZ(30px); /* Efek parallax ke luar */
       pointer-events: none;
     }
 
-    /* Contact Form */
-    .contact-form {
-      display: flex; flex-direction: column; gap: 16px;
-    }
-    .form-input {
-      background: rgba(0,0,0,0.4);
-      border: 1px solid var(--border-light);
-      padding: 18px; border-radius: 16px;
-      color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
-      outline: none; transition: 0.3s;
-    }
-    .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.6); box-shadow: 0 0 15px rgba(56,189,248,0.2); }
-    
-    footer { text-align: center; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid var(--border-light); margin-top: 60px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    /* Animasi Reveal Scroll */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
 
-    /* Responsive Media Queries */
+    /* Media Queries */
     @media (max-width: 968px) {
-      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-grid, .about-layout { grid-template-columns: 1fr; text-align: center; }
       .metrics-row { justify-content: center; }
-      .hero-img-box { max-width: 280px; }
-      .port-card { flex-direction: column; text-align: center; }
-      .nav-links { gap: 4px; }
-      .about-layout { grid-template-columns: 1fr; }
       .schedule-table th, .schedule-table td { padding: 10px 8px; font-size: 0.9rem; }
       .time-col { width: auto; }
     }
     @media (max-width: 768px) {
       .hamburger { display: flex; }
       .nav-links {
-        position: fixed; top: 70px; right: -100%;
-        flex-direction: column; background: rgba(5, 10, 20, 0.95);
-        backdrop-filter: blur(20px);
-        width: 100%; height: calc(100vh - 70px); padding: 40px;
-        border-top: 1px solid var(--border-light);
-        justify-content: flex-start;
-        transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        position: fixed; top: 70px; right: -100%; flex-direction: column; background: rgba(5,10,20,0.95);
+        width: 100%; height: calc(100vh - 70px); padding: 40px; justify-content: flex-start; transition: 0.4s;
       }
       .nav-links.show { right: 0; }
       .gallery-grid { grid-template-columns: 1fr; }
@@ -554,24 +357,20 @@
 </head>
 <body>
 
-  <!-- WebGL Container for Liquid Metal Background -->
+  <!-- WebGL Container for Liquid Metal -->
   <div id="webgl-container"></div>
 
-  <!-- Kursor Custom Desktop -->
+  <!-- Kursor Kustom -->
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
-  
-  <!-- Texture overlay halus -->
-  <div class="bg-noise"></div>
 
-  <!-- Navbar -->
   <nav class="navbar">
     <a href="#home" class="nav-brand interactive">Keenan<span>.</span></a>
     <button class="hamburger interactive" id="hamburgerBtn">
       <span></span><span></span><span></span>
     </button>
     <div class="nav-links" id="navLinks">
-      <a href="#home" class="nav-btn interactive nav-scroll active">Profil</a>
+      <a href="#home" class="nav-btn interactive nav-scroll">Profil</a>
       <a href="#about" class="nav-btn interactive nav-scroll">About Me</a>
       <a href="#portfolio" class="nav-btn interactive nav-scroll">Portofolio</a>
       <a href="#jadwal" class="nav-btn interactive nav-scroll">Jadwal</a>
@@ -582,30 +381,29 @@
 
   <div class="page-container">
     
-    <!-- Home / Hero Section -->
     <section id="home" class="page-section">
       <div class="hero-grid">
         <div class="hero-text reveal">
-          <p style="color:var(--accent-primary); font-weight:700; letter-spacing:3px; margin-bottom:12px; font-size:0.9rem; text-transform:uppercase;">Student & Enthusiast</p>
+          <p style="color:var(--accent-primary); font-weight:700; letter-spacing:3px; margin-bottom:12px; text-transform:uppercase;">Student & Enthusiast</p>
           <h1 class="title-glow">Keenan Clio Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.45em; color:var(--text-muted); filter:none; font-weight:500;">(黄錫豪)</span></h1>
-          <p style="font-size:1.15rem; line-height:1.7; margin-bottom:10px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+          <p style="font-size:1.15rem; line-height:1.7; margin-bottom:10px;">
             Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
           </p>
           
-          <div class="metrics-row reveal delay-1">
+          <div class="metrics-row reveal">
             <div class="metric-item"><strong>Logika</strong><span>Matematika</span></div>
             <div class="metric-item"><strong>Target Global</strong><span>Bahasa & Bisnis</span></div>
             <div class="metric-item"><strong>Sportivitas</strong><span>Basketball</span></div>
           </div>
 
-          <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;" class="reveal delay-2">
+          <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;" class="reveal">
             <a href="#contact" class="btn-primary interactive">Kirim Pesan <i class="fa-solid fa-arrow-right"></i></a>
             <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="btn-social interactive"><i class="fa-brands fa-instagram"></i></a>
             <a href="mailto:keenanclio12@gmail.com" class="btn-social interactive"><i class="fa-regular fa-envelope"></i></a>
           </div>
         </div>
-        <div class="hero-img reveal delay-1">
-          <div class="hero-img-box glass-card interactive card-3d-soft">
+        <div class="hero-img reveal">
+          <div class="hero-img-box glass-card interactive card-3d-soft" style="padding:4px;">
             <div class="hero-img-inner">
               <img src="profile.jpeg" alt="Keenan Clio" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
             </div>
@@ -614,75 +412,57 @@
       </div>
     </section>
 
-    <!-- About Me Section -->
     <section id="about" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-id-card-clip" style="color:var(--accent-primary)"></i> About Me</h2>
       
       <div class="about-layout">
-        <!-- Teks & Prestasi -->
-        <div class="glass-card interactive card-3d-soft reveal delay-1" style="position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; background: rgba(10,15,30,0.6);">
-          <div style="position: absolute; top: -50%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+        <div class="glass-card interactive card-3d-soft reveal" style="background: rgba(10,15,30,0.6);">
+          <h3 style="font-family: 'Urbanist', sans-serif; font-size: 1.8rem; color: var(--text-main); margin-bottom: 16px;">Halo, saya Keenan!</h3>
+          <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 24px;">
+            Nama lengkap saya <strong>Keenan Clio Adiwinata</strong>, saat ini saya bersekolah di <strong>SMAS Cinta Kasih Tzu Chi</strong>. Saya percaya bahwa keseimbangan adalah kunci. Di satu sisi, saya sangat menikmati keindahan logika, pemecahan masalah matematis, dan riset sains. Di sisi lain, lapangan basket mengajarkan saya tentang sportivitas, pengambilan keputusan cepat dalam tekanan, dan kerja sama tim.
+          </p>
           
-          <div style="position: relative; z-index: 1;">
-            <h3 style="font-family: 'Urbanist', sans-serif; font-size: 1.8rem; color: var(--text-main); margin-bottom: 16px;">Halo, saya Keenan!</h3>
-            <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 24px;">
-              Nama lengkap saya <strong>Keenan Clio Adiwinata</strong>, saat ini saya bersekolah di <strong>SMAS Cinta Kasih Tzu Chi</strong>. Saya percaya bahwa keseimbangan adalah kunci. Di satu sisi, saya sangat menikmati keindahan logika, pemecahan masalah matematis, dan riset sains. Di sisi lain, lapangan basket mengajarkan saya tentang sportivitas, pengambilan keputusan cepat dalam tekanan, dan kerja sama tim.
-            </p>
-            
-            <h4 style="font-family: 'Urbanist', sans-serif; font-size: 1.3rem; color: var(--accent-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-              <i class="fa-solid fa-trophy"></i> Prestasi Basket
-            </h4>
-            <ul class="achievements-list">
-              <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span style="color:#fff;">Juara 1 Lomba Basket - BSI Cup 2026</span></li>
-              <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span style="color:#fff;">Juara 1 Lomba Basket - Pelangi Kasih Cup 2026</span></li>
-              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket - COSPORTA 4.0 2025</span></li>
-              <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span style="color:#fff;">Juara 1 Lomba Basket - Abdi Siswa Cup 2024</span></li>
-              <li><i class="fa-solid fa-medal" style="color: silver;"></i> <span style="color:#fff;">Juara 2 Lomba Basket - SNS Cup 2024</span></li>
-              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket 3x3 - Telkom Cup 2024</span></li>
-              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket - SBM Cup 2026</span></li>
-              <li><i class="fa-solid fa-medal" style="color: silver;"></i> <span style="color:#fff;">Juara 2 Lomba Basket - Kanaan Global School Cup 2026</span></li>
-              <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket - Pelita Kasih Cup 2026</span></li>
-            </ul>
-          </div>
+          <h4 style="font-family: 'Urbanist', sans-serif; font-size: 1.3rem; color: var(--accent-primary); margin-bottom: 12px;"><i class="fa-solid fa-trophy"></i> Prestasi Basket</h4>
+          <ul class="achievements-list">
+            <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span style="color:#fff;">Juara 1 Lomba Basket - BSI Cup 2026</span></li>
+            <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span style="color:#fff;">Juara 1 Lomba Basket - Pelangi Kasih Cup 2026</span></li>
+            <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket - COSPORTA 4.0 2025</span></li>
+            <li><i class="fa-solid fa-medal" style="color: gold;"></i> <span style="color:#fff;">Juara 1 Lomba Basket - Abdi Siswa Cup 2024</span></li>
+            <li><i class="fa-solid fa-medal" style="color: silver;"></i> <span style="color:#fff;">Juara 2 Lomba Basket - SNS Cup 2024</span></li>
+            <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket 3x3 - Telkom Cup 2024</span></li>
+            <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket - SBM Cup 2026</span></li>
+            <li><i class="fa-solid fa-medal" style="color: silver;"></i> <span style="color:#fff;">Juara 2 Lomba Basket - Kanaan Global School Cup 2026</span></li>
+            <li><i class="fa-solid fa-medal" style="color: #cd7f32;"></i> <span style="color:#fff;">Juara 3 Lomba Basket - Pelita Kasih Cup 2026</span></li>
+          </ul>
         </div>
 
-        <!-- Galeri Foto -->
-        <div class="gallery-grid reveal delay-2">
-          <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
-            <img src="WhatsApp Image 2026-09-20 at 8.35.40 PM.jpeg" alt="Prestasi Basket 1" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+1'">
-          </div>
-          <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
-            <img src="WhatsApp Image 2026-09-20 at 8.35.40 PM (1).jpeg" alt="Prestasi Basket 2" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+2'">
-          </div>
-          <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
-            <img src="WhatsApp Image 2026-09-20 at 8.35.39 PM.jpeg" alt="Prestasi Basket 3" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+3'">
-          </div>
-          <div class="gallery-item interactive card-3d-soft" style="padding: 0;">
-            <img src="WhatsApp Image 2026-09-20 at 8.35.38 PM (1).jpeg" alt="Prestasi Basket 4" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+4'">
-          </div>
+        <div class="gallery-grid reveal">
+          <div class="gallery-item interactive card-3d-soft" style="padding:0;"><img src="WhatsApp Image 2026-09-20 at 8.35.40 PM.jpeg" alt="Prestasi 1" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+1'"></div>
+          <div class="gallery-item interactive card-3d-soft" style="padding:0;"><img src="WhatsApp Image 2026-09-20 at 8.35.40 PM (1).jpeg" alt="Prestasi 2" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+2'"></div>
+          <div class="gallery-item interactive card-3d-soft" style="padding:0;"><img src="WhatsApp Image 2026-09-20 at 8.35.39 PM.jpeg" alt="Prestasi 3" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+3'"></div>
+          <div class="gallery-item interactive card-3d-soft" style="padding:0;"><img src="WhatsApp Image 2026-09-20 at 8.35.38 PM (1).jpeg" alt="Prestasi 4" onerror="this.src='https://placehold.co/400x500/0f172a/ffffff?text=Prestasi+4'"></div>
         </div>
       </div>
     </section>
 
-    <!-- Portofolio Section -->
     <section id="portfolio" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-layer-group" style="color:var(--accent-primary)"></i> Portofolio & Proyek</h2>
       <div class="port-grid">
-        <a href="#" class="glass-card interactive card-3d-soft port-card reveal delay-1">
+        <a href="#" class="glass-card interactive card-3d-soft port-card reveal">
           <div class="port-icon"><i class="fa-solid fa-square-root-variable"></i></div>
           <div>
             <h3>Analisis & Logika Matematika</h3>
             <p>Kumpulan studi mandiri dan persiapan olimpiade matematika. Fokus pada problem solving dan pembuktian logis tingkat lanjut.</p>
           </div>
         </a>
-        <a href="#" class="glass-card interactive card-3d-soft port-card reveal delay-2">
+        <a href="#" class="glass-card interactive card-3d-soft port-card reveal">
           <div class="port-icon"><i class="fa-solid fa-basketball"></i></div>
           <div>
             <h3>Basketball & Team Strategy</h3>
             <p>Dokumentasi kepemimpinan tim, partisipasi turnamen pelajar, latihan fisik intensif, dan analisis taktik formasi permainan.</p>
           </div>
         </a>
-        <a href="#" class="glass-card interactive card-3d-soft port-card reveal delay-3">
+        <a href="#" class="glass-card interactive card-3d-soft port-card reveal">
           <div class="port-icon"><i class="fa-solid fa-flask"></i></div>
           <div>
             <h3>Eksperimen Riset Sains</h3>
@@ -692,35 +472,32 @@
       </div>
     </section>
 
-    <!-- JADWAL PELAJARAN SECTION (TABEL LENGKAP & RAPIH) -->
     <section id="jadwal" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-calendar-days" style="color:var(--accent-primary)"></i> Jadwal Kelas XI-2</h2>
       
-      <!-- Box Live Schedule -->
-      <div class="live-status-box glass-card interactive card-3d-soft reveal delay-1" id="live-schedule-box">
+      <div class="live-status-box glass-card interactive card-3d-soft reveal" id="live-schedule-box">
         <div class="live-time" id="live-time-display">Memuat Waktu...</div>
         <h3 class="live-subject">Mengecek Jadwal...</h3>
       </div>
 
-      <!-- Tabel Jadwal Seluruhnya (Atas ke Bawah Rapi) -->
-      <div class="schedule-full-container reveal delay-2" id="daily-schedule-container">
-        <!-- Konten di-generate lewat JS agar rapih per hari -->
+      <!-- Tabel Jadwal Seluruhnya (ATAS KE BAWAH) -->
+      <div class="schedule-full-container reveal" id="daily-schedule-container">
+        <!-- Akan di-generate via JavaScript -->
       </div>
 
-      <!-- Web Guru List -->
-      <h3 class="reveal" style="font-family:'Urbanist'; font-size:1.6rem; color:var(--text-main); margin: 40px 0 20px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+      <h3 class="reveal" style="font-family:'Urbanist'; font-size:1.6rem; color:var(--text-main); margin: 40px 0 20px;">
         <i class="fa-solid fa-globe" style="color:var(--accent-primary); margin-right:10px;"></i> Direktori Modul Guru
       </h3>
-      <div class="teacher-grid reveal delay-1" id="teacher-links-grid"></div>
+      <div class="teacher-grid reveal" id="teacher-links-grid"></div>
     </section>
 
-    <!-- Ruang Belajar Mandarin (HSK Cards dengan Strong 3D Hover) -->
     <section id="mandarin" class="page-section">
       <h2 class="section-title reveal"><i class="fa-solid fa-book-open" style="color:#f43f5e"></i> Ruang Belajar Mandarin</h2>
-      <p class="reveal delay-1" style="margin-bottom: 40px; font-size: 1.05rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">Koleksi referensi materi ujian HSK (Hanyu Shuiping Kaoshi) untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
+      <p class="reveal" style="margin-bottom: 40px; font-size: 1.05rem;">Koleksi referensi materi ujian HSK untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
       
-      <div class="hsk-grid reveal delay-2">
-        <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="hsk-card interactive card-3d-hsk">
+      <div class="hsk-grid reveal">
+        <!-- Kartu 1 -->
+        <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="hsk-card interactive">
           <div class="hsk-glare"></div>
           <div class="hsk-number">1</div>
           <div class="hsk-content">
@@ -729,28 +506,28 @@
             <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Fondasi pinyin, nada dasar, dan kosakata esensial untuk komunikasi sederhana.</p>
           </div>
         </a>
-
-        <a href="https://pandarin.net/new-hsk/level2/" target="_blank" class="hsk-card interactive card-3d-hsk">
+        <!-- Kartu 2 -->
+        <a href="https://pandarin.net/new-hsk/level2/" target="_blank" class="hsk-card interactive">
           <div class="hsk-glare"></div>
           <div class="hsk-number">2</div>
           <div class="hsk-content">
             <h3 style="color: #818cf8; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 2</h3>
             <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Dasar</p>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Peningkatan struktur kalimat dan kelancaran untuk percakapan topik rutin.</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Peningkatan struktur kalimat dan kelancaran untuk percakapan rutin.</p>
           </div>
         </a>
-
-        <a href="https://pandarin.net/new-hsk/level3/" target="_blank" class="hsk-card interactive card-3d-hsk">
+        <!-- Kartu 3 -->
+        <a href="https://pandarin.net/new-hsk/level3/" target="_blank" class="hsk-card interactive">
           <div class="hsk-glare"></div>
           <div class="hsk-number">3</div>
           <div class="hsk-content">
             <h3 style="color: #fcd34d; font-family: 'Urbanist'; font-size: 1.6rem; margin-bottom: 8px;">HSK 3</h3>
             <p style="color: var(--text-main); font-weight: 600; font-size: 0.9rem;">Level Menengah Bawah</p>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Pemahaman konteks luas untuk kehidupan sosial dan akademik mendasar.</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">Pemahaman konteks luas untuk kehidupan sosial dan akademik.</p>
           </div>
         </a>
-
-        <a href="https://pandarin.net/new-hsk/level4/" target="_blank" class="hsk-card interactive card-3d-hsk">
+        <!-- Kartu 4 -->
+        <a href="https://pandarin.net/new-hsk/level4/" target="_blank" class="hsk-card interactive">
           <div class="hsk-glare"></div>
           <div class="hsk-number">4</div>
           <div class="hsk-content">
@@ -762,15 +539,14 @@
       </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="contact" class="page-section">
       <div class="glass-card interactive card-3d-soft reveal" style="max-width:700px; margin:0 auto; width:100%; background: rgba(10,15,30,0.6);">
         <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-primary)"></i> Hubungi Saya</h2>
-        <p style="margin-bottom:30px;">Kirimkan pesan untuk berkolaborasi, diskusi matematika, atau sekadar menyapa via WhatsApp.</p>
+        <p style="margin-bottom:30px;">Kirimkan pesan untuk berkolaborasi, diskusi, atau sekadar menyapa via WhatsApp.</p>
         
-        <form id="contactForm" class="contact-form">
-          <input type="text" id="waName" class="form-input interactive" placeholder="Nama Lengkap / Panggilan" required>
-          <textarea id="waMsg" class="form-input interactive" rows="5" placeholder="Tulis pesan Anda di sini..." required></textarea>
+        <form id="contactForm" style="display: flex; flex-direction: column; gap: 16px;">
+          <input type="text" id="waName" placeholder="Nama Lengkap / Panggilan" required style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-light); padding: 18px; border-radius: 16px; color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; outline: none;">
+          <textarea id="waMsg" rows="5" placeholder="Tulis pesan Anda di sini..." required style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-light); padding: 18px; border-radius: 16px; color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; outline: none;"></textarea>
           <button type="submit" class="btn-primary interactive" style="justify-content:center; padding:18px; margin-top:10px; font-size:1.05rem;">
             <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Lanjut ke WhatsApp
           </button>
@@ -778,93 +554,105 @@
       </div>
     </section>
     
-    <footer>
-      <p>© <span id="currentYear"></span> • Keenan Clio Adiwinata • Crafted with Elegance</p>
+    <footer style="text-align: center; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid var(--border-light); margin-top: 60px;">
+      <p>© <span id="currentYear"></span> • Keenan Clio Adiwinata</p>
     </footer>
-
   </div>
+
+  <!-- Konfigurasi Firebase (Sudah Terintegrasi) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsmRv3gSSxsyLF07jmy3VMWHmvQbIJfJg",
+      authDomain: "keenan-web.firebaseapp.com",
+      projectId: "keenan-web",
+      storageBucket: "keenan-web.firebasestorage.app",
+      messagingSenderId: "205196073414",
+      appId: "1:205196073414:web:2eb91a134c502bd1dcbac7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    document.getElementById("contactForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("waName").value;
+      const msg = document.getElementById("waMsg").value;
+
+      try {
+        await addDoc(collection(db, "contact_messages"), {
+          name: name,
+          message: msg,
+          timestamp: serverTimestamp()
+        });
+      } catch (error) {
+        console.error("Error: ", error);
+      }
+      
+      const waUrl = `https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo%20Keenan,%20saya%20${encodeURIComponent(name)}.%20${encodeURIComponent(msg)}`;
+      window.open(waUrl, "_blank");
+    });
+  </script>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("currentYear").textContent = new Date().getFullYear();
       
-      // =====================================
-      // 1. KURSOR KUSTOM
-      // =====================================
+      // 1. KURSOR
       const dot = document.getElementById("cursorDot");
       const ring = document.getElementById("cursorRing");
       const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-
-      // Variabel untuk WebGL Shader agar bereaksi ke mouse
-      let mouseX = 0;
-      let mouseY = 0;
+      let mouseX = 0; let mouseY = 0;
 
       if (!isTouchDevice) {
         document.addEventListener("mousemove", (e) => {
-          const x = e.clientX, y = e.clientY;
-          
-          if(dot) dot.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
+          mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+          mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+          if(dot) dot.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
           if(ring) {
-            ring.animate({ transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))` }, 
+            ring.animate({ transform: `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))` }, 
               { duration: 300, fill: "forwards", easing: "ease-out" });
           }
-
-          // Normalize mouse coordinates for WebGL (-1 to 1)
-          mouseX = (x / window.innerWidth) * 2 - 1;
-          mouseY = -(y / window.innerHeight) * 2 + 1;
         });
-
         document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
           el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
           el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
         });
       }
 
-      // =====================================
-      // 2. SCROLL REVEAL ANIMATION
-      // =====================================
-      const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-      const scrollObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-          }
-        });
-      }, observerOptions);
+      // 2. SCROLL REVEAL & NAVBAR
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-      document.querySelectorAll('.reveal').forEach(el => {
-        scrollObserver.observe(el);
+      const navLinks = document.querySelectorAll('.nav-scroll');
+      const sections = document.querySelectorAll('.page-section');
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(sec => {
+          if (pageYOffset >= sec.offsetTop - 200) current = sec.getAttribute('id');
+        });
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+        });
       });
 
-      // =====================================
-      // 3. EFEK HOVER 3D (SOFT & STRONG)
-      // =====================================
-      if (!isTouchDevice) {
-        // Soft 3D untuk kartu biasa
-        document.querySelectorAll('.card-3d-soft').forEach(card => {
-          card.addEventListener('mousemove', (e) => {
-            let rect = card.getBoundingClientRect();
-            let x = e.clientX - rect.left; let y = e.clientY - rect.top;
-            let centerX = rect.width / 2; let centerY = rect.height / 2;
-            let rotateX = ((y - centerY) / centerY) * -3; 
-            let rotateY = ((x - centerX) / centerX) * 3;  
-            card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
-          });
-          card.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0)`;
-          });
-        });
+      document.getElementById("hamburgerBtn").addEventListener("click", () => document.getElementById("navLinks").classList.toggle("show"));
+      navLinks.forEach(link => link.addEventListener('click', () => document.getElementById("navLinks").classList.remove("show")));
 
-        // Strong 3D Hover untuk HSK Cards
-        document.querySelectorAll('.card-3d-hsk').forEach(card => {
+      // 3. EFEK HSK CARDS SUPER 3D
+      if (!isTouchDevice) {
+        document.querySelectorAll('.hsk-card').forEach(card => {
           card.addEventListener('mousemove', (e) => {
             let rect = card.getBoundingClientRect();
             let x = e.clientX - rect.left; let y = e.clientY - rect.top;
-            let centerX = rect.width / 2; let centerY = rect.height / 2;
-            // Rotasi lebih tajam
-            let rotateX = ((y - centerY) / centerY) * -15; 
-            let rotateY = ((x - centerX) / centerX) * 15;  
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+            let rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -20; 
+            let rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 20;  
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.08, 1.08, 1.08)`;
           });
           card.addEventListener('mouseleave', () => {
             card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
@@ -872,41 +660,7 @@
         });
       }
 
-      // =====================================
-      // 4. NAVBAR SCROLL SPY
-      // =====================================
-      const navLinks = document.querySelectorAll('.nav-scroll');
-      const sections = document.querySelectorAll('.page-section');
-      
-      window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop;
-          if (pageYOffset >= sectionTop - 200) {
-            current = section.getAttribute('id');
-          }
-        });
-
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-          }
-        });
-      });
-
-      document.getElementById("hamburgerBtn").addEventListener("click", () => {
-        document.getElementById("navLinks").classList.toggle("show");
-      });
-      navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          document.getElementById("navLinks").classList.remove("show");
-        });
-      });
-
-      // =====================================
-      // 5. DATA JADWAL PENUH & WEB GURU
-      // =====================================
+      // 4. DATA JADWAL PENUH & WEB GURU
       const links = {
         "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
         "PKN": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
@@ -924,7 +678,7 @@
         "INFORMATIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/informatics"
       };
 
-      // JADWAL PENUH BESERTA ISTIRAHAT SESUAI EXCEL
+      // JADWAL SUPER LENGKAP TERMASUK ISTIRAHAT
       const jadwal = [
         { day: "SENIN", start: "06:30", end: "07:30", subject: "UPACARA/WALIKELAS" },
         { day: "SENIN", start: "07:30", end: "08:15", subject: "GEOGRAFI" },
@@ -995,23 +749,21 @@
         { day: "JUMAT", start: "13:45", end: "14:30", subject: "INFORMATIKA" }
       ];
 
-      // Format Kartu Per Hari (Atas-Bawah Rapi)
+      // GENERATE TABEL JADWAL MINGGUAN (ATAS BAWAH)
       const daysOrder = ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT"];
       const scheduleContainer = document.getElementById("daily-schedule-container");
       
-      daysOrder.forEach((day, index) => {
+      daysOrder.forEach((day) => {
         const dayTasks = jadwal.filter(j => j.day === day);
         if(dayTasks.length > 0) {
-          
-          let tableHtml = `<table class="schedule-table">
-            <tr><th class="time-col">Waktu</th><th>Mata Pelajaran</th></tr>`;
+          let tableHtml = `<table class="schedule-table"><tr><th class="time-col">Waktu</th><th>Mata Pelajaran</th></tr>`;
           
           dayTasks.forEach(task => {
             let subjName = task.subject;
-            let isBreak = task.subject.includes("ISTIRAHAT");
+            let isBreak = task.subject.includes("ISTIRAHAT") || task.subject.includes("PEMBIASAAN") || task.subject.includes("UPACARA");
             let rowClass = isBreak ? "row-break" : "";
             
-            if(links[task.subject]) {
+            if(links[task.subject] && !isBreak) {
               subjName = `<a href="${links[task.subject]}" target="_blank" class="subj-link interactive">${task.subject}</a>`;
             }
             
@@ -1022,28 +774,23 @@
           });
           tableHtml += `</table>`;
 
-          let delayClass = `delay-${index + 1}`;
           scheduleContainer.innerHTML += `
-            <div class="schedule-day-block interactive reveal ${delayClass}">
-              <h3>${day}</h3>
-              <div style="overflow-x:auto;">
-                ${tableHtml}
-              </div>
+            <div class="schedule-day-block interactive">
+              <h3>Hari ${day}</h3>
+              <div style="overflow-x:auto;">${tableHtml}</div>
             </div>
           `;
         }
       });
 
-      // Render Web Guru Grid
+      // GENERATE WEB GURU
       let gridHtml = '';
       for(let subj in links) {
         gridHtml += `<a href="${links[subj]}" target="_blank" class="teacher-card interactive">${subj}</a>`;
       }
       document.getElementById("teacher-links-grid").innerHTML = gridHtml;
 
-      // =====================================
-      // 6. LIVE SCHEDULE TRACKER
-      // =====================================
+      // TRACKER JADWAL LIVE
       function updateLiveSchedule() {
         const now = new Date();
         const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
@@ -1056,67 +803,44 @@
         const box = document.getElementById("live-schedule-box");
         
         if(current) {
-          let isBreak = current.subject.includes("ISTIRAHAT");
+          let isBreak = current.subject.includes("ISTIRAHAT") || current.subject.includes("PEMBIASAAN") || current.subject.includes("UPACARA");
           if(isBreak) {
-            box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted); font-size:2rem;">Sedang Istirahat ☕</span>`;
-            let oldLink = box.querySelector('.btn-primary');
-            let oldP = box.querySelector('p:not(.live-time)');
-            if(oldLink) oldLink.remove();
-            if(oldP) oldP.remove();
+            box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted); font-size:2rem;">${current.subject}</span>`;
+            let oldLink = box.querySelector('.btn-primary'); if(oldLink) oldLink.remove();
           } else {
             let linkHTML = links[current.subject] ? 
-              `<a href="${links[current.subject]}" target="_blank" class="btn-primary interactive" style="margin-top:10px; background:var(--accent-primary); color:#000;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Modul ${current.subject}</a>` 
+              `<a href="${links[current.subject]}" target="_blank" class="btn-primary interactive" style="margin-top:10px; background:var(--accent-primary); color:#fff;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Modul ${current.subject}</a>` 
               : `<p style="color:var(--text-muted); font-size:0.9rem; margin-top:10px;">*Web belum tersedia</p>`;
             
             box.querySelector('.live-subject').textContent = current.subject;
-            
-            let oldLink = box.querySelector('.btn-primary');
-            let oldP = box.querySelector('p:not(.live-time)');
-            if(oldLink) oldLink.remove();
-            if(oldP) oldP.remove();
+            let oldLink = box.querySelector('.btn-primary'); if(oldLink) oldLink.remove();
+            let oldP = box.querySelector('p:not(.live-time)'); if(oldP) oldP.remove();
             
             box.innerHTML += linkHTML;
           }
         } else {
           box.querySelector('.live-subject').innerHTML = `<span style="color:var(--text-muted); font-size:1.6rem;">Tidak ada kelas saat ini.</span>`;
-          let oldLink = box.querySelector('.btn-primary');
-          let oldP = box.querySelector('p:not(.live-time)');
-          if(oldLink) oldLink.remove();
-          if(oldP) oldP.remove();
+          let oldLink = box.querySelector('.btn-primary'); if(oldLink) oldLink.remove();
         }
       }
       setInterval(updateLiveSchedule, 60000);
       updateLiveSchedule();
 
       // =====================================
-      // 7. KONTAK WHATSAPP
-      // =====================================
-      document.getElementById("contactForm").addEventListener("submit", (e) => {
-        e.preventDefault();
-        const nama = encodeURIComponent(document.getElementById("waName").value);
-        const msg = encodeURIComponent(document.getElementById("waMsg").value);
-        window.open(`https://wa.me/qr/QIJEMS2SE3AJB1?text=Halo%20Keenan,%20saya%20${nama}.%20${msg}`, "_blank");
-      });
-
-      // =====================================
-      // 8. WEBGL LIQUID METAL BACKGROUND
+      // 5. WEBGL LIQUID METAL BACKGROUND
       // =====================================
       function initWebGLBackground() {
         const container = document.getElementById('webgl-container');
-        
-        // Setup Three.js
         const scene = new THREE.Scene();
         const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // optimal performance
         container.appendChild(renderer.domElement);
 
-        // Simple Plane Geometry
         const geometry = new THREE.PlaneGeometry(2, 2);
 
-        // Shaders
         const vertexShader = `
           varying vec2 vUv;
           void main() {
@@ -1164,37 +888,34 @@
             vec2 st = gl_FragCoord.xy / u_resolution.xy;
             st.x *= u_resolution.x / u_resolution.y;
 
-            // Base movement
-            float time = u_time * 0.2;
+            float time = u_time * 0.15;
             
             // Influence of mouse
             vec2 mouseDist = st - (u_mouse + 1.0) / 2.0;
-            // Adjust mouse influence to be subtle
-            vec2 flow = st + mouseDist * 0.1;
+            vec2 flow = st + mouseDist * 0.15;
 
-            // Generate noise for displacement
+            // Generate noise layers
             float n1 = snoise(flow * 3.0 + time);
             float n2 = snoise(flow * 6.0 - time * 1.5 + vec2(n1));
             float n3 = snoise(flow * 12.0 + time * 2.0 + vec2(n2));
 
-            // Create metallic ripples
+            // Create metallic ripples (the liquid metal look)
             float f = n1 * 0.5 + n2 * 0.25 + n3 * 0.125;
             f = sin(f * 10.0) * 0.5 + 0.5;
 
-            // Deep Blue Metallic Color Palette (Matches reference image)
-            vec3 color1 = vec3(0.005, 0.015, 0.05); // Sangat gelap (Deep Navy)
-            vec3 color2 = vec3(0.02, 0.1, 0.25);  // Biru menengah
-            vec3 color3 = vec3(0.1, 0.4, 0.8);   // Cyan/Biru menyala
-            vec3 color4 = vec3(0.8, 0.9, 1.0);  // Pantulan cahaya putih/biru terang
+            // Deep Blue Metallic Palette matching the image
+            vec3 color1 = vec3(0.005, 0.015, 0.05); // Super dark navy
+            vec3 color2 = vec3(0.02, 0.1, 0.25);  // Deep blue
+            vec3 color3 = vec3(0.1, 0.4, 0.8);    // Highlight Cyan
+            vec3 color4 = vec3(0.8, 0.9, 1.0);    // Bright reflection
 
-            // Map noise to colors
             vec3 finalColor = mix(color1, color2, smoothstep(0.0, 0.4, f));
             finalColor = mix(finalColor, color3, smoothstep(0.4, 0.7, f));
             finalColor = mix(finalColor, color4, smoothstep(0.7, 1.0, f));
 
-            // Add a subtle vignette
+            // Vignette to darken edges
             float dist = distance(vUv, vec2(0.5));
-            finalColor *= smoothstep(0.9, 0.2, dist);
+            finalColor *= smoothstep(0.9, 0.3, dist);
 
             gl_FragColor = vec4(finalColor, 1.0);
           }
@@ -1215,7 +936,6 @@
         const mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
 
-        // Animation Loop
         const clock = new THREE.Clock();
         function animate() {
           requestAnimationFrame(animate);
@@ -1229,14 +949,12 @@
         }
         animate();
 
-        // Handle Resize
         window.addEventListener('resize', () => {
           renderer.setSize(window.innerWidth, window.innerHeight);
           uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
         });
       }
 
-      // Initialize WebGL Background
       initWebGLBackground();
     });
   </script>
