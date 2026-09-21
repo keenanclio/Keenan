@@ -19,8 +19,8 @@
   <style>
     :root {
       /* Premium Midnight Slate Palette for UI Elements */
-      --bg-base: transparent; /* Changed to transparent to show WebGL */
-      --bg-surface: rgba(10, 15, 30, 0.4); /* Glassmorphism background */
+      --bg-base: transparent; /* Transparent to show WebGL */
+      --bg-surface: rgba(10, 15, 30, 0.5); /* Glassmorphism background */
       --border-light: rgba(255, 255, 255, 0.1);
       --border-glow: rgba(56, 189, 248, 0.5);
       
@@ -61,6 +61,7 @@
       height: 100vh;
       z-index: -5; /* Stay behind everything */
       pointer-events: none; /* Let clicks pass through */
+      opacity: 0.6; /* OPASITAS BACKGROUND DIKURANGI AGAR LEBIH KECIL/GELAP */
     }
 
     /* Kursor Custom Desktop */
@@ -131,7 +132,7 @@
     .navbar {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(5, 10, 20, 0.5);
+      background: rgba(5, 10, 20, 0.6);
       backdrop-filter: blur(15px);
       border-bottom: 1px solid var(--border-light);
       z-index: 1000;
@@ -375,6 +376,7 @@
       transform: scale(1.08);
     }
 
+    /* Jadwal Pelajaran (Atas ke Bawah Rapi) */
     .live-status-box {
       background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.1));
       border: 1px solid var(--border-glow);
@@ -387,46 +389,60 @@
     .live-time { font-family: 'Urbanist', sans-serif; font-size: 1.2rem; color: var(--accent-primary); margin-bottom: 16px; }
     .live-subject { font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.1; text-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-    .days-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
+    /* Container untuk Tabel Jadwal Seluruhnya */
+    .schedule-full-container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
       margin-bottom: 50px;
     }
-    .day-card {
+
+    .schedule-day-block {
       background: rgba(10, 15, 30, 0.6);
       border: 1px solid var(--border-light);
       border-radius: 20px;
       padding: 24px;
       backdrop-filter: blur(12px);
     }
-    .day-card h3 {
+    .schedule-day-block h3 {
       font-family: 'Urbanist', sans-serif;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       color: var(--accent-primary);
       margin-bottom: 16px;
       padding-bottom: 12px;
       border-bottom: 1px solid var(--border-light);
     }
-    .schedule-list { list-style: none; }
-    .schedule-list li {
-      display: flex; justify-content: space-between;
-      padding: 10px 0; border-bottom: 1px dashed rgba(255,255,255,0.1);
-      font-size: 0.9rem;
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
     }
-    .schedule-list li:last-child { border-bottom: none; }
-    .time-badge { background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 6px; font-family: monospace; color: var(--text-main); }
-    .subj-name { font-weight: 600; color: var(--text-main); text-align: right; }
-    .subj-link { color: var(--accent-primary); text-decoration: none; transition: 0.3s; }
+    .schedule-table th, .schedule-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px dashed rgba(255,255,255,0.1);
+      color: var(--text-main);
+    }
+    .schedule-table th {
+      font-family: 'Urbanist', sans-serif;
+      color: var(--text-muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .schedule-table tr:last-child td {
+      border-bottom: none;
+    }
+    .time-col { width: 140px; font-family: monospace; color: var(--accent-primary) !important; }
+    .subj-link { color: var(--accent-primary); text-decoration: none; font-weight: 600; transition: 0.3s; }
     .subj-link:hover { color: #fff; text-shadow: 0 0 8px rgba(56,189,248,0.8); }
-    
-    /* Styling for Breaks */
-    .schedule-break {
+
+    /* Baris Istirahat Dibuat Redup */
+    .row-break td {
       opacity: 0.5;
       font-style: italic;
     }
-    .schedule-break .subj-name {
-      color: var(--text-muted);
+    .row-break .subj-link, .row-break span {
+      color: var(--text-muted) !important;
       font-weight: 400;
     }
 
@@ -534,6 +550,8 @@
       .port-card { flex-direction: column; text-align: center; }
       .nav-links { gap: 4px; }
       .about-layout { grid-template-columns: 1fr; }
+      .schedule-table th, .schedule-table td { padding: 10px 8px; font-size: 0.9rem; }
+      .time-col { width: auto; }
     }
     @media (max-width: 768px) {
       .hamburger { display: flex; }
@@ -696,8 +714,8 @@
         <h3 class="live-subject">Mengecek Jadwal...</h3>
       </div>
 
-      <!-- Kartu Per Hari -->
-      <div class="days-grid" id="daily-schedule-container">
+      <!-- Tabel Jadwal Seluruhnya (Atas ke Bawah Rapi) -->
+      <div class="schedule-full-container reveal delay-2" id="daily-schedule-container">
         <!-- Konten di-generate lewat JS agar rapi -->
       </div>
 
@@ -714,7 +732,7 @@
       <p class="reveal delay-1" style="margin-bottom: 40px; font-size: 1.05rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">Koleksi referensi materi ujian HSK (Hanyu Shuiping Kaoshi) untuk mengasah kemampuan bahasa Mandarin secara terstruktur.</p>
       
       <div class="hsk-grid reveal delay-2">
-        <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="hsk-card interactive hsk-3d">
+        <a href="https://pandarin.net/new-hsk/level1/" target="_blank" class="hsk-card interactive card-3d-hsk">
           <div class="hsk-glare"></div>
           <div class="hsk-number">1</div>
           <div class="hsk-content">
@@ -724,7 +742,7 @@
           </div>
         </a>
 
-        <a href="https://pandarin.net/new-hsk/level2/" target="_blank" class="hsk-card interactive hsk-3d">
+        <a href="https://pandarin.net/new-hsk/level2/" target="_blank" class="hsk-card interactive card-3d-hsk">
           <div class="hsk-glare"></div>
           <div class="hsk-number">2</div>
           <div class="hsk-content">
@@ -734,7 +752,7 @@
           </div>
         </a>
 
-        <a href="https://pandarin.net/new-hsk/level3/" target="_blank" class="hsk-card interactive hsk-3d">
+        <a href="https://pandarin.net/new-hsk/level3/" target="_blank" class="hsk-card interactive card-3d-hsk">
           <div class="hsk-glare"></div>
           <div class="hsk-number">3</div>
           <div class="hsk-content">
@@ -744,7 +762,7 @@
           </div>
         </a>
 
-        <a href="https://pandarin.net/new-hsk/level4/" target="_blank" class="hsk-card interactive hsk-3d">
+        <a href="https://pandarin.net/new-hsk/level4/" target="_blank" class="hsk-card interactive card-3d-hsk">
           <div class="hsk-glare"></div>
           <div class="hsk-number">4</div>
           <div class="hsk-content">
@@ -849,12 +867,12 @@
         });
 
         // Strong 3D Hover untuk HSK Cards
-        document.querySelectorAll('.hsk-3d').forEach(card => {
+        document.querySelectorAll('.card-3d-hsk').forEach(card => {
           card.addEventListener('mousemove', (e) => {
             let rect = card.getBoundingClientRect();
             let x = e.clientX - rect.left; let y = e.clientY - rect.top;
             let centerX = rect.width / 2; let centerY = rect.height / 2;
-            // Rotasi lebih tajam (pengali 12)
+            // Rotasi lebih tajam
             let rotateX = ((y - centerY) / centerY) * -15; 
             let rotateY = ((x - centerX) / centerX) * 15;  
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
@@ -898,7 +916,7 @@
       });
 
       // =====================================
-      // 5. DATA JADWAL FULL & WEB GURU
+      // 5. DATA JADWAL PENGEMBALIAN PENUH & WEB GURU
       // =====================================
       const links = {
         "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home",
@@ -917,6 +935,7 @@
         "INFORMATIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/informatics"
       };
 
+      // JADWAL PENUH BESERTA ISTIRAHAT SESUAI EXCEL
       const jadwal = [
         { day: "SENIN", start: "06:30", end: "07:30", subject: "UPACARA/WALIKELAS" },
         { day: "SENIN", start: "07:30", end: "08:15", subject: "GEOGRAFI" },
@@ -987,35 +1006,40 @@
         { day: "JUMAT", start: "13:45", end: "14:30", subject: "INFORMATIKA" }
       ];
 
-      // Format Kartu Per Hari
+      // Format Kartu Per Hari (Atas-Bawah Rapi)
       const daysOrder = ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT"];
       const scheduleContainer = document.getElementById("daily-schedule-container");
       
       daysOrder.forEach((day, index) => {
         const dayTasks = jadwal.filter(j => j.day === day);
         if(dayTasks.length > 0) {
-          let listHtml = `<ul class="schedule-list">`;
+          
+          let tableHtml = `<table class="schedule-table">
+            <tr><th class="time-col">Waktu</th><th>Mata Pelajaran</th></tr>`;
+          
           dayTasks.forEach(task => {
             let subjName = task.subject;
             let isBreak = task.subject.includes("ISTIRAHAT");
-            let liClass = isBreak ? "schedule-break" : "";
+            let rowClass = isBreak ? "row-break" : "";
             
             if(links[task.subject]) {
               subjName = `<a href="${links[task.subject]}" target="_blank" class="subj-link interactive">${task.subject}</a>`;
             }
             
-            listHtml += `<li class="${liClass}">
-               <span class="time-badge">${task.start} - ${task.end}</span>
-               <span class="subj-name">${subjName}</span>
-            </li>`;
+            tableHtml += `<tr class="${rowClass}">
+               <td class="time-col">${task.start} - ${task.end}</td>
+               <td>${subjName}</td>
+            </tr>`;
           });
-          listHtml += `</ul>`;
+          tableHtml += `</table>`;
 
           let delayClass = `delay-${index + 1}`;
           scheduleContainer.innerHTML += `
-            <div class="day-card interactive reveal ${delayClass}">
+            <div class="schedule-day-block interactive reveal ${delayClass}">
               <h3>${day}</h3>
-              ${listHtml}
+              <div style="overflow-x:auto;">
+                ${tableHtml}
+              </div>
             </div>
           `;
         }
@@ -1168,11 +1192,11 @@
             float f = n1 * 0.5 + n2 * 0.25 + n3 * 0.125;
             f = sin(f * 10.0) * 0.5 + 0.5;
 
-            // Deep Blue Metallic Color Palette
-            vec3 color1 = vec3(0.01, 0.03, 0.1); // Darkest deep blue
-            vec3 color2 = vec3(0.05, 0.2, 0.4);  // Mid blue
-            vec3 color3 = vec3(0.2, 0.7, 1.0);   // Bright cyan highlights
-            vec3 color4 = vec3(0.9, 0.95, 1.0);  // Specular white highlights
+            // Deep Blue Metallic Color Palette (Matches reference image)
+            vec3 color1 = vec3(0.005, 0.015, 0.05); // Sangat gelap (Deep Navy)
+            vec3 color2 = vec3(0.02, 0.1, 0.25);  // Biru menengah
+            vec3 color3 = vec3(0.1, 0.4, 0.8);   // Cyan/Biru menyala
+            vec3 color4 = vec3(0.8, 0.9, 1.0);  // Pantulan cahaya putih/biru terang
 
             // Map noise to colors
             vec3 finalColor = mix(color1, color2, smoothstep(0.0, 0.4, f));
@@ -1181,7 +1205,7 @@
 
             // Add a subtle vignette
             float dist = distance(vUv, vec2(0.5));
-            finalColor *= smoothstep(0.8, 0.2, dist);
+            finalColor *= smoothstep(0.9, 0.2, dist);
 
             gl_FragColor = vec4(finalColor, 1.0);
           }
