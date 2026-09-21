@@ -22,7 +22,8 @@
     ========================================== */
     :root {
       --bg-base: #020610; 
-      --bg-surface: rgba(10, 15, 30, 0.65); /* Glassmorphism */
+      /* Transparansi dinaikkan (opacity diturunkan) agar background tembus */
+      --bg-surface: rgba(10, 15, 30, 0.35); /* Glassmorphism lebih bening */
       --border-light: rgba(255, 255, 255, 0.1);
       --border-glow: rgba(56, 189, 248, 0.4);
       
@@ -103,7 +104,8 @@
     .navbar {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(5, 10, 20, 0.75);
+      /* Navbar juga dibuat lebih transparan */
+      background: rgba(5, 10, 20, 0.45);
       backdrop-filter: blur(15px);
       border-bottom: 1px solid var(--border-light);
       z-index: 1000;
@@ -248,7 +250,8 @@
     .achievements-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.95rem; line-height: 1.5; }
     .achievements-list li i { color: var(--accent-primary); margin-top: 4px; }
     .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .gallery-item { border-radius: 16px; overflow: hidden; aspect-ratio: 4/5; position: relative; border: 1px solid var(--border-light); background: rgba(0,0,0,0.3); }
+    /* Gallery border lebih transparan */
+    .gallery-item { border-radius: 16px; overflow: hidden; aspect-ratio: 4/5; position: relative; border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.1); }
     .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
     .gallery-item:hover img { transform: scale(1.08); }
 
@@ -273,7 +276,8 @@
       display: flex; flex-direction: column; gap: 30px; margin-bottom: 50px;
     }
     .schedule-day-block {
-      background: rgba(10, 15, 30, 0.6); border: 1px solid var(--border-light);
+      /* Block jadwal dibuat lebih transparan */
+      background: rgba(10, 15, 30, 0.3); border: 1px solid var(--border-light);
       border-radius: 20px; padding: 24px; backdrop-filter: blur(12px);
     }
     .schedule-day-block h3 {
@@ -305,7 +309,8 @@
     .hsk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; perspective: 1500px; }
     .hsk-card {
       text-decoration: none; position: relative; overflow: hidden; padding: 30px;
-      background: rgba(10, 20, 40, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+      /* Kartu HSK dibuat lebih transparan */
+      background: rgba(10, 20, 40, 0.25); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
       backdrop-filter: blur(16px); transform-style: preserve-3d; will-change: transform;
       transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
@@ -416,7 +421,8 @@
       <h2 class="section-title reveal"><i class="fa-solid fa-id-card-clip" style="color:var(--accent-primary)"></i> About Me</h2>
       
       <div class="about-layout">
-        <div class="glass-card interactive card-3d-soft reveal" style="background: rgba(10,15,30,0.6);">
+        <!-- Transparansi inline diperbarui -->
+        <div class="glass-card interactive card-3d-soft reveal" style="background: rgba(10,15,30,0.35);">
           <h3 style="font-family: 'Urbanist', sans-serif; font-size: 1.8rem; color: var(--text-main); margin-bottom: 16px;">Halo, saya Keenan!</h3>
           <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 24px;">
             Nama lengkap saya <strong>Keenan Clio Adiwinata</strong>, saat ini saya bersekolah di <strong>SMAS Cinta Kasih Tzu Chi</strong>. Saya percaya bahwa keseimbangan adalah kunci. Di satu sisi, saya sangat menikmati keindahan logika, pemecahan masalah matematis, dan riset sains. Di sisi lain, lapangan basket mengajarkan saya tentang sportivitas, pengambilan keputusan cepat dalam tekanan, dan kerja sama tim.
@@ -540,7 +546,8 @@
     </section>
 
     <section id="contact" class="page-section">
-      <div class="glass-card interactive card-3d-soft reveal" style="max-width:700px; margin:0 auto; width:100%; background: rgba(10,15,30,0.6);">
+      <!-- Transparansi inline diperbarui -->
+      <div class="glass-card interactive card-3d-soft reveal" style="max-width:700px; margin:0 auto; width:100%; background: rgba(10,15,30,0.35);">
         <h2 class="section-title"><i class="fa-solid fa-paper-plane" style="color:var(--accent-primary)"></i> Hubungi Saya</h2>
         <p style="margin-bottom:30px;">Kirimkan pesan untuk berkolaborasi, diskusi, atau sekadar menyapa via WhatsApp.</p>
         
@@ -894,10 +901,11 @@
             vec2 mouseDist = st - (u_mouse + 1.0) / 2.0;
             vec2 flow = st + mouseDist * 0.15;
 
-            // Generate noise layers
-            float n1 = snoise(flow * 3.0 + time);
-            float n2 = snoise(flow * 6.0 - time * 1.5 + vec2(n1));
-            float n3 = snoise(flow * 12.0 + time * 2.0 + vec2(n2));
+            // Generate noise layers - SCALE REDUCED TO ZOOM IN
+            // Mengubah pengali untuk membuat gelombang jauh lebih besar (zoomed in)
+            float n1 = snoise(flow * 1.2 + time);
+            float n2 = snoise(flow * 2.5 - time * 1.5 + vec2(n1));
+            float n3 = snoise(flow * 5.0 + time * 2.0 + vec2(n2));
 
             // Create metallic ripples (the liquid metal look)
             float f = n1 * 0.5 + n2 * 0.25 + n3 * 0.125;
