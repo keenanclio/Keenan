@@ -133,8 +133,7 @@
       height: 100vh;
       z-index: -5; 
       pointer-events: none; 
-      opacity: 0.6; /* Diturunkan agar tidak silau */
-    }
+      opacity: 0.35;    }
 
     /* Animasi Scroll Reveal */
     .reveal {
@@ -222,8 +221,7 @@
     }
 
     .glass-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-light);
+      background: rgba(20, 22, 32, 0.2);      border: 1px solid var(--border-light);
       border-radius: 24px;
       padding: 32px;
       backdrop-filter: blur(24px);
@@ -424,7 +422,7 @@
     .hsk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; perspective: 1500px; }
     .hsk-card {
       text-decoration: none; position: relative; overflow: hidden; padding: 24px;
-      background: rgba(10, 20, 40, 0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+      background: rgba(20, 22, 32, 0.2);      border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
       backdrop-filter: blur(16px); transform-style: preserve-3d; will-change: transform;
       transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       cursor: none; /* Custom cursor */
@@ -499,7 +497,7 @@
     /* Jadwal Full List Rapih */
     .schedule-full-container { display: flex; flex-direction: column; gap: 30px; margin-bottom: 50px; }
     .schedule-day-block {
-      background: rgba(20, 22, 32, 0.35); border: 1px solid var(--border-light);
+      background: rgba(20, 22, 32, 0.2);      border: 1px solid var(--border-light);
       border-radius: 20px; padding: 24px; backdrop-filter: blur(12px);
     }
     .schedule-day-block h3 {
@@ -522,7 +520,7 @@
     /* Web Guru Grid */
     .teacher-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
     .teacher-card {
-      background: rgba(255,255,255,0.05); border: 1px solid var(--border-light); padding: 18px 16px; 
+      background: rgba(20, 22, 32, 0.2);      border: 1px solid var(--border-light); padding: 18px 16px; 
       border-radius: 16px; text-align: center; color: #fff; text-decoration: none; 
       font-family: 'Urbanist', sans-serif; font-weight: 700; transition: all 0.3s;
       backdrop-filter: blur(10px); cursor: none;
@@ -625,7 +623,7 @@
         <div class="hero-img reveal delay-1">
           <div class="hero-img-box glass-card interactive card-3d-soft">
             <div class="hero-img-inner">
-              <img src="profile.jpeg" alt="Keenan Clio" onerror="this.src='https://placehold.co/400x400/090a0f/38bdf8?text=Profile'">
+              <img src="WhatsApp Image 2026-09-20 at 8.37.39 PM.jpeg" alt="Keenan Clio" onerror="this.src='https://placehold.co/400x400/090a0f/38bdf8?text=Profile'">
             </div>
           </div>
         </div>
