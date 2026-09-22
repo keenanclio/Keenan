@@ -412,15 +412,24 @@
           <p style="color:var(--accent-secondary); font-weight:700; letter-spacing:3px; margin-bottom:12px; font-size:0.9rem; text-transform:uppercase;">Student & Enthusiast</p>
           <h1 class="title-glow">Keenan Clio Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.45em; color:var(--text-muted); filter:none; font-weight:500;">(黄錫豪)</span></h1>
           
-          <p class="luxury-text">
+          <p style="font-size:1.15rem; line-height:1.8; margin-bottom:20px; font-weight:300; color:#f8fafc; letter-spacing:0.5px;">
             Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
           </p>
           
-          <!-- Metrik Rapi -->
-          <div class="metrics-container reveal delay-1">
-            <div class="metric-item"><strong>Logika</strong><span>Matematika</span></div>
-            <div class="metric-item"><strong>Target Global</strong><span>Bahasa & Bisnis</span></div>
-            <div class="metric-item"><strong>Sportivitas</strong><span>Basketball</span></div>
+          <!-- Metrik 3 Pilar (Sudah Dirapikan menjadi Kotak Kaca) -->
+          <div class="metrics-row reveal delay-1" style="display:flex; gap:16px; margin: 30px 0; flex-wrap:wrap;">
+            <div class="glass-card interactive" style="padding:16px 20px; flex:1; text-align:center; min-width:130px; background:rgba(255,255,255,0.03);">
+              <strong style="font-family:'Urbanist', sans-serif; font-size:1.2rem; color:#ffffff; display:block; margin-bottom:4px;">Logika</strong>
+              <span style="font-size:0.85rem; color:var(--accent-secondary); font-weight:600;">Matematika</span>
+            </div>
+            <div class="glass-card interactive" style="padding:16px 20px; flex:1; text-align:center; min-width:130px; background:rgba(255,255,255,0.03);">
+              <strong style="font-family:'Urbanist', sans-serif; font-size:1.2rem; color:#ffffff; display:block; margin-bottom:4px;">Target Global</strong>
+              <span style="font-size:0.85rem; color:var(--accent-secondary); font-weight:600;">Bahasa & Bisnis</span>
+            </div>
+            <div class="glass-card interactive" style="padding:16px 20px; flex:1; text-align:center; min-width:130px; background:rgba(255,255,255,0.03);">
+              <strong style="font-family:'Urbanist', sans-serif; font-size:1.2rem; color:#ffffff; display:block; margin-bottom:4px;">Sportivitas</strong>
+              <span style="font-size:0.85rem; color:var(--accent-secondary); font-weight:600;">Basketball</span>
+            </div>
           </div>
 
           <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;" class="reveal delay-2">
@@ -430,11 +439,11 @@
           </div>
         </div>
         
-        <div class="hero-img reveal delay-1">
-          <!-- Hapus class glass-card & border-radius agar gambar bisa bebas tanpa kotak -->
-          <div class="hero-img-box interactive card-3d">
-            <!-- PENTING: Gunakan gambar PNG TANPA BACKGROUND di sini -->
-            <img src="profile-nobg.png" alt="Keenan Clio" onerror="this.src='https://placehold.co/400x500/02040a/a855f7?text=Gunakan+Foto+PNG+Transparan'">
+        <!-- Foto Profil Freestyle (Tanpa Kotak, Efek Screen) -->
+        <div class="hero-img reveal delay-1" style="display:flex; justify-content:center; align-items:center;">
+          <div class="interactive card-3d" style="width:100%; max-width:450px; position:relative;">
+            <!-- Gambar menggunakan mix-blend-mode untuk menghapus background hitam -->
+            <img src="IMG_7773.jpg" alt="Keenan Clio" style="width:100%; height:auto; object-fit:contain; mix-blend-mode:screen; filter:drop-shadow(0 0 15px rgba(255,255,255,0.1)); transition:transform 0.4s ease;">
           </div>
         </div>
       </div>
