@@ -84,10 +84,13 @@
 
     /* Animasi Outline Nyala-Nyala untuk Foto */
     @keyframes photoGlowPulse { 0% { filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.2)); } 50% { filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 45px rgba(168, 85, 247, 0.6)) drop-shadow(0 0 60px rgba(168, 85, 247, 0.4)); } 100% { filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.2)); } }
-    .photo-glow-hover { transition: transform 0.4s ease, filter 0.4s ease; animation: photoGlowPulse 2.5s infinite ease-in-out; }
+    .photo-glow-hover { transition: transform 0.4s ease, filter 0.4s ease; animation: photoGlowPulse 2.5s infinite ease-in-out; border-radius: 24px; }
     .photo-glow-hover:hover { transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(56, 189, 248, 1)) drop-shadow(0 0 50px rgba(168, 85, 247, 0.8)) !important; animation: none; }
 
     .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center; }
+    .hero-img-box { width: 100%; max-width: 480px; margin: 0 auto; position: relative; display: flex; justify-content: center; align-items: flex-end; }
+    
+    .metrics-container { display: flex; justify-content: space-between; align-items: center; gap: 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-light); border-radius: 16px; padding: 20px; margin: 30px 0; backdrop-filter: blur(10px); }
     .btn-primary { background: var(--text-main); color: var(--bg-base); padding: 14px 28px; border-radius: 14px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; border: none; cursor: none; }
     .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.15); }
     .btn-social { background: rgba(255,255,255,0.05); color: var(--text-main); width: 48px; height: 48px; border-radius: 14px; display: inline-flex; justify-content: center; align-items: center; text-decoration: none; font-size: 1.2rem; border: 1px solid var(--border-light); transition: 0.3s; cursor: none; }
@@ -219,6 +222,7 @@
     <section id="home" class="page-section active-page">
       <div class="hero-grid">
         <div class="hero-text reveal">
+          
           <p style="color:var(--accent-secondary); font-weight:700; letter-spacing:2px; margin-bottom:8px; font-size:1.2rem;">Hello, I'm</p>
           <h1 class="title-glow" style="line-height:1.1; margin-bottom: 24px;">
             Keenan Clio Adiwinata<br>
@@ -253,8 +257,9 @@
         
         <div class="hero-img reveal delay-1" style="display:flex; justify-content:center; align-items:center;">
           <div class="interactive card-3d" style="width:100%; max-width:450px; position:relative;">
-            <img id="homePhoto" src="IMG_7773.jpg" class="photo-glow-hover" alt="Keenan Clio" 
-                 style="width:100%; height:auto; object-fit:contain; mix-blend-mode: screen;">
+            <!-- Menggunakan Foto Baru tanpa mix-blend-mode -->
+            <img id="homePhoto" src="IMG_7712.PNG" class="photo-glow-hover" alt="Keenan Clio" 
+                 style="width:100%; height:auto; object-fit:contain;">
           </div>
         </div>
       </div>
@@ -266,7 +271,7 @@
       <!-- Mini Header Profil -->
       <div class="reveal" style="text-align: center; margin-bottom: 50px;">
         <div class="interactive card-3d" style="display:inline-block; position:relative; width: 220px; height: 220px;">
-           <img id="profilePhoto" src="IMG_7773.jpg" class="photo-glow-hover" alt="Keenan Clio" style="width: 100%; height: 100%; object-fit: contain; mix-blend-mode: screen;">
+           <img id="profilePhoto" src="IMG_7712.PNG" class="photo-glow-hover" alt="Keenan Clio" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         <h2 style="font-family: 'Urbanist', sans-serif; font-size: 2.8rem; color: #fff; margin-top: 15px; font-weight: 900;">Keenan Clio Adiwinata</h2>
         <p style="color: var(--accent-secondary); font-size: 1.2rem; letter-spacing: 2px; font-weight: 600; margin-top: 5px; font-style: italic;">“Progress, Not Perfection.”</p>
@@ -277,13 +282,14 @@
         <!-- 2. Tentang Saya -->
         <div class="glass-card interactive card-3d reveal delay-1 profile-full">
           <h3 class="profile-card-title"><i class="fa-solid fa-address-card" style="color:var(--accent-primary)"></i> Tentang Saya</h3>
-          <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 20px; color: #e2e8f0;">
+          <!-- Teks Dipercerah -->
+          <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 24px; color: #ffffff; font-weight: 500; text-shadow: 0 0 5px rgba(255,255,255,0.3);">
             Halo! Saya Keenan, seorang pelajar yang suka mencoba hal-hal baru dan terus belajar dari setiap pengalaman. Saya tertarik dengan teknologi, kreativitas, dan hal-hal yang bisa menambah pengalaman serta wawasan. Bagi saya, setiap langkah kecil adalah bagian dari proses untuk berkembang menjadi lebih baik.
           </p>
-          <ul class="list-styled">
-            <li><i class="fa-solid fa-school"></i> <div><strong>Pendidikan Saat Ini:</strong> SMA Cinta Kasih Tzu Chi (Kelas 11)</div></li>
-            <li><i class="fa-solid fa-book"></i> <div><strong>Fokus Mata Pelajaran:</strong> Fisika, Geografi, Kimia, Matematika, Informatika, dan Bahasa Inggris Lanjut.</div></li>
-            <li><i class="fa-solid fa-bullseye"></i> <div><strong>Aspirasi Masa Depan:</strong> Melanjutkan studi ke bidang Arsitektur atau Teknik Sipil.</div></li>
+          <ul class="list-styled" style="color: #ffffff;">
+            <li><i class="fa-solid fa-school"></i> <div><strong style="color: var(--accent-secondary); text-shadow: 0 0 8px rgba(56,189,248,0.6);">Pendidikan Saat Ini:</strong> SMA Cinta Kasih Tzu Chi (Kelas 11)</div></li>
+            <li><i class="fa-solid fa-book"></i> <div><strong style="color: var(--accent-secondary); text-shadow: 0 0 8px rgba(56,189,248,0.6);">Fokus Mata Pelajaran:</strong> Fisika, Geografi, Kimia, Matematika, Informatika, dan Bahasa Inggris Lanjut.</div></li>
+            <li><i class="fa-solid fa-bullseye"></i> <div><strong style="color: var(--accent-secondary); text-shadow: 0 0 8px rgba(56,189,248,0.6);">Aspirasi Masa Depan:</strong> Melanjutkan studi ke bidang Arsitektur atau Teknik Sipil.</div></li>
           </ul>
         </div>
 
@@ -323,33 +329,32 @@
           </div>
         </div>
 
-        <!-- 5. Proyek & Pencapaian -->
+        <!-- 5. Proyek & Pencapaian (Efek Nyala Ditambahkan, Sains Dihapus) -->
         <div class="glass-card interactive card-3d reveal delay-3 profile-full">
           <h3 class="profile-card-title"><i class="fa-solid fa-medal" style="color:#fcd34d"></i> Proyek & Pencapaian</h3>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 10px;">
             
             <div>
-              <h4 style="color: #fff; margin-bottom: 12px; font-size: 1.1rem;"><i class="fa-solid fa-brain" style="color:var(--accent-secondary)"></i> Akademik & Sains</h4>
+              <h4 style="color: #fff; margin-bottom: 12px; font-size: 1.1rem;"><i class="fa-solid fa-brain" style="color:var(--accent-secondary)"></i> Akademik & Lainnya</h4>
               <ul class="list-styled">
-                <li><i class="fa-solid fa-check"></i> <div>Konsistensi nilai Matematika sempurna (100) dan meraih Ranking 1 di kelas.</div></li>
-                <li><i class="fa-solid fa-flask"></i> <div><strong>Eksperimen Sains:</strong> Merancang pemodelan efek rumah kaca menggunakan stoples kaca dan termometer untuk mengamati dampak pemanasan global secara praktis.</div></li>
-                <li><i class="fa-solid fa-award"></i> <div>Medali Perunggu Matematika Tingkat Nasional - SASINA 2026.</div></li>
-                <li><i class="fa-solid fa-video"></i> <div>Juara 1 Lomba Videografi - Sang Timur 2025.</div></li>
+                <li><i class="fa-solid fa-check"></i> <div style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(56,189,248,0.6);">Konsistensi nilai Matematika sempurna (100) dan meraih Ranking 1 di kelas.</div></li>
+                <li><i class="fa-solid fa-award"></i> <div style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(205,127,50,0.8);">Medali Perunggu Matematika Tingkat Nasional - SASINA 2026.</div></li>
+                <li><i class="fa-solid fa-video"></i> <div style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(255,215,0,0.8);">Juara 1 Lomba Videografi - Sang Timur 2025.</div></li>
               </ul>
             </div>
 
             <div>
               <h4 style="color: #fff; margin-bottom: 12px; font-size: 1.1rem;"><i class="fa-solid fa-basketball" style="color:#f97316"></i> Prestasi Basket</h4>
               <ul class="list-styled" style="font-size: 0.95rem;">
-                <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span>Juara 1 - BSI Cup 2026</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span>Juara 1 - Pelangi Kasih Cup 2026</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span>Juara 1 - Abdi Siswa Cup 2024</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: silver;"></i> <span>Juara 2 - Kanaan Global School Cup 2026</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: silver;"></i> <span>Juara 2 - SNS Cup 2024</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span>Juara 3 - COSPORTA 4.0 2025</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span>Juara 3 (3x3) - Telkom Cup 2024</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span>Juara 3 - SBM Cup 2026</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span>Juara 3 - Pelita Kasih Cup 2026</span></li>
+                <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(255,215,0,0.8);">Juara 1 - BSI Cup 2026</span></li>
+                <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(255,215,0,0.8);">Juara 1 - Pelangi Kasih Cup 2026</span></li>
+                <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(255,215,0,0.8);">Juara 1 - Abdi Siswa Cup 2024</span></li>
+                <li><i class="fa-solid fa-trophy" style="color: silver;"></i> <span style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(192,192,192,0.8);">Juara 2 - Kanaan Global School Cup 2026</span></li>
+                <li><i class="fa-solid fa-trophy" style="color: silver;"></i> <span style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(192,192,192,0.8);">Juara 2 - SNS Cup 2024</span></li>
+                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(205,127,50,0.8);">Juara 3 - COSPORTA 4.0 2025</span></li>
+                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(205,127,50,0.8);">Juara 3 (3x3) - Telkom Cup 2024</span></li>
+                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(205,127,50,0.8);">Juara 3 - SBM Cup 2026</span></li>
+                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span style="color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(205,127,50,0.8);">Juara 3 - Pelita Kasih Cup 2026</span></li>
               </ul>
             </div>
           </div>
@@ -389,10 +394,6 @@
           <div class="port-icon"><i class="fa-solid fa-basketball"></i></div>
           <div><h3>Basketball & Team Strategy</h3><p>Dokumentasi kepemimpinan tim, partisipasi turnamen pelajar, latihan fisik intensif, dan analisis taktik formasi permainan.</p></div>
         </a>
-        <a href="#" class="glass-card interactive card-3d port-card reveal delay-3">
-          <div class="port-icon"><i class="fa-solid fa-flask"></i></div>
-          <div><h3>Eksperimen Riset Sains</h3><p>Proyek penelitian terapan berbasis biologi/kimia serta penyusunan esai kritis bertema lingkungan dan sosial.</p></div>
-        </a>
       </div>
     </section>
 
@@ -401,7 +402,7 @@
       
       <h2 class="section-title reveal"><i class="fa-solid fa-calendar-days" style="color:var(--accent-secondary)"></i> Jadwal Kelas XI-2</h2>
       
-      <!-- Live Class Box (Ditaruh paling atas, ukurannya diperkecil) -->
+      <!-- Live Class Box -->
       <div class="live-status-box glass-card interactive card-3d reveal delay-1" id="live-schedule-box">
         <div class="live-time" id="live-time-display">Memuat Waktu...</div>
         <h3 class="live-subject">Mengecek Jadwal...</h3>
@@ -530,7 +531,7 @@
 
   </div> <!-- End Page Container -->
 
-  <!-- FOOTER MEWAH GLOBAL (Tampil di semua halaman) -->
+  <!-- FOOTER MEWAH GLOBAL -->
   <footer class="glass-footer">
     <div class="footer-content">
       <div class="footer-logo">Keenan.</div>
@@ -568,7 +569,7 @@
       document.getElementById("currentYear").textContent = new Date().getFullYear();
       
       // =====================================
-      // 2. KURSOR BINTANG (TUNGGAL)
+      // 2. KURSOR BINTANG
       // =====================================
       const star = document.getElementById("cursorStar");
       const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
@@ -640,7 +641,7 @@
       }
 
       // =====================================
-      // SCROLL TO TOP
+      // SCROLL TO TOP Tombol Logika
       // =====================================
       const scrollTopBtn = document.getElementById("scrollTopBtn");
       window.addEventListener("scroll", () => {
@@ -655,7 +656,7 @@
       });
 
       // =====================================
-      // 4. SCROLL REVEAL & 3D HOVER 
+      // 4. SCROLL REVEAL & 3D HOVER
       // =====================================
       setTimeout(() => {
         document.getElementById('home').querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
@@ -687,7 +688,6 @@
         { day: "JUMAT", start: "06:30", end: "07:15", subject: "PEMBIASAAN" }, { day: "JUMAT", start: "07:15", end: "08:45", subject: "SENI BUDAYA" }, { day: "JUMAT", start: "08:45", end: "09:15", subject: "ISTIRAHAT" }, { day: "JUMAT", start: "09:15", end: "10:00", subject: "MAT WAJIB" }, { day: "JUMAT", start: "10:00", end: "11:30", subject: "SEJARAH" }, { day: "JUMAT", start: "11:30", end: "13:00", subject: "ISTIRAHAT" }, { day: "JUMAT", start: "13:00", end: "14:30", subject: "INFORMATIKA" }
       ];
 
-      // LOGIKA OTOMATIS BUKA TAB JADWAL SESUAI HARI INI
       const daysOrder = ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT"];
       const todayIndex = new Date().getDay(); 
       let targetActiveDay = "SENIN"; 
@@ -740,11 +740,9 @@
         });
       });
 
-      // Generate Modul Guru
       let gridHtml = ''; for(let subj in links) gridHtml += `<a href="${links[subj]}" target="_blank" class="teacher-card interactive">${subj}</a>`;
       document.getElementById("teacher-links-grid").innerHTML = gridHtml;
 
-      // Fungsi Jadwal Live
       function updateLiveSchedule() {
         const now = new Date(); const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
         const today = days[now.getDay()]; const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
