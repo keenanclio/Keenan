@@ -84,9 +84,9 @@
 
     /* Animasi Outline Nyala-Nyala untuk Foto */
     @keyframes photoGlowPulse { 0% { filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.2)); } 50% { filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 45px rgba(168, 85, 247, 0.6)) drop-shadow(0 0 60px rgba(168, 85, 247, 0.4)); } 100% { filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.2)); } }
-    .photo-glow-hover { transition: transform 0.4s ease, filter 0.4s ease; animation: photoGlowPulse 2.5s infinite ease-in-out; }
+    .photo-glow-hover { transition: transform 0.4s ease, filter 0.4s ease; animation: photoGlowPulse 2.5s infinite ease-in-out; border-radius: 24px; }
     .photo-glow-hover:hover { transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(56, 189, 248, 1)) drop-shadow(0 0 50px rgba(168, 85, 247, 0.8)) !important; animation: none; }
-    #profilePhoto { border-radius: 24px; } /* Khusus untuk foto profil agar ujungnya melengkung rapi */
+    #profilePhoto { border-radius: 24px; }
 
     .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center; }
     .hero-img-box { width: 100%; max-width: 480px; margin: 0 auto; position: relative; display: flex; justify-content: center; align-items: flex-end; }
@@ -164,7 +164,10 @@
     .hsk-section-card { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 16px; padding: 20px; text-decoration: none; color: #fff; font-family: 'Urbanist', sans-serif; font-weight: 700; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; backdrop-filter: blur(24px); cursor: none; }
     .hsk-section-card:hover { border-color: var(--accent-primary); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
 
-    /* Contact */
+    /* Contact Info Boxes */
+    .contact-info-box { background: rgba(255,255,255,0.05); border: 1px solid var(--border-light); padding: 20px; border-radius: 16px; display: flex; align-items: center; gap: 15px; color: #fff; font-size: 1.1rem; flex: 1; transition: 0.3s; }
+    .contact-info-box:hover { border-color: var(--accent-primary); background: rgba(168, 85, 247, 0.1); transform: translateY(-3px); }
+    .contact-info-box i { font-size: 1.5rem; color: var(--accent-secondary); }
     .contact-form { display: flex; flex-direction: column; gap: 16px; }
     .form-input { background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); padding: 18px; border-radius: 16px; color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; outline: none; transition: 0.3s; }
     .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.5); }
@@ -220,6 +223,7 @@
     <section id="home" class="page-section active-page">
       <div class="hero-grid">
         <div class="hero-text reveal">
+          
           <p style="color:var(--accent-secondary); font-weight:700; letter-spacing:2px; margin-bottom:8px; font-size:1.2rem;">Hello, I'm</p>
           <h1 class="title-glow" style="line-height:1.1; margin-bottom: 24px;">
             Keenan Clio Adiwinata<br>
@@ -253,8 +257,8 @@
         </div>
         
         <div class="hero-img reveal delay-1" style="display:flex; justify-content:center; align-items:center;">
-          <div class="interactive card-3d" style="width:100%; max-width:450px; position:relative;">
-            <!-- Menggunakan Foto Lama yang menyatu di Beranda -->
+          <!-- UKURAN DIPERBESAR (max-width: 580px) & DINAIKKAN (margin-top: -60px) -->
+          <div class="interactive card-3d" style="width:100%; max-width:580px; position:relative; margin-top:-60px;">
             <img id="homePhoto" src="IMG_7773.jpg" class="photo-glow-hover" alt="Keenan Clio" 
                  style="width:100%; height:auto; object-fit:contain; mix-blend-mode: screen;">
           </div>
@@ -268,7 +272,6 @@
       <!-- Mini Header Profil -->
       <div class="reveal" style="text-align: center; margin-bottom: 50px;">
         <div class="interactive card-3d" style="display:inline-block; position:relative; width: 220px; height: 220px;">
-           <!-- Foto Baru Khusus Profil dengan Border Radius melengkung cantik -->
            <img id="profilePhoto" src="IMG_7712.PNG" class="photo-glow-hover" alt="Keenan Clio" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         <h2 style="font-family: 'Urbanist', sans-serif; font-size: 2.8rem; color: #fff; margin-top: 15px; font-weight: 900;">Keenan Clio Adiwinata</h2>
