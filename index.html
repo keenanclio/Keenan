@@ -52,7 +52,7 @@
     @media (hover: none), (pointer: coarse) { .cursor-star { display: none !important; } }
 
     /* Background WebGL */
-    #webgl-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -5; pointer-events: none; opacity: 0.8; } /* Opasitas dinaikkan karena partikelnya halus */
+    #webgl-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -5; pointer-events: none; opacity: 0.85; } 
 
     /* Animations & Utils */
     .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: opacity, transform; }
@@ -70,9 +70,9 @@
     .hamburger span { width: 28px; height: 3px; background: var(--text-main); border-radius: 3px; transition: 0.3s; }
 
     /* ========================================================
-       SISTEM HALAMAN & ANIMASI TRANSISI PINDAH HALAMAN
+       SISTEM HALAMAN & ANIMASI TRANSISI KEREN (3D PERSPECTIVE)
        ======================================================== */
-    .page-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .page-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; perspective: 1200px; }
     
     .page-section { 
       display: none; 
@@ -85,12 +85,22 @@
     
     .page-section.active-page { 
       display: flex; 
-      animation: pageTransition 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      animation: coolPageTransition 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+      transform-origin: center top;
     }
 
-    @keyframes pageTransition {
-      0% { opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(5px); }
-      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    /* Animasi Baru yang Jauh Lebih Keren */
+    @keyframes coolPageTransition {
+      0% { 
+        opacity: 0; 
+        transform: translateZ(-200px) translateY(80px) rotateX(10deg); 
+        filter: blur(15px); 
+      }
+      100% { 
+        opacity: 1; 
+        transform: translateZ(0) translateY(0) rotateX(0deg); 
+        filter: blur(0); 
+      }
     }
 
     /* Layout & Cards */
@@ -117,7 +127,7 @@
     .btn-social { background: rgba(255,255,255,0.05); color: var(--text-main); width: 48px; height: 48px; border-radius: 14px; display: inline-flex; justify-content: center; align-items: center; text-decoration: none; font-size: 1.2rem; border: 1px solid var(--border-light); transition: 0.3s; cursor: none; }
     .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); transform: translateY(-3px); }
 
-    /* Profil (sebelumnya About) */
+    /* Profil & About Me */
     .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
     .achievements-list { list-style-type: none; padding: 0; margin-top: 20px; }
     .achievements-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.95rem; line-height: 1.5; }
@@ -134,7 +144,7 @@
     .port-card h3 { color: #ffffff !important; font-family: 'Urbanist', sans-serif; font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
     .port-card p { color: #ffffff !important; font-size: 1.05rem; font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
 
-    /* Schedule */
+    /* Akademik (Jadwal & Modul Guru Digabung) */
     .schedule-full-container { display: flex; flex-direction: column; gap: 30px; margin-bottom: 50px; }
     .schedule-day-block { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 20px; padding: 24px; backdrop-filter: blur(24px); transition: border-color 0.4s ease; }
     .schedule-day-block:hover { border-color: var(--border-glow); }
@@ -148,7 +158,6 @@
     .row-break td { opacity: 0.5; font-style: italic; }
     .row-break .subj-link, .row-break span { color: var(--text-muted) !important; font-weight: 400; }
 
-    /* Teacher Web */
     .teacher-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
     .teacher-card { background: var(--bg-surface); border: 1px solid var(--border-light); padding: 18px 16px; border-radius: 16px; text-align: center; color: #fff; text-decoration: none; font-family: 'Urbanist', sans-serif; font-weight: 700; transition: all 0.3s; backdrop-filter: blur(24px); cursor: none; }
     .teacher-card:hover { border-color: var(--accent-primary); transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
@@ -180,22 +189,25 @@
     .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.5); }
     footer { text-align: center; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid var(--border-light); margin-top: 60px; }
 
-    /* SCROLL TO TOP BUTTON */
+    /* ========================================================
+       TOMBOL SCROLL TO TOP (Lebih Mewah dan Jelas)
+       ======================================================== */
     #scrollTopBtn {
-      position: fixed; bottom: 30px; right: 30px;
-      width: 50px; height: 50px; border-radius: 16px;
-      background: var(--bg-surface); border: 1px solid var(--border-light);
+      position: fixed; bottom: 40px; right: 40px;
+      width: 60px; height: 60px; border-radius: 50%; /* Bulat Sempurna */
+      background: rgba(168, 85, 247, 0.2); 
+      border: 2px solid var(--accent-primary);
       backdrop-filter: blur(10px); color: #fff;
       display: flex; justify-content: center; align-items: center;
-      font-size: 1.2rem; z-index: 999;
-      opacity: 0; visibility: hidden;
-      transform: translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: var(--shadow-soft); cursor: none;
+      font-size: 1.5rem; z-index: 9999; /* Posisi teratas */
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transform: translateY(30px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); cursor: none;
     }
-    #scrollTopBtn.show { opacity: 1; visibility: visible; transform: translateY(0); }
-    #scrollTopBtn:hover { background: var(--accent-primary); border-color: var(--accent-primary); transform: translateY(-5px); }
+    #scrollTopBtn.show { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+    #scrollTopBtn:hover { background: var(--accent-primary); color: #000; transform: translateY(-8px) scale(1.1); box-shadow: 0 10px 30px rgba(168, 85, 247, 0.8); }
 
-    @media (max-width: 968px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .metrics-container { flex-direction: column; } .hero-img-box { max-width: 280px; } .nav-links { gap: 4px; } .about-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 968px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .metrics-container { flex-direction: column; } .hero-img-box { max-width: 280px; } .nav-links { gap: 4px; } .about-layout { grid-template-columns: 1fr; } #scrollTopBtn { bottom: 20px; right: 20px; width: 50px; height: 50px; } }
     @media (max-width: 768px) { .hamburger { display: flex; } .nav-links { position: fixed; top: 70px; right: -100%; flex-direction: column; background: var(--bg-base); width: 100%; height: calc(100vh - 70px); padding: 40px; border-top: 1px solid var(--border-light); justify-content: flex-start; transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); } .nav-links.show { right: 0; } }
   </style>
 </head>
@@ -209,7 +221,7 @@
   <!-- KURSOR BINTANG KUNING TUNGGAL -->
   <div class="cursor-star" id="cursorStar">✦</div>
   
-  <!-- Latar Belakang WebGL (Telah diganti menjadi Cosmic Dust / Bintang 3D) -->
+  <!-- Latar Belakang WebGL (Telah diganti menjadi Partikel Bulat Kosmik) -->
   <div id="webgl-container"></div>
 
   <!-- Navbar -->
@@ -218,10 +230,10 @@
     <button class="hamburger interactive" id="hamburgerBtn"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
       <a href="#home" class="nav-btn interactive nav-link active">Home</a>
-      <a href="#profil" class="nav-btn interactive nav-link">Profil</a>
+      <a href="#profil" class="nav-btn interactive nav-link">Profil & About</a>
       <a href="#portfolio" class="nav-btn interactive nav-link">Portofolio</a>
-      <a href="#jadwal" class="nav-btn interactive nav-link">Jadwal</a>
-      <a href="#webguru" class="nav-btn interactive nav-link">Modul Guru</a>
+      <!-- Jadwal dan Modul Guru digabung menjadi "Jadwal & Modul" -->
+      <a href="#akademik" class="nav-btn interactive nav-link">Jadwal & Modul</a>
       <a href="#mandarin" class="nav-btn interactive nav-link">Mandarin</a>
       <a href="#contact" class="nav-btn interactive nav-link">Kontak</a>
     </div>
@@ -229,15 +241,18 @@
 
   <div class="page-container">
     
-    <!-- SECTION HOME (Beranda Utama) -->
+    <!-- SECTION HOME (Dilengkapi Ucapan Selamat Datang) -->
     <section id="home" class="page-section active-page">
       <div class="hero-grid">
         <div class="hero-text reveal">
-          <p style="color:var(--accent-secondary); font-weight:700; letter-spacing:3px; margin-bottom:12px; font-size:0.9rem; text-transform:uppercase;">Student & Enthusiast</p>
-          <h1 class="title-glow">Keenan Clio Adiwinata <span style="font-family:'Noto Sans SC'; font-size:0.45em; color:var(--text-muted); filter:none; font-weight:500;">(黄錫豪)</span></h1>
+          <div style="display:inline-block; padding: 6px 16px; background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.3); border-radius: 20px; margin-bottom: 20px;">
+            <span style="color:var(--accent-secondary); font-weight:700; letter-spacing:1px; font-size:0.85rem; text-transform:uppercase;">👋 Selamat Datang di Personal Hub</span>
+          </div>
+          
+          <h1 class="title-glow">Hi, Saya Keenan Clio <span style="font-family:'Noto Sans SC'; font-size:0.45em; color:var(--text-muted); filter:none; font-weight:500;">(黄錫豪)</span></h1>
           
           <p style="font-size:1.15rem; line-height:1.8; margin-bottom:20px; font-weight:300; color:#f8fafc; letter-spacing:0.5px;">
-            Fokus mengasah kemampuan analitis, eksplorasi riset sains dan matematika, serta aktif membangun kerja sama tim melalui olahraga dan organisasi.
+            Senang Anda bisa berkunjung! Di sini saya merangkum perjalanan saya, mulai dari mengasah logika matematika, eksplorasi riset sains, hingga membangun kerja sama tim melalui olahraga basket. Silakan jelajahi!
           </p>
           
           <div class="metrics-row reveal delay-1" style="display:flex; gap:16px; margin: 30px 0; flex-wrap:wrap;">
@@ -274,14 +289,14 @@
       </div>
     </section>
 
-    <!-- SECTION PROFIL (Biodata & Prestasi) -->
+    <!-- SECTION PROFIL & ABOUT ME (Digabung) -->
     <section id="profil" class="page-section">
-      <h2 class="section-title reveal"><i class="fa-solid fa-user-astronaut" style="color:var(--accent-secondary)"></i> Profil & Biodata</h2>
+      <h2 class="section-title reveal"><i class="fa-solid fa-user-astronaut" style="color:var(--accent-secondary)"></i> Profil & About Me</h2>
       <div class="about-layout">
         <div class="glass-card interactive card-3d reveal delay-1" style="position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
           <div style="position: absolute; top: -50%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
           <div style="position: relative; z-index: 1;">
-            <h3 style="font-family: 'Urbanist', sans-serif; font-size: 1.8rem; color: var(--text-main); margin-bottom: 16px;">Halo, saya Keenan!</h3>
+            <h3 style="font-family: 'Urbanist', sans-serif; font-size: 1.8rem; color: var(--text-main); margin-bottom: 16px;">Biografi Singkat</h3>
             <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 24px;">
               Nama lengkap saya <strong>Keenan Clio Adiwinata</strong>, saat ini saya bersekolah di <strong>SMAS Cinta Kasih Tzu Chi</strong>. Saya percaya bahwa keseimbangan adalah kunci. Di satu sisi, saya sangat menikmati keindahan logika, pemecahan masalah matematis, dan riset sains. Di sisi lain, lapangan basket mengajarkan saya tentang sportivitas, pengambilan keputusan cepat dalam tekanan, dan kerja sama tim.
             </p>
@@ -329,23 +344,24 @@
       </div>
     </section>
 
-    <!-- SECTION JADWAL -->
-    <section id="jadwal" class="page-section">
-      <h2 class="section-title reveal"><i class="fa-solid fa-calendar-days" style="color:var(--accent-secondary)"></i> Jadwal Kelas XI-2</h2>
-      <div class="live-status-box glass-card interactive card-3d reveal delay-1" id="live-schedule-box">
+    <!-- SECTION AKADEMIK (JADWAL & MODUL GURU DIGABUNG) -->
+    <section id="akademik" class="page-section">
+      <!-- Bagian Direktori Modul Guru -->
+      <h2 class="section-title reveal"><i class="fa-solid fa-globe" style="color:var(--accent-primary)"></i> Direktori Modul Guru</h2>
+      <p class="reveal delay-1" style="font-size: 1.1rem; color: #fff; margin-bottom: 20px;">Akses cepat ke portal materi dan tugas mata pelajaran.</p>
+      <div class="teacher-grid reveal delay-1" id="teacher-links-grid" style="margin-bottom: 60px;"></div>
+
+      <hr style="border:0; height:1px; background:var(--border-light); margin-bottom:50px;" class="reveal delay-2">
+
+      <!-- Bagian Jadwal -->
+      <h2 class="section-title reveal delay-2"><i class="fa-solid fa-calendar-days" style="color:var(--accent-secondary)"></i> Jadwal Kelas XI-2</h2>
+      <div class="live-status-box glass-card interactive card-3d reveal delay-2" id="live-schedule-box">
         <div class="live-time" id="live-time-display">Memuat Waktu...</div>
         <h3 class="live-subject">Mengecek Jadwal...</h3>
       </div>
-      <div class="schedule-full-container reveal delay-2" id="daily-schedule-container">
+      <div class="schedule-full-container reveal delay-3" id="daily-schedule-container">
         <!-- JS Generate Full Table here -->
       </div>
-    </section>
-
-    <!-- SECTION MODUL GURU -->
-    <section id="webguru" class="page-section">
-      <h2 class="section-title reveal"><i class="fa-solid fa-globe" style="color:var(--accent-primary)"></i> Direktori Modul Guru</h2>
-      <p class="reveal delay-1" style="font-size: 1.1rem; color: #fff; margin-bottom: 30px;">Akses cepat ke portal materi dan tugas mata pelajaran.</p>
-      <div class="teacher-grid reveal delay-2" id="teacher-links-grid"></div>
     </section>
 
     <!-- SECTION MANDARIN -->
@@ -446,7 +462,7 @@
 
   <footer style="position: relative; z-index: 10;"><p>© <span id="currentYear"></span> • Keenan Clio Adiwinata • Crafted with Elegance</p></footer>
 
-  <!-- TOMBOL SCROLL KE ATAS -->
+  <!-- TOMBOL SCROLL KE ATAS Yg Jelas dan Mewah -->
   <button id="scrollTopBtn" class="interactive card-3d">
     <i class="fa-solid fa-chevron-up"></i>
   </button>
@@ -477,11 +493,8 @@
 
       if (!isTouchDevice) {
         document.addEventListener("mousemove", (e) => {
-          // Posisi untuk animasi WebGL
           targetMouseX = (e.clientX - windowHalfX);
           targetMouseY = (e.clientY - windowHalfY);
-          
-          // Posisi bintang
           if(star) star.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
         });
 
@@ -505,41 +518,33 @@
             e.preventDefault();
             const targetId = href.substring(1);
 
-            // Ganti warna menu yang aktif
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             if(this.classList.contains('nav-btn')) this.classList.add('active');
 
-            // Sembunyikan semua halaman, lalu tampilkan yang dituju
             sections.forEach(sec => {
               sec.classList.remove('active-page');
             });
 
             const targetSection = document.getElementById(targetId);
             if(targetSection) {
-              // Trigger animasi dengan reflow class
-              void targetSection.offsetWidth; 
+              void targetSection.offsetWidth; // Trigger reflow untuk animasi
               targetSection.classList.add('active-page');
               
-              // Jalankan ulang animasi reveal pada elemen di dalam halaman baru
               targetSection.querySelectorAll('.reveal').forEach(el => {
                 el.classList.remove('active');
                 setTimeout(() => el.classList.add('active'), 50);
               });
             }
 
-            // Tutup menu hamburger di HP
             document.getElementById("navLinks").classList.remove("show");
-            
-            // Scroll otomatis ke paling atas setiap pindah halaman
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         });
       });
 
-      // Hamburger menu trigger
       document.getElementById("hamburgerBtn").addEventListener("click", () => document.getElementById("navLinks").classList.toggle("show"));
 
-      // HSK Subpage Logic (tetap berfungsi dalam halaman Mandarin)
+      // HSK Subpage Logic
       const hskMainView = document.getElementById("hskMainView");
       const hsk3Subpage = document.getElementById("hsk3Subpage");
       const hsk3FlashcardCard = document.getElementById("hsk3FlashcardCard");
@@ -557,7 +562,8 @@
       // =====================================
       const scrollTopBtn = document.getElementById("scrollTopBtn");
       window.addEventListener("scroll", () => {
-        if (window.scrollY > 300) {
+        // Tampilkan tombol saat di-scroll ke bawah minimal 150px
+        if (window.scrollY > 150) {
           scrollTopBtn.classList.add("show");
         } else {
           scrollTopBtn.classList.remove("show");
@@ -660,13 +666,11 @@
       });
 
       // =====================================
-      // 6. WEBGL BACKGROUND (Cosmic Dust / Interaktif Parallax)
+      // 6. WEBGL BACKGROUND (Partikel Bulat)
       // =====================================
       function initWebGLBackground() {
         const container = document.getElementById('webgl-container');
         const scene = new THREE.Scene();
-        
-        // Menggunakan kamera perspective untuk memberikan kedalaman ruang (3D)
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
         camera.position.z = 120;
 
@@ -675,22 +679,30 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        // Membuat Partikel Bintang / Cosmic Dust
+        // --- Membuat Tekstur Partikel Bulat ---
+        const canvas = document.createElement('canvas');
+        canvas.width = 64; canvas.height = 64;
+        const context = canvas.getContext('2d');
+        const gradient = context.createRadialGradient(32, 32, 0, 32, 32, 32);
+        gradient.addColorStop(0, 'rgba(255,255,255,1)');
+        gradient.addColorStop(1, 'rgba(255,255,255,0)');
+        context.fillStyle = gradient;
+        context.fillRect(0, 0, 64, 64);
+        const particleTexture = new THREE.CanvasTexture(canvas);
+
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 1200; // Jumlah partikel yang menenangkan
+        const particlesCount = 1000; 
         const posArray = new Float32Array(particlesCount * 3);
         const colorsArray = new Float32Array(particlesCount * 3);
 
-        const color1 = new THREE.Color(0xa855f7); // Ungu (Primary)
-        const color2 = new THREE.Color(0x38bdf8); // Biru Muda (Secondary)
+        const color1 = new THREE.Color(0xa855f7); 
+        const color2 = new THREE.Color(0x38bdf8); 
 
         for(let i = 0; i < particlesCount; i++) {
-          // Posisi acak menyebar dalam ruang 3D
-          posArray[i * 3] = (Math.random() - 0.5) * 400;     // x
-          posArray[i * 3 + 1] = (Math.random() - 0.5) * 400; // y
-          posArray[i * 3 + 2] = (Math.random() - 0.5) * 300; // z
+          posArray[i * 3] = (Math.random() - 0.5) * 400;     
+          posArray[i * 3 + 1] = (Math.random() - 0.5) * 400; 
+          posArray[i * 3 + 2] = (Math.random() - 0.5) * 300; 
 
-          // Mencampur warna agar terlihat alami
           const mixedColor = color1.clone().lerp(color2, Math.random());
           colorsArray[i * 3] = mixedColor.r;
           colorsArray[i * 3 + 1] = mixedColor.g;
@@ -700,13 +712,15 @@
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
 
-        // Material titik bercahaya
+        // Menggunakan texture partikel bulat
         const material = new THREE.PointsMaterial({
-          size: 2.5,
+          size: 4.5, // Dibuat sedikit lebih besar agar gradasi terangnya terlihat jelas
+          map: particleTexture,
           vertexColors: true,
           transparent: true,
-          opacity: 0.8,
-          blending: THREE.AdditiveBlending // Memberikan efek menyala (glow)
+          opacity: 0.9,
+          depthWrite: false, // Mencegah kotak hitam menumpuk di latar
+          blending: THREE.AdditiveBlending 
         });
 
         const particlesMesh = new THREE.Points(particlesGeometry, material);
@@ -718,11 +732,9 @@
           requestAnimationFrame(animate);
           const elapsedTime = clock.getElapsedTime();
           
-          // Rotasi alam semesta yang sangat pelan dan menenangkan
           particlesMesh.rotation.y = elapsedTime * 0.03;
           particlesMesh.rotation.x = elapsedTime * 0.015;
 
-          // Pergerakan kamera (Parallax 3D) mengikuti pergerakan kursor
           camera.position.x += (targetMouseX * 0.05 - camera.position.x) * 0.02;
           camera.position.y += (-targetMouseY * 0.05 - camera.position.y) * 0.02;
           camera.lookAt(scene.position);
