@@ -13,7 +13,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- Three.js for WebGL Liquid Background -->
+  <!-- Three.js for WebGL Background -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <style>
@@ -52,7 +52,7 @@
     @media (hover: none), (pointer: coarse) { .cursor-star { display: none !important; } }
 
     /* Background WebGL */
-    #webgl-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -5; pointer-events: none; opacity: 0.20; }
+    #webgl-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -5; pointer-events: none; opacity: 0.35; }
 
     /* Animations & Utils */
     .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: opacity, transform; }
@@ -65,32 +65,32 @@
     .nav-brand span { color: var(--accent-primary); }
     .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
     .nav-btn { text-decoration: none; color: var(--text-muted); font-size: 0.95rem; font-weight: 600; padding: 10px 14px; border-radius: 12px; transition: all 0.3s; }
-    .nav-btn:hover, .nav-btn.active { color: var(--text-main); background: rgba(255,255,255,0.05); }
+    .nav-btn:hover, .nav-btn.active { color: var(--text-main); background: rgba(255,255,255,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
     .hamburger { display: none; flex-direction: column; gap: 6px; background: transparent; border: none; cursor: pointer; }
     .hamburger span { width: 28px; height: 3px; background: var(--text-main); border-radius: 3px; transition: 0.3s; }
 
     /* ========================================================
-       SISTEM HALAMAN (MENGGANTIKAN SISTEM SCROLL KE BAWAH)
+       SISTEM HALAMAN & ANIMASI TRANSISI PINDAH HALAMAN
        ======================================================== */
     .page-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     
     .page-section { 
-      display: none; /* Sembunyikan semua halaman secara default */
+      display: none; 
       padding-top: 130px; 
       padding-bottom: 80px; 
       min-height: 100vh; 
       flex-direction: column; 
       justify-content: center; 
-      animation: fadePageIn 0.5s ease-out forwards;
     }
     
     .page-section.active-page { 
-      display: flex; /* Tampilkan hanya halaman yang aktif */
+      display: flex; 
+      animation: pageTransition 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
 
-    @keyframes fadePageIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes pageTransition {
+      0% { opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(5px); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
     }
 
     /* Layout & Cards */
@@ -117,7 +117,7 @@
     .btn-social { background: rgba(255,255,255,0.05); color: var(--text-main); width: 48px; height: 48px; border-radius: 14px; display: inline-flex; justify-content: center; align-items: center; text-decoration: none; font-size: 1.2rem; border: 1px solid var(--border-light); transition: 0.3s; cursor: none; }
     .btn-social:hover { background: var(--accent-primary); border-color: var(--accent-primary); transform: translateY(-3px); }
 
-    /* About Me */
+    /* Profil (sebelumnya About) */
     .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
     .achievements-list { list-style-type: none; padding: 0; margin-top: 20px; }
     .achievements-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.95rem; line-height: 1.5; }
@@ -180,6 +180,21 @@
     .form-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.5); }
     footer { text-align: center; padding: 40px 0; font-size: 0.9rem; border-top: 1px solid var(--border-light); margin-top: 60px; }
 
+    /* SCROLL TO TOP BUTTON */
+    #scrollTopBtn {
+      position: fixed; bottom: 30px; right: 30px;
+      width: 50px; height: 50px; border-radius: 16px;
+      background: var(--bg-surface); border: 1px solid var(--border-light);
+      backdrop-filter: blur(10px); color: #fff;
+      display: flex; justify-content: center; align-items: center;
+      font-size: 1.2rem; z-index: 999;
+      opacity: 0; visibility: hidden;
+      transform: translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: var(--shadow-soft); cursor: none;
+    }
+    #scrollTopBtn.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    #scrollTopBtn:hover { background: var(--accent-primary); border-color: var(--accent-primary); transform: translateY(-5px); }
+
     @media (max-width: 968px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .metrics-container { flex-direction: column; } .hero-img-box { max-width: 280px; } .nav-links { gap: 4px; } .about-layout { grid-template-columns: 1fr; } }
     @media (max-width: 768px) { .hamburger { display: flex; } .nav-links { position: fixed; top: 70px; right: -100%; flex-direction: column; background: var(--bg-base); width: 100%; height: calc(100vh - 70px); padding: 40px; border-top: 1px solid var(--border-light); justify-content: flex-start; transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); } .nav-links.show { right: 0; } }
   </style>
@@ -194,7 +209,7 @@
   <!-- KURSOR BINTANG KUNING TUNGGAL -->
   <div class="cursor-star" id="cursorStar">✦</div>
   
-  <!-- Latar Belakang WebGL Liquid Metal -->
+  <!-- Latar Belakang WebGL (Telah diganti menjadi Dark Aurora / Nebula) -->
   <div id="webgl-container"></div>
 
   <!-- Navbar -->
@@ -202,8 +217,8 @@
     <a href="#home" class="nav-brand interactive nav-link">Keenan<span>.</span></a>
     <button class="hamburger interactive" id="hamburgerBtn"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
-      <a href="#home" class="nav-btn interactive nav-link active">Profil</a>
-      <a href="#about" class="nav-btn interactive nav-link">About Me</a>
+      <a href="#home" class="nav-btn interactive nav-link active">Home</a>
+      <a href="#profil" class="nav-btn interactive nav-link">Profil</a>
       <a href="#portfolio" class="nav-btn interactive nav-link">Portofolio</a>
       <a href="#jadwal" class="nav-btn interactive nav-link">Jadwal</a>
       <a href="#webguru" class="nav-btn interactive nav-link">Modul Guru</a>
@@ -214,7 +229,7 @@
 
   <div class="page-container">
     
-    <!-- SECTION PROFIL (Aktif secara default) -->
+    <!-- SECTION HOME (Beranda Utama) -->
     <section id="home" class="page-section active-page">
       <div class="hero-grid">
         <div class="hero-text reveal">
@@ -259,9 +274,9 @@
       </div>
     </section>
 
-    <!-- SECTION ABOUT ME -->
-    <section id="about" class="page-section">
-      <h2 class="section-title reveal"><i class="fa-solid fa-id-card-clip" style="color:var(--accent-secondary)"></i> About Me</h2>
+    <!-- SECTION PROFIL (Biodata & Prestasi) -->
+    <section id="profil" class="page-section">
+      <h2 class="section-title reveal"><i class="fa-solid fa-user-astronaut" style="color:var(--accent-secondary)"></i> Profil & Biodata</h2>
       <div class="about-layout">
         <div class="glass-card interactive card-3d reveal delay-1" style="position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
           <div style="position: absolute; top: -50%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
@@ -431,6 +446,11 @@
 
   <footer style="position: relative; z-index: 10;"><p>© <span id="currentYear"></span> • Keenan Clio Adiwinata • Crafted with Elegance</p></footer>
 
+  <!-- TOMBOL SCROLL KE ATAS -->
+  <button id="scrollTopBtn" class="interactive card-3d">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       
@@ -491,8 +511,11 @@
 
             const targetSection = document.getElementById(targetId);
             if(targetSection) {
+              // Trigger animasi dengan reflow class
+              void targetSection.offsetWidth; 
               targetSection.classList.add('active-page');
-              // Jalankan ulang animasi reveal pada halaman baru
+              
+              // Jalankan ulang animasi reveal pada elemen di dalam halaman baru
               targetSection.querySelectorAll('.reveal').forEach(el => {
                 el.classList.remove('active');
                 setTimeout(() => el.classList.add('active'), 50);
@@ -502,7 +525,7 @@
             // Tutup menu hamburger di HP
             document.getElementById("navLinks").classList.remove("show");
             
-            // Scroll otomatis ke paling atas
+            // Scroll otomatis ke paling atas setiap pindah halaman
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         });
@@ -518,18 +541,33 @@
       const backToHskMain = document.getElementById("backToHskMain");
 
       if (hsk3FlashcardCard) {
-        hsk3FlashcardCard.addEventListener("click", () => { hskMainView.style.display = "none"; hsk3Subpage.classList.add("active"); });
+        hsk3FlashcardCard.addEventListener("click", () => { hskMainView.style.display = "none"; hsk3Subpage.classList.add("active"); window.scrollTo({top:0, behavior:'smooth'}); });
       }
       if (backToHskMain) {
         backToHskMain.addEventListener("click", () => { hsk3Subpage.classList.remove("active"); hskMainView.style.display = "grid"; });
       }
 
       // =====================================
+      // SCROLL TO TOP Tombol Logika
+      // =====================================
+      const scrollTopBtn = document.getElementById("scrollTopBtn");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          scrollTopBtn.classList.add("show");
+        } else {
+          scrollTopBtn.classList.remove("show");
+        }
+      });
+      scrollTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // =====================================
       // 4. SCROLL REVEAL & 3D HOVER (Initial Load)
       // =====================================
       setTimeout(() => {
         document.getElementById('home').querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
-      }, 2500); // Memicu reveal pada halaman Home setelah intro selesai
+      }, 2500); 
 
       if (!isTouchDevice) {
         document.querySelectorAll('.card-3d').forEach(card => {
@@ -617,7 +655,7 @@
       });
 
       // =====================================
-      // 6. WEBGL LIQUID BACKGROUND
+      // 6. WEBGL BACKGROUND (DIUBAH MENJADI DARK AURORA)
       // =====================================
       function initWebGLBackground() {
         const container = document.getElementById('webgl-container');
@@ -650,23 +688,24 @@
 
           void main() {
             vec2 st = gl_FragCoord.xy / u_resolution.xy; st.x *= u_resolution.x / u_resolution.y;
-            float time = u_time * 0.15;
+            float time = u_time * 0.12;
             
             vec2 mouseDist = st - (u_mouse + 1.0) / 2.0;
             float distLength = length(mouseDist);
-            vec2 flow = st + mouseDist * (0.3 / (distLength + 0.5));
+            vec2 flow = st + mouseDist * (0.2 / (distLength + 0.5));
 
-            float n1 = snoise(flow * 1.5 + time);
-            float n2 = snoise(flow * 3.0 - time * 1.5 + vec2(n1));
-            float n3 = snoise(flow * 6.0 + time * 2.0 + vec2(n2));
+            float n1 = snoise(flow * 1.2 + time);
+            float n2 = snoise(flow * 2.5 - time * 1.5 + vec2(n1));
+            float n3 = snoise(flow * 5.0 + time * 2.0 + vec2(n2));
 
             float f = n1 * 0.5 + n2 * 0.25 + n3 * 0.125;
-            f = sin(f * 10.0) * 0.5 + 0.5;
+            f = sin(f * 8.0) * 0.5 + 0.5;
 
-            vec3 color1 = vec3(0.01, 0.02, 0.08); 
-            vec3 color2 = vec3(0.02, 0.1, 0.3);  
-            vec3 color3 = vec3(0.1, 0.4, 0.8);    
-            vec3 color4 = vec3(0.7, 0.9, 1.0);    
+            // Warna Dark Aurora yang Mewah
+            vec3 color1 = vec3(0.02, 0.0, 0.08); // Hitam Ungu
+            vec3 color2 = vec3(0.15, 0.0, 0.3);  // Deep Violet
+            vec3 color3 = vec3(0.5, 0.1, 0.6);   // Magenta
+            vec3 color4 = vec3(0.0, 0.6, 0.8);   // Neon Cyan
 
             vec3 finalColor = mix(color1, color2, smoothstep(0.0, 0.4, f));
             finalColor = mix(finalColor, color3, smoothstep(0.4, 0.7, f));
@@ -684,7 +723,7 @@
         const clock = new THREE.Clock();
         function animate() {
           requestAnimationFrame(animate); uniforms.u_time.value = clock.getElapsedTime();
-          currentMouse.x += (targetMouseX - currentMouse.x) * 0.05; currentMouse.y += (targetMouseY - currentMouse.y) * 0.05;
+          currentMouse.x += (targetMouseX - currentMouse.x) * 0.03; currentMouse.y += (targetMouseY - currentMouse.y) * 0.03;
           uniforms.u_mouse.value = currentMouse;
           renderer.render(scene, camera);
         }
