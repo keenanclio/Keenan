@@ -219,7 +219,6 @@
       <a href="#portfolio" class="nav-btn interactive nav-link">Portofolio</a>
       <a href="#akademik" class="nav-btn interactive nav-link">Jadwal & Modul</a>
       <a href="#mandarin" class="nav-btn interactive nav-link">Mandarin</a>
-      <!-- Menu Mini Game -->
       <a href="#minigame" class="nav-btn interactive nav-link">Game</a>
       <a href="#contact" class="nav-btn interactive nav-link">Kontak</a>
     </div>
@@ -314,12 +313,12 @@
           <div style="margin-top: 20px;">
             <div class="timeline-item">
               <div class="timeline-subtitle">SMA Cinta Kasih Tzu Chi</div>
-              <div class="timeline-title">Wakil Ketua MPK</div>
+              <div class="timeline-title">Wakil Ketua MPK (2026/2027)</div>
               <p style="font-size: 0.95rem; margin-top: 6px; color: var(--text-muted); line-height: 1.5;">Mengawasi kinerja OSIS, mengoordinasikan aspirasi siswa, serta menyusun pedoman media dan komunikasi untuk kampanye pemilihan ketua OSIS.</p>
             </div>
             <div class="timeline-item">
               <div class="timeline-subtitle">SMP Cinta Kasih Tzu Chi</div>
-              <div class="timeline-title">Ketua Divisi Desain OSIS</div>
+              <div class="timeline-title">Ketua Desain OSIS SMP Cinta Kasih Tzu Chi (2023/2024)</div>
               <p style="font-size: 0.95rem; margin-top: 6px; color: var(--text-muted); line-height: 1.5;">Memimpin tim kreatif dan bertanggung jawab atas perancangan aset visual, poster acara, serta konten publikasi media sosial sekolah.</p>
             </div>
           </div>
@@ -456,7 +455,7 @@
     <!-- SECTION MINIGAME BARU (NEON SNAKE) -->
     <section id="minigame" class="page-section">
       <h2 class="section-title reveal" style="justify-content: center;"><i class="fa-solid fa-gamepad" style="color:#a855f7"></i> Arcade: Neon Snake</h2>
-      <p class="reveal delay-1" style="text-align: center; margin-bottom: 30px; font-size: 1.05rem;">Bersantai sejenak. Gunakan tombol panah di layar atau keyboard untuk bermain.</p>
+      <p class="reveal delay-1" style="text-align: center; margin-bottom: 30px; font-size: 1.05rem;">Gunakan tombol panah / WASD di keyboard, atau klik tombol arah untuk bermain.</p>
       
       <div class="glass-card interactive card-3d reveal delay-2" style="max-width: 400px; margin: 0 auto; text-align: center; padding: 25px;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: #fff; font-family: 'Urbanist', sans-serif; font-size: 1.2rem; font-weight: bold;">
@@ -470,7 +469,6 @@
           <button id="startSnakeBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 12px; font-size: 1.1rem;"><i class="fa-solid fa-play"></i> Mulai Main</button>
         </div>
 
-        <!-- Tombol Kontrol HP -->
         <div class="snake-controls">
            <div style="grid-column: 2;"><button class="snake-btn interactive" data-dir="UP"><i class="fa-solid fa-arrow-up"></i></button></div>
            <div style="grid-column: 1;"><button class="snake-btn interactive" data-dir="LEFT"><i class="fa-solid fa-arrow-left"></i></button></div>
@@ -725,7 +723,18 @@
         ctx.shadowBlur = 10;
         ctx.shadowColor = shadowColor;
         ctx.fillRect(x, y, boxSize - 1, boxSize - 1);
-        ctx.shadowBlur = 0; // reset
+        ctx.shadowBlur = 0; 
+      }
+
+      function drawGrid() {
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+        ctx.lineWidth = 1;
+        for(let i = 0; i <= canvas.width; i += boxSize) {
+          ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
+        }
+        for(let i = 0; i <= canvas.height; i += boxSize) {
+          ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke();
+        }
       }
 
       function initGame() {
@@ -750,6 +759,9 @@
       function updateGame() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
+        // Gambar Grid pembantu terlebih dahulu
+        drawGrid();
+
         // Draw Food (Neon Pink)
         drawCell(food.x, food.y, '#f43f5e', '#f43f5e');
 
@@ -811,17 +823,18 @@
         }
       }
 
-      // Keyboard Controls
+      // Keyboard Controls (Menambahkan fungsi WASD)
       document.addEventListener('keydown', (e) => {
         if(!gameActive) return;
-        // Prevent default scrolling when playing
-        if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.code) && document.getElementById('minigame').classList.contains('active-page')) {
+        // Mencegah scroll otomatis saat main game pakai panah/WASD
+        if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","KeyW","KeyA","KeyS","KeyD"].includes(e.code) && document.getElementById('minigame').classList.contains('active-page')) {
           e.preventDefault(); 
         }
-        if(e.code === "ArrowLeft" && direction !== "RIGHT") direction = "LEFT";
-        else if(e.code === "ArrowUp" && direction !== "DOWN") direction = "UP";
-        else if(e.code === "ArrowRight" && direction !== "LEFT") direction = "RIGHT";
-        else if(e.code === "ArrowDown" && direction !== "UP") direction = "DOWN";
+        
+        if((e.code === "ArrowLeft" || e.code === "KeyA") && direction !== "RIGHT") direction = "LEFT";
+        else if((e.code === "ArrowUp" || e.code === "KeyW") && direction !== "DOWN") direction = "UP";
+        else if((e.code === "ArrowRight" || e.code === "KeyD") && direction !== "LEFT") direction = "RIGHT";
+        else if((e.code === "ArrowDown" || e.code === "KeyS") && direction !== "UP") direction = "DOWN";
       });
 
       // Mobile Buttons
