@@ -63,11 +63,36 @@
     .navbar { position: fixed; top: 0; left: 0; right: 0; background: rgba(2, 4, 10, 0.5); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-light); z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 18px 6%; transition: all 0.3s ease; }
     .nav-brand { font-family: 'Urbanist', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--text-main); text-decoration: none; letter-spacing: -0.5px; }
     .nav-brand span { color: var(--accent-primary); }
-    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
     .nav-btn { text-decoration: none; color: var(--text-muted); font-size: 0.95rem; font-weight: 600; padding: 10px 14px; border-radius: 12px; transition: all 0.3s; }
     .nav-btn:hover, .nav-btn.active { color: var(--text-main); background: rgba(255,255,255,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
     .hamburger { display: none; flex-direction: column; gap: 6px; background: transparent; border: none; cursor: pointer; }
     .hamburger span { width: 28px; height: 3px; background: var(--text-main); border-radius: 3px; transition: 0.3s; }
+
+    /* ========================================================
+       EFEK KHUSUS TOMBOL GAME DI NAVBAR
+       ======================================================== */
+    .nav-game-btn {
+      color: #fff !important;
+      font-weight: 800 !important;
+      background: linear-gradient(45deg, #f43f5e, #a855f7);
+      box-shadow: 0 0 10px rgba(244, 63, 94, 0.6), 0 0 20px rgba(168, 85, 247, 0.5);
+      border: 1px solid rgba(255,255,255,0.4);
+      animation: neonPulseGame 1.5s infinite alternate;
+      padding: 8px 16px !important;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-game-btn:hover {
+      background: linear-gradient(45deg, #a855f7, #38bdf8);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.8), 0 0 30px rgba(168, 85, 247, 0.8);
+      transform: scale(1.1) !important;
+    }
+    @keyframes neonPulseGame {
+      0% { transform: scale(1); box-shadow: 0 0 8px rgba(168, 85, 247, 0.6); }
+      100% { transform: scale(1.08); box-shadow: 0 0 15px rgba(244, 63, 94, 0.8), 0 0 25px rgba(168, 85, 247, 0.6); }
+    }
 
     /* Sistem Halaman */
     .page-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; perspective: 1200px; flex: 1; width: 100%; }
@@ -219,7 +244,8 @@
       <a href="#portfolio" class="nav-btn interactive nav-link">Portofolio</a>
       <a href="#akademik" class="nav-btn interactive nav-link">Jadwal & Modul</a>
       <a href="#mandarin" class="nav-btn interactive nav-link">Mandarin</a>
-      <a href="#minigame" class="nav-btn interactive nav-link">Game</a>
+      <!-- Menu Mini Game yang Nyala-Nyala -->
+      <a href="#minigame" class="nav-btn interactive nav-link nav-game-btn"><i class="fa-solid fa-gamepad"></i> Game</a>
       <a href="#contact" class="nav-btn interactive nav-link">Kontak</a>
     </div>
   </nav>
@@ -759,7 +785,6 @@
       function updateGame() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Gambar Grid pembantu terlebih dahulu
         drawGrid();
 
         // Draw Food (Neon Pink)
@@ -823,10 +848,9 @@
         }
       }
 
-      // Keyboard Controls (Menambahkan fungsi WASD)
+      // Keyboard Controls (WASD dan Panah)
       document.addEventListener('keydown', (e) => {
         if(!gameActive) return;
-        // Mencegah scroll otomatis saat main game pakai panah/WASD
         if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","KeyW","KeyA","KeyS","KeyD"].includes(e.code) && document.getElementById('minigame').classList.contains('active-page')) {
           e.preventDefault(); 
         }
