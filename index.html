@@ -300,7 +300,6 @@
         </div>
         
         <div class="hero-img reveal delay-1" style="display:flex; justify-content:center; align-items:center;">
-          <!-- UKURAN DIPERBESAR (max-width: 950px) & DINAIKKAN LEBIH TINGGI (margin-top: -220px) -->
           <div class="interactive card-3d" style="width:125%; max-width:950px; position:relative; margin-top:-220px; margin-left:-12.5%;">
             <img id="homePhoto" src="IMG_7773.jpg?v=1" class="photo-glow-hover" alt="Keenan Clio" style="width:100%; height:auto; object-fit:contain; mix-blend-mode: screen; border-radius:0;">
           </div>
@@ -756,10 +755,19 @@
       function updateLiveSchedule() {
         const now = new Date(); const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
         const today = days[now.getDay()]; const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-        document.getElementById("live-time-display").innerHTML = `<i class="fa-regular fa-clock"></i> ${today}, ${timeStr} WIB`;
+        
         let current = jadwal.find(j => j.day === today && timeStr >= j.start && timeStr < j.end);
         const box = document.getElementById("live-schedule-box");
+        
         if(current) {
+          // LOGIKA PENGHITUNG SISA MENIT
+          const endParts = current.end.split(':');
+          const endMinutesTotal = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
+          const currentMinutesTotal = now.getHours() * 60 + now.getMinutes();
+          const minutesLeft = endMinutesTotal - currentMinutesTotal;
+          
+          document.getElementById("live-time-display").innerHTML = `<i class="fa-regular fa-clock"></i> ${today}, ${timeStr} WIB <span style="background: rgba(252, 211, 77, 0.2); color: #fcd34d; padding: 2px 8px; border-radius: 8px; margin-left: 8px; font-weight: bold; border: 1px solid #fcd34d;">Sisa ${minutesLeft} Menit</span>`;
+
           if(current.subject.includes("ISTIRAHAT") || current.subject.includes("PEMBIASAAN") || current.subject.includes("UPACARA")) {
             box.querySelector('.live-subject').innerHTML = `<span style="font-size:1.5rem;">${current.subject}</span>`;
             if(box.querySelector('.btn-primary')) box.querySelector('.btn-primary').remove();
@@ -771,6 +779,7 @@
             box.innerHTML += linkHTML;
           }
         } else {
+          document.getElementById("live-time-display").innerHTML = `<i class="fa-regular fa-clock"></i> ${today}, ${timeStr} WIB`;
           box.querySelector('.live-subject').innerHTML = `<span style="font-size:1.3rem;">Tidak ada kelas saat ini.</span>`;
           if(box.querySelector('.btn-primary')) box.querySelector('.btn-primary').remove();
         }
