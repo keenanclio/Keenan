@@ -18,7 +18,6 @@
 
   <style>
     :root {
-      /* DARK MODE (DEFAULT) VARIABLES */
       --bg-base: #02040a; 
       --bg-surface: rgba(20, 22, 32, 0.4); 
       --border-light: rgba(255, 255, 255, 0.08);
@@ -37,53 +36,9 @@
       --timeline-line: rgba(255,255,255,0.1);
     }
 
-    /* LIGHT MODE VARIABLES */
-    body.light-mode {
-      --bg-base: #f8fafc; 
-      --bg-surface: rgba(255, 255, 255, 0.6); 
-      --border-light: rgba(0, 0, 0, 0.08);
-      --border-glow: rgba(168, 85, 247, 0.3);
-      
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      
-      --accent-primary: #9333ea;   
-      --accent-secondary: #0284c7; 
-      
-      --shadow-soft: 0 8px 30px rgba(0,0,0,0.06);
-      
-      --box-bg: rgba(255,255,255,0.5);
-      --btn-bg: rgba(0,0,0,0.05);
-      --timeline-line: rgba(0,0,0,0.1);
-    }
-
-    /* Penyesuaian CSS Spesifik Light Mode */
-    body.light-mode .glass-footer { background: linear-gradient(to top, rgba(248, 250, 252, 0.9), transparent); border-top: 1px solid rgba(0,0,0,0.05); }
-    body.light-mode .title-glow { background: linear-gradient(135deg, #0f172a 20%, var(--accent-secondary) 50%, var(--accent-primary) 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    body.light-mode .port-icon { color: var(--accent-primary); }
-    body.light-mode .text-glow-light { text-shadow: none !important; font-weight: 800 !important; color: var(--accent-primary) !important; }
-    body.light-mode .text-glow { color: #0f172a; font-weight: 800; text-shadow: none; }
-    
-    /* Ubah Glow Teks Juara di Mode Terang menjadi Font Berwarna agar lebih jelas */
-    body.light-mode .glow-gold { color: #d97706 !important; text-shadow: none !important; }
-    body.light-mode .glow-silver { color: #64748b !important; text-shadow: none !important; }
-    body.light-mode .glow-bronze { color: #b45309 !important; text-shadow: none !important; }
-    body.light-mode .glow-blue { color: #0284c7 !important; text-shadow: none !important; }
-
-    /* Perlakuan Khusus Foto Hitam Beranda di Mode Terang (Jadi Kartu Foto Rapi) */
-    body.light-mode #homePhoto { mix-blend-mode: normal !important; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-    
-    /* Animasi Foto Glow Mode Terang */
-    body.light-mode .photo-glow-hover { animation: photoGlowPulseLight 2.5s infinite ease-in-out; }
-    @keyframes photoGlowPulseLight {
-      0% { filter: drop-shadow(0 0 10px rgba(2, 132, 199, 0.2)) drop-shadow(0 0 20px rgba(147, 51, 234, 0.1)); }
-      50% { filter: drop-shadow(0 0 20px rgba(2, 132, 199, 0.4)) drop-shadow(0 0 30px rgba(147, 51, 234, 0.3)); }
-      100% { filter: drop-shadow(0 0 10px rgba(2, 132, 199, 0.2)) drop-shadow(0 0 20px rgba(147, 51, 234, 0.1)); }
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background-color: var(--bg-base); color: var(--text-muted); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; min-height: 100vh; position: relative; display: flex; flex-direction: column; transition: background-color 0.5s ease, color 0.5s ease; }
+    body { background-color: var(--bg-base); color: var(--text-muted); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; min-height: 100vh; position: relative; display: flex; flex-direction: column; }
 
     /* Intro */
     #intro-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #02040a; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 1.2s ease-in-out; }
@@ -101,7 +56,7 @@
     @media (hover: none), (pointer: coarse) { .cursor-star { display: none !important; } }
 
     /* Background WebGL */
-    #webgl-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -5; pointer-events: none; opacity: 1; transition: 0.5s; } 
+    #webgl-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -5; pointer-events: none; opacity: 0.85; transition: 0.5s ease; } 
 
     /* Animations & Utils */
     .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: opacity, transform; }
@@ -109,7 +64,7 @@
     .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
 
     /* Navbar */
-    .navbar { position: fixed; top: 0; left: 0; right: 0; background: var(--bg-surface); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-light); z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 18px 6%; transition: all 0.5s ease; }
+    .navbar { position: fixed; top: 0; left: 0; right: 0; background: var(--bg-surface); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-light); z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 18px 6%; transition: all 0.3s ease; }
     .nav-brand { font-family: 'Urbanist', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--text-main); text-decoration: none; letter-spacing: -0.5px; }
     .nav-brand span { color: var(--accent-primary); }
     .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
@@ -118,8 +73,7 @@
     .hamburger { display: none; flex-direction: column; gap: 6px; background: transparent; border: none; cursor: pointer; }
     .hamburger span { width: 28px; height: 3px; background: var(--text-main); border-radius: 3px; transition: 0.3s; }
 
-    /* Tombol Tema & Game di Navbar */
-    #themeToggle { display: flex; align-items: center; justify-content: center; cursor: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; }
+    /* Tombol Game di Navbar */
     .nav-game-btn { color: #fff !important; font-weight: 800 !important; background: linear-gradient(45deg, #f43f5e, #a855f7); box-shadow: 0 0 10px rgba(244, 63, 94, 0.6), 0 0 20px rgba(168, 85, 247, 0.5); border: 1px solid rgba(255,255,255,0.4); animation: neonPulseGame 1.5s infinite alternate; padding: 8px 16px !important; display: flex; align-items: center; gap: 6px; }
     .nav-game-btn:hover { background: linear-gradient(45deg, #a855f7, #38bdf8); box-shadow: 0 0 15px rgba(56, 189, 248, 0.8), 0 0 30px rgba(168, 85, 247, 0.8); transform: scale(1.1) !important; }
     @keyframes neonPulseGame { 0% { transform: scale(1); box-shadow: 0 0 8px rgba(168, 85, 247, 0.6); } 100% { transform: scale(1.08); box-shadow: 0 0 15px rgba(244, 63, 94, 0.8), 0 0 25px rgba(168, 85, 247, 0.6); } }
@@ -131,13 +85,13 @@
     @keyframes coolPageTransition { 0% { opacity: 0; transform: translateZ(-200px) translateY(80px) rotateX(10deg); filter: blur(15px); } 100% { opacity: 1; transform: translateZ(0) translateY(0) rotateX(0deg); filter: blur(0); } }
 
     /* Layout & Cards */
-    .glass-card { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 24px; padding: 32px; backdrop-filter: blur(24px); box-shadow: var(--shadow-soft); transform-style: preserve-3d; will-change: transform; transition: border-color 0.4s ease, transform 0.2s ease-out, background 0.5s ease; }
+    .glass-card { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 24px; padding: 32px; backdrop-filter: blur(24px); box-shadow: var(--shadow-soft); transform-style: preserve-3d; will-change: transform; transition: border-color 0.4s ease, transform 0.2s ease-out; }
     .glass-card:hover { border-color: var(--border-glow); }
     .title-glow { font-family: 'Urbanist', sans-serif; font-size: clamp(2.8rem, 6.5vw, 4.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -1px; background: linear-gradient(135deg, #fff 20%, var(--accent-secondary) 50%, var(--accent-primary) 80%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shineFlow 5s ease infinite alternate; filter: drop-shadow(0 0 20px rgba(168,85,247,0.2)); transition: 0.5s; }
     @keyframes shineFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
     .section-title { font-family: 'Urbanist', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 30px; display: flex; align-items: center; gap: 14px; transition: color 0.5s; }
 
-    /* Animasi Outline Nyala-Nyala untuk Foto (Dark Mode) */
+    /* Animasi Outline Nyala-Nyala untuk Foto */
     @keyframes photoGlowPulse { 0% { filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.2)); } 50% { filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 45px rgba(168, 85, 247, 0.6)) drop-shadow(0 0 60px rgba(168, 85, 247, 0.4)); } 100% { filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.2)); } }
     .photo-glow-hover { transition: transform 0.4s ease, filter 0.4s ease; animation: photoGlowPulse 2.5s infinite ease-in-out; border-radius: 24px; }
     .photo-glow-hover:hover { transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(56, 189, 248, 1)) drop-shadow(0 0 50px rgba(168, 85, 247, 0.8)) !important; animation: none; }
@@ -148,7 +102,7 @@
     
     .metrics-container { display: flex; justify-content: space-between; align-items: center; gap: 16px; background: var(--box-bg); border: 1px solid var(--border-light); border-radius: 16px; padding: 20px; margin: 30px 0; backdrop-filter: blur(10px); }
     .btn-primary { background: var(--text-main); color: var(--bg-base); padding: 14px 28px; border-radius: 14px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; border: none; cursor: none; outline: none; }
-    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,255,255,0.15); }
     .btn-social { background: var(--btn-bg); color: var(--text-main); width: 48px; height: 48px; border-radius: 14px; display: inline-flex; justify-content: center; align-items: center; text-decoration: none; font-size: 1.2rem; border: 1px solid var(--border-light); transition: 0.3s; cursor: none; }
     .btn-social:hover { background: var(--accent-primary); color:#fff; border-color: var(--accent-primary); transform: translateY(-3px); }
 
@@ -216,6 +170,7 @@
     .hsk-card:hover .hsk-glare { transform: translateX(150%); }
     .hsk-card:hover { border-color: var(--accent-secondary); transform: translateY(-5px); z-index: 10; }
     .hsk-number { position: absolute; top: -10px; right: 10px; font-size: 6rem; color: rgba(150,150,150,0.1); font-weight: 900; font-family: 'Urbanist'; pointer-events: none; line-height: 1; transform: translateZ(-20px); transition: color 0.3s; }
+    .hsk-card:hover .hsk-number { color: rgba(255,255,255,0.15); }
     .hsk-content { transform: translateZ(30px); pointer-events: none; }
     .hsk-subpage { display: none; animation: fadeIn 0.3s ease; }
     .hsk-subpage.active { display: block; }
@@ -280,10 +235,6 @@
       <!-- Menu Mini Game yang Nyala-Nyala -->
       <a href="#minigame" class="nav-btn interactive nav-link nav-game-btn"><i class="fa-solid fa-gamepad"></i> Game</a>
       <a href="#contact" class="nav-btn interactive nav-link">Kontak</a>
-      <!-- TOMBOL GANTI TEMA (LIGHT/DARK MODE) -->
-      <button id="themeToggle" class="nav-btn interactive" style="margin-left: 10px; border: 1px solid var(--border-light); background: var(--btn-bg); color: var(--text-main);">
-        <i class="fa-solid fa-sun"></i>
-      </button>
     </div>
   </nav>
 
@@ -323,8 +274,9 @@
         </div>
         
         <div class="hero-img reveal delay-1" style="display:flex; justify-content:center; align-items:center;">
+          <!-- UKURAN DIPERBESAR (max-width: 580px) & DINAIKKAN (margin-top: -60px) -->
           <div class="interactive card-3d" style="width:100%; max-width:580px; position:relative; margin-top:-60px;">
-            <img id="homePhoto" src="IMG_7773.jpg" class="photo-glow-hover" alt="Keenan Clio" style="width:100%; height:auto; object-fit:contain; border-radius:0;">
+            <img id="homePhoto" src="IMG_7773.jpg" class="photo-glow-hover" alt="Keenan Clio" style="width:100%; height:auto; object-fit:contain; mix-blend-mode: screen; border-radius:0;">
           </div>
         </div>
       </div>
@@ -580,32 +532,6 @@
     document.addEventListener("DOMContentLoaded", () => {
       
       // =====================================
-      // TEMA (LIGHT/DARK MODE) LOGIC
-      // =====================================
-      const themeToggle = document.getElementById('themeToggle');
-      const themeIcon = themeToggle.querySelector('i');
-      
-      if (localStorage.getItem('theme') === 'light') {
-        document.body.classList.add('light-mode');
-        themeIcon.classList.remove('fa-sun');
-        themeIcon.classList.add('fa-moon');
-      }
-
-      themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('light-mode');
-        if (document.body.classList.contains('light-mode')) {
-          themeIcon.classList.remove('fa-sun');
-          themeIcon.classList.add('fa-moon');
-          localStorage.setItem('theme', 'light');
-        } else {
-          themeIcon.classList.remove('fa-moon');
-          themeIcon.classList.add('fa-sun');
-          localStorage.setItem('theme', 'dark');
-        }
-        if (window.updateWebGLTheme) window.updateWebGLTheme();
-      });
-
-      // =====================================
       // 1. INTRO SCREEN LOGIC
       // =====================================
       document.body.style.overflow = 'hidden'; 
@@ -641,7 +567,7 @@
       // =====================================
       // 3. SISTEM NAVIGASI PINDAH HALAMAN
       // =====================================
-      const navLinks = document.querySelectorAll('.nav-link:not(#themeToggle)');
+      const navLinks = document.querySelectorAll('.nav-link');
       const sections = document.querySelectorAll('.page-section');
 
       navLinks.forEach(link => {
@@ -670,6 +596,7 @@
 
       document.getElementById("hamburgerBtn").addEventListener("click", () => document.getElementById("navLinks").classList.toggle("show"));
 
+      // HSK Subpage Logic
       const hskMainView = document.getElementById("hskMainView");
       const hsk3Subpage = document.getElementById("hsk3Subpage");
       const hsk3FlashcardCard = document.getElementById("hsk3FlashcardCard");
@@ -682,6 +609,7 @@
         backToHskMain.addEventListener("click", () => { hsk3Subpage.classList.remove("active"); hskMainView.style.display = "grid"; });
       }
 
+      // SCROLL TO TOP
       const scrollTopBtn = document.getElementById("scrollTopBtn");
       window.addEventListener("scroll", () => {
         if (window.scrollY > 150) { scrollTopBtn.classList.add("show"); } else { scrollTopBtn.classList.remove("show"); }
@@ -882,10 +810,9 @@
 
       function gameOver() {
         clearInterval(gameInterval); gameActive = false;
-        const isLightMode = document.body.classList.contains('light-mode');
-        ctx.fillStyle = isLightMode ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0.7)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = isLightMode ? "#0f172a" : "#fff";
+        ctx.fillStyle = "#fff";
         ctx.font = "bold 20px Urbanist"; ctx.textAlign = "center";
         ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
         
@@ -919,7 +846,7 @@
       document.getElementById('startSnakeBtn').addEventListener('click', initGame);
 
       // =====================================
-      // 7. WEBGL BACKGROUND DUAL (DARK / LIGHT)
+      // 7. WEBGL BACKGROUND DARK MODE
       // =====================================
       function initWebGLBackground() {
         const container = document.getElementById('webgl-container');
@@ -932,11 +859,11 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        // --- MESH DARK MODE (PARTIKEL) ---
         const particlesGeometry = new THREE.BufferGeometry();
         const particlesCount = 1000; 
         const posArray = new Float32Array(particlesCount * 3);
         const colorsArray = new Float32Array(particlesCount * 3);
+
         const color1 = new THREE.Color(0xa855f7); 
         const color2 = new THREE.Color(0x38bdf8); 
 
@@ -951,7 +878,8 @@
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
 
-        const particleMat = new THREE.ShaderMaterial({
+        const shaderMaterial = new THREE.ShaderMaterial({
+          uniforms: { time: { value: 0 } },
           vertexShader: `
             attribute vec3 color; varying vec3 vColor;
             void main() {
@@ -970,91 +898,26 @@
           transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
         });
 
-        const particlesMesh = new THREE.Points(particlesGeometry, particleMat);
+        const particlesMesh = new THREE.Points(particlesGeometry, shaderMaterial);
         scene.add(particlesMesh);
-
-        // --- MESH LIGHT MODE (FLUID GRADIENT AURORA) ---
-        const lightGeo = new THREE.PlaneGeometry(2, 2);
-        const lightUniforms = {
-            u_time: { value: 0 },
-            u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-            u_mouse: { value: new THREE.Vector2(0, 0) }
-        };
-        const lightMat = new THREE.ShaderMaterial({
-            uniforms: lightUniforms,
-            vertexShader: `
-                void main() { gl_Position = vec4(position, 1.0); }
-            `,
-            fragmentShader: `
-                uniform float u_time;
-                uniform vec2 u_resolution;
-                uniform vec2 u_mouse;
-                void main() {
-                    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-                    vec2 p = uv * 2.0 - 1.0;
-                    p.x *= u_resolution.x / u_resolution.y;
-                    
-                    p -= u_mouse * 0.15;
-                    float t = u_time * 0.4;
-                    
-                    vec3 color = vec3(0.97, 0.98, 1.0); // Base Putih Cerah
-                    
-                    float d1 = length(p - vec2(sin(t)*0.8, cos(t*0.7)*0.8));
-                    color = mix(color, vec3(0.75, 0.9, 1.0), smoothstep(1.8, 0.0, d1) * 0.7); 
-                    
-                    float d2 = length(p - vec2(cos(t*1.1)*0.9, sin(t*0.8)*0.9));
-                    color = mix(color, vec3(0.9, 0.8, 1.0), smoothstep(1.8, 0.0, d2) * 0.7); 
-                    
-                    float d3 = length(p - vec2(sin(t*0.6)*0.7, cos(t*1.2)*0.7));
-                    color = mix(color, vec3(1.0, 0.8, 0.9), smoothstep(1.8, 0.0, d3) * 0.7); 
-                    
-                    gl_FragColor = vec4(color, 1.0);
-                }
-            `,
-            depthWrite: false
-        });
-        const lightMesh = new THREE.Mesh(lightGeo, lightMat);
-        scene.add(lightMesh);
-
-        // Toggles visibility between light and dark mesh
-        window.updateWebGLTheme = function() {
-            const isLight = document.body.classList.contains('light-mode');
-            lightMesh.visible = isLight;
-            particlesMesh.visible = !isLight;
-        };
-        window.updateWebGLTheme(); // Run on init
 
         const clock = new THREE.Clock();
 
         function animate() {
-            requestAnimationFrame(animate);
-            const elapsedTime = clock.getElapsedTime();
-            
-            // Animasi Mesh Dark Mode
-            if(particlesMesh.visible) {
-                particlesMesh.rotation.y = elapsedTime * 0.03; 
-                particlesMesh.rotation.x = elapsedTime * 0.015;
-                camera.position.x += (targetMouseX * 0.05 - camera.position.x) * 0.02;
-                camera.position.y += (-targetMouseY * 0.05 - camera.position.y) * 0.02;
-                camera.lookAt(scene.position);
-            }
-            
-            // Animasi Mesh Light Mode
-            if(lightMesh.visible) {
-                lightUniforms.u_time.value = elapsedTime;
-                lightUniforms.u_mouse.value.x += (targetMouseX - lightUniforms.u_mouse.value.x) * 0.05;
-                lightUniforms.u_mouse.value.y += (targetMouseY - lightUniforms.u_mouse.value.y) * 0.05;
-            }
-
-            renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+          const elapsedTime = clock.getElapsedTime();
+          particlesMesh.rotation.y = elapsedTime * 0.03; particlesMesh.rotation.x = elapsedTime * 0.015;
+          camera.position.x += (targetMouseX * 0.05 - camera.position.x) * 0.02;
+          camera.position.y += (-targetMouseY * 0.05 - camera.position.y) * 0.02;
+          camera.lookAt(scene.position);
+          renderer.render(scene, camera);
         }
         animate();
 
         window.addEventListener('resize', () => {
-            windowHalfX = window.innerWidth / 2; windowHalfY = window.innerHeight / 2;
-            camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            lightUniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+          windowHalfX = window.innerWidth / 2; windowHalfY = window.innerHeight / 2;
+          camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
         });
       }
       
