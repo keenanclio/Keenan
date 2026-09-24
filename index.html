@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Keenan Clio | Personal Hub</title>
   
-  <!-- Favicon (Ikon di Tab Browser) -->
-  <link rel="icon" type="image/jpeg" href="image_3dc277.JPG" />
-  
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,10 +65,8 @@
 
     /* Navbar */
     .navbar { position: fixed; top: 0; left: 0; right: 0; background: var(--bg-surface); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-light); z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 18px 6%; transition: all 0.3s ease; }
-    .nav-brand { display: flex; align-items: center; gap: 10px; font-family: 'Urbanist', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--text-main); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-brand { font-family: 'Urbanist', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--text-main); text-decoration: none; letter-spacing: -0.5px; }
     .nav-brand span { color: var(--accent-primary); }
-    .brand-logo { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; box-shadow: 0 0 10px rgba(255,255,255,0.1); }
-    
     .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
     .nav-btn { text-decoration: none; color: var(--text-muted); font-size: 0.95rem; font-weight: 600; padding: 10px 14px; border-radius: 12px; transition: all 0.3s; background: transparent; border: none; outline: none; }
     .nav-btn:hover, .nav-btn.active { color: var(--text-main); background: var(--btn-bg); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -198,12 +193,7 @@
     /* Footer Global */
     .glass-footer { margin-top: auto; padding: 50px 24px 30px; background: linear-gradient(to top, rgba(20, 22, 32, 0.9), transparent); border-top: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 10; text-align: center; backdrop-filter: blur(10px); transition: background 0.5s, border-color 0.5s; }
     .footer-content { max-width: 600px; margin: 0 auto; }
-    
-    /* Footer Logo Wrapper */
-    .footer-logo-wrapper { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; }
-    .footer-logo-img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; box-shadow: 0 0 10px rgba(255,255,255,0.1); }
-    .footer-logo { font-family: 'Urbanist', sans-serif; font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, var(--text-main), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; margin-bottom: 0; }
-    
+    .footer-logo { font-family: 'Urbanist', sans-serif; font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, var(--text-main), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; margin-bottom: 12px; }
     .footer-socials { display: flex; justify-content: center; gap: 20px; margin: 24px 0; }
     .footer-socials a { color: var(--text-muted); font-size: 1.5rem; transition: 0.3s; display: flex; justify-content: center; align-items: center; width: 45px; height: 45px; border-radius: 50%; background: var(--btn-bg); border: 1px solid var(--border-light); cursor: none; }
     .footer-socials a:hover { color: #fff; background: var(--accent-secondary); border-color: var(--accent-secondary); transform: translateY(-5px); box-shadow: 0 5px 15px rgba(56,189,248,0.4); }
@@ -239,11 +229,7 @@
 
   <!-- Navbar -->
   <nav class="navbar">
-    <a href="#home" class="nav-brand interactive nav-link">
-      <!-- PERUBAHAN EKSENSI FILE MENJADI HURUF KAPITAL (.JPG) -->
-      <img src="image_3dc277.JPG" alt="Logo" class="brand-logo">
-      Keenan<span>.</span>
-    </a>
+    <a href="#home" class="nav-brand interactive nav-link">Keenan<span>.</span></a>
     <button class="hamburger interactive" id="hamburgerBtn"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
       <a href="#home" class="nav-btn interactive nav-link active">Home</a>
@@ -304,6 +290,7 @@
     <section id="profil" class="page-section">
       <div class="reveal" style="text-align: center; margin-bottom: 50px;">
         <div class="interactive card-3d" style="display:inline-block; position:relative; width: 220px; height: 220px;">
+           <!-- FOTO PROFIL DIPERBARUI MENGGUNAKAN IMG_7712.PNG SESUAI FILE YANG ADA -->
            <img id="profilePhoto" src="IMG_7712.PNG" class="photo-glow-hover" alt="Keenan Clio" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         <h2 style="font-family: 'Urbanist', sans-serif; font-size: 2.8rem; color: var(--text-main); margin-top: 15px; font-weight: 900;">Keenan Clio Adiwinata</h2>
@@ -554,10 +541,7 @@
   <!-- FOOTER MEWAH GLOBAL -->
   <footer class="glass-footer">
     <div class="footer-content">
-      <div class="footer-logo-wrapper">
-        <img src="image_3dc277.JPG" alt="Logo" class="footer-logo-img">
-        <div class="footer-logo">Keenan Clio Adiwinata</div>
-      </div>
+      <div class="footer-logo">Keenan Clio Adiwinata</div>
       <p style="margin: 10px 0; font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">Mengasah logika matematika, mengeksplorasi batas sains, dan membangun harmoni dalam kerja sama tim.</p>
       <div class="footer-socials">
         <a href="https://www.instagram.com/keen.annc?stkn=MWNhczJuZnV4aG1qZA==" target="_blank" class="interactive"><i class="fa-brands fa-instagram"></i></a>
