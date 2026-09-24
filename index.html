@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Keenan Clio | Personal Hub</title>
   
-  <!-- Favicon (Ikon di Tab Browser) -->
-  <link rel="icon" type="image/jpeg" href="image_3dc277.JPG" />
+  <!-- Favicon (Ikon di Tab Browser) - Ditambahkan Cache Buster -->
+  <link rel="icon" type="image/jpeg" href="image_3dc277.JPG?v=1" />
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,11 +77,6 @@
     .nav-btn:hover, .nav-btn.active { color: var(--text-main); background: var(--btn-bg); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     .hamburger { display: none; flex-direction: column; gap: 6px; background: transparent; border: none; cursor: pointer; }
     .hamburger span { width: 28px; height: 3px; background: var(--text-main); border-radius: 3px; transition: 0.3s; }
-
-    /* Tombol Game di Navbar */
-    .nav-game-btn { color: #fff !important; font-weight: 800 !important; background: linear-gradient(45deg, #f43f5e, #a855f7); box-shadow: 0 0 10px rgba(244, 63, 94, 0.6), 0 0 20px rgba(168, 85, 247, 0.5); border: 1px solid rgba(255,255,255,0.4); animation: neonPulseGame 1.5s infinite alternate; padding: 8px 16px !important; display: flex; align-items: center; gap: 6px; }
-    .nav-game-btn:hover { background: linear-gradient(45deg, #a855f7, #38bdf8); box-shadow: 0 0 15px rgba(56, 189, 248, 0.8), 0 0 30px rgba(168, 85, 247, 0.8); transform: scale(1.1) !important; }
-    @keyframes neonPulseGame { 0% { transform: scale(1); box-shadow: 0 0 8px rgba(168, 85, 247, 0.6); } 100% { transform: scale(1.08); box-shadow: 0 0 15px rgba(244, 63, 94, 0.8), 0 0 25px rgba(168, 85, 247, 0.6); } }
 
     /* Sistem Halaman */
     .page-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; perspective: 1200px; flex: 1; width: 100%; }
@@ -240,8 +235,7 @@
   <!-- Navbar -->
   <nav class="navbar">
     <a href="#home" class="nav-brand interactive nav-link">
-      <!-- PERUBAHAN EKSENSI FILE MENJADI HURUF KAPITAL (.JPG) -->
-      <img src="image_3dc277.JPG" alt="Logo" class="brand-logo">
+      <img src="image_3dc277.JPG?v=1" alt="Logo" class="brand-logo">
       Keenan<span>.</span>
     </a>
     <button class="hamburger interactive" id="hamburgerBtn"><span></span><span></span><span></span></button>
@@ -251,8 +245,6 @@
       <a href="#portfolio" class="nav-btn interactive nav-link">Portofolio</a>
       <a href="#akademik" class="nav-btn interactive nav-link">Jadwal & Modul</a>
       <a href="#mandarin" class="nav-btn interactive nav-link">Mandarin</a>
-      <!-- Menu Mini Game yang Nyala-Nyala -->
-      <a href="#minigame" class="nav-btn interactive nav-link nav-game-btn"><i class="fa-solid fa-gamepad"></i> Game</a>
       <a href="#contact" class="nav-btn interactive nav-link">Kontak</a>
     </div>
   </nav>
@@ -294,7 +286,8 @@
         
         <div class="hero-img reveal delay-1" style="display:flex; justify-content:center; align-items:center;">
           <div class="interactive card-3d" style="width:100%; max-width:580px; position:relative; margin-top:-60px;">
-            <img id="homePhoto" src="IMG_7773.jpg" class="photo-glow-hover" alt="Keenan Clio" style="width:100%; height:auto; object-fit:contain; mix-blend-mode: screen; border-radius:0;">
+            <!-- Cache buster ditambahkan untuk foto profil -->
+            <img id="homePhoto" src="IMG_7773.jpg?v=1" class="photo-glow-hover" alt="Keenan Clio" style="width:100%; height:auto; object-fit:contain; mix-blend-mode: screen; border-radius:0;">
           </div>
         </div>
       </div>
@@ -304,7 +297,7 @@
     <section id="profil" class="page-section">
       <div class="reveal" style="text-align: center; margin-bottom: 50px;">
         <div class="interactive card-3d" style="display:inline-block; position:relative; width: 220px; height: 220px;">
-           <img id="profilePhoto" src="IMG_7712.PNG" class="photo-glow-hover" alt="Keenan Clio" style="width: 100%; height: 100%; object-fit: cover;">
+           <img id="profilePhoto" src="IMG_7712.PNG?v=1" class="photo-glow-hover" alt="Keenan Clio" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         <h2 style="font-family: 'Urbanist', sans-serif; font-size: 2.8rem; color: var(--text-main); margin-top: 15px; font-weight: 900;">Keenan Clio Adiwinata</h2>
         <p style="color: var(--accent-secondary); font-size: 1.2rem; letter-spacing: 2px; font-weight: 600; margin-top: 5px; font-style: italic;">“Progress, Not Perfection.”</p>
@@ -506,32 +499,6 @@
       </div>
     </section>
 
-    <!-- SECTION MINIGAME BARU (NEON SNAKE) -->
-    <section id="minigame" class="page-section">
-      <h2 class="section-title reveal" style="justify-content: center;"><i class="fa-solid fa-gamepad" style="color:#a855f7"></i> Arcade: Neon Snake</h2>
-      <p class="reveal delay-1" style="text-align: center; margin-bottom: 30px; font-size: 1.05rem; color: var(--text-main);">Gunakan tombol panah / WASD di keyboard, atau klik tombol arah untuk bermain.</p>
-      
-      <div class="glass-card interactive card-3d reveal delay-2" style="max-width: 400px; margin: 0 auto; text-align: center; padding: 25px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.2rem; font-weight: bold;">
-          <span>Skor: <span id="snakeScore" style="color: var(--accent-secondary);">0</span></span>
-          <span>High Score: <span id="snakeHighScore" style="color: #fcd34d;">0</span></span>
-        </div>
-        
-        <canvas id="snakeCanvas" width="300" height="300"></canvas>
-        
-        <div style="margin-top: 20px;">
-          <button id="startSnakeBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 12px; font-size: 1.1rem;"><i class="fa-solid fa-play"></i> Mulai Main</button>
-        </div>
-
-        <div class="snake-controls">
-           <div style="grid-column: 2;"><button class="snake-btn interactive" data-dir="UP"><i class="fa-solid fa-arrow-up"></i></button></div>
-           <div style="grid-column: 1;"><button class="snake-btn interactive" data-dir="LEFT"><i class="fa-solid fa-arrow-left"></i></button></div>
-           <div style="grid-column: 3;"><button class="snake-btn interactive" data-dir="RIGHT"><i class="fa-solid fa-arrow-right"></i></button></div>
-           <div style="grid-column: 2;"><button class="snake-btn interactive" data-dir="DOWN"><i class="fa-solid fa-arrow-down"></i></button></div>
-        </div>
-      </div>
-    </section>
-
     <!-- SECTION KONTAK -->
     <section id="contact" class="page-section">
       <div class="glass-card interactive card-3d reveal" style="max-width:700px; margin:0 auto; width:100%;">
@@ -555,7 +522,7 @@
   <footer class="glass-footer">
     <div class="footer-content">
       <div class="footer-logo-wrapper">
-        <img src="image_3dc277.JPG" alt="Logo" class="footer-logo-img">
+        <img src="image_3dc277.JPG?v=1" alt="Logo" class="footer-logo-img">
         <div class="footer-logo">Keenan Clio Adiwinata</div>
       </div>
       <p style="margin: 10px 0; font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">Mengasah logika matematika, mengeksplorasi batas sains, dan membangun harmoni dalam kerja sama tim.</p>
