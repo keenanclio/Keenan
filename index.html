@@ -274,7 +274,6 @@
         </div>
         
         <div class="hero-img reveal delay-1" style="display:flex; justify-content:center; align-items:center;">
-          <!-- UKURAN DIPERBESAR (max-width: 580px) & DINAIKKAN (margin-top: -60px) -->
           <div class="interactive card-3d" style="width:100%; max-width:580px; position:relative; margin-top:-60px;">
             <img id="homePhoto" src="IMG_7773.jpg" class="photo-glow-hover" alt="Keenan Clio" style="width:100%; height:auto; object-fit:contain; mix-blend-mode: screen; border-radius:0;">
           </div>
@@ -353,15 +352,18 @@
             <div>
               <h4 style="color: var(--text-main); margin-bottom: 12px; font-size: 1.1rem;"><i class="fa-solid fa-basketball" style="color:#f97316"></i> Prestasi Basket</h4>
               <ul class="list-styled" style="font-size: 0.95rem;">
+                <!-- 2026 -->
                 <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span class="text-glow glow-gold">Juara 1 - BSI Cup 2026</span></li>
                 <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span class="text-glow glow-gold">Juara 1 - Pelangi Kasih Cup 2026</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span class="text-glow glow-gold">Juara 1 - Abdi Siswa Cup 2024</span></li>
                 <li><i class="fa-solid fa-trophy" style="color: silver;"></i> <span class="text-glow glow-silver">Juara 2 - Kanaan Global School Cup 2026</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: silver;"></i> <span class="text-glow glow-silver">Juara 2 - SNS Cup 2024</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span class="text-glow glow-bronze">Juara 3 - COSPORTA 4.0 2025</span></li>
-                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span class="text-glow glow-bronze">Juara 3 (3x3) - Telkom Cup 2024</span></li>
                 <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span class="text-glow glow-bronze">Juara 3 - SBM Cup 2026</span></li>
                 <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span class="text-glow glow-bronze">Juara 3 - Pelita Kasih Cup 2026</span></li>
+                <!-- 2025 -->
+                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span class="text-glow glow-bronze">Juara 3 - COSPORTA 4.0 2025</span></li>
+                <!-- 2024 -->
+                <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span class="text-glow glow-gold">Juara 1 - Abdi Siswa Cup 2024</span></li>
+                <li><i class="fa-solid fa-trophy" style="color: silver;"></i> <span class="text-glow glow-silver">Juara 2 - SNS Cup 2024</span></li>
+                <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span class="text-glow glow-bronze">Juara 3 (3x3) - Telkom Cup 2024</span></li>
               </ul>
             </div>
           </div>
@@ -846,7 +848,7 @@
       document.getElementById('startSnakeBtn').addEventListener('click', initGame);
 
       // =====================================
-      // 7. WEBGL BACKGROUND DARK MODE
+      // 7. WEBGL BACKGROUND
       // =====================================
       function initWebGLBackground() {
         const container = document.getElementById('webgl-container');
@@ -863,7 +865,6 @@
         const particlesCount = 1000; 
         const posArray = new Float32Array(particlesCount * 3);
         const colorsArray = new Float32Array(particlesCount * 3);
-
         const color1 = new THREE.Color(0xa855f7); 
         const color2 = new THREE.Color(0x38bdf8); 
 
