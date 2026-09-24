@@ -110,6 +110,11 @@
     .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; margin-bottom: 40px; }
     .profile-full { grid-column: 1 / -1; }
     .profile-card-title { font-family: 'Urbanist', sans-serif; font-size: 1.5rem; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border-light); padding-bottom: 12px; }
+    
+    /* Lencana Tahun untuk List Prestasi */
+    .year-badge { display: inline-block; background: rgba(168, 85, 247, 0.15); color: var(--accent-primary); padding: 4px 12px; border-radius: 8px; font-family: 'Urbanist', sans-serif; font-weight: 800; font-size: 0.9rem; margin: 16px 0 8px 0; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .year-badge:first-of-type { margin-top: 0; }
+
     .timeline-item { position: relative; padding-left: 24px; margin-bottom: 20px; }
     .timeline-item::before { content: ''; position: absolute; left: 0; top: 6px; width: 10px; height: 10px; background: var(--accent-primary); border-radius: 50%; box-shadow: 0 0 10px var(--accent-primary); }
     .timeline-item::after { content: ''; position: absolute; left: 4px; top: 20px; bottom: -20px; width: 2px; background: var(--timeline-line); }
@@ -285,6 +290,7 @@
     <section id="profil" class="page-section">
       <div class="reveal" style="text-align: center; margin-bottom: 50px;">
         <div class="interactive card-3d" style="display:inline-block; position:relative; width: 220px; height: 220px;">
+           <!-- FOTO PROFIL DIPERBARUI MENGGUNAKAN IMG_7712.PNG SESUAI FILE YANG ADA -->
            <img id="profilePhoto" src="IMG_7712.PNG" class="photo-glow-hover" alt="Keenan Clio" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         <h2 style="font-family: 'Urbanist', sans-serif; font-size: 2.8rem; color: var(--text-main); margin-top: 15px; font-weight: 900;">Keenan Clio Adiwinata</h2>
@@ -341,31 +347,49 @@
         <div class="glass-card interactive card-3d reveal delay-3 profile-full">
           <h3 class="profile-card-title"><i class="fa-solid fa-medal" style="color:#fcd34d"></i> Pencapaian</h3>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 10px;">
+            
+            <!-- Akademik & Lainnya Terurut -->
             <div>
               <h4 style="color: var(--text-main); margin-bottom: 12px; font-size: 1.1rem;"><i class="fa-solid fa-brain" style="color:var(--accent-secondary)"></i> Akademik & Lainnya</h4>
+              
+              <div class="year-badge">2026</div>
               <ul class="list-styled">
                 <li><i class="fa-solid fa-check"></i> <div class="text-glow glow-blue">Konsistensi nilai Matematika sempurna (100) dan meraih Ranking 1 di kelas.</div></li>
                 <li><i class="fa-solid fa-award"></i> <div class="text-glow glow-bronze">Medali Perunggu Matematika Tingkat Nasional - SASINA 2026.</div></li>
+              </ul>
+
+              <div class="year-badge">2025</div>
+              <ul class="list-styled">
                 <li><i class="fa-solid fa-video"></i> <div class="text-glow glow-gold">Juara 1 Lomba Videografi - Sang Timur 2025.</div></li>
               </ul>
             </div>
+
+            <!-- Prestasi Basket Terurut Tahun -->
             <div>
               <h4 style="color: var(--text-main); margin-bottom: 12px; font-size: 1.1rem;"><i class="fa-solid fa-basketball" style="color:#f97316"></i> Prestasi Basket</h4>
+              
+              <div class="year-badge">2026</div>
               <ul class="list-styled" style="font-size: 0.95rem;">
-                <!-- 2026 -->
                 <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span class="text-glow glow-gold">Juara 1 - BSI Cup 2026</span></li>
                 <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span class="text-glow glow-gold">Juara 1 - Pelangi Kasih Cup 2026</span></li>
                 <li><i class="fa-solid fa-trophy" style="color: silver;"></i> <span class="text-glow glow-silver">Juara 2 - Kanaan Global School Cup 2026</span></li>
                 <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span class="text-glow glow-bronze">Juara 3 - SBM Cup 2026</span></li>
                 <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span class="text-glow glow-bronze">Juara 3 - Pelita Kasih Cup 2026</span></li>
-                <!-- 2025 -->
+              </ul>
+
+              <div class="year-badge">2025</div>
+              <ul class="list-styled" style="font-size: 0.95rem;">
                 <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span class="text-glow glow-bronze">Juara 3 - COSPORTA 4.0 2025</span></li>
-                <!-- 2024 -->
+              </ul>
+
+              <div class="year-badge">2024</div>
+              <ul class="list-styled" style="font-size: 0.95rem;">
                 <li><i class="fa-solid fa-trophy" style="color: gold;"></i> <span class="text-glow glow-gold">Juara 1 - Abdi Siswa Cup 2024</span></li>
                 <li><i class="fa-solid fa-trophy" style="color: silver;"></i> <span class="text-glow glow-silver">Juara 2 - SNS Cup 2024</span></li>
                 <li><i class="fa-solid fa-trophy" style="color: #cd7f32;"></i> <span class="text-glow glow-bronze">Juara 3 (3x3) - Telkom Cup 2024</span></li>
               </ul>
             </div>
+            
           </div>
         </div>
 
