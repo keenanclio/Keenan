@@ -71,9 +71,9 @@
 
     /* Navbar */
     .navbar { position: fixed; top: 0; left: 0; right: 0; background: var(--bg-surface); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-light); z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 18px 6%; transition: all 0.3s ease; }
-    .nav-brand { display: flex; align-items: center; gap: 10px; font-family: 'Urbanist', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--text-main); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-brand { display: flex; align-items: center; gap: 12px; font-family: 'Urbanist', sans-serif; font-size: clamp(1.15rem, 2vw, 1.45rem); font-weight: 800; color: var(--text-main); text-decoration: none; letter-spacing: -0.5px; white-space: nowrap; }
     .nav-brand span { color: var(--accent-primary); }
-    .brand-logo { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); border: 1px solid rgba(255,255,255,0.15); }
+    .brand-logo { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); border: 1px solid rgba(255,255,255,0.15); flex-shrink: 0; }
     
     .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
     .nav-btn { text-decoration: none; color: var(--text-muted); font-size: 0.95rem; font-weight: 600; padding: 10px 14px; border-radius: 12px; transition: all 0.3s; background: transparent; border: none; outline: none; }
@@ -247,7 +247,7 @@
   <nav class="navbar">
     <a href="#home" class="nav-brand interactive nav-link">
       <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23022658'/><path d='M32 25 H41 V48 L62 25 H73 L50 50 L74 75 H62 L44 55 L41 58 V75 H32 Z' fill='%23ffffff'/></svg>" alt="Logo" class="brand-logo">
-      Keenan<span>.</span>
+      Keenan Clio Adiwinata<span>.</span>
     </a>
     <button class="hamburger interactive" id="hamburgerBtn"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
