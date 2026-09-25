@@ -218,9 +218,9 @@
     #scrollTopBtn:hover { background: var(--accent-primary); color: #fff; transform: translateY(-8px) scale(1.1); box-shadow: 0 10px 30px rgba(168, 85, 247, 0.8); }
     
     /* ========================================================
-       ARCADE HUB & 10 MULTI-GAME STYLES
+       ARCADE HUB & 11 MULTI-GAME STYLES
        ======================================================== */
-    .arcade-tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; max-width: 900px; margin-left: auto; margin-right: auto; }
+    .arcade-tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; max-width: 950px; margin-left: auto; margin-right: auto; }
     .arcade-tab-btn { background: var(--btn-bg); border: 1px solid var(--border-light); color: var(--text-muted); font-family: 'Urbanist', sans-serif; font-weight: 700; font-size: 0.9rem; padding: 10px 15px; border-radius: 12px; cursor: none; transition: 0.3s; display: flex; align-items: center; gap: 7px; }
     .arcade-tab-btn:hover { background: rgba(168,85,247,0.15); color: #fff; transform: translateY(-2px); }
     .arcade-tab-btn.active { background: linear-gradient(45deg, #a855f7, #38bdf8); border-color: transparent; color: #fff; box-shadow: 0 6px 20px rgba(168,85,247,0.4); }
@@ -229,7 +229,7 @@
     .game-panel.active { display: block; }
 
     /* Game Canvases */
-    #snakeCanvas, #hoopsCanvas, #breakerCanvas, #flapCanvas, #defenderCanvas { background: rgba(20, 22, 32, 0.85); border: 2px solid var(--border-glow); border-radius: 14px; box-shadow: 0 0 18px rgba(168, 85, 247, 0.3); max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    #snakeCanvas, #hoopsCanvas, #breakerCanvas, #flapCanvas, #defenderCanvas, #billiardCanvas { background: rgba(20, 22, 32, 0.85); border: 2px solid var(--border-glow); border-radius: 14px; box-shadow: 0 0 18px rgba(168, 85, 247, 0.3); max-width: 100%; height: auto; display: block; margin: 0 auto; touch-action: none; }
     .snake-controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 200px; margin: 20px auto 0; }
     .snake-btn { background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--border-light); border-radius: 12px; padding: 15px 0; font-size: 1.2rem; cursor: none; transition: 0.2s; display: flex; justify-content: center; align-items: center; }
     .snake-btn:active { background: var(--accent-primary); color: #fff; transform: scale(0.9); }
@@ -564,14 +564,15 @@
       </div>
     </section>
 
-    <!-- SECTION MINIGAME: ARCADE HUB (10 GAMES) -->
+    <!-- SECTION MINIGAME: ARCADE HUB (11 GAMES) -->
     <section id="minigame" class="page-section">
       <h2 class="section-title reveal" style="justify-content: center;"><i class="fa-solid fa-gamepad" style="color:#a855f7"></i> Keenan's Ultimate Arcade Hub</h2>
-      <p class="reveal delay-1" style="text-align: center; margin-bottom: 24px; font-size: 1.05rem; color: var(--text-main);">Pilih salah satu dari 10 mini game seru di bawah ini dan pecahkan rekor tertinggimu!</p>
+      <p class="reveal delay-1" style="text-align: center; margin-bottom: 24px; font-size: 1.05rem; color: var(--text-main);">Pilih salah satu dari 11 mini game seru di bawah ini dan pecahkan rekor tertinggimu!</p>
       
-      <!-- Tab Pilihan 10 Game -->
+      <!-- Tab Pilihan 11 Game -->
       <div class="arcade-tabs reveal delay-1">
         <button class="arcade-tab-btn interactive active" data-game="game-snake"><i class="fa-solid fa-staff-snake"></i> Neon Snake</button>
+        <button class="arcade-tab-btn interactive" data-game="game-billiard"><i class="fa-solid fa-circle-dot"></i> Neon Billiard</button>
         <button class="arcade-tab-btn interactive" data-game="game-hoops"><i class="fa-solid fa-basketball"></i> Neon Hoops</button>
         <button class="arcade-tab-btn interactive" data-game="game-math"><i class="fa-solid fa-bolt"></i> Math Rush</button>
         <button class="arcade-tab-btn interactive" data-game="game-ttt"><i class="fa-solid fa-chess-board"></i> Tic-Tac-Toe</button>
@@ -601,6 +602,24 @@
              <div style="grid-column: 1;"><button class="snake-btn interactive" data-dir="LEFT"><i class="fa-solid fa-arrow-left"></i></button></div>
              <div style="grid-column: 3;"><button class="snake-btn interactive" data-dir="RIGHT"><i class="fa-solid fa-arrow-right"></i></button></div>
              <div style="grid-column: 2;"><button class="snake-btn interactive" data-dir="DOWN"><i class="fa-solid fa-arrow-down"></i></button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAME 11: NEON BILLIARD (POOL) - BARU -->
+      <div id="game-billiard" class="game-panel">
+        <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
+          <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🎱 Neon Billiard Pool</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Klik/sentuh dan tarik ke belakang dari bola putih untuk membidik & mengatur tenaga, lalu lepaskan!</p>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.05rem; font-weight: bold;">
+            <span>Masuk: <span id="bilPocketed" style="color: #34d399;">0/6</span></span>
+            <span>Pukulan: <span id="bilShots" style="color: var(--accent-secondary);">0</span></span>
+            <span>Rekor: <span id="bilBest" style="color: #fcd34d;">-</span></span>
+          </div>
+          <div id="bilStatus" style="font-family:'Urbanist'; font-weight:700; color:#fde047; min-height:22px; font-size:0.9rem; margin-bottom:6px;">Tarik bola putih untuk menyodok!</div>
+          <canvas id="billiardCanvas" width="280" height="380"></canvas>
+          <div style="margin-top: 16px;">
+            <button id="resetBilliardBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 12px; font-size: 1rem;"><i class="fa-solid fa-rotate-right"></i> Susun Ulang Bola</button>
           </div>
         </div>
       </div>
@@ -720,7 +739,7 @@
         </div>
       </div>
 
-      <!-- GAME 8: CYBER 2048 (BARU) -->
+      <!-- GAME 8: CYBER 2048 -->
       <div id="game-2048" class="game-panel">
         <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
           <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🔢 Cyber 2048</h3>
@@ -741,7 +760,7 @@
         </div>
       </div>
 
-      <!-- GAME 9: NEON WHACK / AIM TRAINER (BARU) -->
+      <!-- GAME 9: NEON WHACK / AIM TRAINER -->
       <div id="game-whack" class="game-panel">
         <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
           <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🎯 Neon Whack Reflex</h3>
@@ -766,7 +785,7 @@
         </div>
       </div>
 
-      <!-- GAME 10: SPACE DEFENDER (BARU) -->
+      <!-- GAME 10: SPACE DEFENDER -->
       <div id="game-defender" class="game-panel">
         <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
           <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🛸 Space Defender</h3>
@@ -1039,7 +1058,7 @@
       });
 
       // =====================================
-      // 6. ARCADE HUB: SISTEM TAB & 10 MINI GAMES
+      // 6. ARCADE HUB: SISTEM TAB & 11 MINI GAMES
       // =====================================
       let currentActiveGameTab = "game-snake";
       document.querySelectorAll('.arcade-tab-btn').forEach(btn => {
@@ -1167,6 +1186,260 @@
 
       document.getElementById('startSnakeBtn').addEventListener('click', initGame);
       drawGrid();
+
+      // --- GAME 11: NEON BILLIARD (POOL) ---
+      const bilCanvas = document.getElementById('billiardCanvas');
+      const bilCtx = bilCanvas.getContext('2d');
+      let bilBalls = [];
+      let bilShots = 0;
+      let bilPocketed = 0;
+      let bilBest = localStorage.getItem('bilBestShots') || null;
+      if (bilBest) document.getElementById('bilBest').textContent = bilBest + " Pukulan";
+
+      const bilPockets = [
+        { x: 14, y: 14 }, { x: 266, y: 14 },
+        { x: 10, y: 190 }, { x: 270, y: 190 },
+        { x: 14, y: 366 }, { x: 266, y: 366 }
+      ];
+      const ballRadius = 10;
+      const pocketRadius = 17;
+      let isDraggingCue = false;
+      let dragPos = { x: 0, y: 0 };
+
+      function initBilliard() {
+        bilShots = 0;
+        bilPocketed = 0;
+        document.getElementById('bilShots').textContent = bilShots;
+        document.getElementById('bilPocketed').textContent = `0/6`;
+        document.getElementById('bilStatus').textContent = "Tarik dari bola putih untuk menyodok!";
+
+        bilBalls = [
+          // Cue ball (index 0)
+          { x: 140, y: 295, vx: 0, vy: 0, r: ballRadius, color: '#ffffff', isCue: true, active: true, num: '' },
+          // 6 Target Balls in Pyramid Rack
+          { x: 140, y: 115, vx: 0, vy: 0, r: ballRadius, color: '#fde047', isCue: false, active: true, num: '1' },
+          { x: 128, y: 95, vx: 0, vy: 0, r: ballRadius, color: '#38bdf8', isCue: false, active: true, num: '2' },
+          { x: 152, y: 95, vx: 0, vy: 0, r: ballRadius, color: '#f43f5e', isCue: false, active: true, num: '3' },
+          { x: 116, y: 75, vx: 0, vy: 0, r: ballRadius, color: '#a855f7', isCue: false, active: true, num: '4' },
+          { x: 140, y: 75, vx: 0, vy: 0, r: ballRadius, color: '#f97316', isCue: false, active: true, num: '5' },
+          { x: 164, y: 75, vx: 0, vy: 0, r: ballRadius, color: '#34d399', isCue: false, active: true, num: '6' }
+        ];
+      }
+      initBilliard();
+
+      function areBallsMoving() {
+        return bilBalls.some(b => b.active && (Math.abs(b.vx) > 0.05 || Math.abs(b.vy) > 0.05));
+      }
+
+      function getCanvasCoords(e) {
+        const rect = bilCanvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (bilCanvas.width / rect.width),
+          y: (clientY - rect.top) * (bilCanvas.height / rect.height)
+        };
+      }
+
+      function startCueDrag(e) {
+        if (areBallsMoving() || bilPocketed >= 6) return;
+        const pos = getCanvasCoords(e);
+        const cue = bilBalls[0];
+        if (Math.hypot(pos.x - cue.x, pos.y - cue.y) < 55) {
+          isDraggingCue = true;
+          dragPos = pos;
+        }
+      }
+
+      function moveCueDrag(e) {
+        if (!isDraggingCue) return;
+        if (e.cancelable) e.preventDefault();
+        dragPos = getCanvasCoords(e);
+      }
+
+      function endCueDrag() {
+        if (!isDraggingCue) return;
+        isDraggingCue = false;
+        const cue = bilBalls[0];
+        const dx = cue.x - dragPos.x;
+        const dy = cue.y - dragPos.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist > 6) {
+          const maxPull = 90;
+          const power = Math.min(dist, maxPull) * 0.16;
+          const angle = Math.atan2(dy, dx);
+          cue.vx = Math.cos(angle) * power;
+          cue.vy = Math.sin(angle) * power;
+          bilShots++;
+          document.getElementById('bilShots').textContent = bilShots;
+          document.getElementById('bilStatus').textContent = "Bola meluncur...";
+        }
+      }
+
+      bilCanvas.addEventListener('mousedown', startCueDrag);
+      bilCanvas.addEventListener('mousemove', moveCueDrag);
+      window.addEventListener('mouseup', endCueDrag);
+
+      bilCanvas.addEventListener('touchstart', startCueDrag, { passive: false });
+      bilCanvas.addEventListener('touchmove', moveCueDrag, { passive: false });
+      window.addEventListener('touchend', endCueDrag);
+
+      document.getElementById('resetBilliardBtn').addEventListener('click', initBilliard);
+
+      function animateBilliard() {
+        requestAnimationFrame(animateBilliard);
+        bilCtx.clearRect(0, 0, bilCanvas.width, bilCanvas.height);
+
+        // Draw Table Felt Markings
+        bilCtx.strokeStyle = "rgba(168, 85, 247, 0.2)";
+        bilCtx.lineWidth = 1.5;
+        bilCtx.strokeRect(12, 12, bilCanvas.width - 24, bilCanvas.height - 24);
+        bilCtx.beginPath();
+        bilCtx.moveTo(12, 295);
+        bilCtx.lineTo(bilCanvas.width - 12, 295);
+        bilCtx.stroke();
+
+        // Draw 6 Pockets
+        bilPockets.forEach(p => {
+          bilCtx.beginPath();
+          bilCtx.arc(p.x, p.y, pocketRadius, 0, Math.PI * 2);
+          bilCtx.fillStyle = "#02040a";
+          bilCtx.fill();
+          bilCtx.strokeStyle = "#38bdf8";
+          bilCtx.lineWidth = 2;
+          bilCtx.stroke();
+        });
+
+        // Physics Update
+        let moving = false;
+        bilBalls.forEach(b => {
+          if (!b.active) return;
+          b.x += b.vx;
+          b.y += b.vy;
+          b.vx *= 0.985;
+          b.vy *= 0.985;
+
+          if (Math.hypot(b.vx, b.vy) < 0.06) {
+            b.vx = 0;
+            b.vy = 0;
+          } else {
+            moving = true;
+          }
+
+          // Wall Collisions
+          const margin = 12;
+          if (b.x - b.r < margin) { b.x = margin + b.r; b.vx *= -0.85; }
+          if (b.x + b.r > bilCanvas.width - margin) { b.x = bilCanvas.width - margin - b.r; b.vx *= -0.85; }
+          if (b.y - b.r < margin) { b.y = margin + b.r; b.vy *= -0.85; }
+          if (b.y + b.r > bilCanvas.height - margin) { b.y = bilCanvas.height - margin - b.r; b.vy *= -0.85; }
+
+          // Pocket Detection
+          bilPockets.forEach(p => {
+            if (Math.hypot(b.x - p.x, b.y - p.y) < pocketRadius) {
+              if (b.isCue) {
+                b.x = 140; b.y = 295; b.vx = 0; b.vy = 0;
+                document.getElementById('bilStatus').textContent = "Scratch! Bola putih kembali ke titik awal.";
+              } else if (b.active) {
+                b.active = false;
+                b.vx = 0; b.vy = 0;
+                bilPocketed++;
+                document.getElementById('bilPocketed').textContent = `${bilPocketed}/6`;
+                document.getElementById('bilStatus').textContent = `Mantap! Bola #${b.num} masuk! 🔥`;
+                if (bilPocketed >= 6) {
+                  document.getElementById('bilStatus').textContent = `MEJA BERSIH dalam ${bilShots} pukulan! 🏆`;
+                  if (!bilBest || bilShots < parseInt(bilBest)) {
+                    bilBest = bilShots;
+                    localStorage.setItem('bilBestShots', bilBest);
+                    document.getElementById('bilBest').textContent = bilBest + " Pukulan";
+                  }
+                }
+              }
+            }
+          });
+        });
+
+        // Ball-to-Ball Elastic Collisions
+        for (let i = 0; i < bilBalls.length; i++) {
+          for (let j = i + 1; j < bilBalls.length; j++) {
+            const b1 = bilBalls[i];
+            const b2 = bilBalls[j];
+            if (!b1.active || !b2.active) continue;
+            const dx = b2.x - b1.x;
+            const dy = b2.y - b1.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist > 0 && dist < b1.r + b2.r) {
+              // Resolve Overlap
+              const overlap = (b1.r + b2.r - dist) / 2;
+              const nx = dx / dist;
+              const ny = dy / dist;
+              b1.x -= nx * overlap;
+              b1.y -= ny * overlap;
+              b2.x += nx * overlap;
+              b2.y += ny * overlap;
+
+              // Exchange Velocity along normal
+              const kx = b1.vx - b2.vx;
+              const ky = b1.vy - b2.vy;
+              const p = 2 * (nx * kx + ny * ky) / 2;
+              b1.vx -= p * nx * 0.95;
+              b1.vy -= p * ny * 0.95;
+              b2.vx += p * nx * 0.95;
+              b2.vy += p * ny * 0.95;
+            }
+          }
+        }
+
+        // Draw Aiming Line when dragging cue ball
+        const cue = bilBalls[0];
+        if (isDraggingCue && !moving) {
+          const dx = cue.x - dragPos.x;
+          const dy = cue.y - dragPos.y;
+          const angle = Math.atan2(dy, dx);
+          const pullDist = Math.min(Math.hypot(dx, dy), 90);
+
+          // Forward Laser Aim Line
+          bilCtx.save();
+          bilCtx.beginPath();
+          bilCtx.setLineDash([5, 5]);
+          bilCtx.moveTo(cue.x, cue.y);
+          bilCtx.lineTo(cue.x + Math.cos(angle) * 140, cue.y + Math.sin(angle) * 140);
+          bilCtx.strokeStyle = "#38bdf8";
+          bilCtx.lineWidth = 2;
+          bilCtx.stroke();
+
+          // Pull-back Stick Indicator
+          bilCtx.setLineDash([]);
+          bilCtx.beginPath();
+          bilCtx.moveTo(cue.x, cue.y);
+          bilCtx.lineTo(cue.x - Math.cos(angle) * pullDist, cue.y - Math.sin(angle) * pullDist);
+          bilCtx.strokeStyle = "#f43f5e";
+          bilCtx.lineWidth = 4;
+          bilCtx.stroke();
+          bilCtx.restore();
+        }
+
+        // Draw Balls
+        bilBalls.forEach(b => {
+          if (!b.active) return;
+          bilCtx.save();
+          bilCtx.beginPath();
+          bilCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+          bilCtx.fillStyle = b.color;
+          bilCtx.shadowBlur = 10;
+          bilCtx.shadowColor = b.color;
+          bilCtx.fill();
+          bilCtx.restore();
+
+          if (!b.isCue) {
+            bilCtx.fillStyle = "#02040a";
+            bilCtx.font = "bold 9px Urbanist";
+            bilCtx.textAlign = "center";
+            bilCtx.textBaseline = "middle";
+            bilCtx.fillText(b.num, b.x, b.y);
+          }
+        });
+      }
+      animateBilliard();
 
       // --- GAME 2: NEON HOOPS (BASKETBALL) ---
       const hoopsCanvas = document.getElementById('hoopsCanvas');
@@ -2048,11 +2321,9 @@
 
         if (defActive && !defGameOver) {
           defFrame++;
-          // Auto fire laser
           if (defFrame % 16 === 0) {
             bullets.push({ x: ship.x + ship.w / 2, y: ship.y, vy: -6 });
           }
-          // Spawn meteors
           if (defFrame % Math.max(25, 55 - Math.floor(defScore / 50)) === 0) {
             let r = Math.floor(Math.random() * 10) + 10;
             meteors.push({
@@ -2066,10 +2337,9 @@
           bullets.forEach(b => b.y += b.vy);
           bullets = bullets.filter(b => b.y > -10);
 
-          meteors.forEach((m, mIdx) => {
+          meteors.forEach((m) => {
             m.y += m.vy;
-            // Check laser hit
-            bullets.forEach((b, bIdx) => {
+            bullets.forEach((b) => {
               let dist = Math.hypot(b.x - m.x, b.y - m.y);
               if (dist < m.r + 4) {
                 m.hit = true;
@@ -2084,7 +2354,6 @@
               }
             });
 
-            // Check bottom breach
             if (m.y - m.r > dCanvas.height && !m.hit) {
               m.hit = true;
               defLives--;
@@ -2097,7 +2366,6 @@
           meteors = meteors.filter(m => !m.hit);
         }
 
-        // Draw Ship
         dCtx.fillStyle = "#38bdf8";
         dCtx.shadowBlur = 12;
         dCtx.shadowColor = "#38bdf8";
@@ -2109,13 +2377,11 @@
         dCtx.fill();
         dCtx.shadowBlur = 0;
 
-        // Draw Bullets
         dCtx.fillStyle = "#fde047";
         bullets.forEach(b => {
           dCtx.fillRect(b.x - 2, b.y, 4, 10);
         });
 
-        // Draw Meteors
         meteors.forEach(m => {
           dCtx.beginPath();
           dCtx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
@@ -2147,7 +2413,7 @@
       }
       animateDefender();
 
-      // Global Keyboard Controls for All 10 Arcade Games
+      // Global Keyboard Controls for All Arcade Games
       document.addEventListener('keydown', (e) => {
         const minigameActive = document.getElementById('minigame').classList.contains('active-page');
         if(!minigameActive) return;
