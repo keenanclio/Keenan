@@ -217,11 +217,38 @@
     #scrollTopBtn.show { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
     #scrollTopBtn:hover { background: var(--accent-primary); color: #fff; transform: translateY(-8px) scale(1.1); box-shadow: 0 10px 30px rgba(168, 85, 247, 0.8); }
     
-    /* SNAKE GAME STYLE */
-    #snakeCanvas { background: rgba(20, 22, 32, 0.8); border: 2px solid var(--border-glow); border-radius: 12px; box-shadow: 0 0 15px rgba(168, 85, 247, 0.3); max-width: 100%; height: auto; }
+    /* ========================================================
+       ARCADE HUB & MULTI-GAME STYLES
+       ======================================================== */
+    .arcade-tabs { display: flex; justify-content: center; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
+    .arcade-tab-btn { background: var(--btn-bg); border: 1px solid var(--border-light); color: var(--text-muted); font-family: 'Urbanist', sans-serif; font-weight: 700; font-size: 1rem; padding: 12px 20px; border-radius: 14px; cursor: none; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+    .arcade-tab-btn:hover { background: rgba(168,85,247,0.15); color: #fff; transform: translateY(-2px); }
+    .arcade-tab-btn.active { background: linear-gradient(45deg, #a855f7, #38bdf8); border-color: transparent; color: #fff; box-shadow: 0 6px 20px rgba(168,85,247,0.4); }
+    
+    .game-panel { display: none; animation: fadeInTab 0.4s ease; }
+    .game-panel.active { display: block; }
+
+    /* Game 1: Snake & Game 2: Hoops Canvas */
+    #snakeCanvas, #hoopsCanvas { background: rgba(20, 22, 32, 0.85); border: 2px solid var(--border-glow); border-radius: 14px; box-shadow: 0 0 18px rgba(168, 85, 247, 0.3); max-width: 100%; height: auto; display: block; margin: 0 auto; }
     .snake-controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 200px; margin: 20px auto 0; }
     .snake-btn { background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--border-light); border-radius: 12px; padding: 15px 0; font-size: 1.2rem; cursor: none; transition: 0.2s; display: flex; justify-content: center; align-items: center; }
     .snake-btn:active { background: var(--accent-primary); color: #fff; transform: scale(0.9); }
+
+    /* Game 3: Math Rush */
+    .math-display-box { background: rgba(2, 4, 10, 0.7); border: 2px solid var(--border-glow); border-radius: 16px; padding: 28px 20px; margin: 15px 0; font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 900; color: #fff; text-shadow: 0 0 15px rgba(56, 189, 248, 0.6); min-height: 110px; display: flex; align-items: center; justify-content: center; }
+    .math-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+    .math-opt-btn { background: var(--btn-bg); border: 1px solid var(--border-light); color: #fff; font-family: 'Urbanist', sans-serif; font-size: 1.5rem; font-weight: 800; padding: 16px; border-radius: 14px; cursor: none; transition: 0.2s; }
+    .math-opt-btn:hover:not(:disabled) { border-color: var(--accent-secondary); background: rgba(56, 189, 248, 0.15); transform: translateY(-2px); }
+    .math-opt-btn:disabled { opacity: 0.5; }
+    .math-timer-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
+    .math-timer-fill { height: 100%; width: 100%; background: linear-gradient(90deg, #38bdf8, #a855f7, #f43f5e); transition: width 0.1s linear; }
+
+    /* Game 4: Cyber Tic-Tac-Toe */
+    .ttt-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 280px; margin: 18px auto; }
+    .ttt-cell { aspect-ratio: 1; background: rgba(2, 4, 10, 0.7); border: 2px solid var(--border-light); border-radius: 14px; font-family: 'Urbanist', sans-serif; font-size: 2.5rem; font-weight: 900; color: #fff; display: flex; align-items: center; justify-content: center; cursor: none; transition: 0.25s; }
+    .ttt-cell:hover { border-color: var(--accent-primary); background: rgba(168, 85, 247, 0.1); }
+    .ttt-cell.x-mark { color: #38bdf8; text-shadow: 0 0 12px #38bdf8; border-color: rgba(56, 189, 248, 0.4); }
+    .ttt-cell.o-mark { color: #f43f5e; text-shadow: 0 0 12px #f43f5e; border-color: rgba(244, 63, 94, 0.4); }
 
     @media (max-width: 968px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .hero-img-box { max-width: 280px; } .profile-grid { grid-template-columns: 1fr; } .nav-links { gap: 4px; } #scrollTopBtn { bottom: 20px; right: 20px; width: 50px; height: 50px; } .schedule-table th, .schedule-table td { padding: 10px; font-size: 0.95rem; } .time-col { width: auto; } }
     @media (max-width: 768px) { .hamburger { display: flex; } .nav-links { position: fixed; top: 70px; right: -100%; flex-direction: column; background: var(--bg-base); width: 100%; height: calc(100vh - 70px); padding: 40px; border-top: 1px solid var(--border-light); justify-content: flex-start; transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); } .nav-links.show { right: 0; } }
@@ -513,28 +540,118 @@
       </div>
     </section>
 
-    <!-- SECTION MINIGAME BARU (NEON SNAKE) -->
+    <!-- SECTION MINIGAME: ARCADE HUB (4 GAMES) -->
     <section id="minigame" class="page-section">
-      <h2 class="section-title reveal" style="justify-content: center;"><i class="fa-solid fa-gamepad" style="color:#a855f7"></i> Arcade: Neon Snake</h2>
-      <p class="reveal delay-1" style="text-align: center; margin-bottom: 30px; font-size: 1.05rem; color: var(--text-main);">Gunakan tombol panah / WASD di keyboard, atau klik tombol arah untuk bermain.</p>
+      <h2 class="section-title reveal" style="justify-content: center;"><i class="fa-solid fa-gamepad" style="color:#a855f7"></i> Keenan's Arcade Hub</h2>
+      <p class="reveal delay-1" style="text-align: center; margin-bottom: 24px; font-size: 1.05rem; color: var(--text-main);">Pilih salah satu mini game di bawah ini untuk bermain dan pecahkan rekor skor tertinggi!</p>
       
-      <div class="glass-card interactive card-3d reveal delay-2" style="max-width: 400px; margin: 0 auto; text-align: center; padding: 25px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.2rem; font-weight: bold;">
-          <span>Skor: <span id="snakeScore" style="color: var(--accent-secondary);">0</span></span>
-          <span>High Score: <span id="snakeHighScore" style="color: #fcd34d;">0</span></span>
-        </div>
-        
-        <canvas id="snakeCanvas" width="300" height="300"></canvas>
-        
-        <div style="margin-top: 20px;">
-          <button id="startSnakeBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 12px; font-size: 1.1rem;"><i class="fa-solid fa-play"></i> Mulai Main</button>
-        </div>
+      <!-- Tab Pilihan Game -->
+      <div class="arcade-tabs reveal delay-1">
+        <button class="arcade-tab-btn interactive active" data-game="game-snake"><i class="fa-solid fa-staff-snake"></i> Neon Snake</button>
+        <button class="arcade-tab-btn interactive" data-game="game-hoops"><i class="fa-solid fa-basketball"></i> Neon Hoops</button>
+        <button class="arcade-tab-btn interactive" data-game="game-math"><i class="fa-solid fa-bolt"></i> Math Rush</button>
+        <button class="arcade-tab-btn interactive" data-game="game-ttt"><i class="fa-solid fa-chess-board"></i> Tic-Tac-Toe</button>
+      </div>
 
-        <div class="snake-controls">
-           <div style="grid-column: 2;"><button class="snake-btn interactive" data-dir="UP"><i class="fa-solid fa-arrow-up"></i></button></div>
-           <div style="grid-column: 1;"><button class="snake-btn interactive" data-dir="LEFT"><i class="fa-solid fa-arrow-left"></i></button></div>
-           <div style="grid-column: 3;"><button class="snake-btn interactive" data-dir="RIGHT"><i class="fa-solid fa-arrow-right"></i></button></div>
-           <div style="grid-column: 2;"><button class="snake-btn interactive" data-dir="DOWN"><i class="fa-solid fa-arrow-down"></i></button></div>
+      <!-- GAME 1: NEON SNAKE -->
+      <div id="game-snake" class="game-panel active">
+        <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
+          <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🐍 Neon Snake</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Gunakan WASD / Panah Keyboard atau tombol di bawah.</p>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.15rem; font-weight: bold;">
+            <span>Skor: <span id="snakeScore" style="color: var(--accent-secondary);">0</span></span>
+            <span>High Score: <span id="snakeHighScore" style="color: #fcd34d;">0</span></span>
+          </div>
+          
+          <canvas id="snakeCanvas" width="300" height="300"></canvas>
+          
+          <div style="margin-top: 20px;">
+            <button id="startSnakeBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 12px; font-size: 1.05rem;"><i class="fa-solid fa-play"></i> Mulai Main</button>
+          </div>
+
+          <div class="snake-controls">
+             <div style="grid-column: 2;"><button class="snake-btn interactive" data-dir="UP"><i class="fa-solid fa-arrow-up"></i></button></div>
+             <div style="grid-column: 1;"><button class="snake-btn interactive" data-dir="LEFT"><i class="fa-solid fa-arrow-left"></i></button></div>
+             <div style="grid-column: 3;"><button class="snake-btn interactive" data-dir="RIGHT"><i class="fa-solid fa-arrow-right"></i></button></div>
+             <div style="grid-column: 2;"><button class="snake-btn interactive" data-dir="DOWN"><i class="fa-solid fa-arrow-down"></i></button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAME 2: NEON HOOPS (BASKETBALL) -->
+      <div id="game-hoops" class="game-panel">
+        <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
+          <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🏀 Neon Hoops Shootout</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Bidik saat ring berada di posisi yang pas! Klik tombol / Spasi untuk menembak.</p>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.1rem; font-weight: bold;">
+            <span>Skor: <span id="hoopsScore" style="color: #f97316;">0</span></span>
+            <span>Bola: <span id="hoopsLives" style="color: #f43f5e;">🏀🏀🏀</span></span>
+            <span>Best: <span id="hoopsHighScore" style="color: #fcd34d;">0</span></span>
+          </div>
+          
+          <canvas id="hoopsCanvas" width="300" height="320"></canvas>
+          
+          <div style="margin-top: 18px; display: flex; gap: 10px;">
+            <button id="shootHoopsBtn" class="btn-primary interactive" style="flex: 2; justify-content: center; padding: 14px; font-size: 1.05rem; background: linear-gradient(45deg, #f97316, #f43f5e); color: #fff;"><i class="fa-solid fa-basketball"></i> SHOOT! (Spasi)</button>
+            <button id="resetHoopsBtn" class="btn-primary interactive" style="flex: 1; justify-content: center; padding: 14px; font-size: 0.95rem; background: var(--btn-bg); color: #fff; border: 1px solid var(--border-light);"><i class="fa-solid fa-rotate-right"></i> Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAME 3: MATH RUSH -->
+      <div id="game-math" class="game-panel">
+        <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
+          <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">⚡ Math Rush Challenge</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Jawab soal matematika secepat mungkin sebelum waktu habis!</p>
+          
+          <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.1rem; font-weight: bold;">
+            <span>Skor: <span id="mathScore" style="color: var(--accent-secondary);">0</span></span>
+            <span>Waktu: <span id="mathTime" style="color: #f43f5e;">30.0s</span></span>
+            <span>Best: <span id="mathHighScore" style="color: #fcd34d;">0</span></span>
+          </div>
+
+          <div class="math-timer-bar"><div class="math-timer-fill" id="mathTimerFill"></div></div>
+
+          <div class="math-display-box" id="mathQuestion">Siap?</div>
+
+          <div class="math-options-grid">
+            <button class="math-opt-btn interactive" disabled>-</button>
+            <button class="math-opt-btn interactive" disabled>-</button>
+            <button class="math-opt-btn interactive" disabled>-</button>
+            <button class="math-opt-btn interactive" disabled>-</button>
+          </div>
+
+          <button id="startMathBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 12px; font-size: 1.05rem;"><i class="fa-solid fa-bolt"></i> Mulai Tantangan</button>
+        </div>
+      </div>
+
+      <!-- GAME 4: CYBER TIC-TAC-TOE -->
+      <div id="game-ttt" class="game-panel">
+        <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
+          <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">❌⭕ Cyber Tic-Tac-Toe</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Kamu (<span style="color:#38bdf8; font-weight:bold;">X</span>) melawan Bot AI (<span style="color:#f43f5e; font-weight:bold;">O</span>).</p>
+
+          <div style="display: flex; justify-content: space-around; margin-bottom: 12px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.05rem; font-weight: bold; background: var(--box-bg); padding: 10px; border-radius: 12px; border: 1px solid var(--border-light);">
+            <span>Kamu: <span id="tttPlayerScore" style="color: #38bdf8;">0</span></span>
+            <span>Seri: <span id="tttDrawScore" style="color: #fcd34d;">0</span></span>
+            <span>Bot AI: <span id="tttAiScore" style="color: #f43f5e;">0</span></span>
+          </div>
+
+          <div id="tttStatus" style="font-family:'Urbanist'; font-weight:700; color:#fff; font-size:1.1rem; min-height:26px;">Giliran Kamu (X)</div>
+
+          <div class="ttt-board" id="tttBoard">
+            <div class="ttt-cell interactive" data-idx="0"></div>
+            <div class="ttt-cell interactive" data-idx="1"></div>
+            <div class="ttt-cell interactive" data-idx="2"></div>
+            <div class="ttt-cell interactive" data-idx="3"></div>
+            <div class="ttt-cell interactive" data-idx="4"></div>
+            <div class="ttt-cell interactive" data-idx="5"></div>
+            <div class="ttt-cell interactive" data-idx="6"></div>
+            <div class="ttt-cell interactive" data-idx="7"></div>
+            <div class="ttt-cell interactive" data-idx="8"></div>
+          </div>
+
+          <button id="resetTttBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 12px; font-size: 1.05rem;"><i class="fa-solid fa-rotate-right"></i> Main Lagi</button>
         </div>
       </div>
     </section>
@@ -760,7 +877,6 @@
         const box = document.getElementById("live-schedule-box");
         
         if(current) {
-          // LOGIKA PENGHITUNG SISA MENIT
           const endParts = current.end.split(':');
           const endMinutesTotal = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
           const currentMinutesTotal = now.getHours() * 60 + now.getMinutes();
@@ -792,8 +908,21 @@
       });
 
       // =====================================
-      // 6. LOGIKA NEON SNAKE GAME 
+      // 6. ARCADE HUB: SISTEM TAB & 4 MINI GAMES
       // =====================================
+      let currentActiveGameTab = "game-snake";
+      document.querySelectorAll('.arcade-tab-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const targetGame = e.currentTarget.getAttribute('data-game');
+          currentActiveGameTab = targetGame;
+          document.querySelectorAll('.arcade-tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.game-panel').forEach(p => p.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          document.getElementById(targetGame).classList.add('active');
+        });
+      });
+
+      // --- GAME 1: NEON SNAKE ---
       const canvas = document.getElementById('snakeCanvas');
       const ctx = canvas.getContext('2d');
       const boxSize = 15;
@@ -895,14 +1024,21 @@
       }
 
       document.addEventListener('keydown', (e) => {
-        if(!gameActive) return;
-        if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","KeyW","KeyA","KeyS","KeyD"].includes(e.code) && document.getElementById('minigame').classList.contains('active-page')) {
-          e.preventDefault(); 
+        const minigameActive = document.getElementById('minigame').classList.contains('active-page');
+        if(!minigameActive) return;
+
+        if(currentActiveGameTab === "game-snake" && gameActive) {
+          if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","KeyW","KeyA","KeyS","KeyD"].includes(e.code)) {
+            e.preventDefault(); 
+          }
+          if((e.code === "ArrowLeft" || e.code === "KeyA") && direction !== "RIGHT") direction = "LEFT";
+          else if((e.code === "ArrowUp" || e.code === "KeyW") && direction !== "DOWN") direction = "UP";
+          else if((e.code === "ArrowRight" || e.code === "KeyD") && direction !== "LEFT") direction = "RIGHT";
+          else if((e.code === "ArrowDown" || e.code === "KeyS") && direction !== "UP") direction = "DOWN";
+        } else if (currentActiveGameTab === "game-hoops" && e.code === "Space") {
+          e.preventDefault();
+          shootBasketball();
         }
-        if((e.code === "ArrowLeft" || e.code === "KeyA") && direction !== "RIGHT") direction = "LEFT";
-        else if((e.code === "ArrowUp" || e.code === "KeyW") && direction !== "DOWN") direction = "UP";
-        else if((e.code === "ArrowRight" || e.code === "KeyD") && direction !== "LEFT") direction = "RIGHT";
-        else if((e.code === "ArrowDown" || e.code === "KeyS") && direction !== "UP") direction = "DOWN";
       });
 
       document.querySelectorAll('.snake-btn').forEach(btn => {
@@ -917,6 +1053,366 @@
       });
 
       document.getElementById('startSnakeBtn').addEventListener('click', initGame);
+      drawGrid();
+
+      // --- GAME 2: NEON HOOPS (BASKETBALL) ---
+      const hoopsCanvas = document.getElementById('hoopsCanvas');
+      const hCtx = hoopsCanvas.getContext('2d');
+      let hoopsScore = 0;
+      let hoopsLives = 3;
+      let hoopsBest = localStorage.getItem('hoopsHighScore') || 0;
+      document.getElementById('hoopsHighScore').textContent = hoopsBest;
+
+      let hoop = { x: 150, y: 75, radius: 26, vx: 2.2 };
+      let ball = { x: 150, y: 275, radius: 13, vy: 0, isShooting: false, scoredThisShot: false };
+      let swishTextTimer = 0;
+      let hoopsGameOver = false;
+
+      function updateHoopsUI() {
+        document.getElementById('hoopsScore').textContent = hoopsScore;
+        document.getElementById('hoopsLives').textContent = hoopsLives > 0 ? "🏀".repeat(hoopsLives) : "Habis!";
+      }
+
+      function resetHoopsGame() {
+        hoopsScore = 0;
+        hoopsLives = 3;
+        hoopsGameOver = false;
+        hoop.vx = 2.2;
+        ball.isShooting = false;
+        ball.y = 275;
+        ball.vy = 0;
+        updateHoopsUI();
+      }
+
+      function shootBasketball() {
+        if (hoopsGameOver) {
+          resetHoopsGame();
+          return;
+        }
+        if (!ball.isShooting) {
+          ball.isShooting = true;
+          ball.vy = -12.5;
+          ball.scoredThisShot = false;
+        }
+      }
+
+      document.getElementById('shootHoopsBtn').addEventListener('click', shootBasketball);
+      document.getElementById('resetHoopsBtn').addEventListener('click', resetHoopsGame);
+      hoopsCanvas.addEventListener('click', shootBasketball);
+
+      function animateHoops() {
+        requestAnimationFrame(animateHoops);
+        hCtx.clearRect(0, 0, hoopsCanvas.width, hoopsCanvas.height);
+
+        // Background Court Lines
+        hCtx.strokeStyle = "rgba(56, 189, 248, 0.12)";
+        hCtx.lineWidth = 2;
+        hCtx.beginPath();
+        hCtx.arc(150, 320, 90, Math.PI, 0, false);
+        hCtx.stroke();
+
+        // Move Hoop
+        if (!hoopsGameOver) {
+          hoop.x += hoop.vx;
+          if (hoop.x + hoop.radius > hoopsCanvas.width - 15 || hoop.x - hoop.radius < 15) {
+            hoop.vx *= -1;
+          }
+        }
+
+        // Draw Backboard
+        hCtx.strokeStyle = "#38bdf8";
+        hCtx.lineWidth = 3;
+        hCtx.strokeRect(hoop.x - 32, hoop.y - 38, 64, 34);
+
+        // Draw Net
+        hCtx.strokeStyle = "rgba(255, 255, 255, 0.35)";
+        hCtx.lineWidth = 1.5;
+        hCtx.beginPath();
+        hCtx.moveTo(hoop.x - hoop.radius, hoop.y);
+        hCtx.lineTo(hoop.x - hoop.radius + 8, hoop.y + 28);
+        hCtx.lineTo(hoop.x + hoop.radius - 8, hoop.y + 28);
+        hCtx.lineTo(hoop.x + hoop.radius, hoop.y);
+        hCtx.stroke();
+
+        // Update Ball Physics
+        if (ball.isShooting) {
+          ball.y += ball.vy;
+          ball.vy += 0.38; // Gravity
+
+          // Check Scoring when ball is falling through hoop level
+          if (ball.vy > 0 && ball.y >= hoop.y - 8 && ball.y <= hoop.y + 14 && !ball.scoredThisShot) {
+            const dist = Math.abs(ball.x - hoop.x);
+            if (dist < hoop.radius - 5) {
+              ball.scoredThisShot = true;
+              hoopsScore += 1;
+              swishTextTimer = 35;
+              // Speed up hoop slightly
+              hoop.vx = (hoop.vx > 0 ? 1 : -1) * Math.min(5.5, 2.2 + hoopsScore * 0.25);
+              if (hoopsScore > hoopsBest) {
+                hoopsBest = hoopsScore;
+                localStorage.setItem('hoopsHighScore', hoopsBest);
+                document.getElementById('hoopsHighScore').textContent = hoopsBest;
+              }
+              updateHoopsUI();
+            }
+          }
+
+          // Reset ball when it falls back down
+          if (ball.y > 275) {
+            if (!ball.scoredThisShot) {
+              hoopsLives -= 1;
+              updateHoopsUI();
+              if (hoopsLives <= 0) {
+                hoopsGameOver = true;
+              }
+            }
+            ball.isShooting = false;
+            ball.y = 275;
+            ball.vy = 0;
+          }
+        }
+
+        // Draw Ball
+        hCtx.save();
+        hCtx.beginPath();
+        hCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+        hCtx.fillStyle = "#f97316";
+        hCtx.shadowBlur = 15;
+        hCtx.shadowColor = "#f97316";
+        hCtx.fill();
+        hCtx.restore();
+
+        // Draw Rim Front
+        hCtx.beginPath();
+        hCtx.moveTo(hoop.x - hoop.radius, hoop.y);
+        hCtx.lineTo(hoop.x + hoop.radius, hoop.y);
+        hCtx.strokeStyle = "#f43f5e";
+        hCtx.lineWidth = 5;
+        hCtx.stroke();
+
+        // Swish Effect
+        if (swishTextTimer > 0) {
+          hCtx.fillStyle = "#fcd34d";
+          hCtx.font = "bold 18px Urbanist";
+          hCtx.textAlign = "center";
+          hCtx.fillText("SWISH! +1 🔥", hoop.x, hoop.y - 48);
+          swishTextTimer--;
+        }
+
+        // Game Over Overlay
+        if (hoopsGameOver) {
+          hCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
+          hCtx.fillRect(0, 0, hoopsCanvas.width, hoopsCanvas.height);
+          hCtx.fillStyle = "#fff";
+          hCtx.font = "bold 22px Urbanist";
+          hCtx.textAlign = "center";
+          hCtx.fillText("GAME OVER", 150, 145);
+          hCtx.fillStyle = "#38bdf8";
+          hCtx.font = "bold 15px Urbanist";
+          hCtx.fillText("Klik SHOOT atau Reset untuk main lagi", 150, 175);
+        }
+      }
+      animateHoops();
+
+      // --- GAME 3: MATH RUSH ---
+      let mathScore = 0;
+      let mathTimeLeft = 30.0;
+      let mathInterval = null;
+      let mathActive = false;
+      let currentCorrectAnswer = 0;
+      let mathBest = localStorage.getItem('mathHighScore') || 0;
+      document.getElementById('mathHighScore').textContent = mathBest;
+
+      const mathQuestionEl = document.getElementById('mathQuestion');
+      const mathOptBtns = document.querySelectorAll('.math-opt-btn');
+      const mathTimerFill = document.getElementById('mathTimerFill');
+
+      function generateMathQuestion() {
+        const ops = ['+', '-', '×'];
+        const op = ops[Math.floor(Math.random() * ops.length)];
+        let a, b, ans;
+
+        if (op === '+') {
+          a = Math.floor(Math.random() * 45) + 5;
+          b = Math.floor(Math.random() * 45) + 5;
+          ans = a + b;
+        } else if (op === '-') {
+          a = Math.floor(Math.random() * 50) + 20;
+          b = Math.floor(Math.random() * (a - 5)) + 2;
+          ans = a - b;
+        } else {
+          a = Math.floor(Math.random() * 12) + 2;
+          b = Math.floor(Math.random() * 12) + 2;
+          ans = a * b;
+        }
+
+        currentCorrectAnswer = ans;
+        mathQuestionEl.textContent = `${a} ${op} ${b}`;
+
+        let choices = new Set([ans]);
+        while (choices.size < 4) {
+          let offset = Math.floor(Math.random() * 15) - 7;
+          let fake = ans + offset;
+          if (fake !== ans && fake >= 0) choices.add(fake);
+        }
+
+        const shuffled = Array.from(choices).sort(() => Math.random() - 0.5);
+        mathOptBtns.forEach((btn, idx) => {
+          btn.disabled = false;
+          btn.textContent = shuffled[idx];
+          btn.onclick = () => checkMathAnswer(shuffled[idx]);
+        });
+      }
+
+      function checkMathAnswer(val) {
+        if (!mathActive) return;
+        if (val === currentCorrectAnswer) {
+          mathScore += 10;
+          mathTimeLeft = Math.min(30, mathTimeLeft + 1.2);
+          mathQuestionEl.style.borderColor = "#34d399";
+        } else {
+          mathScore = Math.max(0, mathScore - 5);
+          mathTimeLeft = Math.max(0, mathTimeLeft - 2.0);
+          mathQuestionEl.style.borderColor = "#f43f5e";
+        }
+        document.getElementById('mathScore').textContent = mathScore;
+        setTimeout(() => mathQuestionEl.style.borderColor = "var(--border-glow)", 200);
+        generateMathQuestion();
+      }
+
+      function startMathGame() {
+        mathScore = 0;
+        mathTimeLeft = 30.0;
+        mathActive = true;
+        document.getElementById('mathScore').textContent = mathScore;
+        document.getElementById('startMathBtn').textContent = "Ulangi Tantangan";
+        generateMathQuestion();
+
+        if (mathInterval) clearInterval(mathInterval);
+        mathInterval = setInterval(() => {
+          mathTimeLeft -= 0.1;
+          if (mathTimeLeft <= 0) {
+            mathTimeLeft = 0;
+            clearInterval(mathInterval);
+            mathActive = false;
+            mathQuestionEl.textContent = "Waktu Habis!";
+            mathOptBtns.forEach(btn => btn.disabled = true);
+            if (mathScore > mathBest) {
+              mathBest = mathScore;
+              localStorage.setItem('mathHighScore', mathBest);
+              document.getElementById('mathHighScore').textContent = mathBest;
+            }
+          }
+          document.getElementById('mathTime').textContent = mathTimeLeft.toFixed(1) + "s";
+          mathTimerFill.style.width = ((mathTimeLeft / 30) * 100) + "%";
+        }, 100);
+      }
+
+      document.getElementById('startMathBtn').addEventListener('click', startMathGame);
+
+      // --- GAME 4: CYBER TIC-TAC-TOE ---
+      let tttBoard = Array(9).fill("");
+      let tttActive = true;
+      let pScore = 0, dScore = 0, aiScore = 0;
+      const tttCells = document.querySelectorAll('.ttt-cell');
+      const tttStatus = document.getElementById('tttStatus');
+      const winPatterns = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+
+      function checkTttWinner(b) {
+        for (let p of winPatterns) {
+          if (b[p[0]] && b[p[0]] === b[p[1]] && b[p[0]] === b[p[2]]) return b[p[0]];
+        }
+        return b.includes("") ? null : "DRAW";
+      }
+
+      function renderTtt() {
+        tttCells.forEach((cell, i) => {
+          cell.textContent = tttBoard[i];
+          cell.className = "ttt-cell interactive " + (tttBoard[i] === "X" ? "x-mark" : tttBoard[i] === "O" ? "o-mark" : "");
+        });
+      }
+
+      function aiMove() {
+        if (!tttActive) return;
+        let move = -1;
+        // 1. Try to win
+        for (let i = 0; i < 9; i++) {
+          if (!tttBoard[i]) {
+            tttBoard[i] = "O";
+            if (checkTttWinner(tttBoard) === "O") { move = i; tttBoard[i] = ""; break; }
+            tttBoard[i] = "";
+          }
+        }
+        // 2. Block player X
+        if (move === -1) {
+          for (let i = 0; i < 9; i++) {
+            if (!tttBoard[i]) {
+              tttBoard[i] = "X";
+              if (checkTttWinner(tttBoard) === "X") { move = i; tttBoard[i] = ""; break; }
+              tttBoard[i] = "";
+            }
+          }
+        }
+        // 3. Take center
+        if (move === -1 && !tttBoard[4]) move = 4;
+        // 4. Random available
+        if (move === -1) {
+          const avail = tttBoard.map((v, idx) => v === "" ? idx : null).filter(v => v !== null);
+          if (avail.length > 0) move = avail[Math.floor(Math.random() * avail.length)];
+        }
+
+        if (move !== -1) {
+          tttBoard[move] = "O";
+          renderTtt();
+          const res = checkTttWinner(tttBoard);
+          if (res) endTtt(res);
+          else tttStatus.textContent = "Giliran Kamu (X)";
+        }
+      }
+
+      function endTtt(res) {
+        tttActive = false;
+        if (res === "X") {
+          pScore++;
+          document.getElementById('tttPlayerScore').textContent = pScore;
+          tttStatus.innerHTML = `<span style="color:#38bdf8;">Kamu Menang! 🎉</span>`;
+        } else if (res === "O") {
+          aiScore++;
+          document.getElementById('tttAiScore').textContent = aiScore;
+          tttStatus.innerHTML = `<span style="color:#f43f5e;">Bot AI Menang! 🤖</span>`;
+        } else {
+          dScore++;
+          document.getElementById('tttDrawScore').textContent = dScore;
+          tttStatus.innerHTML = `<span style="color:#fcd34d;"> Seri / Draw! 🤝</span>`;
+        }
+      }
+
+      tttCells.forEach(cell => {
+        cell.addEventListener('click', (e) => {
+          const idx = parseInt(e.currentTarget.getAttribute('data-idx'));
+          if (!tttActive || tttBoard[idx] !== "") return;
+          tttBoard[idx] = "X";
+          renderTtt();
+          const res = checkTttWinner(tttBoard);
+          if (res) {
+            endTtt(res);
+          } else {
+            tttStatus.textContent = "Bot berpikir...";
+            setTimeout(aiMove, 300);
+          }
+        });
+      });
+
+      document.getElementById('resetTttBtn').addEventListener('click', () => {
+        tttBoard = Array(9).fill("");
+        tttActive = true;
+        tttStatus.textContent = "Giliran Kamu (X)";
+        renderTtt();
+      });
 
       // =====================================
       // 7. WEBGL BACKGROUND
