@@ -218,10 +218,10 @@
     #scrollTopBtn:hover { background: var(--accent-primary); color: #fff; transform: translateY(-8px) scale(1.1); box-shadow: 0 10px 30px rgba(168, 85, 247, 0.8); }
     
     /* ========================================================
-       ARCADE HUB & 7 MULTI-GAME STYLES
+       ARCADE HUB & 10 MULTI-GAME STYLES
        ======================================================== */
-    .arcade-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
-    .arcade-tab-btn { background: var(--btn-bg); border: 1px solid var(--border-light); color: var(--text-muted); font-family: 'Urbanist', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 11px 18px; border-radius: 14px; cursor: none; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+    .arcade-tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; max-width: 900px; margin-left: auto; margin-right: auto; }
+    .arcade-tab-btn { background: var(--btn-bg); border: 1px solid var(--border-light); color: var(--text-muted); font-family: 'Urbanist', sans-serif; font-weight: 700; font-size: 0.9rem; padding: 10px 15px; border-radius: 12px; cursor: none; transition: 0.3s; display: flex; align-items: center; gap: 7px; }
     .arcade-tab-btn:hover { background: rgba(168,85,247,0.15); color: #fff; transform: translateY(-2px); }
     .arcade-tab-btn.active { background: linear-gradient(45deg, #a855f7, #38bdf8); border-color: transparent; color: #fff; box-shadow: 0 6px 20px rgba(168,85,247,0.4); }
     
@@ -229,7 +229,7 @@
     .game-panel.active { display: block; }
 
     /* Game Canvases */
-    #snakeCanvas, #hoopsCanvas, #breakerCanvas, #flapCanvas { background: rgba(20, 22, 32, 0.85); border: 2px solid var(--border-glow); border-radius: 14px; box-shadow: 0 0 18px rgba(168, 85, 247, 0.3); max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    #snakeCanvas, #hoopsCanvas, #breakerCanvas, #flapCanvas, #defenderCanvas { background: rgba(20, 22, 32, 0.85); border: 2px solid var(--border-glow); border-radius: 14px; box-shadow: 0 0 18px rgba(168, 85, 247, 0.3); max-width: 100%; height: auto; display: block; margin: 0 auto; }
     .snake-controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 200px; margin: 20px auto 0; }
     .snake-btn { background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--border-light); border-radius: 12px; padding: 15px 0; font-size: 1.2rem; cursor: none; transition: 0.2s; display: flex; justify-content: center; align-items: center; }
     .snake-btn:active { background: var(--accent-primary); color: #fff; transform: scale(0.9); }
@@ -256,6 +256,23 @@
     .memory-card:hover { border-color: var(--accent-secondary); transform: scale(1.04); }
     .memory-card.flipped { background: rgba(168, 85, 247, 0.2); border-color: var(--accent-primary); color: #fff; text-shadow: 0 0 10px var(--accent-secondary); transform: rotateY(180deg); }
     .memory-card.matched { background: rgba(52, 211, 153, 0.2); border-color: #34d399; color: #34d399; text-shadow: 0 0 12px #34d399; pointer-events: none; }
+
+    /* Game 8: Cyber 2048 */
+    .grid-2048 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; background: rgba(2, 4, 10, 0.8); padding: 10px; border-radius: 16px; border: 2px solid var(--border-glow); max-width: 310px; margin: 12px auto; }
+    .tile-2048 { aspect-ratio: 1; border-radius: 10px; background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; font-family: 'Urbanist', sans-serif; font-weight: 900; font-size: 1.45rem; color: #fff; transition: 0.15s ease; }
+    .tile-2048[data-val="2"] { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+    .tile-2048[data-val="4"] { background: rgba(168, 85, 247, 0.25); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.5); }
+    .tile-2048[data-val="8"] { background: rgba(244, 63, 94, 0.3); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.6); }
+    .tile-2048[data-val="16"] { background: rgba(249, 115, 22, 0.35); color: #fdba74; border: 1px solid rgba(249, 115, 22, 0.7); }
+    .tile-2048[data-val="32"] { background: rgba(234, 179, 8, 0.4); color: #fde047; border: 1px solid #fde047; box-shadow: 0 0 10px rgba(234,179,8,0.4); }
+    .tile-2048[data-val="64"] { background: rgba(52, 211, 153, 0.4); color: #6ee7b7; border: 1px solid #34d399; box-shadow: 0 0 12px rgba(52,211,153,0.5); }
+    .tile-2048[data-val="128"], .tile-2048[data-val="256"], .tile-2048[data-val="512"], .tile-2048[data-val="1024"], .tile-2048[data-val="2048"] { background: linear-gradient(135deg, #f43f5e, #a855f7); color: #fff; font-size: 1.2rem; box-shadow: 0 0 15px rgba(244,63,94,0.7); }
+
+    /* Game 9: Neon Whack (Aim Reflex) */
+    .whack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 290px; margin: 16px auto; }
+    .whack-hole { aspect-ratio: 1; background: rgba(2, 4, 10, 0.75); border: 2px solid var(--border-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: none; transition: 0.15s; position: relative; overflow: hidden; user-select: none; }
+    .whack-hole.active-target { border-color: #38bdf8; background: radial-gradient(circle, rgba(56,189,248,0.35), rgba(168,85,247,0.15)); box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); transform: scale(1.06); }
+    .whack-hole.active-bomb { border-color: #f43f5e; background: radial-gradient(circle, rgba(244,63,94,0.35), transparent); box-shadow: 0 0 20px rgba(244, 63, 94, 0.6); }
 
     @media (max-width: 968px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .hero-img-box { max-width: 280px; } .profile-grid { grid-template-columns: 1fr; } .nav-links { gap: 4px; } #scrollTopBtn { bottom: 20px; right: 20px; width: 50px; height: 50px; } .schedule-table th, .schedule-table td { padding: 10px; font-size: 0.95rem; } .time-col { width: auto; } }
     @media (max-width: 768px) { .hamburger { display: flex; } .nav-links { position: fixed; top: 70px; right: -100%; flex-direction: column; background: var(--bg-base); width: 100%; height: calc(100vh - 70px); padding: 40px; border-top: 1px solid var(--border-light); justify-content: flex-start; transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); } .nav-links.show { right: 0; } }
@@ -547,12 +564,12 @@
       </div>
     </section>
 
-    <!-- SECTION MINIGAME: ARCADE HUB (7 GAMES) -->
+    <!-- SECTION MINIGAME: ARCADE HUB (10 GAMES) -->
     <section id="minigame" class="page-section">
-      <h2 class="section-title reveal" style="justify-content: center;"><i class="fa-solid fa-gamepad" style="color:#a855f7"></i> Keenan's Arcade Hub</h2>
-      <p class="reveal delay-1" style="text-align: center; margin-bottom: 24px; font-size: 1.05rem; color: var(--text-main);">Pilih salah satu dari 7 mini game di bawah ini dan pecahkan rekor skor tertinggi!</p>
+      <h2 class="section-title reveal" style="justify-content: center;"><i class="fa-solid fa-gamepad" style="color:#a855f7"></i> Keenan's Ultimate Arcade Hub</h2>
+      <p class="reveal delay-1" style="text-align: center; margin-bottom: 24px; font-size: 1.05rem; color: var(--text-main);">Pilih salah satu dari 10 mini game seru di bawah ini dan pecahkan rekor tertinggimu!</p>
       
-      <!-- Tab Pilihan 7 Game -->
+      <!-- Tab Pilihan 10 Game -->
       <div class="arcade-tabs reveal delay-1">
         <button class="arcade-tab-btn interactive active" data-game="game-snake"><i class="fa-solid fa-staff-snake"></i> Neon Snake</button>
         <button class="arcade-tab-btn interactive" data-game="game-hoops"><i class="fa-solid fa-basketball"></i> Neon Hoops</button>
@@ -561,6 +578,9 @@
         <button class="arcade-tab-btn interactive" data-game="game-breaker"><i class="fa-solid fa-cubes"></i> Cyber Breaker</button>
         <button class="arcade-tab-btn interactive" data-game="game-memory"><i class="fa-solid fa-brain"></i> Memory Matrix</button>
         <button class="arcade-tab-btn interactive" data-game="game-flap"><i class="fa-solid fa-shuttle-space"></i> Cosmic Flap</button>
+        <button class="arcade-tab-btn interactive" data-game="game-2048"><i class="fa-solid fa-border-all"></i> Cyber 2048</button>
+        <button class="arcade-tab-btn interactive" data-game="game-whack"><i class="fa-solid fa-bullseye"></i> Neon Whack</button>
+        <button class="arcade-tab-btn interactive" data-game="game-defender"><i class="fa-solid fa-meteor"></i> Space Defender</button>
       </div>
 
       <!-- GAME 1: NEON SNAKE -->
@@ -651,7 +671,7 @@
         </div>
       </div>
 
-      <!-- GAME 5: CYBER BREAKER (BRICK BREAKER) -->
+      <!-- GAME 5: CYBER BREAKER -->
       <div id="game-breaker" class="game-panel">
         <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
           <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🧱 Cyber Breaker</h3>
@@ -688,7 +708,7 @@
       <div id="game-flap" class="game-panel">
         <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
           <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🚀 Cosmic Flap</h3>
-          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Klik layar / tombolJUMP / Spasi untuk terbang melewati celah laser!</p>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Klik layar / tombol BOOST / Spasi untuk terbang melewati celah laser!</p>
           <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.15rem; font-weight: bold;">
             <span>Skor: <span id="flapScore" style="color: var(--accent-secondary);">0</span></span>
             <span>High Score: <span id="flapHighScore" style="color: #fcd34d;">0</span></span>
@@ -696,6 +716,71 @@
           <canvas id="flapCanvas" width="300" height="320"></canvas>
           <div style="margin-top: 18px;">
             <button id="flapJumpBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 14px; font-size: 1.05rem; background: linear-gradient(45deg, #38bdf8, #a855f7); color: #fff;"><i class="fa-solid fa-shuttle-space"></i> BOOST / JUMP (Spasi)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAME 8: CYBER 2048 (BARU) -->
+      <div id="game-2048" class="game-panel">
+        <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
+          <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🔢 Cyber 2048</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Gunakan tombol panah / WASD atau tombol di bawah untuk menggabungkan angka!</p>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.15rem; font-weight: bold;">
+            <span>Skor: <span id="score2048" style="color: var(--accent-secondary);">0</span></span>
+            <span>Best: <span id="best2048" style="color: #fcd34d;">0</span></span>
+          </div>
+          <div id="status2048" style="font-family:'Urbanist'; font-weight:700; color:#f43f5e; min-height:22px; font-size:0.95rem;"></div>
+          <div class="grid-2048" id="board2048"></div>
+          <button id="reset2048Btn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 12px; font-size: 1rem; margin-top: 10px;"><i class="fa-solid fa-rotate-right"></i> Game Baru</button>
+          <div class="snake-controls">
+             <div style="grid-column: 2;"><button class="snake-btn interactive btn-2048-dir" data-dir="UP"><i class="fa-solid fa-arrow-up"></i></button></div>
+             <div style="grid-column: 1;"><button class="snake-btn interactive btn-2048-dir" data-dir="LEFT"><i class="fa-solid fa-arrow-left"></i></button></div>
+             <div style="grid-column: 3;"><button class="snake-btn interactive btn-2048-dir" data-dir="RIGHT"><i class="fa-solid fa-arrow-right"></i></button></div>
+             <div style="grid-column: 2;"><button class="snake-btn interactive btn-2048-dir" data-dir="DOWN"><i class="fa-solid fa-arrow-down"></i></button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAME 9: NEON WHACK / AIM TRAINER (BARU) -->
+      <div id="game-whack" class="game-panel">
+        <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
+          <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🎯 Neon Whack Reflex</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Klik target biru (🎯) secepatnya! Jangan klik bom merah (💣)!</p>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.1rem; font-weight: bold;">
+            <span>Skor: <span id="whackScore" style="color: var(--accent-secondary);">0</span></span>
+            <span>Waktu: <span id="whackTime" style="color: #f43f5e;">25s</span></span>
+            <span>Best: <span id="whackBest" style="color: #fcd34d;">0</span></span>
+          </div>
+          <div class="whack-grid" id="whackGrid">
+            <div class="whack-hole interactive" data-hole="0"></div>
+            <div class="whack-hole interactive" data-hole="1"></div>
+            <div class="whack-hole interactive" data-hole="2"></div>
+            <div class="whack-hole interactive" data-hole="3"></div>
+            <div class="whack-hole interactive" data-hole="4"></div>
+            <div class="whack-hole interactive" data-hole="5"></div>
+            <div class="whack-hole interactive" data-hole="6"></div>
+            <div class="whack-hole interactive" data-hole="7"></div>
+            <div class="whack-hole interactive" data-hole="8"></div>
+          </div>
+          <button id="startWhackBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 12px; font-size: 1.05rem; margin-top: 10px;"><i class="fa-solid fa-bullseye"></i> Mulai Tes Refleks</button>
+        </div>
+      </div>
+
+      <!-- GAME 10: SPACE DEFENDER (BARU) -->
+      <div id="game-defender" class="game-panel">
+        <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
+          <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🛸 Space Defender</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Geser pesawat dengan mouse/jari atau tombol panah untuk menembak jatuh meteor!</p>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.1rem; font-weight: bold;">
+            <span>Skor: <span id="defScore" style="color: var(--accent-secondary);">0</span></span>
+            <span>Shield: <span id="defLives" style="color: #34d399;">🛡️🛡️🛡️</span></span>
+            <span>Best: <span id="defBest" style="color: #fcd34d;">0</span></span>
+          </div>
+          <canvas id="defenderCanvas" width="300" height="320"></canvas>
+          <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button id="defLeftBtn" class="snake-btn interactive" style="flex: 1; padding: 12px;"><i class="fa-solid fa-arrow-left"></i></button>
+            <button id="startDefBtn" class="btn-primary interactive" style="flex: 2; justify-content: center; padding: 12px; font-size: 1rem;"><i class="fa-solid fa-play"></i> Mulai Misi</button>
+            <button id="defRightBtn" class="snake-btn interactive" style="flex: 1; padding: 12px;"><i class="fa-solid fa-arrow-right"></i></button>
           </div>
         </div>
       </div>
@@ -954,7 +1039,7 @@
       });
 
       // =====================================
-      // 6. ARCADE HUB: SISTEM TAB & 7 MINI GAMES
+      // 6. ARCADE HUB: SISTEM TAB & 10 MINI GAMES
       // =====================================
       let currentActiveGameTab = "game-snake";
       document.querySelectorAll('.arcade-tab-btn').forEach(btn => {
@@ -1069,7 +1154,7 @@
         }
       }
 
-      document.querySelectorAll('.snake-btn').forEach(btn => {
+      document.querySelectorAll('#game-snake .snake-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           if(!gameActive) return;
           let newDir = e.currentTarget.getAttribute('data-dir');
@@ -1426,7 +1511,7 @@
         renderTtt();
       });
 
-      // --- GAME 5: CYBER BREAKER (BRICK BREAKER) ---
+      // --- GAME 5: CYBER BREAKER ---
       const bCanvas = document.getElementById('breakerCanvas');
       const bCtx = bCanvas.getContext('2d');
       let bScore = 0;
@@ -1480,7 +1565,6 @@
         requestAnimationFrame(animateBreaker);
         bCtx.clearRect(0, 0, bCanvas.width, bCanvas.height);
 
-        // Draw Bricks
         bricks.forEach(b => {
           if (!b.alive) return;
           bCtx.fillStyle = b.color;
@@ -1490,14 +1574,12 @@
           bCtx.shadowBlur = 0;
         });
 
-        // Draw Paddle
         bCtx.fillStyle = "#38bdf8";
         bCtx.shadowBlur = 10;
         bCtx.shadowColor = "#38bdf8";
         bCtx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h);
         bCtx.shadowBlur = 0;
 
-        // Draw Ball
         bCtx.beginPath();
         bCtx.arc(bBall.x, bBall.y, bBall.r, 0, Math.PI * 2);
         bCtx.fillStyle = "#fde047";
@@ -1511,14 +1593,12 @@
         if (bBall.x - bBall.r < 0 || bBall.x + bBall.r > bCanvas.width) bBall.vx *= -1;
         if (bBall.y - bBall.r < 0) bBall.vy *= -1;
 
-        // Paddle Collision
         if (bBall.vy > 0 && bBall.y + bBall.r >= paddle.y && bBall.y - bBall.r <= paddle.y + paddle.h && bBall.x >= paddle.x && bBall.x <= paddle.x + paddle.w) {
           let hitPos = (bBall.x - (paddle.x + paddle.w / 2)) / (paddle.w / 2);
           bBall.vx = hitPos * 4;
           bBall.vy = -Math.abs(bBall.vy);
         }
 
-        // Brick Collision
         bricks.forEach(b => {
           if (!b.alive) return;
           if (bBall.x + bBall.r > b.x && bBall.x - bBall.r < b.x + b.w && bBall.y + bBall.r > b.y && bBall.y - bBall.r < b.y + b.h) {
@@ -1534,13 +1614,11 @@
           }
         });
 
-        // Respawn bricks if all cleared
         if (bricks.every(b => !b.alive)) {
           initBricks();
           bBall.vy = -Math.abs(bBall.vy) * 1.1;
         }
 
-        // Game Over
         if (bBall.y - bBall.r > bCanvas.height) {
           bActive = false;
           bCtx.fillStyle = "rgba(0,0,0,0.75)";
@@ -1674,7 +1752,6 @@
 
           fPipes.forEach(p => {
             p.x -= 2.2;
-            // Check score
             if (!p.passed && p.x + p.w < fBird.x) {
               p.passed = true;
               flapScore++;
@@ -1685,7 +1762,6 @@
                 document.getElementById('flapHighScore').textContent = flapBest;
               }
             }
-            // Check collision
             if (fBird.x + fBird.r > p.x && fBird.x - fBird.r < p.x + p.w) {
               if (fBird.y - fBird.r < p.topH || fBird.y + fBird.r > p.bottomY) {
                 flapGameOver = true;
@@ -1700,7 +1776,6 @@
           }
         }
 
-        // Draw Pipes
         fPipes.forEach(p => {
           fCtx.fillStyle = "#a855f7";
           fCtx.shadowBlur = 10;
@@ -1710,7 +1785,6 @@
           fCtx.shadowBlur = 0;
         });
 
-        // Draw Bird
         fCtx.beginPath();
         fCtx.arc(fBird.x, fBird.y, fBird.r, 0, Math.PI * 2);
         fCtx.fillStyle = "#38bdf8";
@@ -1740,15 +1814,346 @@
       }
       animateFlap();
 
-      // Global Keyboard Controls for Arcade Games
+      // --- GAME 8: CYBER 2048 ---
+      const board2048El = document.getElementById('board2048');
+      let grid2048 = Array(16).fill(0);
+      let score2048 = 0;
+      let best2048 = localStorage.getItem('best2048') || 0;
+      document.getElementById('best2048').textContent = best2048;
+
+      function init2048() {
+        grid2048 = Array(16).fill(0);
+        score2048 = 0;
+        document.getElementById('score2048').textContent = score2048;
+        document.getElementById('status2048').textContent = "";
+        spawnTile2048();
+        spawnTile2048();
+        render2048();
+      }
+
+      function spawnTile2048() {
+        const empty = grid2048.map((v, i) => v === 0 ? i : null).filter(v => v !== null);
+        if (empty.length === 0) return;
+        const idx = empty[Math.floor(Math.random() * empty.length)];
+        grid2048[idx] = Math.random() < 0.9 ? 2 : 4;
+      }
+
+      function render2048() {
+        board2048El.innerHTML = '';
+        grid2048.forEach(val => {
+          const tile = document.createElement('div');
+          tile.className = 'tile-2048';
+          if (val > 0) {
+            tile.textContent = val;
+            tile.setAttribute('data-val', val);
+          }
+          board2048El.appendChild(tile);
+        });
+      }
+
+      function slideRow2048(row) {
+        let arr = row.filter(v => v !== 0);
+        for (let i = 0; i < arr.length - 1; i++) {
+          if (arr[i] === arr[i + 1]) {
+            arr[i] *= 2;
+            score2048 += arr[i];
+            arr[i + 1] = 0;
+          }
+        }
+        arr = arr.filter(v => v !== 0);
+        while (arr.length < 4) arr.push(0);
+        return arr;
+      }
+
+      function move2048(dir) {
+        let oldGrid = [...grid2048];
+        for (let i = 0; i < 4; i++) {
+          let row = [];
+          for (let j = 0; j < 4; j++) {
+            if (dir === "LEFT") row.push(grid2048[i * 4 + j]);
+            if (dir === "RIGHT") row.push(grid2048[i * 4 + (3 - j)]);
+            if (dir === "UP") row.push(grid2048[j * 4 + i]);
+            if (dir === "DOWN") row.push(grid2048[(3 - j) * 4 + i]);
+          }
+          let newRow = slideRow2048(row);
+          for (let j = 0; j < 4; j++) {
+            if (dir === "LEFT") grid2048[i * 4 + j] = newRow[j];
+            if (dir === "RIGHT") grid2048[i * 4 + (3 - j)] = newRow[j];
+            if (dir === "UP") grid2048[j * 4 + i] = newRow[j];
+            if (dir === "DOWN") grid2048[(3 - j) * 4 + i] = newRow[j];
+          }
+        }
+
+        if (oldGrid.some((v, idx) => v !== grid2048[idx])) {
+          spawnTile2048();
+          render2048();
+          document.getElementById('score2048').textContent = score2048;
+          if (score2048 > best2048) {
+            best2048 = score2048;
+            localStorage.setItem('best2048', best2048);
+            document.getElementById('best2048').textContent = best2048;
+          }
+          checkGameOver2048();
+        }
+      }
+
+      function checkGameOver2048() {
+        if (grid2048.includes(0)) return;
+        for (let r = 0; r < 4; r++) {
+          for (let c = 0; c < 4; c++) {
+            let cur = grid2048[r * 4 + c];
+            if (c < 3 && cur === grid2048[r * 4 + c + 1]) return;
+            if (r < 3 && cur === grid2048[(r + 1) * 4 + c]) return;
+          }
+        }
+        document.getElementById('status2048').textContent = "Tidak ada langkah tersisa! Game Over!";
+      }
+
+      document.querySelectorAll('.btn-2048-dir').forEach(btn => {
+        btn.addEventListener('click', (e) => move2048(e.currentTarget.getAttribute('data-dir')));
+      });
+      document.getElementById('reset2048Btn').addEventListener('click', init2048);
+      init2048();
+
+      // --- GAME 9: NEON WHACK REFLEX ---
+      const whackHoles = document.querySelectorAll('.whack-hole');
+      let whackScore = 0;
+      let whackTime = 25;
+      let whackBest = localStorage.getItem('whackBest') || 0;
+      document.getElementById('whackBest').textContent = whackBest;
+      let whackActive = false;
+      let whackTimerInt = null;
+      let whackSpawnTimeout = null;
+      let activeHoleIdx = -1;
+      let activeHoleType = "TARGET";
+
+      function clearWhackHoles() {
+        whackHoles.forEach(h => {
+          h.className = "whack-hole interactive";
+          h.textContent = "";
+        });
+        activeHoleIdx = -1;
+      }
+
+      function spawnWhackTarget() {
+        if (!whackActive) return;
+        clearWhackHoles();
+        const idx = Math.floor(Math.random() * 9);
+        activeHoleIdx = idx;
+        activeHoleType = Math.random() < 0.8 ? "TARGET" : "BOMB";
+        const hole = whackHoles[idx];
+        if (activeHoleType === "TARGET") {
+          hole.classList.add('active-target');
+          hole.textContent = "🎯";
+        } else {
+          hole.classList.add('active-bomb');
+          hole.textContent = "💣";
+        }
+        const stayTime = Math.max(420, 850 - whackScore * 5);
+        whackSpawnTimeout = setTimeout(spawnWhackTarget, stayTime);
+      }
+
+      whackHoles.forEach((hole, idx) => {
+        hole.addEventListener('click', () => {
+          if (!whackActive || idx !== activeHoleIdx) return;
+          if (activeHoleType === "TARGET") {
+            whackScore += 10;
+          } else {
+            whackScore = Math.max(0, whackScore - 15);
+          }
+          document.getElementById('whackScore').textContent = whackScore;
+          clearTimeout(whackSpawnTimeout);
+          spawnWhackTarget();
+        });
+      });
+
+      document.getElementById('startWhackBtn').addEventListener('click', () => {
+        whackScore = 0;
+        whackTime = 25;
+        whackActive = true;
+        document.getElementById('whackScore').textContent = whackScore;
+        document.getElementById('whackTime').textContent = whackTime + "s";
+        document.getElementById('startWhackBtn').textContent = "Restart Tes Refleks";
+        clearInterval(whackTimerInt);
+        clearTimeout(whackSpawnTimeout);
+        spawnWhackTarget();
+
+        whackTimerInt = setInterval(() => {
+          whackTime--;
+          document.getElementById('whackTime').textContent = whackTime + "s";
+          if (whackTime <= 0) {
+            whackActive = false;
+            clearInterval(whackTimerInt);
+            clearTimeout(whackSpawnTimeout);
+            clearWhackHoles();
+            if (whackScore > whackBest) {
+              whackBest = whackScore;
+              localStorage.setItem('whackBest', whackBest);
+              document.getElementById('whackBest').textContent = whackBest;
+            }
+          }
+        }, 1000);
+      });
+
+      // --- GAME 10: SPACE DEFENDER ---
+      const dCanvas = document.getElementById('defenderCanvas');
+      const dCtx = dCanvas.getContext('2d');
+      let defScore = 0;
+      let defLives = 3;
+      let defBest = localStorage.getItem('defBest') || 0;
+      document.getElementById('defBest').textContent = defBest;
+
+      let defActive = false;
+      let defGameOver = false;
+      let ship = { x: 135, y: 280, w: 30, h: 20 };
+      let bullets = [];
+      let meteors = [];
+      let defFrame = 0;
+
+      function updateDefUI() {
+        document.getElementById('defScore').textContent = defScore;
+        document.getElementById('defLives').textContent = defLives > 0 ? "🛡️".repeat(defLives) : "Hancur!";
+      }
+
+      function startDefender() {
+        defScore = 0;
+        defLives = 3;
+        ship.x = 135;
+        bullets = [];
+        meteors = [];
+        defFrame = 0;
+        defActive = true;
+        defGameOver = false;
+        updateDefUI();
+        document.getElementById('startDefBtn').textContent = "Restart Misi";
+      }
+
+      document.getElementById('startDefBtn').addEventListener('click', startDefender);
+      document.getElementById('defLeftBtn').addEventListener('click', () => { ship.x = Math.max(10, ship.x - 25); });
+      document.getElementById('defRightBtn').addEventListener('click', () => { ship.x = Math.min(dCanvas.width - ship.w - 10, ship.x + 25); });
+
+      dCanvas.addEventListener('mousemove', (e) => {
+        const rect = dCanvas.getBoundingClientRect();
+        ship.x = Math.max(10, Math.min(dCanvas.width - ship.w - 10, (e.clientX - rect.left) - ship.w / 2));
+      });
+      dCanvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        const rect = dCanvas.getBoundingClientRect();
+        ship.x = Math.max(10, Math.min(dCanvas.width - ship.w - 10, (e.touches[0].clientX - rect.left) - ship.w / 2));
+      }, { passive: false });
+
+      function animateDefender() {
+        requestAnimationFrame(animateDefender);
+        dCtx.clearRect(0, 0, dCanvas.width, dCanvas.height);
+
+        if (defActive && !defGameOver) {
+          defFrame++;
+          // Auto fire laser
+          if (defFrame % 16 === 0) {
+            bullets.push({ x: ship.x + ship.w / 2, y: ship.y, vy: -6 });
+          }
+          // Spawn meteors
+          if (defFrame % Math.max(25, 55 - Math.floor(defScore / 50)) === 0) {
+            let r = Math.floor(Math.random() * 10) + 10;
+            meteors.push({
+              x: Math.random() * (dCanvas.width - r * 2) + r,
+              y: -20,
+              r: r,
+              vy: 1.8 + Math.random() * 1.5 + (defScore * 0.005)
+            });
+          }
+
+          bullets.forEach(b => b.y += b.vy);
+          bullets = bullets.filter(b => b.y > -10);
+
+          meteors.forEach((m, mIdx) => {
+            m.y += m.vy;
+            // Check laser hit
+            bullets.forEach((b, bIdx) => {
+              let dist = Math.hypot(b.x - m.x, b.y - m.y);
+              if (dist < m.r + 4) {
+                m.hit = true;
+                b.hit = true;
+                defScore += 10;
+                if (defScore > defBest) {
+                  defBest = defScore;
+                  localStorage.setItem('defBest', defBest);
+                  document.getElementById('defBest').textContent = defBest;
+                }
+                updateDefUI();
+              }
+            });
+
+            // Check bottom breach
+            if (m.y - m.r > dCanvas.height && !m.hit) {
+              m.hit = true;
+              defLives--;
+              updateDefUI();
+              if (defLives <= 0) defGameOver = true;
+            }
+          });
+
+          bullets = bullets.filter(b => !b.hit);
+          meteors = meteors.filter(m => !m.hit);
+        }
+
+        // Draw Ship
+        dCtx.fillStyle = "#38bdf8";
+        dCtx.shadowBlur = 12;
+        dCtx.shadowColor = "#38bdf8";
+        dCtx.beginPath();
+        dCtx.moveTo(ship.x + ship.w / 2, ship.y);
+        dCtx.lineTo(ship.x + ship.w, ship.y + ship.h);
+        dCtx.lineTo(ship.x, ship.y + ship.h);
+        dCtx.closePath();
+        dCtx.fill();
+        dCtx.shadowBlur = 0;
+
+        // Draw Bullets
+        dCtx.fillStyle = "#fde047";
+        bullets.forEach(b => {
+          dCtx.fillRect(b.x - 2, b.y, 4, 10);
+        });
+
+        // Draw Meteors
+        meteors.forEach(m => {
+          dCtx.beginPath();
+          dCtx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
+          dCtx.fillStyle = "#f43f5e";
+          dCtx.shadowBlur = 10;
+          dCtx.shadowColor = "#f43f5e";
+          dCtx.fill();
+          dCtx.shadowBlur = 0;
+        });
+
+        if (!defActive) {
+          dCtx.fillStyle = "rgba(0,0,0,0.6)";
+          dCtx.fillRect(0, 0, dCanvas.width, dCanvas.height);
+          dCtx.fillStyle = "#fff";
+          dCtx.font = "bold 16px Urbanist";
+          dCtx.textAlign = "center";
+          dCtx.fillText("Klik 'Mulai Misi' untuk Bertempur!", 150, 160);
+        } else if (defGameOver) {
+          dCtx.fillStyle = "rgba(0,0,0,0.75)";
+          dCtx.fillRect(0, 0, dCanvas.width, dCanvas.height);
+          dCtx.fillStyle = "#f43f5e";
+          dCtx.font = "bold 22px Urbanist";
+          dCtx.textAlign = "center";
+          dCtx.fillText("MISSION FAILED", 150, 145);
+          dCtx.fillStyle = "#fff";
+          dCtx.font = "bold 14px Urbanist";
+          dCtx.fillText("Klik Restart Misi untuk main lagi", 150, 175);
+        }
+      }
+      animateDefender();
+
+      // Global Keyboard Controls for All 10 Arcade Games
       document.addEventListener('keydown', (e) => {
         const minigameActive = document.getElementById('minigame').classList.contains('active-page');
         if(!minigameActive) return;
 
         if(currentActiveGameTab === "game-snake" && gameActive) {
-          if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","KeyW","KeyA","KeyS","KeyD"].includes(e.code)) {
-            e.preventDefault(); 
-          }
+          if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","KeyW","KeyA","KeyS","KeyD"].includes(e.code)) e.preventDefault();
           if((e.code === "ArrowLeft" || e.code === "KeyA") && direction !== "RIGHT") direction = "LEFT";
           else if((e.code === "ArrowUp" || e.code === "KeyW") && direction !== "DOWN") direction = "UP";
           else if((e.code === "ArrowRight" || e.code === "KeyD") && direction !== "LEFT") direction = "RIGHT";
@@ -1762,6 +2167,15 @@
         } else if (currentActiveGameTab === "game-flap" && e.code === "Space") {
           e.preventDefault();
           flapJump();
+        } else if (currentActiveGameTab === "game-2048") {
+          if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","KeyW","KeyA","KeyS","KeyD"].includes(e.code)) e.preventDefault();
+          if (e.code === "ArrowLeft" || e.code === "KeyA") move2048("LEFT");
+          else if (e.code === "ArrowRight" || e.code === "KeyD") move2048("RIGHT");
+          else if (e.code === "ArrowUp" || e.code === "KeyW") move2048("UP");
+          else if (e.code === "ArrowDown" || e.code === "KeyS") move2048("DOWN");
+        } else if (currentActiveGameTab === "game-defender" && defActive) {
+          if (e.code === "ArrowLeft" || e.code === "KeyA") ship.x = Math.max(10, ship.x - 22);
+          if (e.code === "ArrowRight" || e.code === "KeyD") ship.x = Math.min(dCanvas.width - ship.w - 10, ship.x + 22);
         }
       });
 
