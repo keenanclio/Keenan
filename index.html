@@ -169,9 +169,8 @@
     .row-break .subj-link, .row-break span { color: var(--text-muted) !important; font-weight: 400; }
 
     .live-status-box { background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.05)); border: 1px solid var(--border-glow); text-align: center; padding: 24px 20px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(168,85,247,0.1); }
-    .live-time { font-family: 'Urbanist', monospace; font-size: 1.05rem; color: var(--accent-secondary); margin-bottom: 12px; display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; font-weight: 700; }
-    .live-subject { font-family: 'Urbanist', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px; line-height: 1.2; }
-    .countdown-badge { background: rgba(252, 211, 77, 0.15); color: #fcd34d; padding: 4px 12px; border-radius: 10px; font-weight: 800; border: 1px solid rgba(252, 211, 77, 0.5); font-family: 'Urbanist', monospace; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 0 12px rgba(252, 211, 77, 0.2); }
+    .live-time { font-family: 'Urbanist', sans-serif; font-size: 1rem; color: var(--accent-secondary); margin-bottom: 10px; }
+    .live-subject { font-family: 'Urbanist', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px; line-height: 1.1; }
 
     .teacher-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
     .teacher-card { background: var(--bg-surface); border: 1px solid var(--border-light); padding: 18px 16px; border-radius: 16px; text-align: center; color: var(--text-main); text-decoration: none; font-family: 'Urbanist', sans-serif; font-weight: 700; transition: all 0.3s; backdrop-filter: blur(24px); cursor: none; }
@@ -454,9 +453,7 @@
       <h2 class="section-title reveal"><i class="fa-solid fa-calendar-days" style="color:var(--accent-secondary)"></i> Jadwal Kelas XI-2</h2>
       <div class="live-status-box glass-card interactive card-3d reveal delay-1" id="live-schedule-box">
         <div class="live-time" id="live-time-display">Memuat Waktu...</div>
-        <h3 class="live-subject" id="live-subject-display">Mengecek Jadwal...</h3>
-        <div id="live-countdown-display" style="margin-bottom: 8px;"></div>
-        <div id="live-module-container"></div>
+        <h3 class="live-subject">Mengecek Jadwal...</h3>
       </div>
       <p class="reveal delay-1" style="font-size: 1.05rem; color: var(--text-main); margin-bottom: 24px;">Jadwal hari ini terbuka otomatis. Pilih hari lain untuk melihat jadwal lengkap.</p>
       <div class="reveal delay-1" id="jadwalTabsContainer"></div>
@@ -701,7 +698,7 @@
       }
 
       // =====================================
-      // 5. DATA JADWAL DAN MODUL GURU (AKURASI DETIK)
+      // 5. DATA JADWAL DAN MODUL GURU
       // =====================================
       const links = {
         "AGAMA": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home", "PKN": "https://sites.google.com/cintakasihtzuchi.sch.id/purwanto/home", "B.INDONESIA": "https://sites.google.com/cintakasihtzuchi.sch.id/rulymedianamanurungspd/materi/kelas-11?authuser=0", "INGGRIS": "https://sites.google.com/view/tibisatibi/home?authuser=0", "INGGRIS LANJUT": "https://sites.google.com/view/tibisatibi/home?authuser=0", "MANDARIN": "https://sites.google.com/cintakasihtzuchi.sch.id/laoshi-mul?usp=sharing", "MAT WAJIB": "https://sites.google.com/cintakasihtzuchi.sch.id/sma-cinta-kasih-tzu-chi/matematika-wajib/kelas-11?authuser=0", "SENI BUDAYA": "https://sites.google.com/cintakasihtzuchi.sch.id/senibudaya", "B.HUMANIS": "https://sites.google.com/cintakasihtzuchi.sch.id/iriwatyjaputra?usp=sharing", "FISIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/sartikalumbantoruan/grade-11?authuser=0", "KIMIA": "https://sites.google.com/cintakasihtzuchi.sch.id/chem-is-try/kimia/materi?authuser=0", "GEOGRAFI": "https://sites.google.com/cintakasihtzuchi.sch.id/nurfajarsidikweb/lesson-materi-ajar/geography?authuser=0", "SEJARAH": "https://sites.google.com/cintakasihtzuchi.sch.id/nurfajarsidikweb/lesson-materi-ajar/history?authuser=0", "INFORMATIKA": "https://sites.google.com/cintakasihtzuchi.sch.id/informatics"
@@ -737,68 +734,57 @@
             tableHtml += `<tr class="${rowClass}"><td class="time-col">${task.start} - ${task.end}</td><td>${subjName}</td></tr>`;
           });
           tableHtml += `</table>`;
-          contentHtml += `<div class="schedule-day-block tab-content ${activeClass}" id="tab-${day}"><h3>Jadwal Hari ${day}</h3><div style="overflow-x:auto;">${tableHtml}</div></div>`;         }       });       tabsHtml += `</div>`;       tabsContainer.innerHTML = tabsHtml; contentContainer.innerHTML = contentHtml;        document.querySelectorAll('.tab-btn').forEach(btn => {         btn.addEventListener('click', (e) => {           document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));           document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));           let day = e.target.getAttribute('data-day');           document.getElementById(`tab-${day}`).classList.add('active'); e.target.classList.add('active');
+          contentHtml += `<div class="schedule-day-block tab-content ${activeClass}" id="tab-${day}"><h3>Jadwal Hari ${day}</h3><div style="overflow-x:auto;">${tableHtml}</div></div>`;
+        }
+      });
+      tabsHtml += `</div>`;
+      tabsContainer.innerHTML = tabsHtml; contentContainer.innerHTML = contentHtml;
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+          document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
+          let day = e.target.getAttribute('data-day');
+          document.getElementById(`tab-${day}`).classList.add('active'); e.target.classList.add('active');
         });
       });
 
-      let gridHtml = ''; for(let subj in links) gridHtml += `<a href="${links[subj]}" target="_blank" class="teacher-card interactive">${subj}</a>`;       document.getElementById("teacher-links-grid").innerHTML = gridHtml;        let lastRenderedSubject = null;        function timeToSeconds(tStr) {         const [h, m] = tStr.split(':').map(Number);         return h * 3600 + m * 60;       }        function updateLiveSchedule() {         const now = new Date();         const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];         const today = days[now.getDay()];                  const hrs = now.getHours().toString().padStart(2, '0');         const mins = now.getMinutes().toString().padStart(2, '0');         const secs = now.getSeconds().toString().padStart(2, '0');         const fullTimeStr = `${hrs}:${mins}:${secs}`;
-        const currentTotalSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+      let gridHtml = ''; for(let subj in links) gridHtml += `<a href="${links[subj]}" target="_blank" class="teacher-card interactive">${subj}</a>`;
+      document.getElementById("teacher-links-grid").innerHTML = gridHtml;
 
-        const timeDisplay = document.getElementById("live-time-display");
-        const subjectDisplay = document.getElementById("live-subject-display");
-        const countdownDisplay = document.getElementById("live-countdown-display");
-        const moduleContainer = document.getElementById("live-module-container");
+      function updateLiveSchedule() {
+        const now = new Date(); const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
+        const today = days[now.getDay()]; const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        
+        let current = jadwal.find(j => j.day === today && timeStr >= j.start && timeStr < j.end);
+        const box = document.getElementById("live-schedule-box");
+        
+        if(current) {
+          // LOGIKA PENGHITUNG SISA MENIT
+          const endParts = current.end.split(':');
+          const endMinutesTotal = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
+          const currentMinutesTotal = now.getHours() * 60 + now.getMinutes();
+          const minutesLeft = endMinutesTotal - currentMinutesTotal;
+          
+          document.getElementById("live-time-display").innerHTML = `<i class="fa-regular fa-clock"></i> ${today}, ${timeStr} WIB <span style="background: rgba(252, 211, 77, 0.2); color: #fcd34d; padding: 2px 8px; border-radius: 8px; margin-left: 8px; font-weight: bold; border: 1px solid #fcd34d;">Sisa ${minutesLeft} Menit</span>`;
 
-        timeDisplay.innerHTML = `<i class="fa-regular fa-clock"></i> ${today}, ${fullTimeStr} WIB`;          const todayTasks = jadwal.filter(j => j.day === today);         let current = todayTasks.find(j => {           const startSec = timeToSeconds(j.start);           const endSec = timeToSeconds(j.end);           return currentTotalSeconds >= startSec && currentTotalSeconds < endSec;         });          if (current) {           const endSec = timeToSeconds(current.end);           const diffSeconds = endSec - currentTotalSeconds;           const mLeft = Math.floor(diffSeconds / 60);           const sLeft = diffSeconds \% 60;                      const timeRemainingFormatted = mLeft > 0              ? `Sisa ${mLeft} Menit ${sLeft.toString().padStart(2, '0')} Detik`              : `Sisa ${sLeft} Detik`;
-
-          countdownDisplay.innerHTML = `<div class="countdown-badge"><i class="fa-solid fa-hourglass-half"></i> ${timeRemainingFormatted} (${current.start} -${current.end})</div>`;
-
-          const isBreak = current.subject.includes("ISTIRAHAT") || current.subject.includes("PEMBIASAAN") || current.subject.includes("UPACARA");
-
-          if (lastRenderedSubject !== current.subject) {
-            lastRenderedSubject = current.subject;
-            if (isBreak) {
-              subjectDisplay.innerHTML = `<span style="font-size:1.5rem; color:var(--text-muted);">${current.subject}</span>`;
-              moduleContainer.innerHTML = ``;
-            } else {
-              subjectDisplay.textContent = current.subject;
-              moduleContainer.innerHTML = links[current.subject] 
-                ? `<a href="${links[current.subject]}" target="_blank" class="btn-primary interactive" style="margin-top:8px; padding:10px 20px; font-size:0.9rem; background:var(--accent-primary); color:#fff;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Modul ${current.subject}</a>` 
-                : `<p style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">*Tautan modul belum tersedia</p>`;
-            }
+          if(current.subject.includes("ISTIRAHAT") || current.subject.includes("PEMBIASAAN") || current.subject.includes("UPACARA")) {
+            box.querySelector('.live-subject').innerHTML = `<span style="font-size:1.5rem;">${current.subject}</span>`;
+            if(box.querySelector('.btn-primary')) box.querySelector('.btn-primary').remove();
+          } else {
+            let linkHTML = links[current.subject] ? `<a href="${links[current.subject]}" target="_blank" class="btn-primary interactive" style="margin-top:10px; padding:10px 20px; font-size:0.9rem; background:var(--accent-primary); color:#fff;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Modul ${current.subject}</a>` : `<p style="font-size:0.8rem; margin-top:10px;">*Web belum tersedia</p>`;
+            box.querySelector('.live-subject').textContent = current.subject;
+            if(box.querySelector('.btn-primary')) box.querySelector('.btn-primary').remove();
+            if(box.querySelector('p:not(.live-time)')) box.querySelector('p:not(.live-time)').remove();
+            box.innerHTML += linkHTML;
           }
         } else {
-          if (lastRenderedSubject !== "NONE") {
-            lastRenderedSubject = "NONE";
-            moduleContainer.innerHTML = ``;
-          }
-
-          if (todayTasks.length > 0) {
-            const firstStartSec = timeToSeconds(todayTasks[0].start);
-            const lastEndSec = timeToSeconds(todayTasks[todayTasks.length - 1].end);
-
-            if (currentTotalSeconds < firstStartSec) {
-              const diffSec = firstStartSec - currentTotalSeconds;
-              const hWait = Math.floor(diffSec / 3600);
-              const mWait = Math.floor((diffSec % 3600) / 60);
-              const sWait = diffSec % 60;
-              subjectDisplay.innerHTML = `<span style="font-size:1.35rem;">Kelas Belum Dimulai</span>`;
-              countdownDisplay.innerHTML = `<div class="countdown-badge"><i class="fa-regular fa-bell"></i> Mulai dalam ${hWait > 0 ? hWait + ' Jam ' : ''}${mWait} Menit${sWait} Detik</div>`;
-            } else if (currentTotalSeconds >= lastEndSec) {
-              subjectDisplay.innerHTML = `<span style="font-size:1.35rem; color:var(--text-muted);">Jam Sekolah Hari Ini Telah Selesai</span>`;
-              countdownDisplay.innerHTML = ``;
-            } else {
-              subjectDisplay.innerHTML = `<span style="font-size:1.35rem; color:var(--text-muted);">Tidak ada kelas saat ini.</span>`;
-              countdownDisplay.innerHTML = ``;
-            }
-          } else {
-            subjectDisplay.innerHTML = `<span style="font-size:1.35rem; color:var(--text-muted);">Akhir Pekan — Tidak Ada Kelas</span>`;
-            countdownDisplay.innerHTML = ``;
-          }
+          document.getElementById("live-time-display").innerHTML = `<i class="fa-regular fa-clock"></i> ${today}, ${timeStr} WIB`;
+          box.querySelector('.live-subject').innerHTML = `<span style="font-size:1.3rem;">Tidak ada kelas saat ini.</span>`;
+          if(box.querySelector('.btn-primary')) box.querySelector('.btn-primary').remove();
         }
       }
-      setInterval(updateLiveSchedule, 1000); 
-      updateLiveSchedule();
+      setInterval(updateLiveSchedule, 60000); updateLiveSchedule();
 
       document.getElementById("contactForm").addEventListener("submit", (e) => {
         e.preventDefault(); const nama = encodeURIComponent(document.getElementById("waName").value); const msg = encodeURIComponent(document.getElementById("waMsg").value);
