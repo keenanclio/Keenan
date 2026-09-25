@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Keenan Clio | Personal Hub</title>
   
-  <!-- Favicon -->
-  <link rel="icon" type="image/jpeg" href="image_3dc277.JPG?v=1" />
+  <!-- Favicon (Langsung tertanam dengan SVG agar pasti muncul di tab Chrome) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23022658'/><path d='M32 25 H41 V48 L62 25 H73 L50 50 L74 75 H62 L44 55 L41 58 V75 H32 Z' fill='%23ffffff'/></svg>" />
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,7 +73,7 @@
     .navbar { position: fixed; top: 0; left: 0; right: 0; background: var(--bg-surface); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-light); z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 18px 6%; transition: all 0.3s ease; }
     .nav-brand { display: flex; align-items: center; gap: 10px; font-family: 'Urbanist', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--text-main); text-decoration: none; letter-spacing: -0.5px; }
     .nav-brand span { color: var(--accent-primary); }
-    .brand-logo { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+    .brand-logo { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); border: 1px solid rgba(255,255,255,0.15); }
     
     .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
     .nav-btn { text-decoration: none; color: var(--text-muted); font-size: 0.95rem; font-weight: 600; padding: 10px 14px; border-radius: 12px; transition: all 0.3s; background: transparent; border: none; outline: none; }
@@ -204,7 +204,7 @@
     
     /* Footer Logo Wrapper */
     .footer-logo-wrapper { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; }
-    .footer-logo-img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+    .footer-logo-img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); border: 1px solid rgba(255,255,255,0.15); }
     .footer-logo { font-family: 'Urbanist', sans-serif; font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, var(--text-main), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; margin-bottom: 0; }
     
     .footer-socials { display: flex; justify-content: center; gap: 20px; margin: 24px 0; }
@@ -246,7 +246,7 @@
   <!-- Navbar -->
   <nav class="navbar">
     <a href="#home" class="nav-brand interactive nav-link">
-      <img src="image_3dc277.JPG?v=1" alt="Logo" class="brand-logo">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23022658'/><path d='M32 25 H41 V48 L62 25 H73 L50 50 L74 75 H62 L44 55 L41 58 V75 H32 Z' fill='%23ffffff'/></svg>" alt="Logo" class="brand-logo">
       Keenan<span>.</span>
     </a>
     <button class="hamburger interactive" id="hamburgerBtn"><span></span><span></span><span></span></button>
@@ -562,7 +562,7 @@
   <footer class="glass-footer">
     <div class="footer-content">
       <div class="footer-logo-wrapper">
-        <img src="image_3dc277.JPG?v=1" alt="Logo" class="footer-logo-img">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23022658'/><path d='M32 25 H41 V48 L62 25 H73 L50 50 L74 75 H62 L44 55 L41 58 V75 H32 Z' fill='%23ffffff'/></svg>" alt="Logo" class="footer-logo-img">
         <div class="footer-logo">Keenan Clio Adiwinata</div>
       </div>
       <p style="margin: 10px 0; font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">Mengasah logika matematika, mengeksplorasi batas sains, dan membangun harmoni dalam kerja sama tim.</p>
@@ -589,7 +589,7 @@
       
       let progress = 0;
       const progressInterval = setInterval(() => {
-        progress += Math.floor(Math.random() * 4) + 1; // Angka naik acak
+        progress += Math.floor(Math.random() * 4) + 1;
         if (progress >= 100) {
           progress = 100;
           clearInterval(progressInterval);
@@ -598,11 +598,11 @@
           setTimeout(() => {
             if(introScreen) introScreen.classList.add('hide');
             setTimeout(() => { document.body.style.overflow = 'auto'; document.body.style.overflowX = 'hidden'; }, 1200);
-          }, 400); // Jeda sejenak sebelum layar terangkat
+          }, 400);
         } else {
           introCounter.textContent = progress + "%";
         }
-      }, 30); // Kecepatan update angka
+      }, 30);
 
       document.getElementById("currentYear").textContent = new Date().getFullYear();
       
