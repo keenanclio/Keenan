@@ -606,17 +606,17 @@
         </div>
       </div>
 
-      <!-- GAME 11: NEON BILLIARD (POOL) - BARU -->
+      <!-- GAME 11: NEON BILLIARD (POOL) - UPGRADED -->
       <div id="game-billiard" class="game-panel">
         <div class="glass-card interactive card-3d" style="max-width: 420px; margin: 0 auto; text-align: center; padding: 25px;">
           <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🎱 Neon Billiard Pool</h3>
-          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Klik/sentuh dan tarik ke belakang dari bola putih untuk membidik & mengatur tenaga, lalu lepaskan!</p>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Klik bola putih lalu tarik bebas hingga ke luar meja untuk membidik & mengatur tenaga!</p>
           <div style="display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.05rem; font-weight: bold;">
             <span>Masuk: <span id="bilPocketed" style="color: #34d399;">0/6</span></span>
             <span>Pukulan: <span id="bilShots" style="color: var(--accent-secondary);">0</span></span>
             <span>Rekor: <span id="bilBest" style="color: #fcd34d;">-</span></span>
           </div>
-          <div id="bilStatus" style="font-family:'Urbanist'; font-weight:700; color:#fde047; min-height:22px; font-size:0.9rem; margin-bottom:6px;">Tarik bola putih untuk menyodok!</div>
+          <div id="bilStatus" style="font-family:'Urbanist'; font-weight:700; color:#fde047; min-height:22px; font-size:0.9rem; margin-bottom:6px;">Klik & tarik bola putih ke luar meja!</div>
           <canvas id="billiardCanvas" width="280" height="380"></canvas>
           <div style="margin-top: 16px;">
             <button id="resetBilliardBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 12px; font-size: 1rem;"><i class="fa-solid fa-rotate-right"></i> Susun Ulang Bola</button>
@@ -1187,7 +1187,7 @@
       document.getElementById('startSnakeBtn').addEventListener('click', initGame);
       drawGrid();
 
-      // --- GAME 11: NEON BILLIARD (POOL) ---
+      // --- GAME 11: NEON BILLIARD (POOL) - UPGRADED 3D BALLS & GLOBAL DRAG ---
       const bilCanvas = document.getElementById('billiardCanvas');
       const bilCtx = bilCanvas.getContext('2d');
       let bilBalls = [];
@@ -1201,8 +1201,9 @@
         { x: 10, y: 190 }, { x: 270, y: 190 },
         { x: 14, y: 366 }, { x: 266, y: 366 }
       ];
-      const ballRadius = 10;
-      const pocketRadius = 17;
+      const ballRadius = 11;
+      const pocketRadius = 18;
+      const maxPullDistance = 180; // Bisa ditarik jauh sampai ke luar meja!
       let isDraggingCue = false;
       let dragPos = { x: 0, y: 0 };
 
@@ -1211,18 +1212,18 @@
         bilPocketed = 0;
         document.getElementById('bilShots').textContent = bilShots;
         document.getElementById('bilPocketed').textContent = `0/6`;
-        document.getElementById('bilStatus').textContent = "Tarik dari bola putih untuk menyodok!";
+        document.getElementById('bilStatus').textContent = "Klik & tarik bola putih hingga ke luar meja!";
 
         bilBalls = [
           // Cue ball (index 0)
-          { x: 140, y: 295, vx: 0, vy: 0, r: ballRadius, color: '#ffffff', isCue: true, active: true, num: '' },
-          // 6 Target Balls in Pyramid Rack
-          { x: 140, y: 115, vx: 0, vy: 0, r: ballRadius, color: '#fde047', isCue: false, active: true, num: '1' },
-          { x: 128, y: 95, vx: 0, vy: 0, r: ballRadius, color: '#38bdf8', isCue: false, active: true, num: '2' },
-          { x: 152, y: 95, vx: 0, vy: 0, r: ballRadius, color: '#f43f5e', isCue: false, active: true, num: '3' },
-          { x: 116, y: 75, vx: 0, vy: 0, r: ballRadius, color: '#a855f7', isCue: false, active: true, num: '4' },
-          { x: 140, y: 75, vx: 0, vy: 0, r: ballRadius, color: '#f97316', isCue: false, active: true, num: '5' },
-          { x: 164, y: 75, vx: 0, vy: 0, r: ballRadius, color: '#34d399', isCue: false, active: true, num: '6' }
+          { x: 140, y: 295, vx: 0, vy: 0, r: ballRadius, color: '#f8fafc', darkColor: '#cbd5e1', isCue: true, active: true, num: '' },
+          // 6 Target Balls in Pyramid Rack with 3D Gradient Colors
+          { x: 140, y: 115, vx: 0, vy: 0, r: ballRadius, color: '#facc15', darkColor: '#a16207', isCue: false, active: true, num: '1' },
+          { x: 127, y: 94, vx: 0, vy: 0, r: ballRadius, color: '#38bdf8', darkColor: '#0369a1', isCue: false, active: true, num: '2' },
+          { x: 153, y: 94, vx: 0, vy: 0, r: ballRadius, color: '#f43f5e', darkColor: '#9f1239', isCue: false, active: true, num: '3' },
+          { x: 114, y: 73, vx: 0, vy: 0, r: ballRadius, color: '#a855f7', darkColor: '#581c87', isCue: false, active: true, num: '4' },
+          { x: 140, y: 73, vx: 0, vy: 0, r: ballRadius, color: '#fb923c', darkColor: '#9a3412', isCue: false, active: true, num: '5' },
+          { x: 166, y: 73, vx: 0, vy: 0, r: ballRadius, color: '#34d399', darkColor: '#065f46', isCue: false, active: true, num: '6' }
         ];
       }
       initBilliard();
@@ -1233,8 +1234,8 @@
 
       function getCanvasCoords(e) {
         const rect = bilCanvas.getBoundingClientRect();
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const clientX = (e.touches && e.touches.length > 0) ? e.touches[0].clientX : e.clientX;
+        const clientY = (e.touches && e.touches.length > 0) ? e.touches[0].clientY : e.clientY;
         return {
           x: (clientX - rect.left) * (bilCanvas.width / rect.width),
           y: (clientY - rect.top) * (bilCanvas.height / rect.height)
@@ -1245,9 +1246,10 @@
         if (areBallsMoving() || bilPocketed >= 6) return;
         const pos = getCanvasCoords(e);
         const cue = bilBalls[0];
-        if (Math.hypot(pos.x - cue.x, pos.y - cue.y) < 55) {
+        if (Math.hypot(pos.x - cue.x, pos.y - cue.y) < 70) {
           isDraggingCue = true;
           dragPos = pos;
+          if (e.cancelable) e.preventDefault();
         }
       }
 
@@ -1264,24 +1266,27 @@
         const dx = cue.x - dragPos.x;
         const dy = cue.y - dragPos.y;
         const dist = Math.hypot(dx, dy);
-        if (dist > 6) {
-          const maxPull = 90;
-          const power = Math.min(dist, maxPull) * 0.16;
+        if (dist > 8) {
+          const pull = Math.min(dist, maxPullDistance);
+          const power = (pull / maxPullDistance) * 15.5;
           const angle = Math.atan2(dy, dx);
           cue.vx = Math.cos(angle) * power;
           cue.vy = Math.sin(angle) * power;
           bilShots++;
           document.getElementById('bilShots').textContent = bilShots;
           document.getElementById('bilStatus').textContent = "Bola meluncur...";
+        } else {
+          document.getElementById('bilStatus').textContent = "Tarik lebih jauh untuk menyodok!";
         }
       }
 
+      // Gunakan event listener pada window untuk move & end agar bebas ditarik keluar meja/canvas!
       bilCanvas.addEventListener('mousedown', startCueDrag);
-      bilCanvas.addEventListener('mousemove', moveCueDrag);
+      window.addEventListener('mousemove', moveCueDrag);
       window.addEventListener('mouseup', endCueDrag);
 
       bilCanvas.addEventListener('touchstart', startCueDrag, { passive: false });
-      bilCanvas.addEventListener('touchmove', moveCueDrag, { passive: false });
+      window.addEventListener('touchmove', moveCueDrag, { passive: false });
       window.addEventListener('touchend', endCueDrag);
 
       document.getElementById('resetBilliardBtn').addEventListener('click', initBilliard);
@@ -1290,23 +1295,33 @@
         requestAnimationFrame(animateBilliard);
         bilCtx.clearRect(0, 0, bilCanvas.width, bilCanvas.height);
 
-        // Draw Table Felt Markings
-        bilCtx.strokeStyle = "rgba(168, 85, 247, 0.2)";
-        bilCtx.lineWidth = 1.5;
+        // Draw Table Felt Texture & Neon Rails
+        const tableGrad = bilCtx.createRadialGradient(140, 190, 20, 140, 190, 220);
+        tableGrad.addColorStop(0, "rgba(15, 23, 42, 0.9)");
+        tableGrad.addColorStop(1, "rgba(2, 6, 23, 0.98)");
+        bilCtx.fillStyle = tableGrad;
+        bilCtx.fillRect(12, 12, bilCanvas.width - 24, bilCanvas.height - 24);
+
+        bilCtx.strokeStyle = "rgba(56, 189, 248, 0.35)";
+        bilCtx.lineWidth = 2.5;
         bilCtx.strokeRect(12, 12, bilCanvas.width - 24, bilCanvas.height - 24);
+
+        // Baulk line & Center spot
+        bilCtx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+        bilCtx.lineWidth = 1;
         bilCtx.beginPath();
         bilCtx.moveTo(12, 295);
         bilCtx.lineTo(bilCanvas.width - 12, 295);
         bilCtx.stroke();
 
-        // Draw 6 Pockets
+        // Draw 6 Pockets with 3D Rim
         bilPockets.forEach(p => {
           bilCtx.beginPath();
           bilCtx.arc(p.x, p.y, pocketRadius, 0, Math.PI * 2);
-          bilCtx.fillStyle = "#02040a";
+          bilCtx.fillStyle = "#000000";
           bilCtx.fill();
-          bilCtx.strokeStyle = "#38bdf8";
-          bilCtx.lineWidth = 2;
+          bilCtx.strokeStyle = "rgba(168, 85, 247, 0.6)";
+          bilCtx.lineWidth = 2.5;
           bilCtx.stroke();
         });
 
@@ -1327,7 +1342,7 @@
           }
 
           // Wall Collisions
-          const margin = 12;
+          const margin = 13;
           if (b.x - b.r < margin) { b.x = margin + b.r; b.vx *= -0.85; }
           if (b.x + b.r > bilCanvas.width - margin) { b.x = bilCanvas.width - margin - b.r; b.vx *= -0.85; }
           if (b.y - b.r < margin) { b.y = margin + b.r; b.vy *= -0.85; }
@@ -1368,7 +1383,6 @@
             const dy = b2.y - b1.y;
             const dist = Math.hypot(dx, dy);
             if (dist > 0 && dist < b1.r + b2.r) {
-              // Resolve Overlap
               const overlap = (b1.r + b2.r - dist) / 2;
               const nx = dx / dist;
               const ny = dy / dist;
@@ -1377,7 +1391,6 @@
               b2.x += nx * overlap;
               b2.y += ny * overlap;
 
-              // Exchange Velocity along normal
               const kx = b1.vx - b2.vx;
               const ky = b1.vy - b2.vy;
               const p = 2 * (nx * kx + ny * ky) / 2;
@@ -1389,54 +1402,105 @@
           }
         }
 
-        // Draw Aiming Line when dragging cue ball
+        // Draw Aiming Line, Power Percentage & Cyber Cue Stick when dragging
         const cue = bilBalls[0];
         if (isDraggingCue && !moving) {
           const dx = cue.x - dragPos.x;
           const dy = cue.y - dragPos.y;
           const angle = Math.atan2(dy, dx);
-          const pullDist = Math.min(Math.hypot(dx, dy), 90);
+          const rawDist = Math.hypot(dx, dy);
+          const pullDist = Math.min(rawDist, maxPullDistance);
+          const powerPct = Math.round((pullDist / maxPullDistance) * 100);
 
-          // Forward Laser Aim Line
+          document.getElementById('bilStatus').textContent = `Power Tembakan: ${powerPct}%`;
+
           bilCtx.save();
+          // Forward Laser Aim Line + Target Ghost Circle
           bilCtx.beginPath();
-          bilCtx.setLineDash([5, 5]);
+          bilCtx.setLineDash([4, 4]);
           bilCtx.moveTo(cue.x, cue.y);
-          bilCtx.lineTo(cue.x + Math.cos(angle) * 140, cue.y + Math.sin(angle) * 140);
-          bilCtx.strokeStyle = "#38bdf8";
+          bilCtx.lineTo(cue.x + Math.cos(angle) * 180, cue.y + Math.sin(angle) * 180);
+          bilCtx.strokeStyle = "rgba(56, 189, 248, 0.85)";
           bilCtx.lineWidth = 2;
           bilCtx.stroke();
 
-          // Pull-back Stick Indicator
+          // Cue Stick Pulling Back
           bilCtx.setLineDash([]);
+          const stickOffset = 16 + (pullDist * 0.45);
+          const stickLength = 95;
+          const startX = cue.x - Math.cos(angle) * stickOffset;
+          const startY = cue.y - Math.sin(angle) * stickOffset;
+          const endX = cue.x - Math.cos(angle) * (stickOffset + stickLength);
+          const endY = cue.y - Math.sin(angle) * (stickOffset + stickLength);
+
           bilCtx.beginPath();
-          bilCtx.moveTo(cue.x, cue.y);
-          bilCtx.lineTo(cue.x - Math.cos(angle) * pullDist, cue.y - Math.sin(angle) * pullDist);
-          bilCtx.strokeStyle = "#f43f5e";
-          bilCtx.lineWidth = 4;
+          bilCtx.moveTo(startX, startY);
+          bilCtx.lineTo(endX, endY);
+          bilCtx.strokeStyle = powerPct > 75 ? "#f43f5e" : powerPct > 40 ? "#fde047" : "#38bdf8";
+          bilCtx.lineWidth = 4.5;
+          bilCtx.lineCap = "round";
+          bilCtx.shadowBlur = 10;
+          bilCtx.shadowColor = bilCtx.strokeStyle;
           bilCtx.stroke();
           bilCtx.restore();
         }
 
-        // Draw Balls
+        // Draw 3D Glossy Balls
         bilBalls.forEach(b => {
           if (!b.active) return;
           bilCtx.save();
+
+          // Drop shadow under ball
+          bilCtx.beginPath();
+          bilCtx.arc(b.x + 2, b.y + 3, b.r, 0, Math.PI * 2);
+          bilCtx.fillStyle = "rgba(0, 0, 0, 0.45)";
+          bilCtx.fill();
+
+          // 3D Spherical Radial Gradient
+          const grad = bilCtx.createRadialGradient(
+            b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.1,
+            b.x, b.y, b.r
+          );
+          grad.addColorStop(0, "#ffffff");
+          grad.addColorStop(0.25, b.color);
+          grad.addColorStop(1, b.darkColor);
+
           bilCtx.beginPath();
           bilCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-          bilCtx.fillStyle = b.color;
-          bilCtx.shadowBlur = 10;
+          bilCtx.fillStyle = grad;
+          bilCtx.shadowBlur = 8;
           bilCtx.shadowColor = b.color;
           bilCtx.fill();
-          bilCtx.restore();
+          bilCtx.shadowBlur = 0;
 
           if (!b.isCue) {
+            // Inner White Number Circle (Authentic Pool Ball Look)
+            bilCtx.beginPath();
+            bilCtx.arc(b.x, b.y, b.r * 0.52, 0, Math.PI * 2);
+            bilCtx.fillStyle = "rgba(255, 255, 255, 0.92)";
+            bilCtx.fill();
+
+            // Ball Number
             bilCtx.fillStyle = "#02040a";
-            bilCtx.font = "bold 9px Urbanist";
+            bilCtx.font = "900 8.5px Urbanist";
             bilCtx.textAlign = "center";
             bilCtx.textBaseline = "middle";
-            bilCtx.fillText(b.num, b.x, b.y);
+            bilCtx.fillText(b.num, b.x, b.y + 0.5);
+          } else {
+            // Red Pro-Cup Dot on Cue Ball
+            bilCtx.beginPath();
+            bilCtx.arc(b.x, b.y, 2.2, 0, Math.PI * 2);
+            bilCtx.fillStyle = "#f43f5e";
+            bilCtx.fill();
           }
+
+          // Top-left Glossy Specular Shine
+          bilCtx.beginPath();
+          bilCtx.arc(b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.22, 0, Math.PI * 2);
+          bilCtx.fillStyle = "rgba(255, 255, 255, 0.55)";
+          bilCtx.fill();
+
+          bilCtx.restore();
         });
       }
       animateBilliard();
