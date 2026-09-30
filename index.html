@@ -617,7 +617,7 @@
         </div>
       </div>
 
-      <!-- GAME 11: 9-BALL POOL (1V1 & SOLO) -->
+      <!-- GAME 11: 9-BALL POOL (1V1 & SOLO) DENGAN PRO AIMING GUIDE -->
       <div id="game-billiard" class="game-panel">
         <div class="glass-card interactive card-3d" style="max-width: 450px; margin: 0 auto; text-align: center; padding: 22px;">
           <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:4px; font-size:1.4rem;">🎱 Pro 9-Ball Pool (1v1)</h3>
@@ -1217,7 +1217,7 @@
       document.getElementById('startSnakeBtn').addEventListener('click', initGame);
       drawGrid();
 
-      // --- GAME 11: PRO 9-BALL POOL (1V1, BOT, & SOLO) ---
+      // --- GAME 11: PRO 9-BALL POOL (1V1, BOT, & SOLO) DENGAN PRO AIMING GUIDE ---
       const bilCanvas = document.getElementById('billiardCanvas');
       const bilCtx = bilCanvas.getContext('2d');
       let bilBalls = [];
@@ -1248,6 +1248,66 @@
       function getLowestActiveBall() {
         const activeNums = bilBalls.filter(b => !b.isCue && b.active).map(b => parseInt(b.num));
         return activeNums.length > 0 ? Math.min(...activeNums) : null;
+      }
+
+      // Fungsi Raycasting untuk menghitung titik tabrakan pertama saat membidik (Aiming Guide)
+      function computeAimingRay(cue, angle) {
+        const dx = Math.cos(angle);
+        const dy = Math.sin(angle);
+        const R = cue.r;
+        const W = bilCanvas.width;
+        const H = bilCanvas.height;
+
+        // 1. Cari jarak ke pantulan dinding karet terdekat
+        let wallDist = Infinity;
+        let wallNormal = { x: 0, y: 0 };
+
+        if (dx > 0.0001) {
+          const d = (W - railW - R - cue.x) / dx;
+          if (d > 0 && d < wallDist) { wallDist = d; wallNormal = { x: -1, y: 0 }; }
+        } else if (dx < -0.0001) {
+          const d = (railW + R - cue.x) / dx;
+          if (d > 0 && d < wallDist) { wallDist = d; wallNormal = { x: 1, y: 0 }; }
+        }
+
+        if (dy > 0.0001) {
+          const d = (H - railW - R - cue.y) / dy;
+          if (d > 0 && d < wallDist) { wallDist = d; wallNormal = { x: 0, y: -1 }; }
+        } else if (dy < -0.0001) {
+          const d = (railW + R - cue.y) / dy;
+          if (d > 0 && d < wallDist) { wallDist = d; wallNormal = { x: 0, y: 1 }; }
+        }
+
+        // 2. Cari bola pertama yang tertabrak di sepanjang jalur sinar bidikan
+        let minBallDist = wallDist;
+        let hitBall = null;
+
+        bilBalls.forEach(b => {
+          if (b.isCue || !b.active) return;
+          const fx = b.x - cue.x;
+          const fy = b.y - cue.y;
+          const proj = fx * dx + fy * dy;
+          if (proj > 0) {
+            const perpSq = (fx * fx + fy * fy) - (proj * proj);
+            const sumR = R + b.r;
+            if (perpSq < sumR * sumR) {
+              const dist = proj - Math.sqrt(sumR * sumR - perpSq);
+              if (dist > 0 && dist < minBallDist) {
+                minBallDist = dist;
+                hitBall = b;
+              }
+            }
+          }
+        });
+
+        return {
+          ghostX: cue.x + dx * minBallDist,
+          ghostY: cue.y + dy * minBallDist,
+          hitBall: hitBall,
+          wallNormal: wallNormal,
+          dx: dx,
+          dy: dy
+        };
       }
 
       function updateBilliardHUD() {
@@ -1439,7 +1499,7 @@
 
       function startCueDrag(e) {
         if (areBallsMoving() || shotInProgress || bilMatchOver) return;
-        if (bilMode === "BOT" && currentPlayer === 2) return; // Tunggu giliran Bot
+        if (bilMode === "BOT" && currentPlayer === 2) return;
         const pos = getCanvasCoords(e);
         const cue = bilBalls[0];
         if (Math.hypot(pos.x - cue.x, pos.y - cue.y) < 70) {
@@ -1498,7 +1558,6 @@
           const targetBall = bilBalls.find(b => b.active && b.num === lowestNum);
           if (!targetBall) return;
 
-          // Cari kantong terdekat dari targetBall untuk menentukan sudut tumbukan tipis
           let bestPocket = bilPockets[0];
           let minDist = Infinity;
           bilPockets.forEach(p => {
@@ -1510,7 +1569,6 @@
           const ghostX = targetBall.x - Math.cos(pocketAngle) * (ballRadius * 1.9);
           const ghostY = targetBall.y - Math.sin(pocketAngle) * (ballRadius * 1.9);
 
-          // Sedikit ketidaksempurnaan manusiawi pada bidikan Bot
           const aimAngle = Math.atan2(ghostY - cue.y, ghostX - cue.x) + (Math.random() - 0.5) * 0.06;
           const power = 10.5 + Math.random() * 4.0;
           executeShot(Math.cos(aimAngle) * power, Math.sin(aimAngle) * power);
@@ -1524,7 +1582,6 @@
         if (isFoul) {
           let foulReason = scratchThisTurn ? "Scratch (Bola putih masuk)!" : (firstHitBallNum === null ? "Tidak mengenai bola!" : `Salah sasaran (Kena #${firstHitBallNum}, harusnya #${targetBallAtShotStart})!`);
           
-          // Jika bola 9 masuk saat foul, kembalikan bola 9 ke titik tengah atas
           const ball9 = bilBalls.find(b => b.num === 9);
           if (ball9 && !ball9.active) {
             ball9.active = true;
@@ -1539,7 +1596,6 @@
             document.getElementById('bilStatus').textContent = `FOUL (${foulReason})! Giliran ${nextName} (Target #${getLowestActiveBall()})`;
           }
         } else {
-          // Pukulan Sah! Cek apakah Bola 9 masuk
           if (pocketedThisTurn.includes(9)) {
             bilMatchOver = true;
             if (bilMode === "SOLO") {
@@ -1563,7 +1619,6 @@
               document.getElementById('bilStatus').textContent = `🔥 Bola #${pocketedThisTurn.join(', #')} masuk! ${pName} lanjut menyodok Bola #${getLowestActiveBall()}!`;
             }
           } else {
-            // Sah tapi tidak ada bola masuk -> Ganti giliran
             if (bilMode === "SOLO") {
               document.getElementById('bilStatus').textContent = `Lanjut bidik Bola #${getLowestActiveBall()}!`;
             } else {
@@ -1646,7 +1701,6 @@
             const dy = b2.y - b1.y;
             const dist = Math.hypot(dx, dy);
             if (dist > 0 && dist < b1.r + b2.r) {
-              // Catat bola pertama yang disentuh oleh bola putih
               if (shotInProgress && firstHitBallNum === null) {
                 if (b1.isCue) firstHitBallNum = b2.num;
                 else if (b2.isCue) firstHitBallNum = b1.num;
@@ -1671,7 +1725,6 @@
           }
         }
 
-        // Jika semua bola sudah berhenti setelah tembakan, evaluasi giliran
         if (shotInProgress && !moving) {
           shotInProgress = false;
           evaluateTurnResult();
@@ -1693,7 +1746,9 @@
           }
         }
 
-        // Draw Aiming Line, Ghost Ball & Realistic Wooden Cue Stick
+        // ============================================================
+        // PRO AIMING GUIDE (8-BALL POOL STYLE TRAJECTORY PREDICTION)
+        // ============================================================
         const cue = bilBalls[0];
         if (isDraggingCue && !moving) {
           const dx = cue.x - dragPos.x;
@@ -1703,30 +1758,101 @@
           const pullDist = Math.min(rawDist, maxPullDistance);
           const powerPct = Math.round((pullDist / maxPullDistance) * 100);
 
-          document.getElementById('bilStatus').textContent = `Power Tembakan: ${powerPct}% (Target Bola #${lowestActive})`;
+          const ray = computeAimingRay(cue, angle);
+          const isLegalHit = ray.hitBall ? (ray.hitBall.num === lowestActive) : true;
+          const guideColor = ray.hitBall 
+            ? (isLegalHit ? "#34d399" : "#f43f5e") 
+            : "rgba(255, 255, 255, 0.85)";
+
+          if (ray.hitBall) {
+            document.getElementById('bilStatus').innerHTML = isLegalHit 
+              ? `Power: ${powerPct}% — <span style="color:#34d399;">Target Sah (Bola #${ray.hitBall.num})</span>`
+              : `Power: ${powerPct}% — <span style="color:#f43f5e;">⚠️ AWAS FOUL! Kena Bola #${ray.hitBall.num} (Wajib #${lowestActive})</span>`;
+          } else {
+            document.getElementById('bilStatus').textContent = `Power Tembakan: ${powerPct}% (Pantulan Dinding)`;
+          }
 
           bilCtx.save();
-          const aimLength = 165;
-          const targetX = cue.x + Math.cos(angle) * aimLength;
-          const targetY = cue.y + Math.sin(angle) * aimLength;
 
+          // 1. Garis Bidik Utama dari Cue Ball ke Ghost Ball
           bilCtx.beginPath();
-          bilCtx.setLineDash([4, 4]);
           bilCtx.moveTo(cue.x, cue.y);
-          bilCtx.lineTo(targetX, targetY);
-          bilCtx.strokeStyle = "rgba(255, 255, 255, 0.75)";
-          bilCtx.lineWidth = 1.8;
+          bilCtx.lineTo(ray.ghostX, ray.ghostY);
+          bilCtx.strokeStyle = guideColor;
+          bilCtx.lineWidth = 2;
+          bilCtx.shadowBlur = 8;
+          bilCtx.shadowColor = guideColor;
           bilCtx.stroke();
+          bilCtx.shadowBlur = 0;
 
-          // Ghost Ball Target Circle
-          bilCtx.setLineDash([]);
+          // 2. Lingkaran Ghost Ball di Titik Tabrakan
           bilCtx.beginPath();
-          bilCtx.arc(targetX, targetY, ballRadius, 0, Math.PI * 2);
-          bilCtx.strokeStyle = currentPlayer === 1 ? "rgba(56, 189, 248, 0.8)" : "rgba(244, 63, 94, 0.8)";
-          bilCtx.lineWidth = 1.8;
+          bilCtx.arc(ray.ghostX, ray.ghostY, ballRadius, 0, Math.PI * 2);
+          bilCtx.fillStyle = ray.hitBall 
+            ? (isLegalHit ? "rgba(52, 211, 153, 0.22)" : "rgba(244, 63, 94, 0.25)")
+            : "rgba(255, 255, 255, 0.15)";
+          bilCtx.fill();
+          bilCtx.strokeStyle = guideColor;
+          bilCtx.lineWidth = 2;
           bilCtx.stroke();
 
-          // Realistic Wooden Pool Cue Stick
+          // 3. Garis Prediksi Pantulan Bola Sasaran & Defleksi Bola Putih
+          if (ray.hitBall) {
+            const b = ray.hitBall;
+            const nx = (b.x - ray.ghostX) / (cue.r + b.r);
+            const ny = (b.y - ray.ghostY) / (cue.r + b.r);
+            const impactAlignment = Math.max(0.15, ray.dx * nx + ray.dy * ny);
+            const objGuideLen = 45 + (pullDist / maxPullDistance) * 65 * impactAlignment;
+
+            // Garis Arah Laju Bola Sasaran (Object Ball Trajectory)
+            const targetEndX = b.x + nx * objGuideLen;
+            const targetEndY = b.y + ny * objGuideLen;
+            bilCtx.beginPath();
+            bilCtx.moveTo(b.x, b.y);
+            bilCtx.lineTo(targetEndX, targetEndY);
+            bilCtx.strokeStyle = isLegalHit ? "#fde047" : "#f43f5e";
+            bilCtx.lineWidth = 2.5;
+            bilCtx.stroke();
+
+            // Titik Ujung Arah Bola Sasaran
+            bilCtx.beginPath();
+            bilCtx.arc(targetEndX, targetEndY, 3.5, 0, Math.PI * 2);
+            bilCtx.fillStyle = isLegalHit ? "#fde047" : "#f43f5e";
+            bilCtx.fill();
+
+            // Garis Belok Bola Putih Setelah Tabrakan (Cue Ball Tangent Deflection)
+            const dot = ray.dx * nx + ray.dy * ny;
+            const defX = ray.dx - dot * nx;
+            const defY = ray.dy - dot * ny;
+            const defLen = Math.hypot(defX, defY);
+            if (defLen > 0.08) {
+              const ux = defX / defLen;
+              const uy = defY / defLen;
+              const cueDeflectLen = 35 * (1 - impactAlignment * 0.5);
+              bilCtx.beginPath();
+              bilCtx.setLineDash([3, 3]);
+              bilCtx.moveTo(ray.ghostX, ray.ghostY);
+              bilCtx.lineTo(ray.ghostX + ux * cueDeflectLen, ray.ghostY + uy * cueDeflectLen);
+              bilCtx.strokeStyle = "rgba(255, 255, 255, 0.85)";
+              bilCtx.lineWidth = 1.8;
+              bilCtx.stroke();
+              bilCtx.setLineDash([]);
+            }
+          } else {
+            // Pantulan Dinding (Wall Bounce Reflection Guide)
+            const refX = ray.wallNormal.x !== 0 ? -ray.dx : ray.dx;
+            const refY = ray.wallNormal.y !== 0 ? -ray.dy : ray.dy;
+            bilCtx.beginPath();
+            bilCtx.setLineDash([4, 4]);
+            bilCtx.moveTo(ray.ghostX, ray.ghostY);
+            bilCtx.lineTo(ray.ghostX + refX * 45, ray.ghostY + refY * 45);
+            bilCtx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+            bilCtx.lineWidth = 1.5;
+            bilCtx.stroke();
+            bilCtx.setLineDash([]);
+          }
+
+          // 4. Realistic Wooden Pool Cue Stick
           const stickOffset = 15 + (pullDist * 0.45);
           const stickLength = 115;
           bilCtx.translate(cue.x, cue.y);
