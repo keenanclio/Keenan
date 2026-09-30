@@ -235,6 +235,16 @@
     .snake-btn { background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--border-light); border-radius: 12px; padding: 15px 0; font-size: 1.2rem; cursor: none; transition: 0.2s; display: flex; justify-content: center; align-items: center; }
     .snake-btn:active { background: var(--accent-primary); color: #fff; transform: scale(0.9); }
 
+    /* Billiard 9-Ball Mode Selector & Scoreboard */
+    .bil-mode-selector { display: flex; gap: 6px; justify-content: center; margin-bottom: 14px; }
+    .bil-mode-btn { flex: 1; background: var(--btn-bg); border: 1px solid var(--border-light); color: var(--text-muted); font-family: 'Urbanist', sans-serif; font-weight: 700; font-size: 0.82rem; padding: 8px 10px; border-radius: 10px; cursor: none; transition: 0.25s; }
+    .bil-mode-btn.active { background: rgba(16, 185, 129, 0.2); border-color: #10b981; color: #fff; box-shadow: 0 0 12px rgba(16, 185, 129, 0.35); }
+    .bil-scoreboard { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; margin-bottom: 10px; background: rgba(2, 4, 10, 0.65); padding: 10px 12px; border-radius: 14px; border: 1px solid var(--border-light); }
+    .bil-player-box { padding: 6px 8px; border-radius: 10px; border: 1px solid transparent; transition: 0.3s; font-family: 'Urbanist', sans-serif; }
+    .bil-player-box.active-turn { background: rgba(56, 189, 248, 0.15); border-color: #38bdf8; box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); }
+    .bil-player-box.p2-box.active-turn { background: rgba(244, 63, 94, 0.15); border-color: #f43f5e; box-shadow: 0 0 12px rgba(244, 63, 94, 0.3); }
+    .bil-target-badge { background: rgba(250, 204, 21, 0.15); border: 1px solid #facc15; color: #fde047; padding: 5px 10px; border-radius: 10px; font-family: 'Urbanist', sans-serif; font-weight: 900; font-size: 0.85rem; text-align: center; }
+
     /* Game 3: Math Rush */
     .math-display-box { background: rgba(2, 4, 10, 0.7); border: 2px solid var(--border-glow); border-radius: 16px; padding: 28px 20px; margin: 15px 0; font-family: 'Urbanist', sans-serif; font-size: 2.8rem; font-weight: 900; color: #fff; text-shadow: 0 0 15px rgba(56, 189, 248, 0.6); min-height: 110px; display: flex; align-items: center; justify-content: center; }
     .math-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
@@ -573,7 +583,7 @@
       <!-- Tab Pilihan 11 Game -->
       <div class="arcade-tabs reveal delay-1">
         <button class="arcade-tab-btn interactive active" data-game="game-snake"><i class="fa-solid fa-staff-snake"></i> Neon Snake</button>
-        <button class="arcade-tab-btn interactive" data-game="game-billiard"><i class="fa-solid fa-circle-dot"></i> Neon Billiard</button>
+        <button class="arcade-tab-btn interactive" data-game="game-billiard"><i class="fa-solid fa-circle-dot"></i> 9-Ball Pool (1v1)</button>
         <button class="arcade-tab-btn interactive" data-game="game-hoops"><i class="fa-solid fa-basketball"></i> Neon Hoops</button>
         <button class="arcade-tab-btn interactive" data-game="game-math"><i class="fa-solid fa-bolt"></i> Math Rush</button>
         <button class="arcade-tab-btn interactive" data-game="game-ttt"><i class="fa-solid fa-chess-board"></i> Tic-Tac-Toe</button>
@@ -607,20 +617,39 @@
         </div>
       </div>
 
-      <!-- GAME 11: NEON BILLIARD (POOL) - REALISTIC TOURNAMENT TABLE -->
+      <!-- GAME 11: 9-BALL POOL (1V1 & SOLO) -->
       <div id="game-billiard" class="game-panel">
-        <div class="glass-card interactive card-3d" style="max-width: 440px; margin: 0 auto; text-align: center; padding: 25px;">
-          <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:6px; font-size:1.4rem;">🎱 Pro Billiard Pool</h3>
-          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Klik bola putih lalu tarik bebas hingga ke luar meja untuk mengatur arah & tenaga stik!</p>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.05rem; font-weight: bold;">
-            <span>Masuk: <span id="bilPocketed" style="color: #34d399;">0/6</span></span>
-            <span>Pukulan: <span id="bilShots" style="color: var(--accent-secondary);">0</span></span>
-            <span>Rekor: <span id="bilBest" style="color: #fcd34d;">-</span></span>
+        <div class="glass-card interactive card-3d" style="max-width: 450px; margin: 0 auto; text-align: center; padding: 22px;">
+          <h3 style="color:#fff; font-family:'Urbanist'; margin-bottom:4px; font-size:1.4rem;">🎱 Pro 9-Ball Pool (1v1)</h3>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px;">Wajib mengenai <b>Bola Angka Terkecil</b> lebih dulu! Siapa yang memasukkan <b>Bola #9</b> secara sah menang!</p>
+          
+          <!-- Pilihan Mode: 1v1 Player, 1v1 vs Bot, Solo -->
+          <div class="bil-mode-selector">
+            <button class="bil-mode-btn interactive active" data-bmode="PVP"><i class="fa-solid fa-user-group"></i> 1v1 Player</button>
+            <button class="bil-mode-btn interactive" data-bmode="BOT"><i class="fa-solid fa-robot"></i> Lawan Bot</button>
+            <button class="bil-mode-btn interactive" data-bmode="SOLO"><i class="fa-solid fa-bullseye"></i> Solo</button>
           </div>
-          <div id="bilStatus" style="font-family:'Urbanist'; font-weight:700; color:#fde047; min-height:22px; font-size:0.9rem; margin-bottom:8px;">Klik & tarik bola putih ke luar meja!</div>
+
+          <!-- Papan Skor 1v1 & Target Bola -->
+          <div class="bil-scoreboard">
+            <div class="bil-player-box active-turn" id="bilP1Box">
+              <div style="font-size:0.78rem; color:#94a3b8;" id="bilP1Name">PLAYER 1</div>
+              <div style="font-size:1.25rem; font-weight:900; color:#38bdf8;" id="bilP1Score">0</div>
+            </div>
+            <div class="bil-target-badge">
+              <div style="font-size:0.68rem; color:#cbd5e1; font-weight:700;">TARGET</div>
+              <div style="font-size:1.1rem;" id="bilTargetBall">Bola #1</div>
+            </div>
+            <div class="bil-player-box p2-box" id="bilP2Box">
+              <div style="font-size:0.78rem; color:#94a3b8;" id="bilP2Name">PLAYER 2</div>
+              <div style="font-size:1.25rem; font-weight:900; color:#f43f5e;" id="bilP2Score">0</div>
+            </div>
+          </div>
+
+          <div id="bilStatus" style="font-family:'Urbanist'; font-weight:700; color:#fde047; min-height:22px; font-size:0.9rem; margin-bottom:8px;">Giliran Player 1 — Bidik Bola #1!</div>
           <canvas id="billiardCanvas" width="300" height="410"></canvas>
-          <div style="margin-top: 16px;">
-            <button id="resetBilliardBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 12px; font-size: 1rem;"><i class="fa-solid fa-rotate-right"></i> Susun Ulang Bola</button>
+          <div style="margin-top: 14px;">
+            <button id="resetBilliardBtn" class="btn-primary interactive" style="width: 100%; justify-content: center; padding: 11px; font-size: 0.95rem;"><i class="fa-solid fa-rotate-right"></i> Rack Ulang 9-Ball</button>
           </div>
         </div>
       </div>
@@ -1188,26 +1217,66 @@
       document.getElementById('startSnakeBtn').addEventListener('click', initGame);
       drawGrid();
 
-      // --- GAME 11: NEON BILLIARD (POOL) - REALISTIC TOURNAMENT TABLE & 3D BALLS ---
+      // --- GAME 11: PRO 9-BALL POOL (1V1, BOT, & SOLO) ---
       const bilCanvas = document.getElementById('billiardCanvas');
       const bilCtx = bilCanvas.getContext('2d');
       let bilBalls = [];
-      let bilShots = 0;
-      let bilPocketed = 0;
-      let bilBest = localStorage.getItem('bilBestShots') || null;
-      if (bilBest) document.getElementById('bilBest').textContent = bilBest + " Pukulan";
+      let bilMode = "PVP"; // "PVP", "BOT", "SOLO"
+      let currentPlayer = 1; // 1 or 2
+      let p1Score = 0;
+      let p2Score = 0;
+      let bilMatchOver = false;
 
-      // Ukuran Meja & Bantalan Karet (Cushion)
+      // Shot tracking for 9-ball rules
+      let shotInProgress = false;
+      let targetBallAtShotStart = 1;
+      let firstHitBallNum = null;
+      let pocketedThisTurn = [];
+      let scratchThisTurn = false;
+
       const railW = 22;
       const bilPockets = [
         { x: 20, y: 20, r: 16 }, { x: 280, y: 20, r: 16 },
         { x: 15, y: 205, r: 15 }, { x: 285, y: 205, r: 15 },
         { x: 20, y: 390, r: 16 }, { x: 280, y: 390, r: 16 }
       ];
-      const ballRadius = 10.5;
+      const ballRadius = 10;
       const maxPullDistance = 190;
       let isDraggingCue = false;
       let dragPos = { x: 0, y: 0 };
+
+      function getLowestActiveBall() {
+        const activeNums = bilBalls.filter(b => !b.isCue && b.active).map(b => parseInt(b.num));
+        return activeNums.length > 0 ? Math.min(...activeNums) : null;
+      }
+
+      function updateBilliardHUD() {
+        const lowest = getLowestActiveBall();
+        document.getElementById('bilTargetBall').textContent = lowest ? `Bola #${lowest}` : `Selesai!`;
+        const p1Box = document.getElementById('bilP1Box');
+        const p2Box = document.getElementById('bilP2Box');
+
+        if (bilMode === "SOLO") {
+          document.getElementById('bilP1Name').textContent = "PUKULAN";
+          document.getElementById('bilP1Score').textContent = p1Score;
+          document.getElementById('bilP2Name').textContent = "MASUK";
+          document.getElementById('bilP2Score').textContent = `${p2Score}/9`;
+          p1Box.classList.add('active-turn');
+          p2Box.classList.remove('active-turn');
+        } else {
+          document.getElementById('bilP1Name').textContent = "PLAYER 1";
+          document.getElementById('bilP1Score').textContent = p1Score;
+          document.getElementById('bilP2Name').textContent = bilMode === "BOT" ? "BOT AI 🤖" : "PLAYER 2";
+          document.getElementById('bilP2Score').textContent = p2Score;
+          if (currentPlayer === 1) {
+            p1Box.classList.add('active-turn');
+            p2Box.classList.remove('active-turn');
+          } else {
+            p1Box.classList.remove('active-turn');
+            p2Box.classList.add('active-turn');
+          }
+        }
+      }
 
       function drawDiamondSight(ctx, x, y) {
         ctx.save();
@@ -1239,11 +1308,11 @@
         bilCtx.lineWidth = 1.5;
         bilCtx.strokeRect(14, 14, W - 28, H - 28);
 
-        // 2. Darker Green Cushion Rubber (Bantalan Karet)
+        // 2. Darker Green Cushion Rubber
         bilCtx.fillStyle = "#064e3b";
         bilCtx.fillRect(15, 15, W - 30, H - 30);
 
-        // 3. Tournament Emerald Felt Cloth (Permukaan Beludru Meja)
+        // 3. Tournament Emerald Felt Cloth
         const feltGrad = bilCtx.createRadialGradient(W / 2, H / 2, 15, W / 2, H / 2, 240);
         feltGrad.addColorStop(0, "#10b981");
         feltGrad.addColorStop(0.65, "#059669");
@@ -1260,23 +1329,20 @@
         bilCtx.save();
         bilCtx.strokeStyle = "rgba(255, 255, 255, 0.28)";
         bilCtx.lineWidth = 1.2;
-        // Baulk Line
         bilCtx.beginPath();
         bilCtx.moveTo(railW, 315);
         bilCtx.lineTo(W - railW, 315);
         bilCtx.stroke();
-        // D-Zone Semicircle
         bilCtx.beginPath();
         bilCtx.arc(W / 2, 315, 38, 0, Math.PI, false);
         bilCtx.stroke();
-        // Foot Spot (Titik Rack)
         bilCtx.fillStyle = "rgba(0, 0, 0, 0.45)";
         bilCtx.beginPath();
-        bilCtx.arc(W / 2, 120, 3, 0, Math.PI * 2);
+        bilCtx.arc(W / 2, 109, 3, 0, Math.PI * 2);
         bilCtx.fill();
         bilCtx.restore();
 
-        // 5. Diamond Sights (Titik Berlian di Pinggiran Kayu)
+        // 5. Diamond Sights
         const topDiamonds = [75, 150, 225];
         topDiamonds.forEach(dx => {
           drawDiamondSight(bilCtx, dx, 7.5);
@@ -1288,9 +1354,8 @@
           drawDiamondSight(bilCtx, W - 7.5, dy);
         });
 
-        // 6. Realistic Pockets with Metallic/Brass Rim & 3D Depth
+        // 6. Realistic Pockets
         bilPockets.forEach(p => {
-          // Outer Brass/Chrome Pocket Casting
           bilCtx.save();
           bilCtx.beginPath();
           bilCtx.arc(p.x, p.y, p.r + 3.5, 0, Math.PI * 2);
@@ -1301,7 +1366,6 @@
           bilCtx.fillStyle = rimGrad;
           bilCtx.fill();
 
-          // Deep Pocket Hole
           const holeGrad = bilCtx.createRadialGradient(p.x + 2, p.y + 2, 2, p.x, p.y, p.r);
           holeGrad.addColorStop(0, "#000000");
           holeGrad.addColorStop(0.8, "#090d16");
@@ -1315,24 +1379,48 @@
       }
 
       function initBilliard() {
-        bilShots = 0;
-        bilPocketed = 0;
-        document.getElementById('bilShots').textContent = bilShots;
-        document.getElementById('bilPocketed').textContent = `0/6`;
-        document.getElementById('bilStatus').textContent = "Klik & tarik bola putih hingga ke luar meja!";
+        currentPlayer = 1;
+        p1Score = 0;
+        p2Score = 0;
+        bilMatchOver = false;
+        shotInProgress = false;
+        isDraggingCue = false;
 
+        // 9-Ball Diamond Rack Formation (1 at front, 9 in center)
         bilBalls = [
           // Cue ball (index 0)
-          { x: 150, y: 315, vx: 0, vy: 0, r: ballRadius, color: '#f8fafc', darkColor: '#cbd5e1', isCue: true, active: true, num: '' },
-          // 6 Target Balls in Pyramid Rack
-          { x: 150, y: 120, vx: 0, vy: 0, r: ballRadius, color: '#facc15', darkColor: '#a16207', isCue: false, active: true, num: '1' },
-          { x: 138, y: 100, vx: 0, vy: 0, r: ballRadius, color: '#38bdf8', darkColor: '#0369a1', isCue: false, active: true, num: '2' },
-          { x: 162, y: 100, vx: 0, vy: 0, r: ballRadius, color: '#f43f5e', darkColor: '#9f1239', isCue: false, active: true, num: '3' },
-          { x: 126, y: 80, vx: 0, vy: 0, r: ballRadius, color: '#a855f7', darkColor: '#581c87', isCue: false, active: true, num: '4' },
-          { x: 150, y: 80, vx: 0, vy: 0, r: ballRadius, color: '#fb923c', darkColor: '#9a3412', isCue: false, active: true, num: '5' },
-          { x: 174, y: 80, vx: 0, vy: 0, r: ballRadius, color: '#34d399', darkColor: '#065f46', isCue: false, active: true, num: '6' }
+          { x: 150, y: 315, vx: 0, vy: 0, r: ballRadius, color: '#f8fafc', darkColor: '#cbd5e1', isCue: true, active: true, num: 0 },
+          // Row 1 (Apex): Ball 1 (Yellow)
+          { x: 150, y: 145, vx: 0, vy: 0, r: ballRadius, color: '#facc15', darkColor: '#a16207', isCue: false, active: true, num: 1 },
+          // Row 2: Ball 2 (Blue), Ball 3 (Red)
+          { x: 139.5, y: 127, vx: 0, vy: 0, r: ballRadius, color: '#38bdf8', darkColor: '#0369a1', isCue: false, active: true, num: 2 },
+          { x: 160.5, y: 127, vx: 0, vy: 0, r: ballRadius, color: '#f43f5e', darkColor: '#9f1239', isCue: false, active: true, num: 3 },
+          // Row 3: Ball 4 (Purple), Ball 9 (Center Yellow/White Stripe), Ball 5 (Orange)
+          { x: 129, y: 109, vx: 0, vy: 0, r: ballRadius, color: '#a855f7', darkColor: '#581c87', isCue: false, active: true, num: 4 },
+          { x: 150, y: 109, vx: 0, vy: 0, r: ballRadius, color: '#facc15', darkColor: '#ca8a04', isCue: false, isStripe: true, active: true, num: 9 },
+          { x: 171, y: 109, vx: 0, vy: 0, r: ballRadius, color: '#fb923c', darkColor: '#9a3412', isCue: false, active: true, num: 5 },
+          // Row 4: Ball 6 (Green), Ball 7 (Maroon)
+          { x: 139.5, y: 91, vx: 0, vy: 0, r: ballRadius, color: '#10b981', darkColor: '#065f46', isCue: false, active: true, num: 6 },
+          { x: 160.5, y: 91, vx: 0, vy: 0, r: ballRadius, color: '#d97706', darkColor: '#78350f', isCue: false, active: true, num: 7 },
+          // Row 5: Ball 8 (Black)
+          { x: 150, y: 73, vx: 0, vy: 0, r: ballRadius, color: '#334155', darkColor: '#0f172a', isCue: false, active: true, num: 8 }
         ];
+
+        updateBilliardHUD();
+        document.getElementById('bilStatus').textContent = bilMode === "SOLO" 
+          ? "Mode Solo — Bidik Bola #1!" 
+          : "Giliran Player 1 — Bidik Bola #1!";
       }
+
+      document.querySelectorAll('.bil-mode-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.bil-mode-btn').forEach(b => b.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          bilMode = e.currentTarget.getAttribute('data-bmode');
+          initBilliard();
+        });
+      });
+
       initBilliard();
 
       function areBallsMoving() {
@@ -1350,7 +1438,8 @@
       }
 
       function startCueDrag(e) {
-        if (areBallsMoving() || bilPocketed >= 6) return;
+        if (areBallsMoving() || shotInProgress || bilMatchOver) return;
+        if (bilMode === "BOT" && currentPlayer === 2) return; // Tunggu giliran Bot
         const pos = getCanvasCoords(e);
         const cue = bilBalls[0];
         if (Math.hypot(pos.x - cue.x, pos.y - cue.y) < 70) {
@@ -1366,6 +1455,21 @@
         dragPos = getCanvasCoords(e);
       }
 
+      function executeShot(vx, vy) {
+        const cue = bilBalls[0];
+        targetBallAtShotStart = getLowestActiveBall();
+        firstHitBallNum = null;
+        pocketedThisTurn = [];
+        scratchThisTurn = false;
+        shotInProgress = true;
+        cue.vx = vx;
+        cue.vy = vy;
+        if (bilMode === "SOLO") {
+          p1Score++;
+          updateBilliardHUD();
+        }
+      }
+
       function endCueDrag() {
         if (!isDraggingCue) return;
         isDraggingCue = false;
@@ -1377,13 +1481,102 @@
           const pull = Math.min(dist, maxPullDistance);
           const power = (pull / maxPullDistance) * 16.0;
           const angle = Math.atan2(dy, dx);
-          cue.vx = Math.cos(angle) * power;
-          cue.vy = Math.sin(angle) * power;
-          bilShots++;
-          document.getElementById('bilShots').textContent = bilShots;
+          executeShot(Math.cos(angle) * power, Math.sin(angle) * power);
           document.getElementById('bilStatus').textContent = "Bola meluncur...";
         } else {
-          document.getElementById('bilStatus').textContent = "Tarik lebih jauh untuk menyodok!";
+          document.getElementById('bilStatus').textContent = `Tarik lebih jauh untuk menyodok Bola #${getLowestActiveBall()}!`;
+        }
+      }
+
+      function triggerBotShot() {
+        if (bilMatchOver || bilMode !== "BOT" || currentPlayer !== 2) return;
+        document.getElementById('bilStatus').textContent = `🤖 Bot AI sedang membidik Bola #${getLowestActiveBall()}...`;
+        setTimeout(() => {
+          if (bilMatchOver || bilMode !== "BOT" || currentPlayer !== 2) return;
+          const cue = bilBalls[0];
+          const lowestNum = getLowestActiveBall();
+          const targetBall = bilBalls.find(b => b.active && b.num === lowestNum);
+          if (!targetBall) return;
+
+          // Cari kantong terdekat dari targetBall untuk menentukan sudut tumbukan tipis
+          let bestPocket = bilPockets[0];
+          let minDist = Infinity;
+          bilPockets.forEach(p => {
+            const d = Math.hypot(targetBall.x - p.x, targetBall.y - p.y);
+            if (d < minDist) { minDist = d; bestPocket = p; }
+          });
+
+          const pocketAngle = Math.atan2(bestPocket.y - targetBall.y, bestPocket.x - targetBall.x);
+          const ghostX = targetBall.x - Math.cos(pocketAngle) * (ballRadius * 1.9);
+          const ghostY = targetBall.y - Math.sin(pocketAngle) * (ballRadius * 1.9);
+
+          // Sedikit ketidaksempurnaan manusiawi pada bidikan Bot
+          const aimAngle = Math.atan2(ghostY - cue.y, ghostX - cue.x) + (Math.random() - 0.5) * 0.06;
+          const power = 10.5 + Math.random() * 4.0;
+          executeShot(Math.cos(aimAngle) * power, Math.sin(aimAngle) * power);
+        }, 950);
+      }
+
+      function evaluateTurnResult() {
+        const pName = bilMode === "SOLO" ? "Kamu" : (currentPlayer === 1 ? "Player 1" : (bilMode === "BOT" ? "Bot AI" : "Player 2"));
+        const isFoul = scratchThisTurn || (firstHitBallNum === null) || (firstHitBallNum !== targetBallAtShotStart);
+
+        if (isFoul) {
+          let foulReason = scratchThisTurn ? "Scratch (Bola putih masuk)!" : (firstHitBallNum === null ? "Tidak mengenai bola!" : `Salah sasaran (Kena #${firstHitBallNum}, harusnya #${targetBallAtShotStart})!`);
+          
+          // Jika bola 9 masuk saat foul, kembalikan bola 9 ke titik tengah atas
+          const ball9 = bilBalls.find(b => b.num === 9);
+          if (ball9 && !ball9.active) {
+            ball9.active = true;
+            ball9.x = 150; ball9.y = 109; ball9.vx = 0; ball9.vy = 0;
+          }
+
+          if (bilMode === "SOLO") {
+            document.getElementById('bilStatus').textContent = `FOUL: ${foulReason} Coba lagi bidik Bola #${getLowestActiveBall()}!`;
+          } else {
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            const nextName = currentPlayer === 1 ? "Player 1" : (bilMode === "BOT" ? "Bot AI" : "Player 2");
+            document.getElementById('bilStatus').textContent = `FOUL (${foulReason})! Giliran ${nextName} (Target #${getLowestActiveBall()})`;
+          }
+        } else {
+          // Pukulan Sah! Cek apakah Bola 9 masuk
+          if (pocketedThisTurn.includes(9)) {
+            bilMatchOver = true;
+            if (bilMode === "SOLO") {
+              p2Score = 9;
+              document.getElementById('bilStatus').textContent = `🏆 SELESAI! Bola #9 Masuk dalam ${p1Score} pukulan!`;
+            } else {
+              if (currentPlayer === 1) p1Score++; else p2Score++;
+              document.getElementById('bilStatus').textContent = `🏆 ${pName.toUpperCase()} MENANG! Memasukkan Bola #9 secara sah! 🎉`;
+            }
+            updateBilliardHUD();
+            return;
+          }
+
+          if (pocketedThisTurn.length > 0) {
+            if (bilMode === "SOLO") {
+              p2Score += pocketedThisTurn.length;
+              document.getElementById('bilStatus').textContent = `Mantap! Bola #${pocketedThisTurn.join(', #')} masuk! Lanjut Bola #${getLowestActiveBall()}`;
+            } else {
+              if (currentPlayer === 1) p1Score += pocketedThisTurn.length;
+              else p2Score += pocketedThisTurn.length;
+              document.getElementById('bilStatus').textContent = `🔥 Bola #${pocketedThisTurn.join(', #')} masuk! ${pName} lanjut menyodok Bola #${getLowestActiveBall()}!`;
+            }
+          } else {
+            // Sah tapi tidak ada bola masuk -> Ganti giliran
+            if (bilMode === "SOLO") {
+              document.getElementById('bilStatus').textContent = `Lanjut bidik Bola #${getLowestActiveBall()}!`;
+            } else {
+              currentPlayer = currentPlayer === 1 ? 2 : 1;
+              const nextName = currentPlayer === 1 ? "Player 1" : (bilMode === "BOT" ? "Bot AI" : "Player 2");
+              document.getElementById('bilStatus').textContent = `Giliran ${nextName} — Target Bola #${getLowestActiveBall()}!`;
+            }
+          }
+        }
+
+        updateBilliardHUD();
+        if (!bilMatchOver && bilMode === "BOT" && currentPlayer === 2) {
+          triggerBotShot();
         }
       }
 
@@ -1397,11 +1590,13 @@
 
       document.getElementById('resetBilliardBtn').addEventListener('click', initBilliard);
 
+      let pulseAngle = 0;
+
       function animateBilliard() {
         requestAnimationFrame(animateBilliard);
+        pulseAngle += 0.08;
         bilCtx.clearRect(0, 0, bilCanvas.width, bilCanvas.height);
 
-        // Render Realistic Pool Table
         drawRealisticPoolTable();
 
         // Physics Update
@@ -1430,22 +1625,12 @@
           bilPockets.forEach(p => {
             if (Math.hypot(b.x - p.x, b.y - p.y) < p.r + 2) {
               if (b.isCue) {
+                scratchThisTurn = true;
                 b.x = 150; b.y = 315; b.vx = 0; b.vy = 0;
-                document.getElementById('bilStatus').textContent = "Scratch! Bola putih kembali ke garis D.";
               } else if (b.active) {
                 b.active = false;
                 b.vx = 0; b.vy = 0;
-                bilPocketed++;
-                document.getElementById('bilPocketed').textContent = `${bilPocketed}/6`;
-                document.getElementById('bilStatus').textContent = `Mantap! Bola #${b.num} masuk lubang! 🔥`;
-                if (bilPocketed >= 6) {
-                  document.getElementById('bilStatus').textContent = `MEJA BERSIH dalam ${bilShots} pukulan! 🏆`;
-                  if (!bilBest || bilShots < parseInt(bilBest)) {
-                    bilBest = bilShots;
-                    localStorage.setItem('bilBestShots', bilBest);
-                    document.getElementById('bilBest').textContent = bilBest + " Pukulan";
-                  }
-                }
+                pocketedThisTurn.push(b.num);
               }
             }
           });
@@ -1461,6 +1646,12 @@
             const dy = b2.y - b1.y;
             const dist = Math.hypot(dx, dy);
             if (dist > 0 && dist < b1.r + b2.r) {
+              // Catat bola pertama yang disentuh oleh bola putih
+              if (shotInProgress && firstHitBallNum === null) {
+                if (b1.isCue) firstHitBallNum = b2.num;
+                else if (b2.isCue) firstHitBallNum = b1.num;
+              }
+
               const overlap = (b1.r + b2.r - dist) / 2;
               const nx = dx / dist;
               const ny = dy / dist;
@@ -1480,6 +1671,28 @@
           }
         }
 
+        // Jika semua bola sudah berhenti setelah tembakan, evaluasi giliran
+        if (shotInProgress && !moving) {
+          shotInProgress = false;
+          evaluateTurnResult();
+        }
+
+        // Highlight Cincin Target pada Bola Angka Terkecil
+        const lowestActive = getLowestActiveBall();
+        if (!moving && !bilMatchOver && lowestActive !== null) {
+          const targetB = bilBalls.find(b => b.active && b.num === lowestActive);
+          if (targetB) {
+            bilCtx.save();
+            bilCtx.beginPath();
+            bilCtx.arc(targetB.x, targetB.y, targetB.r + 4 + Math.sin(pulseAngle) * 2, 0, Math.PI * 2);
+            bilCtx.strokeStyle = "#fde047";
+            bilCtx.lineWidth = 2;
+            bilCtx.setLineDash([3, 3]);
+            bilCtx.stroke();
+            bilCtx.restore();
+          }
+        }
+
         // Draw Aiming Line, Ghost Ball & Realistic Wooden Cue Stick
         const cue = bilBalls[0];
         if (isDraggingCue && !moving) {
@@ -1490,10 +1703,9 @@
           const pullDist = Math.min(rawDist, maxPullDistance);
           const powerPct = Math.round((pullDist / maxPullDistance) * 100);
 
-          document.getElementById('bilStatus').textContent = `Power Tembakan: ${powerPct}%`;
+          document.getElementById('bilStatus').textContent = `Power Tembakan: ${powerPct}% (Target Bola #${lowestActive})`;
 
           bilCtx.save();
-          // Aiming Laser Line
           const aimLength = 165;
           const targetX = cue.x + Math.cos(angle) * aimLength;
           const targetY = cue.y + Math.sin(angle) * aimLength;
@@ -1510,8 +1722,8 @@
           bilCtx.setLineDash([]);
           bilCtx.beginPath();
           bilCtx.arc(targetX, targetY, ballRadius, 0, Math.PI * 2);
-          bilCtx.strokeStyle = "rgba(56, 189, 248, 0.7)";
-          bilCtx.lineWidth = 1.5;
+          bilCtx.strokeStyle = currentPlayer === 1 ? "rgba(56, 189, 248, 0.8)" : "rgba(244, 63, 94, 0.8)";
+          bilCtx.lineWidth = 1.8;
           bilCtx.stroke();
 
           // Realistic Wooden Pool Cue Stick
@@ -1520,19 +1732,15 @@
           bilCtx.translate(cue.x, cue.y);
           bilCtx.rotate(angle);
 
-          // Stick Shadow
           bilCtx.fillStyle = "rgba(0,0,0,0.45)";
           bilCtx.fillRect(-stickOffset - stickLength, 2, stickLength, 5);
 
-          // Maple Wood Shaft
           bilCtx.fillStyle = "#fde68a";
           bilCtx.fillRect(-stickOffset - stickLength, -2, stickLength * 0.55, 4);
 
-          // Dark Butt Handle
-          bilCtx.fillStyle = "#1e1b4b";
+          bilCtx.fillStyle = currentPlayer === 1 ? "#1e3a8a" : "#881337";
           bilCtx.fillRect(-stickOffset - stickLength, -2.5, stickLength * 0.45, 5);
 
-          // White Ferrule & Blue Chalk Tip
           bilCtx.fillStyle = "#ffffff";
           bilCtx.fillRect(-stickOffset - 6, -2, 6, 4);
           bilCtx.fillStyle = "#0284c7";
@@ -1541,36 +1749,51 @@
           bilCtx.restore();
         }
 
-        // Draw 3D Glossy Balls
+        // Draw 3D Glossy Balls (Including 9-Ball Stripe!)
         bilBalls.forEach(b => {
           if (!b.active) return;
           bilCtx.save();
 
-          // Drop shadow under ball on felt
+          // Drop shadow under ball
           bilCtx.beginPath();
           bilCtx.arc(b.x + 2.5, b.y + 3, b.r, 0, Math.PI * 2);
           bilCtx.fillStyle = "rgba(0, 0, 0, 0.45)";
           bilCtx.fill();
 
-          // 3D Spherical Radial Gradient
-          const grad = bilCtx.createRadialGradient(
-            b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.1,
-            b.x, b.y, b.r
-          );
-          grad.addColorStop(0, "#ffffff");
-          grad.addColorStop(0.25, b.color);
-          grad.addColorStop(1, b.darkColor);
+          if (b.isStripe) {
+            // Bola #9 Spesial (Putih dengan Garis Stripe Kuning Emas)
+            bilCtx.beginPath();
+            bilCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+            bilCtx.fillStyle = "#f8fafc";
+            bilCtx.fill();
 
-          bilCtx.beginPath();
-          bilCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-          bilCtx.fillStyle = grad;
-          bilCtx.fill();
+            bilCtx.save();
+            bilCtx.beginPath();
+            bilCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+            bilCtx.clip();
+            bilCtx.fillStyle = "#facc15";
+            bilCtx.fillRect(b.x - b.r, b.y - b.r * 0.55, b.r * 2, b.r * 1.1);
+            bilCtx.restore();
+          } else {
+            const grad = bilCtx.createRadialGradient(
+              b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.1,
+              b.x, b.y, b.r
+            );
+            grad.addColorStop(0, "#ffffff");
+            grad.addColorStop(0.25, b.color);
+            grad.addColorStop(1, b.darkColor);
+
+            bilCtx.beginPath();
+            bilCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+            bilCtx.fillStyle = grad;
+            bilCtx.fill();
+          }
 
           if (!b.isCue) {
             // Inner White Number Circle
             bilCtx.beginPath();
             bilCtx.arc(b.x, b.y, b.r * 0.52, 0, Math.PI * 2);
-            bilCtx.fillStyle = "rgba(255, 255, 255, 0.94)";
+            bilCtx.fillStyle = "rgba(255, 255, 255, 0.95)";
             bilCtx.fill();
 
             // Ball Number
