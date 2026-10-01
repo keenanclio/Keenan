@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Keenan Clio | Personal Hub</title>
   
-  <!-- Favicon (Langsung tertanam dengan SVG agar pasti muncul di tab Chrome) -->
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23022658'/><path d='M32 25 H41 V48 L62 25 H73 L50 50 L74 75 H62 L44 55 L41 58 V75 H32 Z' fill='%23ffffff'/></svg>" />
   
   <!-- Fonts -->
@@ -230,7 +230,8 @@
 
     /* Game Canvases */
     #snakeCanvas, #hoopsCanvas, #breakerCanvas, #flapCanvas, #defenderCanvas { background: rgba(20, 22, 32, 0.85); border: 2px solid var(--border-glow); border-radius: 14px; box-shadow: 0 0 18px rgba(168, 85, 247, 0.3); max-width: 100%; height: auto; display: block; margin: 0 auto; touch-action: none; }
-    #billiardCanvas { background: #1a0f0a; border: 3px solid #78350f; border-radius: 18px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(16, 185, 129, 0.25); max-width: 100%; height: auto; display: block; margin: 0 auto; touch-action: none; }
+    #billiardCanvas { background: #1a0f0a; border: 3px solid #78350f; border-radius: 18px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(16, 185, 129, 0.25); max-width: 100%; height: auto; display: block; margin: 0 auto; touch-action: none; cursor: crosshair; }
+    
     .snake-controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 200px; margin: 20px auto 0; }
     .snake-btn { background: var(--btn-bg); color: var(--text-main); border: 1px solid var(--border-light); border-radius: 12px; padding: 15px 0; font-size: 1.2rem; cursor: none; transition: 0.2s; display: flex; justify-content: center; align-items: center; }
     .snake-btn:active { background: var(--accent-primary); color: #fff; transform: scale(0.9); }
@@ -822,7 +823,7 @@
           <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Geser pesawat dengan mouse/jari atau tombol panah untuk menembak jatuh meteor!</p>
           <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--text-main); font-family: 'Urbanist', sans-serif; font-size: 1.1rem; font-weight: bold;">
             <span>Skor: <span id="defScore" style="color: var(--accent-secondary);">0</span></span>
-            <span>Shield: <span id="defLives" style="color: #34d399;">🛡️🛡️🛡️️</span></span>
+            <span>Shield: <span id="defLives" style="color: #34d399;">🛡️🛡️🛡️</span></span>
             <span>Best: <span id="defBest" style="color: #fcd34d;">0</span></span>
           </div>
           <canvas id="defenderCanvas" width="300" height="320"></canvas>
@@ -1537,16 +1538,32 @@
         return bilBalls.some(b => b.active && (Math.abs(b.vx) > 0.05 || Math.abs(b.vy) > 0.05));
       }
 
+      function getCanvasCoords(e) {
+        const rect = bilCanvas.getBoundingClientRect();
+        let clientX = e.clientX;
+        let clientY = e.clientY;
+        
+        if (e.touches && e.touches.length > 0) {
+          clientX = e.touches[0].clientX;
+          clientY = e.touches[0].clientY;
+        } else if (e.changedTouches && e.changedTouches.length > 0) {
+          clientX = e.changedTouches[0].clientX;
+          clientY = e.changedTouches[0].clientY;
+        }
+        
+        return {
+          x: (clientX - rect.left) * (bilCanvas.width / rect.width),
+          y: (clientY - rect.top) * (bilCanvas.height / rect.height)
+        };
+      }
+
       function startCueDrag(e) {
         if (areBallsMoving() || shotInProgress || bilMatchOver) return;
         if (bilMode === "BOT" && currentPlayer === 2) return;
-        const pos = getCanvasCoords(e);
-        const cue = bilBalls[0];
-        if (Math.hypot(pos.x - cue.x, pos.y - cue.y) < 70) {
-          isDraggingCue = true;
-          dragPos = pos;
-          if (e.cancelable) e.preventDefault();
-        }
+        
+        isDraggingCue = true;
+        dragPos = getCanvasCoords(e);
+        if (e.cancelable) e.preventDefault();
       }
 
       function moveCueDrag(e) {
@@ -1577,14 +1594,12 @@
         const dx = cue.x - dragPos.x;
         const dy = cue.y - dragPos.y;
         const dist = Math.hypot(dx, dy);
-        if (dist > 8) {
+        if (dist > 15) { // Threshold tarikan agar tidak tersodok tak sengaja saat diklik
           const pull = Math.min(dist, maxPullDistance);
           const power = (pull / maxPullDistance) * 16.0;
           const angle = Math.atan2(dy, dx);
           executeShot(Math.cos(angle) * power, Math.sin(angle) * power);
           document.getElementById('bilStatus').textContent = "Bola meluncur...";
-        } else {
-          document.getElementById('bilStatus').textContent = "Tarik lebih jauh untuk menyodok!";
         }
       }
 
@@ -1743,10 +1758,16 @@
         }, 950);
       }
 
+      // Event Binding diatur agar bisa klik/tarik dari seluruh kanvas
       bilCanvas.addEventListener('mousedown', startCueDrag);
       window.addEventListener('mousemove', moveCueDrag);
       window.addEventListener('mouseup', endCueDrag);
-      bilCanvas.addEventListener('touchstart', startCueDrag, { passive: false });
+
+      // Event Sentuh HP diatur agar canvas tidak scroll saat sedang membidik
+      bilCanvas.addEventListener('touchstart', (e) => {
+        if (e.cancelable) e.preventDefault();
+        startCueDrag(e);
+      }, { passive: false });
       window.addEventListener('touchmove', moveCueDrag, { passive: false });
       window.addEventListener('touchend', endCueDrag);
 
@@ -1798,7 +1819,7 @@
           });
         });
 
-        // Ball Collisions
+        // Ball-to-Ball Elastic Collisions
         for (let i = 0; i < bilBalls.length; i++) {
           for (let j = i + 1; j < bilBalls.length; j++) {
             const b1 = bilBalls[i];
@@ -1975,17 +1996,19 @@
           bilCtx.restore();
         }
 
-        // Draw Balls
+        // Draw 3D Glossy Balls (Including 9-Ball Stripe!)
         bilBalls.forEach(b => {
           if (!b.active) return;
           bilCtx.save();
 
+          // Drop shadow under ball
           bilCtx.beginPath();
           bilCtx.arc(b.x + 2.5, b.y + 3, b.r, 0, Math.PI * 2);
           bilCtx.fillStyle = "rgba(0, 0, 0, 0.45)";
           bilCtx.fill();
 
           if (b.isStripe) {
+            // Bola Spesial (Putih dengan Garis Stripe)
             bilCtx.beginPath();
             bilCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
             bilCtx.fillStyle = "#f8fafc";
@@ -1999,7 +2022,10 @@
             bilCtx.fillRect(b.x - b.r, b.y - b.r * 0.55, b.r * 2, b.r * 1.1);
             bilCtx.restore();
           } else {
-            const grad = bilCtx.createRadialGradient(b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.1, b.x, b.y, b.r);
+            const grad = bilCtx.createRadialGradient(
+              b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.1,
+              b.x, b.y, b.r
+            );
             grad.addColorStop(0, "#ffffff");
             grad.addColorStop(0.25, b.color);
             grad.addColorStop(1, b.darkColor);
@@ -2011,23 +2037,27 @@
           }
 
           if (!b.isCue) {
+            // Inner White Number Circle
             bilCtx.beginPath();
             bilCtx.arc(b.x, b.y, b.r * 0.52, 0, Math.PI * 2);
             bilCtx.fillStyle = "rgba(255, 255, 255, 0.95)";
             bilCtx.fill();
 
+            // Ball Number
             bilCtx.fillStyle = "#02040a";
             bilCtx.font = "900 8.5px Urbanist";
             bilCtx.textAlign = "center";
             bilCtx.textBaseline = "middle";
             bilCtx.fillText(b.num, b.x, b.y + 0.5);
           } else {
+            // Red Pro-Cup Dot on Cue Ball
             bilCtx.beginPath();
             bilCtx.arc(b.x, b.y, 2.2, 0, Math.PI * 2);
             bilCtx.fillStyle = "#ef4444";
             bilCtx.fill();
           }
 
+          // Top-left Glossy Specular Shine
           bilCtx.beginPath();
           bilCtx.arc(b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.22, 0, Math.PI * 2);
           bilCtx.fillStyle = "rgba(255, 255, 255, 0.6)";
