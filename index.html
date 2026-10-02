@@ -1277,13 +1277,12 @@
       function getLegalTargets8Ball(playerNum) {
         const mySuit = playerNum === 1 ? p1Suit : p2Suit;
         if (!mySuit) {
-          // Open table: any solid or stripe is legal (except 8 unless it's the last)
           const allBalls = bilBalls.filter(b => !b.isCue && b.active).map(b => b.num);
           return allBalls.filter(n => n !== 8);
         } else {
           const myBalls = bilBalls.filter(b => !b.isCue && b.active && (mySuit === "SOLID" ? !b.isStripe : b.isStripe) && b.num !== 8).map(b => b.num);
           if (myBalls.length > 0) return myBalls;
-          return [8]; // Only 8 ball is left for this player
+          return [8];
         }
       }
 
@@ -1314,13 +1313,34 @@
             }
         });
         
-        // Wall check
+        // Wall check (Bouncing over holes fixed)
         let wallT = Infinity;
         let wallNormal = {x:0, y:0};
-        if(dx > 0) { let t = (bilCanvas.width - railW - cue.r - cue.x) / dx; if(t>0 && t<wallT) { wallT=t; wallNormal={x:-1,y:0}; } }
-        if(dx < 0) { let t = (railW + cue.r - cue.x) / dx; if(t>0 && t<wallT) { wallT=t; wallNormal={x:1,y:0}; } }
-        if(dy > 0) { let t = (bilCanvas.height - railW - cue.r - cue.y) / dy; if(t>0 && t<wallT) { wallT=t; wallNormal={x:0,y:-1}; } }
-        if(dy < 0) { let t = (railW + cue.r - cue.y) / dy; if(t>0 && t<wallT) { wallT=t; wallNormal={x:0,y:1}; } }
+        
+        if(dx > 0) { 
+            let t = (bilCanvas.width - railW - cue.r - cue.x) / dx; 
+            let hitY = cue.y + dy * t;
+            let inGap = (hitY < 45) || (hitY > 180 && hitY < 230) || (hitY > bilCanvas.height - 45);
+            if(t>0 && t<wallT && !inGap) { wallT=t; wallNormal={x:-1,y:0}; } 
+        }
+        if(dx < 0) { 
+            let t = (railW + cue.r - cue.x) / dx; 
+            let hitY = cue.y + dy * t;
+            let inGap = (hitY < 45) || (hitY > 180 && hitY < 230) || (hitY > bilCanvas.height - 45);
+            if(t>0 && t<wallT && !inGap) { wallT=t; wallNormal={x:1,y:0}; } 
+        }
+        if(dy > 0) { 
+            let t = (bilCanvas.height - railW - cue.r - cue.y) / dy; 
+            let hitX = cue.x + dx * t;
+            let inGap = (hitX < 45) || (hitX > bilCanvas.width - 45);
+            if(t>0 && t<wallT && !inGap) { wallT=t; wallNormal={x:0,y:-1}; } 
+        }
+        if(dy < 0) { 
+            let t = (railW + cue.r - cue.y) / dy; 
+            let hitX = cue.x + dx * t;
+            let inGap = (hitX < 45) || (hitX > bilCanvas.width - 45);
+            if(t>0 && t<wallT && !inGap) { wallT=t; wallNormal={x:0,y:1}; } 
+        }
         
         if(wallT < minT) {
             return { ghostX: cue.x + dx * wallT, ghostY: cue.y + dy * wallT, hitBall: null, wallNormal: wallNormal, dx: dx, dy: dy };
@@ -1486,7 +1506,6 @@
           ];
           
           let nums = [1,2,3,4,5,6,7,9,10,11,12,13,14,15].sort(() => Math.random() - 0.5);
-          // Insert 8-ball in the center of the 3rd row (index 4)
           nums.splice(4, 0, 8); 
 
           trianglePositions.forEach((pos, idx) => {
@@ -1500,7 +1519,6 @@
           document.getElementById('bilStatus').textContent = "8-Ball: Masukkan bolamu lalu selesaikan dengan Bola #8!";
 
         } else {
-          // 9-Ball Diamond Rack Formation
           const pos9 = [
             {x: 150, y: 145, num:1},
             {x: 139.5, y: 127, num:2}, {x: 160.5, y: 127, num:3},
@@ -1594,7 +1612,7 @@
         const dx = cue.x - dragPos.x;
         const dy = cue.y - dragPos.y;
         const dist = Math.hypot(dx, dy);
-        if (dist > 15) { // Threshold tarikan agar tidak tersodok tak sengaja saat diklik
+        if (dist > 15) { 
           const pull = Math.min(dist, maxPullDistance);
           const power = (pull / maxPullDistance) * 16.0;
           const angle = Math.atan2(dy, dx);
@@ -1618,11 +1636,9 @@
           if (pocketedThisTurn.includes(8)) {
             const mySuit = currentPlayer === 1 ? p1Suit : p2Suit;
             if (isFoul || (mySuit && ballsPocketed8Ball[mySuit] < 7) || (!mySuit && ballsPocketed8Ball["SOLID"] < 7 && ballsPocketed8Ball["STRIPE"] < 7)) {
-              // Pocket 8-ball early or on foul -> LOSE
               bilMatchOver = true;
               document.getElementById('bilStatus').innerHTML = `💀 <b>FOUL! ${pName}</b> memasukkan Bola 8 sebelum waktunya. LAWAN MENANG!`;
             } else {
-              // Valid 8-Ball win
               bilMatchOver = true;
               document.getElementById('bilStatus').innerHTML = `🏆 <b>${pName.toUpperCase()} MENANG!</b> Bola 8 masuk dengan sah!`;
             }
@@ -1644,7 +1660,6 @@
               ballsPocketed8Ball[suit]++;
               
               if (!p1Suit && !p2Suit) {
-                // Assign suits
                 if (currentPlayer === 1) { p1Suit = suit; p2Suit = suit === "SOLID" ? "STRIPE" : "SOLID"; }
                 else { p2Suit = suit; p1Suit = suit === "SOLID" ? "STRIPE" : "SOLID"; }
                 firstValidPocketed = num;
@@ -1758,12 +1773,10 @@
         }, 950);
       }
 
-      // Event Binding diatur agar bisa klik/tarik dari seluruh kanvas
       bilCanvas.addEventListener('mousedown', startCueDrag);
       window.addEventListener('mousemove', moveCueDrag);
       window.addEventListener('mouseup', endCueDrag);
 
-      // Event Sentuh HP diatur agar canvas tidak scroll saat sedang membidik
       bilCanvas.addEventListener('touchstart', (e) => {
         if (e.cancelable) e.preventDefault();
         startCueDrag(e);
@@ -1798,11 +1811,22 @@
             moving = true;
           }
 
-          // Cushion Rail Collisions
-          if (b.x - b.r < railW) { b.x = railW + b.r; b.vx *= -0.85; }
-          if (b.x + b.r > bilCanvas.width - railW) { b.x = bilCanvas.width - railW - b.r; b.vx *= -0.85; }
-          if (b.y - b.r < railW) { b.y = railW + b.r; b.vy *= -0.85; }
-          if (b.y + b.r > bilCanvas.height - railW) { b.y = bilCanvas.height - railW - b.r; b.vy *= -0.85; }
+          // Cushion Rail Collisions (Dengan Gaps untuk Lubang)
+          const inLeftGap = (b.y < 45) || (b.y > 180 && b.y < 230) || (b.y > bilCanvas.height - 45);
+          const inRightGap = (b.y < 45) || (b.y > 180 && b.y < 230) || (b.y > bilCanvas.height - 45);
+          const inTopGap = (b.x < 45) || (b.x > bilCanvas.width - 45);
+          const inBottomGap = (b.x < 45) || (b.x > bilCanvas.width - 45);
+
+          if (b.x - b.r < railW && !inLeftGap) { b.x = railW + b.r; b.vx *= -0.85; }
+          if (b.x + b.r > bilCanvas.width - railW && !inRightGap) { b.x = bilCanvas.width - railW - b.r; b.vx *= -0.85; }
+          if (b.y - b.r < railW && !inTopGap) { b.y = railW + b.r; b.vy *= -0.85; }
+          if (b.y + b.r > bilCanvas.height - railW && !inBottomGap) { b.y = bilCanvas.height - railW - b.r; b.vy *= -0.85; }
+
+          // Hard Boundaries just in case
+          if (b.x < 0) b.vx *= -0.5;
+          if (b.x > bilCanvas.width) b.vx *= -0.5;
+          if (b.y < 0) b.vy *= -0.5;
+          if (b.y > bilCanvas.height) b.vy *= -0.5;
 
           // Pocket Detection
           bilPockets.forEach(p => {
@@ -1996,7 +2020,7 @@
           bilCtx.restore();
         }
 
-        // Draw 3D Glossy Balls (Including 9-Ball Stripe!)
+        // Draw 3D Glossy Balls
         bilBalls.forEach(b => {
           if (!b.active) return;
           bilCtx.save();
@@ -2008,7 +2032,6 @@
           bilCtx.fill();
 
           if (b.isStripe) {
-            // Bola Spesial (Putih dengan Garis Stripe)
             bilCtx.beginPath();
             bilCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
             bilCtx.fillStyle = "#f8fafc";
@@ -2037,27 +2060,23 @@
           }
 
           if (!b.isCue) {
-            // Inner White Number Circle
             bilCtx.beginPath();
             bilCtx.arc(b.x, b.y, b.r * 0.52, 0, Math.PI * 2);
             bilCtx.fillStyle = "rgba(255, 255, 255, 0.95)";
             bilCtx.fill();
 
-            // Ball Number
             bilCtx.fillStyle = "#02040a";
             bilCtx.font = "900 8.5px Urbanist";
             bilCtx.textAlign = "center";
             bilCtx.textBaseline = "middle";
             bilCtx.fillText(b.num, b.x, b.y + 0.5);
           } else {
-            // Red Pro-Cup Dot on Cue Ball
             bilCtx.beginPath();
             bilCtx.arc(b.x, b.y, 2.2, 0, Math.PI * 2);
             bilCtx.fillStyle = "#ef4444";
             bilCtx.fill();
           }
 
-          // Top-left Glossy Specular Shine
           bilCtx.beginPath();
           bilCtx.arc(b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.22, 0, Math.PI * 2);
           bilCtx.fillStyle = "rgba(255, 255, 255, 0.6)";
